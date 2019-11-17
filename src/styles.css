@@ -6,5 +6,24 @@ body {
 }
 
 #body-content {
-    width: 50%;
+    width: 100%;
+}
+
+.form-control, button, label {
+    font-size: initial !important;
+}
+
+@font-face {
+    font-family: Poppins-Bold;
+    src: url(src/assets/fonts/poppins/Poppins-Bold.otf) format("opentype");
+}
+
+@font-face {
+    font-family: Poppins-Regular;
+    src: url(src/assets/fonts/poppins/Poppins-Regular.otf) format("opentype");
+}
+
+@font-face {
+    font-family: Poppins-Medium;
+    src: url(src/assets/fonts/poppins/Poppins-Medium.otf) format("opentype");
 }

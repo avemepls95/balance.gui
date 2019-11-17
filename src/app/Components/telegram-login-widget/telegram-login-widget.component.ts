@@ -1,4 +1,7 @@
 import { Component, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
+import { LoginService } from 'src/app/Services/login.service';
+import { ParamsMapper } from 'src/app/Model/Utils/ParamsMapper'
+
 @Component({
   selector: 'app-telegram-login-widget',
   template: `    
@@ -7,14 +10,16 @@ import { Component, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 </div>`,
   styleUrls: ['./telegram-login-widget.component.css']
 })
-export class TelegramLoginWidgetComponent implements AfterViewInit {
+export class TelegramLoginWidget implements AfterViewInit {
 
-  @ViewChild('script', {static: true}) script: ElementRef;
+  @ViewChild('script', { static: true }) script: ElementRef;
+
+  constructor(private loginService: LoginService) { }
 
   convertToScript() {
     const element = this.script.nativeElement;
     const script = document.createElement('script');
-    script.src = 'https://telegram.org/js/telegram-widget.js?7;
+    script.src = 'https://telegram.org/js/telegram-widget.js?7';
     script.setAttribute('data-telegram-login', 'BalanceCommunicationLocalDevBot');
     script.setAttribute('data-size', 'large');
     // Callback function in global scope
@@ -24,7 +29,11 @@ export class TelegramLoginWidgetComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
+    window['loginViaTelegram'] = loginData => this.loginViaTelegram(loginData);
     this.convertToScript();
   }
 
+  private loginViaTelegram(loginData) {
+    this.loginService.loginViaTelegram(ParamsMapper.getTelegramAuthDto(loginData));
+  }
 }

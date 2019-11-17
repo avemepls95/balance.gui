@@ -1,0 +1,158 @@
+<div class="card">
+  <div class="card-body">
+    <form>
+      <div class="form-group">
+        <input type="text" placeholder="Title" class="form-control" />
+      </div>
+
+      <div class="card card-cascade narrower">
+        <div
+          class="view view-cascade gradient-card-header blue-gradient narrower py-2 mx-4 d-flex justify-content-around align-items-center">
+          <!-- 
+          <div>
+            <button type="button" class="btn btn-outline-white btn-rounded btn-sm px-2">
+              <i class="fas fa-th-large mt-0"></i>
+            </button>
+            <button type="button" class="btn btn-outline-white btn-rounded btn-sm px-2">
+              <i class="fas fa-columns mt-0"></i>
+            </button>
+          </div> -->
+          <h2 href="" class="white-text mx-3">Positions</h2>
+          <!-- <div>
+            <button type="button" class="btn btn-outline-white btn-rounded btn-sm px-2">
+              <i class="fas fa-pencil-alt mt-0"></i>
+            </button>
+            <button type="button" class="btn btn-outline-white btn-rounded btn-sm px-2">
+              <i class="far fa-trash-alt mt-0"></i>
+            </button>
+            <button type="button" class="btn btn-outline-white btn-rounded btn-sm px-2">
+              <i class="fas fa-info-circle mt-0"></i>
+            </button>
+          </div> -->
+        </div>
+        <div class="px-4">
+          <div class="table-wrapper">
+            <table class="table table-hover mb-0">
+              <thead>
+                <tr>
+                  <th>
+                  </th>
+                  <th>
+                  </th>
+                  <th class="th-lg text-center">
+                    <a>Title
+                      <i class="fas ml-1"></i>
+                    </a>
+                  </th>
+                  <th class="th-lg text-center">
+                    <a>Amount
+                      <i class="fas ml-1"></i>
+                    </a>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let position of positions; let i = index;">
+                  <th scope="row" id="delete-th" (click)="deletePosition(i)">
+                    <i class="fa fa-trash fa-2x"></i>
+                  </th>
+                  <th scope="row" id="edit-th" (click)="editPosition(i)">
+                    <i class="fa fa-pencil-alt fa-2x"></i>
+                  </th>
+                  <td>
+                    <input [(ngModel)]="positions[i].title" class="form-control" type="text" name="title" />
+                  </td>
+                  <td>
+                    <input [(ngModel)]="positions[i].amount" class="form-control" type="number" name="amount" />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="form-group">
+              <button type="submit" class="btn w-100 bth-add-row" (click)="addPosition(i)"><i
+                  class="fa fa-plus fa-1x"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card card-cascade narrower">
+        <div
+          class="view view-cascade gradient-card-header blue-gradient narrower py-2 mx-4 d-flex justify-content-around align-items-center">
+          <!--<div>
+              <button type="button" class="btn btn-outline-white btn-rounded btn-sm px-2">
+                <i class="fas fa-th-large mt-0"></i>
+              </button>
+              <button type="button" class="btn btn-outline-white btn-rounded btn-sm px-2">
+                <i class="fas fa-columns mt-0"></i>
+              </button>
+            </div> -->
+          <h2 href="" class="white-text mx-3">Payments</h2>
+          <!-- <div>
+              <button type="button" class="btn btn-outline-white btn-rounded btn-sm px-2">
+                <i class="fas fa-pencil-alt mt-0"></i>
+              </button>
+              <button type="button" class="btn btn-outline-white btn-rounded btn-sm px-2">
+                <i class="far fa-trash-alt mt-0"></i>
+              </button>
+              <button type="button" class="btn btn-outline-white btn-rounded btn-sm px-2">
+                <i class="fas fa-info-circle mt-0"></i>
+              </button>
+            </div> -->
+        </div>
+        <div class="px-4">
+          <div class="table-wrapper">
+            <table class="table table-hover mb-0">
+              <thead>
+                <tr>
+                  <th>
+                  </th>
+                  <th>
+                    </th>
+                  <th class="th-lg text-center">
+                    <a>Person
+                      <i class="fas ml-1"></i>
+                    </a>
+                  </th>
+                  <th class="th-lg text-center">
+                    <a>Amount
+                      <i class="fas ml-1"></i>
+                    </a>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let payment of payments; let i = index;">
+                  <th scope="row" id="delete-th" (click)="deletePayment(i)">
+                    <i class="fa fa-trash fa-2x"></i>
+                  </th>
+                  <th scope="row" id="edit-th" (click)="editPayment(i)">
+                    <i class="fa fa-pencil-alt fa-2x"></i>
+                  </th>
+                  <td>
+                    <input [(ngModel)]="payments[i].title" class="form-control" type="text" name="title" />
+                  </td>
+                  <td>
+                    <input [(ngModel)]="payments[i].amount" class="form-control" type="number" name="amount" />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="form-group">
+              <button type="submit" class="btn w-100 bth-add-row" (click)="addPayment(i)"><i
+                  class="fa fa-plus fa-1x"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group btn-create-check-form">
+        <button type="submit" class="btn btn-primary btn-create-check">
+          <div>
+            <i class="fa fa-check fa-1x"></i>Create Check
+          </div>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

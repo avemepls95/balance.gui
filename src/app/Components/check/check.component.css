@@ -1,0 +1,31 @@
+#delete-th {
+    color: red;
+}
+
+#edit-th {
+    padding-right: 0;
+}
+
+.bth-add-row {
+    background-color: #17bd3b;
+    color: white;
+}
+
+.btn-create-check {
+    margin-top: 10px;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.btn-create-check .fa {
+    margin-right: 5px;
+}
+
+.btn-create-check-form {
+    display: flex;
+    justify-content: center;
+}
+
+.card {
+    margin-top: 10px;
+}

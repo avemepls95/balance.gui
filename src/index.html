@@ -7,19 +7,17 @@
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+    integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 </head>
 
 <body>
+  <script type="text/javascript" src="https://vk.com/js/api/openapi.js?162"></script>
+
   <div id="body-content">
-    <script async src="https://telegram.org/js/telegram-widget.js?7"
-      data-telegram-login="BalanceCommunicationLocalDevBot" data-size="large" data-onauth="onTelegramAuth(user)"
-      data-request-access="write"></script>
-    <script type="text/javascript">
-      function onTelegramAuth(user) {
-        debugger
-        alert('Logged in as ' + user.first_name + ' ' + user.last_name + ' (' + user.id + (user.username ? ', @' + user.username : '') + ')');
-      }
-    </script>
     <app-root></app-root>
   </div>
 </body>
