@@ -36,3 +36,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     outline: none !important;
     border: 0 !important;
 }
+
+.mat-form-field .mat-error {
+    font-size: 12px;
+}
+
+.mat-form-field-appearance-legacy .mat-form-field-infix {
+    padding: 0.6375em 0;
+}

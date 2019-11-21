@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Payment } from 'src/app/Model/Check';
 import { ToastrService } from 'ngx-toastr';
 import { Position } from 'src/app/Model/Position';
+import { FormControl, Validators } from '@angular/forms';
+import { MyErrorStateMatcher } from 'src/app/Utils/MyErrorStateMatcher';
 
 @Component({
   selector: 'app-check',
@@ -9,6 +11,12 @@ import { Position } from 'src/app/Model/Position';
   styleUrls: ['./check.component.css']
 })
 export class CheckComponent implements OnInit {
+
+  titleFormControl = new FormControl('', [
+    Validators.required
+  ]);
+
+  matcher = new MyErrorStateMatcher();
 
   constructor(private toastr: ToastrService) { }
 
