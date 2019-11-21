@@ -29,3 +29,15 @@
 .card {
     margin-top: 10px;
 }
+
+.check-card {
+    margin-top: 2vh;
+}
+
+mat-card-content {
+    padding: 0 1vw;
+}
+
+.check-title-input {
+    width: 100%;
+}

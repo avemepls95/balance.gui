@@ -26,9 +26,9 @@ export class LoginService {
   }
 
   loginViaVk(loginData: VkAuthDto) {
-    this.http.post(this.apiBaseUrl + 'auth/vk', loginData).subscribe((response) => {
-      LoginService.AuthMethod = AuthMethod.Vk;
-    });
-    this.router.navigate(['/main']);
+    // this.http.post(this.apiBaseUrl + 'auth/vk', loginData).subscribe((response) => {
+    //   LoginService.AuthMethod = AuthMethod.Vk;
+    // });
+    this.router.navigate(['']);
   }
 }

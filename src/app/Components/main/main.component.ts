@@ -9,15 +9,16 @@ import { AuthMethod } from 'src/app/Model/AuthMethod';
   styleUrls: ['./main.component.css']
 })
 export class MainComponent implements OnInit {
+  Title = 'Balance';
 
   constructor(private router: Router) { }
 
   ngOnInit() {
-    debugger
-    if (LoginService.AuthMethod != AuthMethod.Unauthorized)
-      return;
+    //debugger
+    //if (LoginService.AuthMethod != AuthMethod.Unauthorized)
+    //  return;
 
-    this.router.navigate(['/auth']);
+    //this.router.navigate(['/auth']);
   }
 
 }

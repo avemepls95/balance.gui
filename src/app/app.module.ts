@@ -10,12 +10,12 @@ import { APP_INITIALIZER } from '@angular/core';
 import { AppConfig } from './app.config';
 import { HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NavigationComponent } from './Components/navigation/navigation.component';
 import { AuthComponent } from './Components/auth/auth.component';
 import { MainComponent } from './Components/main/main.component';
 import { VkLoginWidgetComponent } from './Components/vk-login-widget/vk-login-widget.component';
+import { DemoMaterialModule } from './material-module';
 
 export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
@@ -25,18 +25,19 @@ export function initializeApp(appConfig: AppConfig) {
     AppComponent,
     CheckComponent,
     TelegramLoginWidget,
-    NavigationComponent,
     AuthComponent,
     MainComponent,
-    VkLoginWidgetComponent
+    VkLoginWidgetComponent,
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
+    FormsModule,
     AppRoutingModule,
     HttpClientModule,
     SlimLoadingBarModule,
-    FormsModule,
-    BrowserAnimationsModule,
+    DemoMaterialModule,
+    ReactiveFormsModule,
     ToastrModule.forRoot()
   ],
   providers: [
