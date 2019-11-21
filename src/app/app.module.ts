@@ -16,6 +16,7 @@ import { AuthComponent } from './Components/auth/auth.component';
 import { MainComponent } from './Components/main/main.component';
 import { VkLoginWidgetComponent } from './Components/vk-login-widget/vk-login-widget.component';
 import { DemoMaterialModule } from './material-module';
+import { PositionCardComponent } from './Components/position-card/position-card.component';
 
 export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
@@ -28,6 +29,7 @@ export function initializeApp(appConfig: AppConfig) {
     AuthComponent,
     MainComponent,
     VkLoginWidgetComponent,
+    PositionCardComponent,
   ],
   imports: [
     BrowserModule,
@@ -39,6 +41,9 @@ export function initializeApp(appConfig: AppConfig) {
     DemoMaterialModule,
     ReactiveFormsModule,
     ToastrModule.forRoot()
+  ],
+  entryComponents: [
+    PositionCardComponent,
   ],
   providers: [
     AppConfig,
