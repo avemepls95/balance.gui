@@ -17,8 +17,6 @@ export class PositionCardComponent {
   action: string;
   local_data: any;
 
-  floatMask = [/\d/];
-
   // Chips
 
   visible = true;
@@ -96,5 +94,17 @@ export class PositionCardComponent {
     const filterValue = value.toLowerCase();
 
     return this.allFruits.filter(fruit => fruit.toLowerCase().indexOf(filterValue) === 0);
+  }
+
+  amountMask(rawValue: string): RegExp[] {
+    const mask = /\d/;
+    const strLength = String(rawValue).length;
+    const nameMask: RegExp[] = [];
+
+    for (let i = 0; i < strLength; i++) {
+      nameMask.push(mask);
+    }
+
+    return nameMask;
   }
 }

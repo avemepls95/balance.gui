@@ -22,6 +22,7 @@ import { TextMaskModule } from 'angular2-text-mask';
 export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
 }
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -42,7 +43,7 @@ export function initializeApp(appConfig: AppConfig) {
     DemoMaterialModule,
     ReactiveFormsModule,
     ToastrModule.forRoot(),
-    TextMaskModule
+    TextMaskModule,
   ],
   entryComponents: [
     PositionCardComponent,

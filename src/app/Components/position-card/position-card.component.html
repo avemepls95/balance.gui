@@ -5,11 +5,11 @@
       <input placeholder="Title" matInput [readonly]="action == 'View'" [(ngModel)]="local_data.title">
     </mat-form-field>
     <mat-form-field>
-      <input matInput [textMask]="{mask: floatMask}" placeholder="Amount"  [readonly]="action == 'View'"
+      <input matInput [textMask]="{mask: amountMask, guide: false}" type="text" placeholder="Amount" [readonly]="action == 'View'"
         [(ngModel)]="local_data.amount">
     </mat-form-field>
 
-    <mat-form-field class="example-chip-list">
+    <mat-form-field>
       <mat-chip-list #chipList aria-label="Fruit selection">
         <mat-chip *ngFor="let fruit of fruits" [selectable]="selectable" [removable]="removable"
           (removed)="remove(fruit)">
