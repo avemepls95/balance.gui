@@ -1,127 +1,3 @@
-<!-- <div class="card">
-  <div class="card-body">
-    <form>
-      <div class="form-group">
-        <input type="text" placeholder="Title" class="form-control" />
-      </div>
-
-      <div class="card card-cascade narrower">
-        <div
-          class="view view-cascade gradient-card-header blue-gradient narrower py-2 mx-4 d-flex justify-content-around align-items-center">
-       
-          <h2 href="" class="white-text mx-3">Positions</h2>
-    
-        </div>
-        <div class="px-4">
-          <div class="table-wrapper">
-            <table class="table table-hover mb-0">
-              <thead>
-                <tr>
-                  <th>
-                  </th>
-                  <th>
-                  </th>
-                  <th class="th-lg text-center">
-                    <a>Title
-                      <i class="fas ml-1"></i>
-                    </a>
-                  </th>
-                  <th class="th-lg text-center">
-                    <a>Amount
-                      <i class="fas ml-1"></i>
-                    </a>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let position of positions; let i = index;">
-                  <th scope="row" id="delete-th" (click)="deletePosition(i)">
-                    <i class="fa fa-trash fa-2x"></i>
-                  </th>
-                  <th scope="row" id="edit-th" (click)="editPosition(i)">
-                    <i class="fa fa-pencil-alt fa-2x"></i>
-                  </th>
-                  <td>
-                    <input [(ngModel)]="positions[i].title" class="form-control" type="text" name="title" />
-                  </td>
-                  <td>
-                    <input [(ngModel)]="positions[i].amount" class="form-control" type="number" name="amount" />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <div class="form-group">
-              <button type="submit" class="btn w-100 bth-add-row" (click)="addPosition(i)"><i
-                  class="fa fa-plus fa-1x"></i></button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="card card-cascade narrower">
-        <div
-          class="view view-cascade gradient-card-header blue-gradient narrower py-2 mx-4 d-flex justify-content-around align-items-center">
- 
-          <h2 href="" class="white-text mx-3">Payments</h2>
-
-        </div>
-        <div class="px-4">
-          <div class="table-wrapper">
-            <table class="table table-hover mb-0">
-              <thead>
-                <tr>
-                  <th>
-                  </th>
-                  <th>
-                    </th>
-                  <th class="th-lg text-center">
-                    <a>Person
-                      <i class="fas ml-1"></i>
-                    </a>
-                  </th>
-                  <th class="th-lg text-center">
-                    <a>Amount
-                      <i class="fas ml-1"></i>
-                    </a>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let payment of payments; let i = index;">
-                  <th scope="row" id="delete-th" (click)="deletePayment(i)">
-                    <i class="fa fa-trash fa-2x"></i>
-                  </th>
-                  <th scope="row" id="edit-th" (click)="editPayment(i)">
-                    <i class="fa fa-pencil-alt fa-2x"></i>
-                  </th>
-                  <td>
-                    <input [(ngModel)]="payments[i].title" class="form-control" type="text" name="title" />
-                  </td>
-                  <td>
-                    <input [(ngModel)]="payments[i].amount" class="form-control" type="number" name="amount" />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <div class="form-group">
-              <button type="submit" class="btn w-100 bth-add-row" (click)="addPayment(i)"><i
-                  class="fa fa-plus fa-1x"></i></button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="form-group btn-create-check-form">
-        <button type="submit" class="btn btn-primary btn-create-check">
-          <div>
-            <i class="fa fa-check fa-1x"></i>Create Check
-          </div>
-        </button>
-      </div>
-    </form>
-  </div>
-</div> -->
-
 <mat-card class="check-card">
   <mat-card-header>
     <mat-card-title>Check creating</mat-card-title>
@@ -136,7 +12,11 @@
 
     <!-- Position table -->
     <div class="container">
-      <div class="table-filter-and-add-button-wrapper">
+      <div class="flex">
+        <mat-icon mat-list-icon color="primary">reorder</mat-icon>
+        <mat-card-title class="positions-label">Positions</mat-card-title>
+      </div>
+      <div class="flex-h-space-between">
         <mat-form-field>
           <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
         </mat-form-field>
@@ -166,11 +46,11 @@
           <ng-container matColumnDef="actions">
             <th mat-header-cell *matHeaderCellDef></th>
             <td mat-cell *matCellDef="let item" class="row-actions-td">
-              <div class="row-action-buttons">
-                <button class="row-edit-button" mat-icon-button (click)="openDialog('Edit', item)" mat-flat-button>
+              <div class="row-action-buttons" (click)="$event.stopPropagation()">
+                <button class="row-edit-button" mat-icon-button (click)="openDialog('Edit', item)" onclick="this.blur()">
                   <mat-icon>edit</mat-icon>
                 </button>
-                <button class="row-remove-button" mat-icon-button (click)="openDialog('Delete', item)" mat-flat-button>
+                <button class="row-remove-button" mat-icon-button (click)="openDialog('Delete', item)" onclick="this.blur()">
                   <mat-icon class="red">delete</mat-icon>
                 </button>
               </div>
@@ -178,7 +58,7 @@
           </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="openDialog('View',{})">
           </tr>
         </table>
 

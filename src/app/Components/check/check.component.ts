@@ -1,6 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Payment } from 'src/app/Model/Check';
-import { ToastrService } from 'ngx-toastr';
 import { Position } from 'src/app/Model/Position';
 import { FormControl, Validators } from '@angular/forms';
 import { MyErrorStateMatcher } from 'src/app/Utils/MyErrorStateMatcher';
@@ -9,11 +8,13 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
 import { PositionCardComponent } from 'src/app/Components/position-card/position-card.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { config } from 'rxjs';
 
 @Component({
   selector: 'app-check',
   templateUrl: './check.component.html',
-  styleUrls: ['./check.component.css']
+  styleUrls: ['./check.component.css'],
 })
 export class CheckComponent implements OnInit {
 
@@ -30,9 +31,8 @@ export class CheckComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
-  constructor(private toastr: ToastrService, public dialog: MatDialog) {
-    this.newPosition = new Position({ title: "123", amount: "1" });
-    this.positions.push(this.newPosition);
+  constructor(public dialog: MatDialog, private _snackBar: MatSnackBar) {
+    this.positions.push(new Position({ title: "123", amount: "1" }));
     this.positionsDataSource = new MatTableDataSource(this.positions);
 
     this.newPayment = new Payment();
@@ -41,7 +41,6 @@ export class CheckComponent implements OnInit {
   }
 
   positions: Array<Position> = [];
-  newPosition: Position;
 
   payments: Array<Payment> = [];
   newPayment: Payment;
@@ -62,35 +61,50 @@ export class CheckComponent implements OnInit {
   openDialog(action, obj) {
     obj.action = action;
     const dialogRef = this.dialog.open(PositionCardComponent, {
-      width: '250px',
+      width: '300px',
       data: obj
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      // if(result.event == 'Add'){
-      //   this.addRowData(result.data);
-      // }else if(result.event == 'Update'){
-      //   this.updateRowData(result.data);
-      // }else if(result.event == 'Delete'){
-      //   this.deleteRowData(result.data);
-      // }
+      if (result.event == 'Add') {
+        this.addPosition(result.data);
+      } else if (result.event == 'Edit') {
+        this.updatePosition(result.data);
+      } else if(result.event == 'Delete'){
+        this.deletePosition(result.data);
+      }
     });
   }
 
-  addPosition(index) {
-    this.newPosition = new Position({ title: "", amount: "" });
-    this.positions.push(this.newPosition);
-    return true;
+  addPosition(data) {
+    this.positions.push(new Position({
+      title: data.title,
+      amount: data.amount
+    }));
+
+    this.positionsDataSource.data = this.positions;
+    this.openSnackBar("Position was added!");
   }
 
-  deletePosition(index) {
-    if (this.positions.length == 1) {
-      this.toastr.error("Can't delete the row when there is only one row", 'Warning');
-      return false;
-    } else {
-      this.positions.splice(index, 1);
-      return true;
+  updatePosition(data) {
+    debugger
+    const index = this.positions.findIndex(p => p.id === data.id);
+    if (index == -1) {
+      console.log("Invalid position id:" + data);
     }
+
+    this.positions[index] = data;
+    this.positionsDataSource.data = this.positions;
+  }
+
+  deletePosition(data) {
+    const index = this.positions.findIndex(p => p.id === data.id);
+    if (index == -1) {
+      console.log("Invalid position id:" + data)
+    }
+    
+    this.positions.splice(index, 1);
+    this.positionsDataSource.data = this.positions;
   }
 
   addPayment(index) {
@@ -109,5 +123,15 @@ export class CheckComponent implements OnInit {
     //   this.toastr.warning('Row deleted successfully', 'Delete row');
     //   return true;
     // }
+  }
+
+  openSnackBar(message: string) {
+    this._snackBar.open(message, "",
+      { 
+        duration: 1000,
+        verticalPosition: "top",
+        horizontalPosition: "right",
+        panelClass: 'snackbar'
+      });
   }
 }

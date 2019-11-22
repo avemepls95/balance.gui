@@ -1,18 +1,38 @@
 <h1 mat-dialog-title>{{action}} Position</h1>
-<div mat-dialog-content>
+<div mat-dialog-content class="position-dialog">
   <div *ngIf="action != 'Delete'; else elseTemplate">
     <mat-form-field>
-      <input placeholder="Title" matInput [(ngModel)]="local_data.title">
+      <input placeholder="Title" matInput [readonly]="action == 'View'" [(ngModel)]="local_data.title">
     </mat-form-field>
     <mat-form-field>
-      <input placeholder="Amount" matInput [(ngModel)]="local_data.amount">
+      <input matInput [textMask]="{mask: floatMask}" placeholder="Amount"  [readonly]="action == 'View'"
+        [(ngModel)]="local_data.amount">
     </mat-form-field>
+
+    <mat-form-field class="example-chip-list">
+      <mat-chip-list #chipList aria-label="Fruit selection">
+        <mat-chip *ngFor="let fruit of fruits" [selectable]="selectable" [removable]="removable"
+          (removed)="remove(fruit)">
+          {{fruit}}
+          <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+        </mat-chip>
+        <input placeholder="New fruit..." #fruitInput [formControl]="fruitCtrl" [matAutocomplete]="auto"
+          [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)">
+      </mat-chip-list>
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+        <mat-option *ngFor="let fruit of filteredFruits | async" [value]="fruit">
+          {{fruit}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
   </div>
   <ng-template #elseTemplate>
-    Sure to 1delete <b>{{local_data.title}}</b>?
+    Sure to delete <b>{{local_data.title}}</b>?
   </ng-template>
 </div>
 <div mat-dialog-actions>
-  <button mat-button (click)="doAction()">{{action}}</button>
   <button mat-button (click)="closeDialog()" mat-flat-button color="warn">Cancel</button>
+  <button mat-button (click)="doAction()" [hidden]="action == 'View'">{{action}}</button>
 </div>

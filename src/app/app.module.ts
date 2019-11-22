@@ -17,6 +17,7 @@ import { MainComponent } from './Components/main/main.component';
 import { VkLoginWidgetComponent } from './Components/vk-login-widget/vk-login-widget.component';
 import { DemoMaterialModule } from './material-module';
 import { PositionCardComponent } from './Components/position-card/position-card.component';
+import { TextMaskModule } from 'angular2-text-mask';
 
 export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
@@ -40,7 +41,8 @@ export function initializeApp(appConfig: AppConfig) {
     SlimLoadingBarModule,
     DemoMaterialModule,
     ReactiveFormsModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    TextMaskModule
   ],
   entryComponents: [
     PositionCardComponent,

@@ -46,3 +46,33 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 .material-icons.red { color: red; }
+
+.mat-dialog-content {
+    font-size: 14px;
+}
+
+.flex {
+    display: flex;
+}
+
+.flex-h-center {
+    display: flex;
+    justify-content: center;
+}
+
+.flex-h-space-between {
+    display: flex;
+    justify-content: space-between;
+}
+
+.mat-snack-bar-container {
+    width: auto;
+    padding-left: 5rem !important;
+    padding-right: 5rem !important;
+    max-width: initial !important;
+    min-width: initial !important;
+ }
+
+ .position-dialog .mat-form-field-wrapper {
+    width: 250px;
+}
