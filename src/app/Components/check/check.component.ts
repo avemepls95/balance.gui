@@ -23,24 +23,22 @@ export class CheckComponent implements OnInit {
 
   matcher = new MyErrorStateMatcher();
 
-  displayedColumns: string[] = ['title', 'amount'];
-  dataSource: MatTableDataSource<Position>;
+  displayedColumns: string[] = ['index', 'title', 'amount', 'actions'];
+  positionsDataSource: MatTableDataSource<Position>;
+  paymentsDataSource: MatTableDataSource<Payment>;
 
-  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-  @ViewChild(MatSort, {static: true}) sort: MatSort;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(private toastr: ToastrService, public dialog: MatDialog) {
-    // Create 100 users
-    // const users = Array.from({length: 100}, (_, k) => this.createNewUser(k + 1));
-    this.newPosition = new Position ({ title: "123", amount: "1" });
+    this.newPosition = new Position({ title: "123", amount: "1" });
     this.positions.push(this.newPosition);
-
-    // Assign the data to the data source for the table to render
-    this.dataSource = new MatTableDataSource(this.positions);
+    this.positionsDataSource = new MatTableDataSource(this.positions);
 
     this.newPayment = new Payment();
     this.payments.push(this.newPayment);
-   }
+    this.paymentsDataSource = new MatTableDataSource(this.payments);
+  }
 
   positions: Array<Position> = [];
   newPosition: Position;
@@ -49,25 +47,25 @@ export class CheckComponent implements OnInit {
   newPayment: Payment;
 
   ngOnInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    this.positionsDataSource.paginator = this.paginator;
+    this.positionsDataSource.sort = this.sort;
   }
 
   applyFilter(filterValue: string) {
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.positionsDataSource.filter = filterValue.trim().toLowerCase();
 
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
+    if (this.positionsDataSource.paginator) {
+      this.positionsDataSource.paginator.firstPage();
     }
   }
 
-  openDialog(action,obj) {
+  openDialog(action, obj) {
     obj.action = action;
     const dialogRef = this.dialog.open(PositionCardComponent, {
       width: '250px',
-      data:obj
+      data: obj
     });
- 
+
     dialogRef.afterClosed().subscribe(result => {
       // if(result.event == 'Add'){
       //   this.addRowData(result.data);
@@ -80,7 +78,7 @@ export class CheckComponent implements OnInit {
   }
 
   addPosition(index) {
-    this.newPosition = new Position ({ title: "", amount: "" });
+    this.newPosition = new Position({ title: "", amount: "" });
     this.positions.push(this.newPosition);
     return true;
   }

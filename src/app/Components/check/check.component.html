@@ -134,18 +134,75 @@
       </mat-error>
     </mat-form-field>
 
-    <mat-form-field>
-      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
-    </mat-form-field>
-    <div class="container text-center">
-      <button mat-button (click)="openDialog('Add',{})" mat-flat-button color="primary">Add Row</button>
+    <!-- Position table -->
+    <div class="container">
+      <div class="table-filter-and-add-button-wrapper">
+        <mat-form-field>
+          <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+        </mat-form-field>
+        <button class="add-row-button" mat-button (click)="openDialog('Add',{})" mat-flat-button color="primary">
+          Add Position
+        </button>
+      </div>
       <div class="mat-elevation-z5">
 
-        <table mat-table [dataSource]="dataSource" matSort>
+        <table mat-table [dataSource]="positionsDataSource" matSort>
+
+          <ng-container matColumnDef="index">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> № </th>
+            <td mat-cell *matCellDef="let i = index"> {{i + 1}} </td>
+          </ng-container>
 
           <ng-container matColumnDef="title">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Title </th>
             <td mat-cell *matCellDef="let row"> {{row.title}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="amount">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Amount </th>
+            <td mat-cell *matCellDef="let row"> {{row.amount}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let item" class="row-actions-td">
+              <div class="row-action-buttons">
+                <button class="row-edit-button" mat-icon-button (click)="openDialog('Edit', item)" mat-flat-button>
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button class="row-remove-button" mat-icon-button (click)="openDialog('Delete', item)" mat-flat-button>
+                  <mat-icon class="red">delete</mat-icon>
+                </button>
+              </div>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+          </tr>
+        </table>
+
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+      </div>
+    </div>
+
+    <!-- Payments table -->
+    <!-- <div class="container">
+      <div class="table-filter-and-add-button-wrapper">
+        <mat-form-field>
+          <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+        </mat-form-field>
+        <button class="add-row-button" mat-button (click)="openDialog('Add',{})" mat-flat-button color="primary">
+          Add Payment
+        </button>
+      </div>
+      <div class="mat-elevation-z5">
+
+        <table mat-table [dataSource]="paymentsDataSource" matSort>
+
+          <ng-container matColumnDef="userId">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> userId </th>
+            <td mat-cell *matCellDef="let row"> {{row.userId}} </td>
           </ng-container>
 
           <ng-container matColumnDef="amount">
@@ -160,8 +217,10 @@
 
         <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
       </div>
-    </div>
+    </div> -->
+
   </mat-card-content>
+
   <mat-card-actions>
     <button mat-button>CREATE</button>
   </mat-card-actions>

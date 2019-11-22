@@ -1,10 +1,15 @@
-<h1 mat-dialog-title>Row Action :: <strong>{{action}}</strong></h1>
+<h1 mat-dialog-title>{{action}} Position</h1>
 <div mat-dialog-content>
-  <mat-form-field *ngIf="action != 'Delete'; else elseTemplate">
-    <input placeholder="{{action}} Name" matInput [(ngModel)]="local_data.name">
-  </mat-form-field>
+  <div *ngIf="action != 'Delete'; else elseTemplate">
+    <mat-form-field>
+      <input placeholder="Title" matInput [(ngModel)]="local_data.title">
+    </mat-form-field>
+    <mat-form-field>
+      <input placeholder="Amount" matInput [(ngModel)]="local_data.amount">
+    </mat-form-field>
+  </div>
   <ng-template #elseTemplate>
-    Sure to delete <b>{{local_data.name}}</b>?
+    Sure to 1delete <b>{{local_data.title}}</b>?
   </ng-template>
 </div>
 <div mat-dialog-actions>
