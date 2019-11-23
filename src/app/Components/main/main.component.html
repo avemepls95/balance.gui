@@ -58,7 +58,7 @@
 <mat-sidenav-container>
     <mat-sidenav #sidenav>
         <mat-nav-list>
-            <mat-list-item [routerLink]="'main/createCheck'">
+            <mat-list-item [routerLink]="'createCheck'" (click)="sidenav.toggle()">
                 <mat-icon mat-list-icon>post_add</mat-icon>
                 <h4 mat-line>Create Check</h4>
             </mat-list-item>

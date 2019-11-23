@@ -1,0 +1,5 @@
+1. Ломается конфиг когда подключаются интерсепторы.
+Ошибка:
+  vendor.js:73461 ERROR Could not load file 'assets/config/config.dev.json': {"name":"NullInjectorError","ngTempTokenPath":null,"ngTokenPath":[null]}
+Возможное решение:
+  почитать https://habr.com/ru/post/351036/

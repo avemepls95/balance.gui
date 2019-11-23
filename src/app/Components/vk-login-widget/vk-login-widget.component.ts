@@ -1,5 +1,5 @@
 import { Component, OnInit, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
-import { LoginService } from 'src/app/Services/login.service';
+import { AuthService } from 'src/app/Services/auth.service';
 import { ParamsMapper } from 'src/app/Model/Utils/ParamsMapper';
 
 @Component({
@@ -14,7 +14,7 @@ export class VkLoginWidgetComponent implements AfterViewInit {
 
   @ViewChild('script', { static: true }) script: ElementRef;
 
-  constructor(private loginService: LoginService) { }
+  constructor(private loginService: AuthService) { }
 
   convertToScript() {
     const element = this.script.nativeElement;
