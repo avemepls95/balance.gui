@@ -1,21 +1,18 @@
-import { Guid } from "guid-typescript";
-
 export class Position {
-    id: Guid;
+    internalId: number;
+    id: number;
     amount: number;
     title: string;
 
     public constructor(
         fields?: {
+            internalId?: number;
             id?: number,
-            amount?: string,
+            amount?: number,
             title?: string
         }) 
     {
         if (fields)
             Object.assign(this, fields);
-
-        if (fields.id == null)
-            this.id = Guid.create();
     }
 }

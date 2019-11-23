@@ -16,7 +16,8 @@ const routes: Routes = [
       { path: 'main', component: MainComponent, children: menuRoutes },
     ]
   },
-  { path: 'auth', component: AuthComponent }
+  { path: 'auth', component: AuthComponent },
+  { path: '**', redirectTo: '/main' },
 ];
 
 @NgModule({

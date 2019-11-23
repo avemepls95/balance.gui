@@ -32,7 +32,6 @@ export class CheckComponent implements OnInit {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(public dialog: MatDialog, private _snackBar: MatSnackBar) {
-    this.positions.push(new Position({ title: "123", amount: "1" }));
     this.positionsDataSource = new MatTableDataSource(this.positions);
 
     this.newPayment = new Payment();
@@ -76,8 +75,9 @@ export class CheckComponent implements OnInit {
     });
   }
 
-  addPosition(data) {
+  addPosition(data: Position) {
     this.positions.push(new Position({
+      internalId: this.positions.length + 1,
       title: data.title,
       amount: data.amount
     }));
@@ -86,9 +86,8 @@ export class CheckComponent implements OnInit {
     this.openSnackBar("Position was added!");
   }
 
-  updatePosition(data) {
-    debugger
-    const index = this.positions.findIndex(p => p.id === data.id);
+  updatePosition(data: Position) {
+    const index = this.positions.findIndex(p => p.internalId === data.internalId);
     if (index == -1) {
       console.log("Invalid position id:" + data);
     }
@@ -97,12 +96,12 @@ export class CheckComponent implements OnInit {
     this.positionsDataSource.data = this.positions;
   }
 
-  deletePosition(data) {
-    const index = this.positions.findIndex(p => p.id === data.id);
+  deletePosition(data: Position) {
+    const index = this.positions.findIndex(p => p.internalId === data.internalId);
     if (index == -1) {
-      console.log("Invalid position id:" + data)
+      console.log("Invalid position id:" + data);
     }
-    
+
     this.positions.splice(index, 1);
     this.positionsDataSource.data = this.positions;
   }
