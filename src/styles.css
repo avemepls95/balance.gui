@@ -60,6 +60,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     justify-content: center;
 }
 
+.flex-v-center {
+    display: flex;
+    align-items: center;
+}
+
 .flex-h-space-between {
     display: flex;
     justify-content: space-between;
@@ -75,4 +80,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
  .position-dialog .mat-form-field-wrapper {
     width: 320px;
+}
+
+.account-actions-menu {
+    width: 150px;
 }

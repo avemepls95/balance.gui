@@ -296,6 +296,10 @@
         max-width: 960px;
     }
 
+    .mat-toolbar-row {
+        justify-content: space-between;
+    }
+
     .mat-toolbar-multiple-rows {
         height: 6.5vh;
     }

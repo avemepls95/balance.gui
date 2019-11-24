@@ -15,6 +15,6 @@ export class AuthComponent implements OnInit {
     if (!this.authService.isAuthenticated())
       return;
 
-      this.router.navigate(['/main']);
+    this.router.navigate(['/main']);
   }
 }

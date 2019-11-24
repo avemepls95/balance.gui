@@ -19,16 +19,27 @@ export class AuthService {
   }
 
   loginViaTelegram(loginData: TelegramAuthDto) {
-    this.http.post(this.apiBaseUrl + 'auth/telegram', loginData).subscribe((response: any) => {
-      localStorage.setItem('token', response.data.token)
-      this.router.navigate(['/main']);
-    });
+    this.http.post(this.apiBaseUrl + 'auth/telegram', loginData)
+      .subscribe((response: any) => {
+        this.handleBalanceAuthResponse(response);
+      });
   }
 
   loginViaVk(loginData: VkAuthDto) {
-    this.http.post(this.apiBaseUrl + 'auth/vk', loginData).subscribe((response) => {
-      this.router.navigate(['/main']);
-    });
+    this.http.post(this.apiBaseUrl + 'auth/vk', loginData)
+      .subscribe((response: any) => {
+        this.handleBalanceAuthResponse(response);
+      });
+  }
+
+  handleBalanceAuthResponse(response) {
+    localStorage.setItem('token', response.data.token)
+    this.router.navigate(['/main']);
+  }
+
+  public logout() {
+    localStorage.removeItem('token');
+    this.router.navigate(['/auth']);
   }
 
   public getToken(): string {
@@ -39,7 +50,7 @@ export class AuthService {
     const token = this.getToken();
     if (token == null)
       return false;
-    
+
     return !this.jwtHelper.isTokenExpired(token);
   }
 }

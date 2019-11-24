@@ -46,12 +46,17 @@
 
 <mat-toolbar color="primary">
     <mat-toolbar-row>
-        <button mat-icon-button (click)="sidenav.toggle()">
-            <mat-icon>menu</mat-icon>
-        </button>
-        <h1 class="app-title">{{Title}} |</h1>
-        <span class="menu-spacer"></span>
+        <div class="flex-v-center">
+            <button mat-icon-button (click)="sidenav.toggle()">
+                <mat-icon>menu</mat-icon>
+            </button>
+            <h1 class="app-title">{{Title}} |</h1>
+            <span class="menu-spacer"></span>
+        </div>
         <!-- <div mat-card-avatar class="example-header-image" style="background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');background-size: cover;"></div> -->
+        <button mat-icon-button [matMenuTriggerFor]="dropdownMenu">
+            <mat-icon>more_vert</mat-icon>
+        </button>
     </mat-toolbar-row>
 </mat-toolbar>
 
@@ -103,3 +108,14 @@
         </div>
     </mat-sidenav-content>
 </mat-sidenav-container>
+
+<mat-menu #dropdownMenu x-position="before" class="account-actions-menu">
+    <a mat-menu-item (click)="logout($event)">
+        <mat-icon>exit_to_app</mat-icon>
+        <span>Logout</span>
+    </a>
+    <!-- <a mat-menu-item href="" routerLink="/about">
+        <mat-icon>info_outline</mat-icon>
+        <span>About</span>
+    </a> -->
+</mat-menu>
