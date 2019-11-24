@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { BalanceApiService } from 'src/app/Services/balance-api.service';
 
 @Component({
   selector: 'app-main',
@@ -9,7 +10,7 @@ import { Router } from '@angular/router';
 export class MainComponent implements OnInit {
   Title = 'Balance';
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private test: BalanceApiService) { }
 
   ngOnInit() {
     //debugger
@@ -18,5 +19,4 @@ export class MainComponent implements OnInit {
 
     //this.router.navigate(['/auth']);
   }
-
 }

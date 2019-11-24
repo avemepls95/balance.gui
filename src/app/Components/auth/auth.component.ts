@@ -9,14 +9,12 @@ import { AuthService } from 'src/app/Services/auth.service';
 })
 export class AuthComponent implements OnInit {
 
-  constructor(private loginService: AuthService) { }
+  constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
-    debugger
-  }
+    if (!this.authService.isAuthenticated())
+      return;
 
-  test() {
-    debugger
-    this.loginService.loginViaVk(null);
+      this.router.navigate(['/main']);
   }
 }
