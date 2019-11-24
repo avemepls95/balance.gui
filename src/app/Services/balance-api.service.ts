@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable, EMPTY } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +13,13 @@ export class BalanceApiService {
     this.apiBaseUrl = 'http://localhost:8081/';
   }
 
-  getUsersSuggestion(query: string) : Observable<any> {
-    return this.http.get(this.apiBaseUrl + 'users/search/?query=' + query);
+  getUsersSuggestion(query: string): Observable<any> {
+    if (query == "")
+      return EMPTY;
+
+    const params = new HttpParams()
+      .set('query', query);
+
+    return this.http.get(this.apiBaseUrl + 'users/search', { params });
   }
 }

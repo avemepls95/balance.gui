@@ -58,10 +58,13 @@ export class CheckComponent implements OnInit {
   }
 
   openDialog(action, obj) {
-    obj.action = action;
+    let data = {
+      obj: obj,
+      action: action
+    }
     const dialogRef = this.dialog.open(PositionCardComponent, {
-      width: '300px',
-      data: obj
+      width: '370px',
+      data: data
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -79,7 +82,8 @@ export class CheckComponent implements OnInit {
     this.positions.push(new Position({
       internalId: this.positions.length + 1,
       title: data.title,
-      amount: data.amount
+      amount: data.amount,
+      users: data.users
     }));
 
     this.positionsDataSource.data = this.positions;

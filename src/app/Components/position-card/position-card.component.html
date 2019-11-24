@@ -2,47 +2,36 @@
 <div mat-dialog-content class="position-dialog">
   <div *ngIf="action != 'Delete'; else elseTemplate">
     <mat-form-field>
-      <input placeholder="Title" matInput [readonly]="action == 'View'" [(ngModel)]="local_data.title">
+      <input placeholder="Title" required matInput [readonly]="action == 'View'" [(ngModel)]="obj.title">
     </mat-form-field>
     <mat-form-field>
-      <input matInput [textMask]="{mask: amountMask, guide: false}" type="text" placeholder="Amount"
-        [readonly]="action == 'View'" [(ngModel)]="local_data.amount">
+      <input matInput required [textMask]="{mask: amountMask, guide: false}" type="text" placeholder="Amount"
+        [readonly]="action == 'View'" [(ngModel)]="obj.amount">
     </mat-form-field>
-
-    <!-- <mat-form-field>
-      <mat-chip-list #chipList aria-label="Fruit selection">
-        <mat-chip *ngFor="let fruit of fruits" [selectable]="selectable" [removable]="removable"
-          (removed)="remove(fruit)">
-          {{fruit}}
-          <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-        </mat-chip>
-        <input placeholder="New fruit..." #fruitInput [formControl]="fruitCtrl" [matAutocomplete]="auto"
-          [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-          [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)">
-      </mat-chip-list>
-      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-        <mat-option *ngFor="let fruit of filteredFruits | async" [value]="fruit">
-          {{fruit}}
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field> -->
-
 
     <div>
       <mat-form-field>
-        <input matInput placeholder="Search" aria-label="State" [matAutocomplete]="auto"
-          [formControl]="searchUserCtrl">
-        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+        <mat-chip-list #chipList>
+          <mat-chip *ngFor="let user of obj.users" [selectable]="selectable" [removable]="removable"
+            (removed)="removeUser(user)">
+            {{user.username}}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+          <input matInput  #usersInput placeholder="Search users..." aria-label="State" [matAutocomplete]="auto"
+            [formControl]="searchUserCtrl" [matChipInputFor]="chipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur">
+        </mat-chip-list>
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="selectedUser($event)">
           <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
           <ng-container *ngIf="!isLoading">
-            <mat-option *ngFor="let user of filteredUsers" [value]="user.username">
+            <mat-option *ngFor="let user of filteredUsers" [value]="user.id">
               <span>{{user.username}}</span>
             </mat-option>
           </ng-container>
         </mat-autocomplete>
       </mat-form-field>
       <br>
-      <ng-container *ngIf="errorMsg; else elseTemplate">
+      <ng-container *ngIf="errorMsg">
         {{errorMsg}}
       </ng-container>
       <ng-template #elseTemplate>
@@ -52,10 +41,10 @@
 
   </div>
   <ng-template #elseTemplate>
-    Sure to delete <b>{{local_data.title}}</b>?
+    Sure to delete <b>{{obj.title}}</b>?
   </ng-template>
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="closeDialog()" mat-flat-button color="warn">Cancel</button>
-  <button mat-button (click)="doAction()" [hidden]="action == 'View'">{{action}}</button>
+  <button mat-button (click)="doAction()" [hidden]="action == 'View'" [disabled]="!canCreate()">{{action}}</button>
 </div>

@@ -1,7 +1,7 @@
 
-import { Person } from 'src/app/Model/Person'
+import { User } from 'src/app/Model/User'
 
 export class Payment {
-    person: Person;
+    user: User;
     amount: number;
 }
