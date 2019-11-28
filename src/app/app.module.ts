@@ -21,6 +21,7 @@ import { TextMaskModule } from 'angular2-text-mask';
 import { TokenInterceptor } from './Interceptors/token.interceptor';
 import { ResponseInterceptor } from './Interceptors/response.interceptor';
 import { JwtHelper } from 'angular2-jwt';
+import { PaymentCardComponent } from './Components/payment-card/payment-card.component';
 
 export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
@@ -35,6 +36,7 @@ export function initializeApp(appConfig: AppConfig) {
     MainComponent,
     VkLoginWidgetComponent,
     PositionCardComponent,
+    PaymentCardComponent,
   ],
   imports: [
     BrowserModule,

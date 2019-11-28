@@ -1,6 +1,6 @@
 import { User } from './User';
 
-export class Payment {
+export class ConsumptionDto {
     amount: number;
     user: User;
 
