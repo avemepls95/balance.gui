@@ -1,1 +1,1 @@
-npm install --save @auth0/angular-jwt
+npm install --save angular2-jwt

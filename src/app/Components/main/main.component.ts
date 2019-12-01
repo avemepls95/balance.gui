@@ -14,14 +14,10 @@ export class MainComponent implements OnInit {
   constructor(private router: Router, private authService: AuthService) { }
 
   ngOnInit() {
-    //debugger
-    //if (LoginService.AuthMethod != AuthMethod.Unauthorized)
-    //  return;
-
-    //this.router.navigate(['/auth']);
   }
 
   logout() {
-    this.authService.logout();
+    this.authService.removeCurrentToken();
+    this.router.navigate(['/auth']);
   }
 }

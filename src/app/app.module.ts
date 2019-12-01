@@ -21,6 +21,9 @@ import { TextMaskModule } from 'angular2-text-mask';
 import { TokenInterceptor } from './Interceptors/token.interceptor';
 import { ResponseInterceptor } from './Interceptors/response.interceptor';
 import { JwtHelper } from 'angular2-jwt';
+import { LoaderComponent } from './Components/loader/loader.component';
+import { LoaderInterceptor } from './Interceptors/loader.interceptor';
+import { LoaderService } from './services/loader.service';
 
 export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
@@ -35,6 +38,7 @@ export function initializeApp(appConfig: AppConfig) {
     MainComponent,
     VkLoginWidgetComponent,
     PositionCardComponent,
+    LoaderComponent,
   ],
   imports: [
     BrowserModule,
@@ -53,22 +57,16 @@ export function initializeApp(appConfig: AppConfig) {
   ],
   providers: [
     JwtHelper,
+    LoaderService,
     // AppConfig,
     // {
     //   provide: APP_INITIALIZER,
     //   useFactory: initializeApp,
     //   deps: [AppConfig], multi: true
     // },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: TokenInterceptor,
-      multi: true,
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: ResponseInterceptor,
-      multi: true
-    }
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true, },
+    { provide: HTTP_INTERCEPTORS, useClass: ResponseInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

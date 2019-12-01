@@ -191,3 +191,7 @@ a {
     justify-content: center;
     margin-bottom: 20px;
 }
+
+.auth-failed-div {
+    widows: 100%;
+}

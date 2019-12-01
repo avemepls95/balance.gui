@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/Services/auth.service';
 
@@ -9,12 +9,19 @@ import { AuthService } from 'src/app/Services/auth.service';
 })
 export class AuthComponent implements OnInit {
 
-  constructor(private authService: AuthService, private router: Router) { }
+  isAuthError: boolean = false;
+
+  constructor(private authService: AuthService, private router: Router, private cdRef: ChangeDetectorRef) { }
 
   ngOnInit() {
-    if (!this.authService.isAuthenticated())
-      return;
+    // if (!this.authService.isAuthenticated())
+    //   return;
 
-    this.router.navigate(['/main']);
+    // this.router.navigate(['/main']);
+  }
+
+  setIsAuthError(value: boolean) {
+    this.isAuthError = value;
+    this.cdRef.detectChanges();
   }
 }
