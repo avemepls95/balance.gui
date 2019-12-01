@@ -49,9 +49,9 @@ export class VkLoginWidgetComponent implements AfterViewInit {
     this.loginService.loginViaVk(ParamsMapper.getVkAuthDto(loginData))
       .subscribe(
         (response: any) => { this.router.navigate(['/main']); },
-        (error: any) => { 
+        (error: any) => {
           if (error instanceof HttpErrorResponse) {
-            this.isAuthError.emit(true); 
+            this.isAuthError.emit(true);
           }
         }
       );

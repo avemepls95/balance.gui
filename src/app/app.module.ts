@@ -23,7 +23,7 @@ import { ResponseInterceptor } from './Interceptors/response.interceptor';
 import { JwtHelper } from 'angular2-jwt';
 import { LoaderComponent } from './Components/loader/loader.component';
 import { LoaderInterceptor } from './Interceptors/loader.interceptor';
-import { LoaderService } from './services/loader.service';
+import { LoaderService } from './Services/loader.service';
 
 export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();

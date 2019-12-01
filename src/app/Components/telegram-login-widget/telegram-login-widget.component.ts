@@ -1,6 +1,8 @@
-import { Component, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, AfterViewInit, ElementRef, ViewChild, EventEmitter, Output } from '@angular/core';
 import { AuthService } from 'src/app/Services/auth.service';
 import { ParamsMapper } from 'src/app/Model/Utils/ParamsMapper'
+import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-telegram-login-widget',
@@ -12,9 +14,11 @@ import { ParamsMapper } from 'src/app/Model/Utils/ParamsMapper'
 })
 export class TelegramLoginWidget implements AfterViewInit {
 
+  @Output() isAuthError = new EventEmitter<boolean>();
+
   @ViewChild('script', { static: true }) script: ElementRef;
 
-  constructor(private loginService: AuthService) { }
+  constructor(private loginService: AuthService, private router: Router) { }
 
   convertToScript() {
     const element = this.script.nativeElement;
@@ -34,6 +38,14 @@ export class TelegramLoginWidget implements AfterViewInit {
   }
 
   private loginViaTelegram(loginData) {
-    this.loginService.loginViaTelegram(ParamsMapper.getTelegramAuthDto(loginData));
+    this.loginService.loginViaTelegram(ParamsMapper.getTelegramAuthDto(loginData))
+      .subscribe(
+        (response: any) => { this.router.navigate(['/main']); },
+        (error: any) => {
+          if (error instanceof HttpErrorResponse) {
+            this.isAuthError.emit(true);
+          }
+        }
+      );
   }
 }

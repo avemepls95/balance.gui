@@ -19,8 +19,8 @@ export class AuthService {
     this.apiBaseUrl = 'http://localhost:8081/';
   }
 
-  loginViaTelegram(loginData: TelegramAuthDto) {
-    this.http.post(this.apiBaseUrl + 'auth/telegram ', loginData).pipe(map(response => {
+  loginViaTelegram(loginData: TelegramAuthDto) : Observable<any> {
+    return this.http.post(this.apiBaseUrl + 'auth/telegram ', loginData).pipe(map(response => {
       this.handleBalanceAuthResponse(response);
     }));
   }
