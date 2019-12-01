@@ -10,6 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { PositionCardComponent } from 'src/app/Components/position-card/position-card.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { config } from 'rxjs';
+import { User } from 'src/app/Model/User';
 
 @Component({
   selector: 'app-check',
@@ -24,8 +25,10 @@ export class CheckComponent implements OnInit {
 
   matcher = new MyErrorStateMatcher();
 
-  displayedColumns: string[] = ['index', 'title', 'amount', 'actions'];
+  positionsDisplayedColumns: string[] = ['index', 'title', 'amount', 'actions'];
   positionsDataSource: MatTableDataSource<Position>;
+
+  paymentsDisplayedColumns: string[] = [ 'index', 'username', 'amount' ];
   paymentsDataSource: MatTableDataSource<Payment>;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -34,15 +37,14 @@ export class CheckComponent implements OnInit {
   constructor(public dialog: MatDialog, private _snackBar: MatSnackBar) {
     this.positionsDataSource = new MatTableDataSource(this.positions);
 
-    this.newPayment = new Payment();
-    this.payments.push(this.newPayment);
+    let newPayment = new Payment({amount: 12, user: new User({id: 1, username: "Artem"})});
+    this.payments.push(newPayment);
     this.paymentsDataSource = new MatTableDataSource(this.payments);
   }
 
   positions: Array<Position> = [];
 
   payments: Array<Payment> = [];
-  newPayment: Payment;
 
   ngOnInit() {
     this.positionsDataSource.paginator = this.paginator;
@@ -57,7 +59,7 @@ export class CheckComponent implements OnInit {
     }
   }
 
-  openDialog(action, obj) {
+  openPositionCard(action, obj) {
     let data = {
       obj: obj,
       action: action
