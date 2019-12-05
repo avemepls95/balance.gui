@@ -1,1 +1,36 @@
-<p>payment-card works!</p>
+<h1 mat-dialog-title>{{action}} Payment</h1>
+<div mat-dialog-content class="position-dialog">
+    <div *ngIf="action != 'Delete'; else elseTemplate">
+        <mat-form-field>
+            <input matInput required DigitOnly="true" type="text" placeholder="Amount"
+                [readonly]="action == 'View'" [(ngModel)]="obj.amount">
+        </mat-form-field>
+
+        <div>
+            <mat-form-field>
+                <input matInput #userInput placeholder="Search" [matAutocomplete]="auto" [formControl]="searchUserCtrl">
+                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="selectedUser($event)">
+                    <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                    <ng-container *ngIf="!isLoading">
+                        <mat-option *ngFor="let user of filteredUsers" [value]="user" >
+                            <span>{{user.username}}</span>
+                        </mat-option>
+                    </ng-container>
+                </mat-autocomplete>
+            </mat-form-field>
+
+            <br>
+            <ng-container *ngIf="errorMsg">
+                {{errorMsg}}
+            </ng-container>
+        </div>
+
+    </div>
+    <ng-template #elseTemplate>
+        Sure to delete <b>{{obj.title}}</b>?
+    </ng-template>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="closeDialog()" mat-flat-button color="warn">Cancel</button>
+    <button mat-button (click)="doAction()" [hidden]="action == 'View'" [disabled]="!canCreate()">{{action}}</button>
+</div>

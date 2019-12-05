@@ -5,8 +5,8 @@
       <input placeholder="Title" required matInput [readonly]="action == 'View'" [(ngModel)]="obj.title">
     </mat-form-field>
     <mat-form-field>
-      <input matInput required [textMask]="{mask: amountMask, guide: false}" type="text" placeholder="Amount"
-        [readonly]="action == 'View'" [(ngModel)]="obj.amount">
+      <input matInput required DigitOnly="true" type="text" placeholder="Amount" [readonly]="action == 'View'"
+        [(ngModel)]="obj.amount">
     </mat-form-field>
 
     <div>
@@ -17,7 +17,7 @@
             {{user.username}}
             <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
           </mat-chip>
-          <input matInput  #usersInput placeholder="Search users..." aria-label="State" [matAutocomplete]="auto"
+          <input matInput #usersInput placeholder="Search users..." aria-label="State" [matAutocomplete]="auto"
             [formControl]="searchUserCtrl" [matChipInputFor]="chipList"
             [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur">
         </mat-chip-list>

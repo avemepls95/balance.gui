@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { Payment } from 'src/app/Model/Check';
+import { Payment } from 'src/app/Model/Payment';
 import { Position } from 'src/app/Model/Position';
 import { FormControl, Validators } from '@angular/forms';
 import { MyErrorStateMatcher } from 'src/app/Utils/MyErrorStateMatcher';
@@ -11,6 +11,7 @@ import { PositionCardComponent } from 'src/app/Components/position-card/position
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { config } from 'rxjs';
 import { User } from 'src/app/Model/User';
+import { PaymentCardComponent } from '../payment-card/payment-card.component';
 
 @Component({
   selector: 'app-check',
@@ -25,10 +26,10 @@ export class CheckComponent implements OnInit {
 
   matcher = new MyErrorStateMatcher();
 
-  positionsDisplayedColumns: string[] = ['index', 'title', 'amount', 'actions'];
+  positionsDisplayedColumns: string[] = [ 'index', 'title', 'amount', 'actions' ];
   positionsDataSource: MatTableDataSource<Position>;
 
-  paymentsDisplayedColumns: string[] = [ 'index', 'username', 'amount' ];
+  paymentsDisplayedColumns: string[] = [ 'index', 'username', 'amount', 'actions' ];
   paymentsDataSource: MatTableDataSource<Payment>;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -112,28 +113,62 @@ export class CheckComponent implements OnInit {
     this.positionsDataSource.data = this.positions;
   }
 
-  addPayment(index) {
-    // this.newPosition = new Payment ({ title: "", amount: "" });
-    // this.positions.push(this.newPosition);
-    // this.toastr.success('New row added successfully', 'New Row');
-    return true;
+  openPaymentCard(action, obj) {
+    let data = {
+      obj: Object.assign({}, obj),
+      action: action
+    }
+    const dialogRef = this.dialog.open(PaymentCardComponent, {
+      width: '370px',
+      data: data
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result.event == 'Add') {
+        this.addPayment(result.data);
+      } else if (result.event == 'Edit') {
+        this.updatePayment(result.data);
+      } else if(result.event == 'Delete'){
+        this.deletePayment(result.data);
+      }
+    });
   }
 
-  deletePayment(index) {
-    // if (this.positions.length == 1) {
-    //   this.toastr.error("Can't delete the row when there is only one row", 'Warning');
-    //   return false;
-    // } else {
-    //   this.positions.splice(index, 1);
-    //   this.toastr.warning('Row deleted successfully', 'Delete row');
-    //   return true;
-    // }
+  addPayment(data: Payment) {
+    this.payments.push(new Payment({
+      internalId: this.positions.length + 1,
+      amount: data.amount,
+      user: data.user
+    }));
+    
+    this.paymentsDataSource.data = this.payments;
+    this.openSnackBar("Payment was added!");
+  }
+
+  updatePayment(data: Payment) {
+    const index = this.payments.findIndex(p => p.internalId === data.internalId);
+    if (index == -1) {
+      console.log("Invalid payment id:" + data);
+    }
+
+    this.payments[index] = data;
+    this.paymentsDataSource.data = this.payments;
+  }
+
+  deletePayment(data: Payment) {
+    const index = this.payments.findIndex(p => p.internalId === data.internalId);
+    if (index == -1) {
+      console.log("Invalid payment id:" + data);
+    }
+
+    this.payments.splice(index, 1);
+    this.paymentsDataSource.data = this.payments;
   }
 
   openSnackBar(message: string) {
     this._snackBar.open(message, "",
       { 
-        duration: 1000,
+        duration: 800,
         verticalPosition: "top",
         horizontalPosition: "right",
         panelClass: 'snackbar'

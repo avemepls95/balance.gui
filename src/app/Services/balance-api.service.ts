@@ -14,7 +14,7 @@ export class BalanceApiService {
   }
 
   getUsersSuggestion(query: string): Observable<any> {
-    if (query == "")
+    if (query == "" || query == undefined)
       return EMPTY;
 
     const params = new HttpParams()

@@ -35,8 +35,7 @@ export class PositionCardComponent implements OnInit {
     public dialogRef: MatDialogRef<PositionCardComponent>,
     //@Optional() is used to prevent error if no data is passed
     @Optional() @Inject(MAT_DIALOG_DATA) public data,
-    private balanceApiService: BalanceApiService) 
-  {
+    private balanceApiService: BalanceApiService) {
     this.obj = data.obj;
     this.action = data.action;
   }
@@ -67,7 +66,7 @@ export class PositionCardComponent implements OnInit {
         } else {
           if (data['data'].length == 0)
             this.errorMsg = "Search results are empty.";
-          this.filteredUsers = data['data'];
+          this.filteredUsers = this.removeSelectedUsersFromSuggestion(data['data']);
         }
       });
   }
@@ -81,7 +80,6 @@ export class PositionCardComponent implements OnInit {
   }
 
   removeUser(user: User): void {
-    debugger
     const index = this.obj.users.findIndex(u => u.id == +user.id);
 
     if (index >= 0) {
@@ -92,23 +90,25 @@ export class PositionCardComponent implements OnInit {
   selectedUser(event: MatAutocompleteSelectedEvent): void {
     let user = this.filteredUsers.filter(u => u.id == +event.option.value)[0];
     if (this.obj.users == null)
-      this.obj.users = new Array<Position>();
+      this.obj.users = new Array<User>();
 
     this.obj.users.push(user);
     this.usersInput.nativeElement.value = '';
     this.searchUserCtrl.setValue('');
   }
 
-  amountMask(rawValue: string): RegExp[] {
-    const mask = /\d/;
-    const strLength = String(rawValue).length;
-    const nameMask: RegExp[] = [];
+  removeSelectedUsersFromSuggestion(suggestion: User[]): User[] {
+    if (this.obj.users == null || this.obj.users.length == 0)
+      return suggestion;
 
-    for (let i = 0; i < strLength; i++) {
-      nameMask.push(mask);
-    }
+    this.obj.users.forEach(selectedUser => {
+      const index = suggestion.findIndex(u => u.id == selectedUser.id);
+      if (index >= 0) {
+        suggestion.splice(index, 1);
+      }
+    });
 
-    return nameMask;
+    return suggestion;
   }
 
   canCreate() {
