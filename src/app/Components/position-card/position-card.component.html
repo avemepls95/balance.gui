@@ -22,7 +22,9 @@
             [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur">
         </mat-chip-list>
         <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="selectedUser($event)">
-          <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+          <mat-option class="is-loading" *ngIf="isLoading" [disabled]="true">
+            <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+          </mat-option>
           <ng-container *ngIf="!isLoading">
             <mat-option *ngFor="let user of filteredUsers" [value]="user.id">
               <span>{{user.username}}</span>

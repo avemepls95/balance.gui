@@ -52,7 +52,7 @@ export class PaymentCardComponent implements OnInit, AfterContentInit {
           }
 
           return this.balanceApiService.getUsersSuggestion(value)
-            .pipe(finalize(() => { this.isLoading = false }))
+            .pipe(finalize(() => { this.isLoading = false }));
         })
       )
       .subscribe(data => {
