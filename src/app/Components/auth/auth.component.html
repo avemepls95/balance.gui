@@ -32,10 +32,13 @@
         </div> -->
         <div class="oauth-refs-div">
             <div id="vk-login-widget">
-                <app-vk-login-widget (isAuthError)="setIsAuthError($event)"></app-vk-login-widget>
+                <app-vk-login-widget (isAuthError)="setIsAuthError($event)" (loginStarted)="loginStarted()"
+                    (loginEnded)="loginEnded()"></app-vk-login-widget>
             </div>
             <div id="telegram-login-widget">
-                <app-telegram-login-widget (isAuthError)="setIsAuthError($event)"></app-telegram-login-widget>
+                <app-telegram-login-widget (isAuthError)="setIsAuthError($event)" (loginStarted)="loginStarted()"
+                    (loginEnded)="loginEnded()">
+                </app-telegram-login-widget>
             </div>
         </div>
         <div class="auth-failed-div flex-h-center" *ngIf="isAuthError">

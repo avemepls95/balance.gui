@@ -1,6 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/Services/auth.service';
+import { LoaderService } from 'src/app/Services/loader.service';
 
 @Component({
   selector: 'app-auth',
@@ -11,7 +12,9 @@ export class AuthComponent implements OnInit {
 
   isAuthError: boolean = false;
 
-  constructor(private authService: AuthService, private router: Router, private cdRef: ChangeDetectorRef) { }
+  constructor(private authService: AuthService,
+    private cdRef: ChangeDetectorRef,
+    public loaderService: LoaderService) { }
 
   ngOnInit() {
     // if (!this.authService.isAuthenticated())
@@ -23,5 +26,13 @@ export class AuthComponent implements OnInit {
   setIsAuthError(value: boolean) {
     this.isAuthError = value;
     this.cdRef.detectChanges();
+  }
+
+  loginStarted() {
+    this.loaderService.show();
+  }
+
+  loginEnded() {
+    this.loaderService.hide();
   }
 }

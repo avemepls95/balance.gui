@@ -3,6 +3,7 @@ import { AuthService } from 'src/app/Services/auth.service';
 import { ParamsMapper } from 'src/app/Model/Utils/ParamsMapper'
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-telegram-login-widget',
@@ -14,7 +15,13 @@ import { Router } from '@angular/router';
 })
 export class TelegramLoginWidget implements AfterViewInit {
 
-  @Output() isAuthError = new EventEmitter<boolean>();
+  @Output()
+  isAuthError = new EventEmitter<boolean>();
+
+  @Output()
+  loginStarted = new EventEmitter();
+  @Output()
+  loginEnded = new EventEmitter();
 
   @ViewChild('script', { static: true }) script: ElementRef;
 
@@ -38,7 +45,14 @@ export class TelegramLoginWidget implements AfterViewInit {
   }
 
   private loginViaTelegram(loginData) {
+    this.loginStarted.emit();
+    
     this.loginService.loginViaTelegram(ParamsMapper.getTelegramAuthDto(loginData))
+      .pipe(
+        finalize(() => {
+           this.loginEnded.emit()
+          })
+      )
       .subscribe(
         (response: any) => { this.router.navigate(['/main']); },
         (error: any) => {

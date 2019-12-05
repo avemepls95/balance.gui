@@ -22,7 +22,6 @@ import { TokenInterceptor } from './Interceptors/token.interceptor';
 import { ResponseInterceptor } from './Interceptors/response.interceptor';
 import { JwtHelper } from 'angular2-jwt';
 import { LoaderComponent } from './Components/loader/loader.component';
-import { LoaderInterceptor } from './Interceptors/loader.interceptor';
 import { LoaderService } from './Services/loader.service';
 import { PaymentCardComponent } from './Components/payment-card/payment-card.component';
 import { DigitOnlyDirective } from './Directives/digit-only.directive';
@@ -71,7 +70,6 @@ export function initializeApp(appConfig: AppConfig) {
     // },
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true, },
     { provide: HTTP_INTERCEPTORS, useClass: ResponseInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

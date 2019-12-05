@@ -3,6 +3,7 @@ import { AuthService } from 'src/app/Services/auth.service';
 import { ParamsMapper } from 'src/app/Model/Utils/ParamsMapper';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-vk-login-widget',
@@ -14,7 +15,13 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class VkLoginWidgetComponent implements AfterViewInit {
 
-  @Output() isAuthError = new EventEmitter<boolean>();
+  @Output()
+  isAuthError = new EventEmitter<boolean>();
+
+  @Output()
+  loginStarted = new EventEmitter();
+  @Output()
+  loginEnded = new EventEmitter();
 
   @ViewChild('script', { static: true }) script: ElementRef;
 
@@ -46,7 +53,14 @@ export class VkLoginWidgetComponent implements AfterViewInit {
   }
 
   private loginViaVk(loginData) {
+    this.loginStarted.emit();
+    
     this.loginService.loginViaVk(ParamsMapper.getVkAuthDto(loginData))
+      .pipe(
+        finalize(() => {
+          this.loginEnded.emit()
+        })
+      )
       .subscribe(
         (response: any) => { this.router.navigate(['/main']); },
         (error: any) => {
