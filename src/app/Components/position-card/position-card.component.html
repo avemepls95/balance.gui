@@ -19,7 +19,7 @@
           </mat-chip>
           <input matInput #usersInput placeholder="Search users..." aria-label="State" [matAutocomplete]="auto"
             [formControl]="searchUserCtrl" [matChipInputFor]="chipList"
-            [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur">
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur" [readonly]="action == 'View'">
         </mat-chip-list>
         <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="selectedUser($event)">
           <mat-option class="is-loading" *ngIf="isLoading" [disabled]="true">

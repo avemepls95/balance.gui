@@ -123,7 +123,7 @@ export class CheckComponent implements OnInit, ICanBeCreated {
       width: '370px',
       data: data
     });
-
+    
     dialogRef.afterClosed().subscribe(result => {
       if (result.event == 'Add') {
         this.addPayment(result.data);

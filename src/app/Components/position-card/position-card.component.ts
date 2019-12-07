@@ -82,6 +82,9 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
   }
 
   removeUser(user: User): void {
+    if (this.action == 'View')
+      return;
+      
     const index = this.position.users.findIndex(u => u.id == +user.id);
 
     if (index >= 0) {
