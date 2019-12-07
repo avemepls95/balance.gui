@@ -13,14 +13,14 @@ import { config } from 'rxjs';
 import { User } from 'src/app/Model/User';
 import { PaymentCardComponent } from '../payment-card/payment-card.component';
 import { Check } from 'src/app/Model/Check';
+import { ICanBeCreated } from 'src/app/Interfaces/ICanBeCreated';
 
 @Component({
   selector: 'app-check',
   templateUrl: './check.component.html',
   styleUrls: ['./check.component.css'],
 })
-export class CheckComponent implements OnInit {
-
+export class CheckComponent implements OnInit, ICanBeCreated {
   titleFormControl = new FormControl('', [
     Validators.required
   ]);
@@ -171,5 +171,9 @@ export class CheckComponent implements OnInit {
         horizontalPosition: "right",
         panelClass: 'snackbar'
       });
+  }
+
+  canBeCreated(): boolean {
+    throw new Error("Method not implemented.");
   }
 }

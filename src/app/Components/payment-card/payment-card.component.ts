@@ -1,20 +1,21 @@
 import { Component, OnInit, Optional, Inject, ViewChild, ElementRef, AfterViewInit, AfterContentInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormControl } from '@angular/forms';
-import { debounceTime, tap, switchMap, finalize } from 'rxjs/operators';
+import { debounceTime, tap, switchMap, finalize, isEmpty } from 'rxjs/operators';
 import { BalanceApiService } from 'src/app/Services/balance-api.service';
 import { User } from 'src/app/Model/User';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { EMPTY } from 'rxjs';
 import { Payment } from 'src/app/Model/Payment';
 import { isNullOrUndefined } from 'util';
+import { ICanBeCreated } from 'src/app/Interfaces/ICanBeCreated';
 
 @Component({
   selector: 'app-payment-card',
   templateUrl: './payment-card.component.html',
   styleUrls: ['./payment-card.component.css']
 })
-export class PaymentCardComponent implements OnInit, AfterContentInit {
+export class PaymentCardComponent implements OnInit, AfterContentInit, ICanBeCreated {
 
   action: string;
   payment: Payment;
@@ -48,6 +49,7 @@ export class PaymentCardComponent implements OnInit, AfterContentInit {
         switchMap(value => {
           if (this.userAlreadyIsSelected) {
             this.userAlreadyIsSelected = false;
+            this.isLoading = false;
             return EMPTY;
           }
 
@@ -103,11 +105,18 @@ export class PaymentCardComponent implements OnInit, AfterContentInit {
     return suggestion;
   }
 
+  onUserInputTextChange(value) {
+    if (value != '')
+      return;
+
+    this.payment.user.id = NaN;
+  }
+
   displayFn(user: User) {
     return user ? user.username : user;
   }
 
-  canCreate() {
+  canBeCreated() {
     return this.payment.amount != null &&
       this.payment.amount != 0 &&
       this.userIsEmpty(this.payment.user);

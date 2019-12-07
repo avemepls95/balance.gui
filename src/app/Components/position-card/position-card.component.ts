@@ -8,13 +8,14 @@ import { debounceTime, tap, switchMap, finalize } from 'rxjs/operators';
 import { BalanceApiService } from 'src/app/Services/balance-api.service';
 import { User } from 'src/app/Model/User';
 import { Position } from 'src/app/Model/Position';
+import { ICanBeCreated } from 'src/app/Interfaces/ICanBeCreated';
 
 @Component({
   selector: 'app-position-card',
   templateUrl: './position-card.component.html',
   styleUrls: ['./position-card.component.css']
 })
-export class PositionCardComponent implements OnInit {
+export class PositionCardComponent implements OnInit, ICanBeCreated {
 
   action: string;
   position: Position;
@@ -112,7 +113,7 @@ export class PositionCardComponent implements OnInit {
     return suggestion;
   }
 
-  canCreate() {
+  canBeCreated() {
     return this.position.title != null &&
       this.position.title != '' &&
       !isNaN(this.position.amount) &&
