@@ -1,4 +1,4 @@
-export class ConsumptionDto {
+export class PaymentDto {
     amount: number;
     userId: number;
 

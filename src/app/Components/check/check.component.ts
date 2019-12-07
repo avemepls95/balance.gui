@@ -14,6 +14,9 @@ import { User } from 'src/app/Model/User';
 import { PaymentCardComponent } from '../payment-card/payment-card.component';
 import { Check } from 'src/app/Model/Check';
 import { ICanBeCreated } from 'src/app/Interfaces/ICanBeCreated';
+import { isNullOrUndefined } from 'util';
+import { BalanceApiService } from 'src/app/Services/balance-api.service';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-check',
@@ -27,20 +30,20 @@ export class CheckComponent implements OnInit, ICanBeCreated {
 
   matcher = new MyErrorStateMatcher();
 
-  positionsDisplayedColumns: string[] = [ 'index', 'title', 'amount', 'actions' ];
+  positionsDisplayedColumns: string[] = ['index', 'title', 'amount', 'actions'];
   positionsDataSource: MatTableDataSource<Position>;
 
-  paymentsDisplayedColumns: string[] = [ 'index', 'username', 'amount', 'actions' ];
+  paymentsDisplayedColumns: string[] = ['index', 'username', 'amount', 'actions'];
   paymentsDataSource: MatTableDataSource<Payment>;
-  
+
   check: Check;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
-  constructor(public dialog: MatDialog, private _snackBar: MatSnackBar) {
+  constructor(public dialog: MatDialog, private _snackBar: MatSnackBar, private balanceApiService: BalanceApiService) {
     this.check = new Check();
-    
+
     this.positionsDataSource = new MatTableDataSource(this.check.positions);
     this.paymentsDataSource = new MatTableDataSource(this.check.payments);
   }
@@ -73,7 +76,7 @@ export class CheckComponent implements OnInit, ICanBeCreated {
         this.addPosition(result.data);
       } else if (result.event == 'Edit') {
         this.updatePosition(result.data);
-      } else if(result.event == 'Delete'){
+      } else if (result.event == 'Delete') {
         this.deletePosition(result.data);
       }
     });
@@ -126,7 +129,7 @@ export class CheckComponent implements OnInit, ICanBeCreated {
         this.addPayment(result.data);
       } else if (result.event == 'Edit') {
         this.updatePayment(result.data);
-      } else if(result.event == 'Delete'){
+      } else if (result.event == 'Delete') {
         this.deletePayment(result.data);
       }
     });
@@ -138,7 +141,7 @@ export class CheckComponent implements OnInit, ICanBeCreated {
       amount: data.amount,
       user: data.user
     }));
-    
+
     this.paymentsDataSource.data = this.check.payments;
     this.openSnackBar("Payment was added!");
   }
@@ -165,7 +168,7 @@ export class CheckComponent implements OnInit, ICanBeCreated {
 
   openSnackBar(message: string) {
     this._snackBar.open(message, "",
-      { 
+      {
         duration: 800,
         verticalPosition: "top",
         horizontalPosition: "right",
@@ -174,6 +177,21 @@ export class CheckComponent implements OnInit, ICanBeCreated {
   }
 
   canBeCreated(): boolean {
-    throw new Error("Method not implemented.");
+    return !isNullOrUndefined(this.check.payments) &&
+      this.check.payments.length != 0 &&
+      !isNullOrUndefined(this.check.positions) &&
+      this.check.positions.length != 0 &&
+      this.check.title != '';
+  }
+
+  createCheck() {
+    this.balanceApiService.createCheck(this.check)
+    .pipe(finalize(() => { debugger }))
+    .subscribe(
+      (response: any) => { debugger },
+      (error: any) => {
+        debugger
+      }
+    );;
   }
 }

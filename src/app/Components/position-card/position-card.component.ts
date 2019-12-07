@@ -113,7 +113,7 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
     return suggestion;
   }
 
-  canBeCreated() {
+  canBeCreated() : boolean {
     return this.position.title != null &&
       this.position.title != '' &&
       !isNaN(this.position.amount) &&

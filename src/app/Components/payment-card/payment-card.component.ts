@@ -116,7 +116,7 @@ export class PaymentCardComponent implements OnInit, AfterContentInit, ICanBeCre
     return user ? user.username : user;
   }
 
-  canBeCreated() {
+  canBeCreated() : boolean {
     return this.payment.amount != null &&
       this.payment.amount != 0 &&
       this.userIsEmpty(this.payment.user);

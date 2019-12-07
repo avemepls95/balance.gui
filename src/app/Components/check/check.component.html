@@ -128,7 +128,7 @@
 
   </mat-card-content>
 
-  <mat-card-actions>
-    <button mat-button>CREATE</button>
+  <mat-card-actions class="create-check-btn-wrap">
+    <button mat-button [disabled]="!canBeCreated()" (click)="createCheck()">CREATE</button>
   </mat-card-actions>
 </mat-card>

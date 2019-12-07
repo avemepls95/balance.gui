@@ -98,3 +98,8 @@ div.row-action-buttons button {
 .payments-block {
     margin-top: 3vh;
 }
+
+.create-check-btn-wrap {
+    display: flex;
+    justify-content: center;
+}
