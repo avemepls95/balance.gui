@@ -22,6 +22,8 @@ export class TelegramLoginWidget implements AfterViewInit {
   loginStarted = new EventEmitter();
   @Output()
   loginEnded = new EventEmitter();
+  @Output()
+  loginSuccessful = new EventEmitter();
 
   @ViewChild('script', { static: true }) script: ElementRef;
 
@@ -46,15 +48,17 @@ export class TelegramLoginWidget implements AfterViewInit {
 
   private loginViaTelegram(loginData) {
     this.loginStarted.emit();
-    
+
     this.loginService.loginViaTelegram(ParamsMapper.getTelegramAuthDto(loginData))
       .pipe(
         finalize(() => {
-           this.loginEnded.emit()
-          })
+          this.loginEnded.emit()
+        })
       )
       .subscribe(
-        (response: any) => { this.router.navigate(['/main']); },
+        (response: any) => {
+          this.loginSuccessful.emit();
+        },
         (error: any) => {
           if (error instanceof HttpErrorResponse) {
             this.isAuthError.emit(true);

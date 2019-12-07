@@ -22,6 +22,8 @@ export class VkLoginWidgetComponent implements AfterViewInit {
   loginStarted = new EventEmitter();
   @Output()
   loginEnded = new EventEmitter();
+  @Output()
+  loginSuccessful = new EventEmitter();
 
   @ViewChild('script', { static: true }) script: ElementRef;
 
@@ -54,7 +56,7 @@ export class VkLoginWidgetComponent implements AfterViewInit {
 
   private loginViaVk(loginData) {
     this.loginStarted.emit();
-    
+
     this.loginService.loginViaVk(ParamsMapper.getVkAuthDto(loginData))
       .pipe(
         finalize(() => {
@@ -62,7 +64,9 @@ export class VkLoginWidgetComponent implements AfterViewInit {
         })
       )
       .subscribe(
-        (response: any) => { this.router.navigate(['/main']); },
+        (response: any) => {
+          this.loginSuccessful.emit();
+        },
         (error: any) => {
           if (error instanceof HttpErrorResponse) {
             this.isAuthError.emit(true);

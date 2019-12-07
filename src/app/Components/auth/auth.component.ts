@@ -12,15 +12,17 @@ export class AuthComponent implements OnInit {
 
   isAuthError: boolean = false;
 
-  constructor(private authService: AuthService,
+  constructor(
+    private authService: AuthService,
+    private router: Router,
     private cdRef: ChangeDetectorRef,
     public loaderService: LoaderService) { }
 
   ngOnInit() {
-    // if (!this.authService.isAuthenticated())
-    //   return;
+    if (!this.authService.isAuthenticated())
+      return;
 
-    // this.router.navigate(['/main']);
+    this.router.navigate(['/main']);
   }
 
   setIsAuthError(value: boolean) {
@@ -34,5 +36,9 @@ export class AuthComponent implements OnInit {
 
   loginEnded() {
     this.loaderService.hide();
+  }
+
+  loginSuccessful() {
+    this.router.navigate(['/main']);
   }
 }
