@@ -12,6 +12,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { config } from 'rxjs';
 import { User } from 'src/app/Model/User';
 import { PaymentCardComponent } from '../payment-card/payment-card.component';
+import { Check } from 'src/app/Model/Check';
 
 @Component({
   selector: 'app-check',
@@ -31,21 +32,18 @@ export class CheckComponent implements OnInit {
 
   paymentsDisplayedColumns: string[] = [ 'index', 'username', 'amount', 'actions' ];
   paymentsDataSource: MatTableDataSource<Payment>;
+  
+  check: Check;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(public dialog: MatDialog, private _snackBar: MatSnackBar) {
-    this.positionsDataSource = new MatTableDataSource(this.positions);
-
-    let newPayment = new Payment({amount: 12, user: new User({id: 1, username: "Artem"})});
-    this.payments.push(newPayment);
-    this.paymentsDataSource = new MatTableDataSource(this.payments);
+    this.check = new Check();
+    
+    this.positionsDataSource = new MatTableDataSource(this.check.positions);
+    this.paymentsDataSource = new MatTableDataSource(this.check.payments);
   }
-
-  positions: Array<Position> = [];
-
-  payments: Array<Payment> = [];
 
   ngOnInit() {
     this.positionsDataSource.paginator = this.paginator;
@@ -82,35 +80,35 @@ export class CheckComponent implements OnInit {
   }
 
   addPosition(data: Position) {
-    this.positions.push(new Position({
-      internalId: this.positions.length + 1,
+    this.check.positions.push(new Position({
+      internalId: this.check.positions.length + 1,
       title: data.title,
       amount: data.amount,
       users: data.users
     }));
 
-    this.positionsDataSource.data = this.positions;
+    this.positionsDataSource.data = this.check.positions;
     this.openSnackBar("Position was added!");
   }
 
   updatePosition(data: Position) {
-    const index = this.positions.findIndex(p => p.internalId === data.internalId);
+    const index = this.check.positions.findIndex(p => p.internalId === data.internalId);
     if (index == -1) {
       console.log("Invalid position id:" + data);
     }
 
-    this.positions[index] = data;
-    this.positionsDataSource.data = this.positions;
+    this.check.positions[index] = data;
+    this.positionsDataSource.data = this.check.positions;
   }
 
   deletePosition(data: Position) {
-    const index = this.positions.findIndex(p => p.internalId === data.internalId);
+    const index = this.check.positions.findIndex(p => p.internalId === data.internalId);
     if (index == -1) {
       console.log("Invalid position id:" + data);
     }
 
-    this.positions.splice(index, 1);
-    this.positionsDataSource.data = this.positions;
+    this.check.positions.splice(index, 1);
+    this.positionsDataSource.data = this.check.positions;
   }
 
   openPaymentCard(action, obj) {
@@ -135,34 +133,34 @@ export class CheckComponent implements OnInit {
   }
 
   addPayment(data: Payment) {
-    this.payments.push(new Payment({
-      internalId: this.positions.length + 1,
+    this.check.payments.push(new Payment({
+      internalId: this.check.positions.length + 1,
       amount: data.amount,
       user: data.user
     }));
     
-    this.paymentsDataSource.data = this.payments;
+    this.paymentsDataSource.data = this.check.payments;
     this.openSnackBar("Payment was added!");
   }
 
   updatePayment(data: Payment) {
-    const index = this.payments.findIndex(p => p.internalId === data.internalId);
+    const index = this.check.payments.findIndex(p => p.internalId === data.internalId);
     if (index == -1) {
       console.log("Invalid payment id:" + data);
     }
 
-    this.payments[index] = data;
-    this.paymentsDataSource.data = this.payments;
+    this.check.payments[index] = data;
+    this.paymentsDataSource.data = this.check.payments;
   }
 
   deletePayment(data: Payment) {
-    const index = this.payments.findIndex(p => p.internalId === data.internalId);
+    const index = this.check.payments.findIndex(p => p.internalId === data.internalId);
     if (index == -1) {
       console.log("Invalid payment id:" + data);
     }
 
-    this.payments.splice(index, 1);
-    this.paymentsDataSource.data = this.payments;
+    this.check.payments.splice(index, 1);
+    this.paymentsDataSource.data = this.check.payments;
   }
 
   openSnackBar(message: string) {

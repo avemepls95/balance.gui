@@ -17,7 +17,7 @@ import { isNullOrUndefined } from 'util';
 export class PaymentCardComponent implements OnInit, AfterContentInit {
 
   action: string;
-  obj: Payment;
+  payment: Payment;
 
   searchUserCtrl = new FormControl();
   filteredUsers: User[];
@@ -32,7 +32,7 @@ export class PaymentCardComponent implements OnInit, AfterContentInit {
     public dialogRef: MatDialogRef<PaymentCardComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public data,
     private balanceApiService: BalanceApiService) {
-    this.obj = data.obj;
+    this.payment = data.obj;
     this.action = data.action;
   }
 
@@ -69,17 +69,17 @@ export class PaymentCardComponent implements OnInit, AfterContentInit {
   }
 
   ngAfterContentInit(): void {
-    if (isNullOrUndefined(this.obj.user)) {
-      this.obj.user = {} as User;
+    if (isNullOrUndefined(this.payment.user)) {
+      this.payment.user = {} as User;
     } else if (this.action != 'Delete') {
       setTimeout(() => {
-        this.userInput.nativeElement.value = this.obj.user.username;
+        this.userInput.nativeElement.value = this.payment.user.username;
       }, 0);
     }
   }
 
   doAction() {
-    this.dialogRef.close({ event: this.action, data: this.obj });
+    this.dialogRef.close({ event: this.action, data: this.payment });
   }
 
   closeDialog() {
@@ -87,15 +87,15 @@ export class PaymentCardComponent implements OnInit, AfterContentInit {
   }
 
   selectedUser(event: MatAutocompleteSelectedEvent): void {
-    this.obj.user = this.filteredUsers.filter(u => u.id == +event.option.value.id)[0];
+    this.payment.user = this.filteredUsers.filter(u => u.id == +event.option.value.id)[0];
     this.userAlreadyIsSelected = true;
   }
 
   removeSelectedUserFromSuggestion(suggestion: User[]): User[] {
-    if (this.obj.user == null)
+    if (this.payment.user == null)
       return suggestion;
 
-    const index = suggestion.findIndex(u => u.id == this.obj.user.id);
+    const index = suggestion.findIndex(u => u.id == this.payment.user.id);
     if (index >= 0) {
       suggestion.splice(index, 1);
     }
@@ -108,9 +108,9 @@ export class PaymentCardComponent implements OnInit, AfterContentInit {
   }
 
   canCreate() {
-    return this.obj.amount != null &&
-      this.obj.amount != 0 &&
-      this.userIsEmpty(this.obj.user);
+    return this.payment.amount != null &&
+      this.payment.amount != 0 &&
+      this.userIsEmpty(this.payment.user);
   }
 
   userIsEmpty(user: User) {

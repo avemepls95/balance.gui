@@ -4,7 +4,7 @@
   </mat-card-header>
   <mat-card-content>
     <mat-form-field class="check-title-input">
-      <input matInput placeholder="Title" [formControl]="titleFormControl" [errorStateMatcher]="matcher">
+      <input matInput [(ngModel)] = "check.title" placeholder="Title" [formControl]="titleFormControl" [errorStateMatcher]="matcher">
       <mat-error *ngIf="titleFormControl.hasError('required')">
         Title is <strong>required</strong>
       </mat-error>

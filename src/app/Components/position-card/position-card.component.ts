@@ -7,6 +7,7 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { debounceTime, tap, switchMap, finalize } from 'rxjs/operators';
 import { BalanceApiService } from 'src/app/Services/balance-api.service';
 import { User } from 'src/app/Model/User';
+import { Position } from 'src/app/Model/Position';
 
 @Component({
   selector: 'app-position-card',
@@ -16,7 +17,7 @@ import { User } from 'src/app/Model/User';
 export class PositionCardComponent implements OnInit {
 
   action: string;
-  obj: any;
+  position: Position;
 
   visible = true;
   selectable = true;
@@ -36,7 +37,7 @@ export class PositionCardComponent implements OnInit {
     //@Optional() is used to prevent error if no data is passed
     @Optional() @Inject(MAT_DIALOG_DATA) public data,
     private balanceApiService: BalanceApiService) {
-    this.obj = data.obj;
+    this.position = data.obj;
     this.action = data.action;
   }
 
@@ -72,7 +73,7 @@ export class PositionCardComponent implements OnInit {
   }
 
   doAction() {
-    this.dialogRef.close({ event: this.action, data: this.obj });
+    this.dialogRef.close({ event: this.action, data: this.position });
   }
 
   closeDialog() {
@@ -80,28 +81,28 @@ export class PositionCardComponent implements OnInit {
   }
 
   removeUser(user: User): void {
-    const index = this.obj.users.findIndex(u => u.id == +user.id);
+    const index = this.position.users.findIndex(u => u.id == +user.id);
 
     if (index >= 0) {
-      this.obj.users.splice(index, 1);
+      this.position.users.splice(index, 1);
     }
   }
 
   selectedUser(event: MatAutocompleteSelectedEvent): void {
     let user = this.filteredUsers.filter(u => u.id == +event.option.value)[0];
-    if (this.obj.users == null)
-      this.obj.users = new Array<User>();
+    if (this.position.users == null)
+      this.position.users = new Array<User>();
 
-    this.obj.users.push(user);
+    this.position.users.push(user);
     this.usersInput.nativeElement.value = '';
     this.searchUserCtrl.setValue('');
   }
 
   removeSelectedUsersFromSuggestion(suggestion: User[]): User[] {
-    if (this.obj.users == null || this.obj.users.length == 0)
+    if (this.position.users == null || this.position.users.length == 0)
       return suggestion;
 
-    this.obj.users.forEach(selectedUser => {
+    this.position.users.forEach(selectedUser => {
       const index = suggestion.findIndex(u => u.id == selectedUser.id);
       if (index >= 0) {
         suggestion.splice(index, 1);
@@ -112,11 +113,10 @@ export class PositionCardComponent implements OnInit {
   }
 
   canCreate() {
-    return this.obj.title != null &&
-      this.obj.title != '' &&
-      this.obj.amount != null &&
-      this.obj.amount != '' &&
-      this.obj.users != null &&
-      this.obj.users.length != 0;
+    return this.position.title != null &&
+      this.position.title != '' &&
+      !isNaN(this.position.amount) &&
+      this.position.users != null &&
+      this.position.users.length != 0;
   }
 }

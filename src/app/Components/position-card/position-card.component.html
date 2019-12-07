@@ -2,18 +2,18 @@
 <div mat-dialog-content class="position-dialog">
   <div *ngIf="action != 'Delete'; else elseTemplate">
     <mat-form-field>
-      <input placeholder="Title" required matInput [readonly]="action == 'View'" [(ngModel)]="obj.title">
+      <input placeholder="Title" required matInput [readonly]="action == 'View'" [(ngModel)]="position.title">
     </mat-form-field>
     <mat-form-field>
       <input matInput required DigitOnly="true" type="text" placeholder="Amount" [readonly]="action == 'View'"
-        [(ngModel)]="obj.amount">
+        [(ngModel)]="position.amount">
     </mat-form-field>
 
     <div>
       <mat-form-field>
         <mat-chip-list #chipList>
-          <mat-chip *ngFor="let user of obj.users" [selectable]="selectable" [removable]="removable"
-            (removed)="removeUser(user)">
+          <mat-chip *ngFor="let user of position.users" [selectable]="selectable" [removable]="removable"
+            (removed)="removeUser(user)" [style.background-color]="red">
             {{user.username}}
             <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
           </mat-chip>
@@ -43,7 +43,7 @@
 
   </div>
   <ng-template #elseTemplate>
-    Sure to delete <b>{{obj.title}}</b>?
+    Sure to delete <b>{{position.title}}</b>?
   </ng-template>
 </div>
 <div mat-dialog-actions>

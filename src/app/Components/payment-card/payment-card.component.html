@@ -3,7 +3,7 @@
     <div *ngIf="action != 'Delete'; else elseTemplate">
         <mat-form-field>
             <input matInput required DigitOnly="true" type="text" placeholder="Amount" [readonly]="action == 'View'"
-                [(ngModel)]="obj.amount">
+                [(ngModel)]="payment.amount">
         </mat-form-field>
 
         <div>
@@ -30,7 +30,7 @@
 
     </div>
     <ng-template #elseTemplate>
-        Sure to delete <b>{{obj.title}}</b>?
+        Sure to delete payment with user «<b>{{payment.user.username}}</b>» and amount «<b>{{payment.amount}}</b>»?
     </ng-template>
 </div>
 <div mat-dialog-actions>
