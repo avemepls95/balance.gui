@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/Services/auth.service';
 import { LoaderService } from 'src/app/Services/loader.service';
@@ -16,7 +16,8 @@ export class AuthComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private cdRef: ChangeDetectorRef,
-    public loaderService: LoaderService) { }
+    public loaderService: LoaderService,
+    private ngZone: NgZone) { }
 
   ngOnInit() {
     if (!this.authService.isAuthenticated())
@@ -39,6 +40,6 @@ export class AuthComponent implements OnInit {
   }
 
   loginSuccessful() {
-    this.router.navigate(['/main']);
+    this.ngZone.run(() => this.router.navigate(['/main']));
   }
 }

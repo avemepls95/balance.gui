@@ -1,0 +1,28 @@
+.add-row-button {
+    margin-bottom: 17px;
+    height: 100%;
+    margin-top: auto;
+}
+
+table {
+    width: 100%;
+}
+
+.mat-column-index {
+    width: 40px;
+    opacity: 0.5;
+}
+
+::ng-deep .mat-sort-header-container {
+    display:flex;
+    justify-content:center;
+    transform: translateX(12px); /* 12px - sort arrow */
+}
+
+.mat-column-actions {
+    width: 110px;
+}
+
+.mat-cell { 
+    text-align: center;
+}

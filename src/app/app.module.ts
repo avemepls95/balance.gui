@@ -25,6 +25,7 @@ import { LoaderComponent } from './Components/loader/loader.component';
 import { LoaderService } from './Services/loader.service';
 import { PaymentCardComponent } from './Components/payment-card/payment-card.component';
 import { DigitOnlyDirective } from './Directives/digit-only.directive';
+import { CheckListComponent } from './Components/check-list/check-list.component';
 
 export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
@@ -42,6 +43,7 @@ export function initializeApp(appConfig: AppConfig) {
     PaymentCardComponent,
     LoaderComponent,
     DigitOnlyDirective,
+    CheckListComponent,
   ],
   imports: [
     BrowserModule,

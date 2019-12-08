@@ -53,11 +53,20 @@ export class CheckComponent implements OnInit, ICanBeCreated {
     this.positionsDataSource.sort = this.sort;
   }
 
-  applyFilter(filterValue: string) {
-    this.positionsDataSource.filter = filterValue.trim().toLowerCase();
+  applyPositionsFilter(filterValue: string) {
+    this.applyFilter(this.positionsDataSource, filterValue);
+  }
 
-    if (this.positionsDataSource.paginator) {
-      this.positionsDataSource.paginator.firstPage();
+  applyPaymentsFilter(filterValue: string) {
+    this.applyFilter(this.paymentsDataSource, filterValue);
+  }
+
+  applyFilter(dataSource, filterValue: string) {
+    debugger
+    dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (dataSource.paginator) {
+      dataSource.paginator.firstPage();
     }
   }
 

@@ -1,4 +1,4 @@
-<mat-card class="check-card">
+<mat-card class="content-card">
   <mat-card-header>
     <mat-card-title>Check creating</mat-card-title>
   </mat-card-header>
@@ -18,7 +18,7 @@
       </div>
       <div class="flex-h-space-between">
         <mat-form-field>
-          <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+          <input matInput (keyup)="applyPositionsFilter($event.target.value)" placeholder="Filter">
         </mat-form-field>
         <button class="add-row-button" mat-button (click)="openPositionCard('Add',{})" mat-flat-button color="primary">
           Add Position
@@ -76,7 +76,7 @@
         </div>
         <div class="flex-h-space-between">
           <mat-form-field>
-            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+            <input matInput (keyup)="applyPaymentsFilter($event.target.value)" placeholder="Filter">
           </mat-form-field>
           <button class="add-row-button" mat-button (click)="openPaymentCard('Add',{})" mat-flat-button color="primary">
             Add Payment

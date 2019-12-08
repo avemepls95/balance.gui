@@ -7,6 +7,7 @@ import { Position } from '../Position';
 import { PaymentDto } from '../Dto/PaymentDto';
 import { PositionDto } from '../Dto/PositionDto';
 import { ConsumptionDto } from '../Consumption';
+import { User } from '../User';
 
 export class ParamsMapper {
     static getTelegramAuthDto(loginData) {
@@ -33,12 +34,11 @@ export class ParamsMapper {
     }
 
     static convertCheckToCheckDto(check: Check): CheckDto {
-        var data = new CheckDto({
+        return new CheckDto({
             title: check.title,
             positions: ParamsMapper.convertPositionToPositionDto(check.positions),
             payments: ParamsMapper.convertPaymentToPaymentDto(check.payments),
         })
-        return data;
     }
 
     static convertPositionToPositionDto(positions: Position[]): PositionDto[] {
@@ -57,5 +57,28 @@ export class ParamsMapper {
             amount: p.amount,
             userId: p.user.id
         }));
+    }
+
+    static convertCheckDtoToCheck(checkDto: CheckDto): Check {
+        return new Check({
+            title: checkDto.title,
+            positions: ParamsMapper.convertPositionDtoToPosition(checkDto.positions),
+            payments: ParamsMapper.convertPaymentDtoToPayment(checkDto.payments),
+        })
+    }
+
+    static convertPositionDtoToPosition(positionDtoArray: PositionDto[]): Position[] {
+        return positionDtoArray.map(p => new Position({
+            title: p.title,
+            amount: p.amount,
+            users: p.consumptions.map(c => new User({ id: c.userId }))
+        }));
+    }
+
+    static convertPaymentDtoToPayment(paymentDtoArray: PaymentDto[]): Payment[] {
+        return paymentDtoArray.map(p => new Payment({
+            amount: p.amount,
+            user: new User({ id: p.userId })
+        }))
     }
 }

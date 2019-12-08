@@ -47,7 +47,7 @@
 <mat-toolbar color="primary">
     <mat-toolbar-row>
         <div class="flex-v-center">
-            <button mat-icon-button (click)="sidenav.toggle()">
+            <button mat-icon-button (click)="sidenav.toggle()" onclick="this.blur()">
                 <mat-icon>menu</mat-icon>
             </button>
             <h1 class="app-title">{{Title}} |</h1>
@@ -66,6 +66,10 @@
             <mat-list-item [routerLink]="'createCheck'" (click)="sidenav.toggle()">
                 <mat-icon mat-list-icon>post_add</mat-icon>
                 <h4 mat-line>Create Check</h4>
+            </mat-list-item>
+            <mat-list-item [routerLink]="'checks'" (click)="sidenav.toggle()">
+                <mat-icon mat-list-icon>post_add</mat-icon>
+                <h4 mat-line>Checks</h4>
             </mat-list-item>
             <mat-list-item (click)="sidenav.toggle()">
                 <mat-icon mat-list-icon class="red">close</mat-icon>

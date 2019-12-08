@@ -78,10 +78,16 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     min-width: initial !important;
  }
 
- .position-dialog .mat-form-field-wrapper {
-    width: 320px;
+.position-dialog .mat-form-field-wrapper,
+.position-dialog .mat-form-field-type-mat-chip-list,
+.position-dialog .mat-form-field-type-mat-input {
+    width: 100%;
 }
 
 .account-actions-menu {
     width: 150px;
+}
+
+.content-card {
+    margin-top: 2vh;
 }

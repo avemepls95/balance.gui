@@ -4,6 +4,7 @@ import { Observable, EMPTY } from 'rxjs';
 import { Check } from '../Model/Check';
 import { isNullOrUndefined } from 'util';
 import { ParamsMapper } from '../Model/Utils/ParamsMapper';
+import { CheckDto } from '../Model/Dto/CheckDto';
 
 @Injectable({
   providedIn: 'root'
@@ -34,5 +35,9 @@ export class BalanceApiService {
       this.apiBaseUrl + 'checks',
       ParamsMapper.convertCheckToCheckDto(check)
     );
+  }
+
+  getAllChecks() : Observable<any> {
+    return this.http.get(this.apiBaseUrl + 'checks');
   }
 }
