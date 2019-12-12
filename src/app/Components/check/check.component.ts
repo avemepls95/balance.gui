@@ -42,6 +42,8 @@ export class CheckComponent implements OnInit, ICanBeCreated {
 
   check: Check;
 
+  editingMode: boolean = false;
+
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
@@ -55,10 +57,11 @@ export class CheckComponent implements OnInit, ICanBeCreated {
     this.positionsDataSource = new MatTableDataSource(this.check.positions);
     this.paymentsDataSource = new MatTableDataSource(this.check.payments);
 
-    loaderService.show();
     activateRoute.params.subscribe(params => {
       if (!isNullOrUndefined(params['id'])) {
         if (+params['id']) {
+          this.editingMode = true
+          loaderService.show();
           balanceApiService.getCheckById(params['id']).subscribe(result => {
             this.check = ParamsMapper.convertCheckDtoToCheck(result.data[0]);
             this.positionsDataSource = new MatTableDataSource(this.check.positions);

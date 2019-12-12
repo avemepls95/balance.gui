@@ -1,6 +1,7 @@
 <mat-card class="content-card">
   <mat-card-header>
-    <mat-card-title>Check creating</mat-card-title>
+    <mat-card-title *ngIf="!editingMode">Check creating</mat-card-title>
+    <mat-card-title *ngIf="editingMode">Check editing</mat-card-title>
   </mat-card-header>
   <mat-card-content>
     <mat-form-field class="check-title-input">
@@ -129,6 +130,7 @@
   </mat-card-content>
 
   <mat-card-actions class="create-check-btn-wrap">
-    <button mat-button [disabled]="!canBeCreated()" (click)="createCheck()">CREATE</button>
+    <button mat-button [disabled]="!canBeCreated()" *ngIf="!editingMode" (click)="createCheck()">CREATE</button>
+    <button mat-button [disabled]="!canBeCreated()" *ngIf="editingMode" (click)="editCheck()">EDIT</button>
   </mat-card-actions>
 </mat-card>
