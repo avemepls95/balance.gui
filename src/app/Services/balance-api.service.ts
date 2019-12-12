@@ -5,6 +5,7 @@ import { Check } from '../Model/Check';
 import { isNullOrUndefined } from 'util';
 import { ParamsMapper } from '../Model/Utils/ParamsMapper';
 import { CheckDto } from '../Model/Dto/CheckDto';
+import { TouchSequence } from 'selenium-webdriver';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class BalanceApiService {
     this.apiBaseUrl = 'http://localhost:8081/';
   }
 
-  getUsersSuggestion(query: string) : Observable<any> {
+  getUsersSuggestion(query: string): Observable<any> {
     if (query == "" || query == undefined)
       return EMPTY;
 
@@ -27,7 +28,7 @@ export class BalanceApiService {
     return this.http.get(this.apiBaseUrl + 'users/search', { params });
   }
 
-  createCheck(check: Check) : Observable<any> {
+  createCheck(check: Check): Observable<any> {
     if (isNullOrUndefined(check))
       throw Error("Cannot create a check. Passed parameter is null or indefined.");
 
@@ -37,7 +38,14 @@ export class BalanceApiService {
     );
   }
 
-  getAllChecks() : Observable<any> {
+  getAllChecks(): Observable<any> {
     return this.http.get(this.apiBaseUrl + 'checks');
+  }
+
+  getCheckById(id: number) {
+    const params = new HttpParams()
+      .set('id', id.toString());
+
+    return this.http.get(this.apiBaseUrl + 'checks', { params }) as Observable<any>;
   }
 }

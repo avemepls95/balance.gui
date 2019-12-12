@@ -5,6 +5,7 @@ import { BalanceApiService } from 'src/app/Services/balance-api.service';
 import { ParamsMapper } from 'src/app/Model/Utils/ParamsMapper';
 import { LoaderService } from 'src/app/Services/loader.service';
 import { finalize } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-check-list',
@@ -18,10 +19,10 @@ export class CheckListComponent implements OnInit {
   displayedColumns: string[] = ['index', 'title', 'actions'];
   dataSource: MatTableDataSource<Check>;
 
-  constructor(private balanceApiService: BalanceApiService, public loaderService: LoaderService) {
+  constructor(private balanceApiService: BalanceApiService, public loaderService: LoaderService, private router: Router) {
     loaderService.show();
     balanceApiService.getAllChecks().pipe(
-      finalize(() => loaderService.hide() )
+      finalize(() => loaderService.hide())
     ).subscribe(
       (response) => {
         this.checks = response.data.map(c => ParamsMapper.convertCheckDtoToCheck(c))
@@ -34,4 +35,11 @@ export class CheckListComponent implements OnInit {
   ngOnInit() {
   }
 
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
 }

@@ -7,8 +7,9 @@ import { AuthGuard } from './Guards/auth.guard';
 import { CheckListComponent } from './Components/check-list/check-list.component';
 
 const menuRoutes: Routes = [
+  { path: 'checks', component: CheckListComponent },
   { path: 'createCheck', component: CheckComponent },
-  { path: 'checks', component: CheckListComponent }
+  { path: 'editCheck/:id', component: CheckComponent },
 ];
 
 const routes: Routes = [

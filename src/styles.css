@@ -46,6 +46,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 .material-icons.red { color: red; }
+.material-icons.green { color: seagreen; }
 
 .mat-dialog-content {
     font-size: 14px;

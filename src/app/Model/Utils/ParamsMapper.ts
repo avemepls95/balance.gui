@@ -35,6 +35,7 @@ export class ParamsMapper {
 
     static convertCheckToCheckDto(check: Check): CheckDto {
         return new CheckDto({
+            id: check.id,
             title: check.title,
             positions: ParamsMapper.convertPositionToPositionDto(check.positions),
             payments: ParamsMapper.convertPaymentToPaymentDto(check.payments),
@@ -61,6 +62,7 @@ export class ParamsMapper {
 
     static convertCheckDtoToCheck(checkDto: CheckDto): Check {
         return new Check({
+            id: checkDto.id,
             title: checkDto.title,
             positions: ParamsMapper.convertPositionDtoToPosition(checkDto.positions),
             payments: ParamsMapper.convertPaymentDtoToPayment(checkDto.payments),

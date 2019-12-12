@@ -9,14 +9,18 @@ import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
 import { PositionCardComponent } from 'src/app/Components/position-card/position-card.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { config } from 'rxjs';
+import { config, pipe } from 'rxjs';
 import { User } from 'src/app/Model/User';
 import { PaymentCardComponent } from '../payment-card/payment-card.component';
 import { Check } from 'src/app/Model/Check';
 import { ICanBeCreated } from 'src/app/Interfaces/ICanBeCreated';
-import { isNullOrUndefined } from 'util';
+import { isNullOrUndefined, isNumber } from 'util';
 import { BalanceApiService } from 'src/app/Services/balance-api.service';
-import { finalize } from 'rxjs/operators';
+import { finalize, take } from 'rxjs/operators';
+import { ActivatedRoute } from '@angular/router';
+import { TouchSequence } from 'selenium-webdriver';
+import { ParamsMapper } from 'src/app/Model/Utils/ParamsMapper';
+import { LoaderService } from 'src/app/Services/loader.service';
 
 @Component({
   selector: 'app-check',
@@ -41,12 +45,34 @@ export class CheckComponent implements OnInit, ICanBeCreated {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
-  constructor(public dialog: MatDialog, private _snackBar: MatSnackBar, private balanceApiService: BalanceApiService) {
-    this.check = new Check();
+  constructor(public dialog: MatDialog,
+    private _snackBar: MatSnackBar,
+    private balanceApiService: BalanceApiService,
+    activateRoute: ActivatedRoute,
+    loaderService: LoaderService) {
 
+    this.check = new Check();
     this.positionsDataSource = new MatTableDataSource(this.check.positions);
     this.paymentsDataSource = new MatTableDataSource(this.check.payments);
+
+    loaderService.show();
+    activateRoute.params.subscribe(params => {
+      if (!isNullOrUndefined(params['id'])) {
+        if (+params['id']) {
+          balanceApiService.getCheckById(params['id']).subscribe(result => {
+            this.check = ParamsMapper.convertCheckDtoToCheck(result.data[0]);
+            this.positionsDataSource = new MatTableDataSource(this.check.positions);
+            this.paymentsDataSource = new MatTableDataSource(this.check.payments);
+            loaderService.hide();
+          });
+        } else {
+          // TODO: handle incorrect id
+        }
+      }
+    });
   }
+
+  async asdas() { }
 
   ngOnInit() {
     this.positionsDataSource.paginator = this.paginator;
@@ -62,7 +88,6 @@ export class CheckComponent implements OnInit, ICanBeCreated {
   }
 
   applyFilter(dataSource, filterValue: string) {
-    debugger
     dataSource.filter = filterValue.trim().toLowerCase();
 
     if (dataSource.paginator) {
@@ -132,7 +157,7 @@ export class CheckComponent implements OnInit, ICanBeCreated {
       width: '370px',
       data: data
     });
-    
+
     dialogRef.afterClosed().subscribe(result => {
       if (result.event == 'Add') {
         this.addPayment(result.data);
@@ -195,12 +220,12 @@ export class CheckComponent implements OnInit, ICanBeCreated {
 
   createCheck() {
     this.balanceApiService.createCheck(this.check)
-    .pipe(finalize(() => { debugger }))
-    .subscribe(
-      (response: any) => { debugger },
-      (error: any) => {
-        debugger
-      }
-    );;
+      .pipe(finalize(() => { debugger }))
+      .subscribe(
+        (response: any) => { debugger },
+        (error: any) => {
+          debugger
+        }
+      );;
   }
 }
