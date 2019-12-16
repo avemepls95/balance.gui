@@ -48,7 +48,7 @@ export class ParamsMapper {
             amount: p.amount,
             consumptions: p.users.map(u => new ConsumptionDto({
                 amount: 1,
-                userId: u.id
+                user: new User({ id: u.id, username: u.username })
             }))
         }));
     }
@@ -56,7 +56,7 @@ export class ParamsMapper {
     static convertPaymentToPaymentDto(payments: Payment[]): PaymentDto[] {
         return payments.map(p => new PaymentDto({
             amount: p.amount,
-            userId: p.user.id
+            user: new User({ id: p.user.id, username: p.user.username })
         }));
     }
 
@@ -73,14 +73,14 @@ export class ParamsMapper {
         return positionDtoArray.map(p => new Position({
             title: p.title,
             amount: p.amount,
-            users: p.consumptions.map(c => new User({ id: c.userId }))
+            users: p.consumptions.map(c => new User({ id: c.user.id, username: c.user.username }))
         }));
     }
 
     static convertPaymentDtoToPayment(paymentDtoArray: PaymentDto[]): Payment[] {
         return paymentDtoArray.map(p => new Payment({
             amount: p.amount,
-            user: new User({ id: p.userId })
+            user: new User({ id: p.user.id, username: p.user.username })
         }))
     }
 }
