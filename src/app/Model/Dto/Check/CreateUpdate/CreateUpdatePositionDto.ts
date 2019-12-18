@@ -1,15 +1,15 @@
-import { ConsumptionDto } from '../Consumption';
+import { CreateUpdateConsumptionDto } from './CreateUpdateConsumptionDto';
 
-export class PositionDto {
+export class CreateUpdatePositionDto {
     amount: number;
     title: string;
-    consumptions: ConsumptionDto[];
+    consumptions: CreateUpdateConsumptionDto[];
 
     public constructor(
         fields?: {
             amount?: number,
             title?: string,
-            consumptions?: ConsumptionDto[]
+            consumptions?: CreateUpdateConsumptionDto[]
         }) 
     {
         if (fields)

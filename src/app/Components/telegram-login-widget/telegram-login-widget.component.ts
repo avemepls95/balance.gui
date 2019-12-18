@@ -1,9 +1,10 @@
 import { Component, AfterViewInit, ElementRef, ViewChild, EventEmitter, Output } from '@angular/core';
 import { AuthService } from 'src/app/Services/auth.service';
-import { ParamsMapper } from 'src/app/Model/Utils/ParamsMapper'
+import { GetDtoMapper } from 'src/app/Model/Utils/GetDtoMapper'
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
+import { CommonDtoMapper } from 'src/app/Model/Utils/CommonDtoMapper';
 
 @Component({
   selector: 'app-telegram-login-widget',
@@ -49,7 +50,7 @@ export class TelegramLoginWidget implements AfterViewInit {
   private loginViaTelegram(loginData) {
     this.loginStarted.emit();
 
-    this.loginService.loginViaTelegram(ParamsMapper.getTelegramAuthDto(loginData))
+    this.loginService.loginViaTelegram(CommonDtoMapper.getTelegramAuthDto(loginData))
       .pipe(
         finalize(() => {
           this.loginEnded.emit()

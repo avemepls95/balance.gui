@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Check } from 'src/app/Model/Check';
 import { BalanceApiService } from 'src/app/Services/balance-api.service';
-import { ParamsMapper } from 'src/app/Model/Utils/ParamsMapper';
+import { GetDtoMapper } from 'src/app/Model/Utils/GetDtoMapper';
 import { LoaderService } from 'src/app/Services/loader.service';
 import { finalize } from 'rxjs/operators';
 import { Router } from '@angular/router';
@@ -25,7 +25,7 @@ export class CheckListComponent implements OnInit {
       finalize(() => loaderService.hide())
     ).subscribe(
       (response) => {
-        this.checks = response.data.map(c => ParamsMapper.convertCheckDtoToCheck(c))
+        this.checks = response.data.map(c => GetDtoMapper.convertDtoToCheck(c))
         this.dataSource = new MatTableDataSource(this.checks);
       },
       (error) => console.error(error)

@@ -1,11 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, EMPTY } from 'rxjs';
-import { Check } from '../Model/Check';
 import { isNullOrUndefined } from 'util';
-import { ParamsMapper } from '../Model/Utils/ParamsMapper';
-import { CheckDto } from '../Model/Dto/CheckDto';
-import { TouchSequence } from 'selenium-webdriver';
+import { CreateUpdateCheckDto } from '../Model/Dto/Check/CreateUpdate/CreateUpdateCheckDto';
 
 @Injectable({
   providedIn: 'root'
@@ -28,13 +25,13 @@ export class BalanceApiService {
     return this.http.get(this.apiBaseUrl + 'users/search', { params });
   }
 
-  createCheck(check: Check): Observable<any> {
+  createCheck(check: CreateUpdateCheckDto): Observable<any> {
     if (isNullOrUndefined(check))
       throw Error("Cannot create a check. Passed parameter is null or indefined.");
 
     return this.http.post(
       this.apiBaseUrl + 'checks',
-      ParamsMapper.convertCheckToCheckDto(check)
+      check
     );
   }
 
@@ -42,10 +39,20 @@ export class BalanceApiService {
     return this.http.get(this.apiBaseUrl + 'checks');
   }
 
-  getCheckById(id: number) {
+  getCheckById(id: number): Observable<any> {
     const params = new HttpParams()
       .set('id', id.toString());
 
-    return this.http.get(this.apiBaseUrl + 'checks', { params }) as Observable<any>;
+    return this.http.get(this.apiBaseUrl + 'checks', { params });
+  }
+
+  updateCheck(check: CreateUpdateCheckDto): Observable<any> {
+    if (isNullOrUndefined(check))
+      throw Error("Cannot update a check. Passed parameter is null or indefined.");
+
+    return this.http.put(
+      this.apiBaseUrl + 'checks/' + check.id.toString(),
+      check
+    );
   }
 }

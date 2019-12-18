@@ -1,9 +1,10 @@
 import { Component, OnInit, ElementRef, ViewChild, AfterViewInit, Output, EventEmitter } from '@angular/core';
 import { AuthService } from 'src/app/Services/auth.service';
-import { ParamsMapper } from 'src/app/Model/Utils/ParamsMapper';
+import { GetDtoMapper } from 'src/app/Model/Utils/GetDtoMapper';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { finalize } from 'rxjs/operators';
+import { CommonDtoMapper } from 'src/app/Model/Utils/CommonDtoMapper';
 
 @Component({
   selector: 'app-vk-login-widget',
@@ -57,7 +58,7 @@ export class VkLoginWidgetComponent implements AfterViewInit {
   private loginViaVk(loginData) {
     this.loginStarted.emit();
 
-    this.loginService.loginViaVk(ParamsMapper.getVkAuthDto(loginData))
+    this.loginService.loginViaVk(CommonDtoMapper.getVkAuthDto(loginData))
       .pipe(
         finalize(() => {
           this.loginEnded.emit()

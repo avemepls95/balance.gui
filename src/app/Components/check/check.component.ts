@@ -19,8 +19,9 @@ import { BalanceApiService } from 'src/app/Services/balance-api.service';
 import { finalize, take } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { TouchSequence } from 'selenium-webdriver';
-import { ParamsMapper } from 'src/app/Model/Utils/ParamsMapper';
+import { GetDtoMapper } from 'src/app/Model/Utils/GetDtoMapper';
 import { LoaderService } from 'src/app/Services/loader.service';
+import { CreateUpdateDtoMapper } from 'src/app/Model/Utils/CreateUpdateDtoMapper';
 
 @Component({
   selector: 'app-check',
@@ -63,7 +64,7 @@ export class CheckComponent implements OnInit, ICanBeCreated {
           this.editingMode = true
           loaderService.show();
           balanceApiService.getCheckById(params['id']).subscribe(result => {
-            this.check = ParamsMapper.convertCheckDtoToCheck(result.data[0]);
+            this.check = GetDtoMapper.convertDtoToCheck(result.data[0]);
             this.positionsDataSource = new MatTableDataSource(this.check.positions);
             this.paymentsDataSource = new MatTableDataSource(this.check.payments);
             loaderService.hide();
@@ -222,7 +223,20 @@ export class CheckComponent implements OnInit, ICanBeCreated {
   }
 
   createCheck() {
-    this.balanceApiService.createCheck(this.check)
+    let checkDto = CreateUpdateDtoMapper.convertCheckToDto(this.check);
+    this.balanceApiService.createCheck(checkDto)
+      .pipe(finalize(() => { debugger }))
+      .subscribe(
+        (response: any) => { debugger },
+        (error: any) => {
+          debugger
+        }
+      );;
+  }
+
+  updateCheck() {
+    let checkDto = CreateUpdateDtoMapper.convertCheckToDto(this.check);
+    this.balanceApiService.updateCheck(checkDto)
       .pipe(finalize(() => { debugger }))
       .subscribe(
         (response: any) => { debugger },

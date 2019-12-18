@@ -1,6 +1,6 @@
-import { UserDto } from './Dto/UserDto';
+import { UserDto } from '../../UserDto';
 
-export class Consumption {
+export class GetConsumptionDto {
     amount: number;
     user: UserDto;
 

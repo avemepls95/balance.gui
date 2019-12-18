@@ -1,13 +1,12 @@
-import { UserDto } from './Dto/UserDto';
 
-export class Consumption {
+export class CreateUpdatePaymentDto {
     amount: number;
-    user: UserDto;
+    userId: number;
 
     public constructor(
         fields?: {
             amount?: number,
-            user?: UserDto
+            userId?: number
         }) {
         if (fields) Object.assign(this, fields);
     }

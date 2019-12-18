@@ -131,6 +131,6 @@
 
   <mat-card-actions class="create-check-btn-wrap">
     <button mat-button [disabled]="!canBeCreated()" *ngIf="!editingMode" (click)="createCheck()">CREATE</button>
-    <button mat-button [disabled]="!canBeCreated()" *ngIf="editingMode" (click)="editCheck()">EDIT</button>
+    <button mat-button [disabled]="!canBeCreated()" *ngIf="editingMode" (click)="updateCheck()">EDIT</button>
   </mat-card-actions>
 </mat-card>
