@@ -3,6 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, EMPTY } from 'rxjs';
 import { isNullOrUndefined } from 'util';
 import { CreateUpdateCheckDto } from '../Model/Dto/Check/CreateUpdate/CreateUpdateCheckDto';
+import { BalanceResponse } from '../BalanceResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -39,11 +40,11 @@ export class BalanceApiService {
     return this.http.get(this.apiBaseUrl + 'checks');
   }
 
-  getCheckById(id: number): Observable<any> {
+  getCheckById(id: number): Observable<BalanceResponse> {
     const params = new HttpParams()
       .set('id', id.toString());
 
-    return this.http.get(this.apiBaseUrl + 'checks', { params });
+    return this.http.get(this.apiBaseUrl + 'checks/' + id.toString()) as Observable<BalanceResponse>;
   }
 
   updateCheck(check: CreateUpdateCheckDto): Observable<any> {

@@ -10,7 +10,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { PositionCardComponent } from 'src/app/Components/position-card/position-card.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { config, pipe } from 'rxjs';
-import { User } from 'src/app/Model/User';
 import { PaymentCardComponent } from '../payment-card/payment-card.component';
 import { Check } from 'src/app/Model/Check';
 import { ICanBeCreated } from 'src/app/Interfaces/ICanBeCreated';
@@ -22,6 +21,10 @@ import { TouchSequence } from 'selenium-webdriver';
 import { GetDtoMapper } from 'src/app/Model/Utils/GetDtoMapper';
 import { LoaderService } from 'src/app/Services/loader.service';
 import { CreateUpdateDtoMapper } from 'src/app/Model/Utils/CreateUpdateDtoMapper';
+import { SnackBarColor } from 'src/app/MarkupUtils/SnackBarColor.enum'
+import { ResponseCode } from 'src/app/Utils/ResponseCode.enum';
+import { BalanceError } from 'src/app/BalanceError';
+import { SnackbarOptions } from 'src/app/ControlLayer/SnackbarOptions';
 
 @Component({
   selector: 'app-check',
@@ -52,7 +55,7 @@ export class CheckComponent implements OnInit, ICanBeCreated {
     private _snackBar: MatSnackBar,
     private balanceApiService: BalanceApiService,
     activateRoute: ActivatedRoute,
-    loaderService: LoaderService) {
+    private loaderService: LoaderService) {
 
     this.check = new Check();
     this.positionsDataSource = new MatTableDataSource(this.check.positions);
@@ -64,7 +67,8 @@ export class CheckComponent implements OnInit, ICanBeCreated {
           this.editingMode = true
           loaderService.show();
           balanceApiService.getCheckById(params['id']).subscribe(result => {
-            this.check = GetDtoMapper.convertDtoToCheck(result.data[0]);
+            debugger
+            this.check = GetDtoMapper.convertDtoToCheck(result.data);
             this.positionsDataSource = new MatTableDataSource(this.check.positions);
             this.paymentsDataSource = new MatTableDataSource(this.check.payments);
             loaderService.hide();
@@ -75,8 +79,6 @@ export class CheckComponent implements OnInit, ICanBeCreated {
       }
     });
   }
-
-  async asdas() { }
 
   ngOnInit() {
     this.positionsDataSource.paginator = this.paginator;
@@ -101,7 +103,7 @@ export class CheckComponent implements OnInit, ICanBeCreated {
 
   openPositionCard(action, obj) {
     let data = {
-      obj: obj,
+      obj: Object.assign({}, obj),
       action: action
     }
     const dialogRef = this.dialog.open(PositionCardComponent, {
@@ -129,7 +131,7 @@ export class CheckComponent implements OnInit, ICanBeCreated {
     }));
 
     this.positionsDataSource.data = this.check.positions;
-    this.openSnackBar("Position was added!");
+    this.openSnackBar(new SnackbarOptions({ message: "Position was added!" }));
   }
 
   updatePosition(data: Position) {
@@ -181,7 +183,7 @@ export class CheckComponent implements OnInit, ICanBeCreated {
     }));
 
     this.paymentsDataSource.data = this.check.payments;
-    this.openSnackBar("Payment was added!");
+    this.openSnackBar(new SnackbarOptions({ message: "Payment was added!" }));
   }
 
   updatePayment(data: Payment) {
@@ -204,16 +206,6 @@ export class CheckComponent implements OnInit, ICanBeCreated {
     this.paymentsDataSource.data = this.check.payments;
   }
 
-  openSnackBar(message: string) {
-    this._snackBar.open(message, "",
-      {
-        duration: 800,
-        verticalPosition: "top",
-        horizontalPosition: "right",
-        panelClass: 'snackbar'
-      });
-  }
-
   canBeCreated(): boolean {
     return !isNullOrUndefined(this.check.payments) &&
       this.check.payments.length != 0 &&
@@ -231,18 +223,48 @@ export class CheckComponent implements OnInit, ICanBeCreated {
         (error: any) => {
           debugger
         }
-      );;
+      );
   }
 
   updateCheck() {
     let checkDto = CreateUpdateDtoMapper.convertCheckToDto(this.check);
+    this.loaderService.show();
     this.balanceApiService.updateCheck(checkDto)
-      .pipe(finalize(() => { debugger }))
+      .pipe(finalize(() => {
+        this.loaderService.hide();
+      }))
       .subscribe(
-        (response: any) => { debugger },
-        (error: any) => {
-          debugger
+        (response: any) => {
+          this.openSnackBar(new SnackbarOptions({
+            backgroundColor: SnackBarColor.Success,
+            message: "Success!",
+            action: "Close",
+            duration: 0
+          }));
+        },
+        (errorResponse: BalanceError) => {
+          let message = "Error. Something went wrong";
+          if (errorResponse.error.error.code == ResponseCode.ValidationFailed)
+            message = 'Incorrect data';
+          this.openSnackBar(new SnackbarOptions({
+            backgroundColor: SnackBarColor.Error,
+            message: message,
+            action: "Close",
+            duration: 0
+          }));
         }
       );;
   }
+
+  openSnackBar(options: SnackbarOptions) {
+    var colorClass = 'snackbar-' + options.backgroundColor.toString()
+    this._snackBar.open(options.message, options.action,
+      {
+        duration: options.duration,
+        verticalPosition: "top",
+        horizontalPosition: "right",
+        panelClass: ['snackbar', colorClass]
+      });
+  }
+
 }

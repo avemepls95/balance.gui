@@ -71,13 +71,29 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     justify-content: space-between;
 }
 
-.mat-snack-bar-container {
+.snackbar {
     width: auto;
     padding-left: 5rem !important;
     padding-right: 5rem !important;
     max-width: initial !important;
     min-width: initial !important;
  }
+
+    .snackbar .mat-button {
+        color: antiquewhite;
+    }
+
+ .snackbar-default {
+    background: #323232
+}
+
+ .snackbar-error {
+     background: orangered;
+ }
+
+ .snackbar-success {
+    background: mediumseagreen;
+}
 
 .position-dialog .mat-form-field-wrapper,
 .position-dialog .mat-form-field-type-mat-chip-list,
