@@ -36,24 +36,25 @@ export class BalanceApiService {
     );
   }
 
-  getAllChecks(): Observable<any> {
-    return this.http.get(this.apiBaseUrl + 'checks');
+  getAllChecks(): Observable<BalanceResponse> {
+    return this.http.get(this.apiBaseUrl + 'checks') as Observable<BalanceResponse>;
   }
 
   getCheckById(id: number): Observable<BalanceResponse> {
-    const params = new HttpParams()
-      .set('id', id.toString());
-
     return this.http.get(this.apiBaseUrl + 'checks/' + id.toString()) as Observable<BalanceResponse>;
   }
 
-  updateCheck(check: CreateUpdateCheckDto): Observable<any> {
+  updateCheck(check: CreateUpdateCheckDto): Observable<BalanceResponse> {
     if (isNullOrUndefined(check))
       throw Error("Cannot update a check. Passed parameter is null or indefined.");
 
     return this.http.put(
       this.apiBaseUrl + 'checks/' + check.id.toString(),
       check
-    );
+    ) as Observable<BalanceResponse>;
+  }
+
+  deleteCheck(id: number): Observable<BalanceResponse> {
+    return this.http.delete(this.apiBaseUrl + 'checks/' + id.toString()) as Observable<BalanceResponse>;
   }
 }

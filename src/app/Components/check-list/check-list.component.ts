@@ -6,6 +6,15 @@ import { GetDtoMapper } from 'src/app/Model/Utils/GetDtoMapper';
 import { LoaderService } from 'src/app/Services/loader.service';
 import { finalize } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { ConfirmDialogModel, ConfirmDialogComponent } from 'src/app/confirm-dialog/confirm-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { SnackbarService } from 'src/app/Services/snackbar.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnackbarOptions } from 'src/app/ControlLayer/SnackbarOptions';
+import { SnackBarColor } from 'src/app/MarkupUtils/SnackBarColor.enum';
+import { ResponseCode } from 'src/app/Utils/ResponseCode.enum';
+import { BalanceError } from 'src/app/BalanceError';
+import { BalanceResponse } from 'src/app/BalanceResponse';
 
 @Component({
   selector: 'app-check-list',
@@ -19,7 +28,14 @@ export class CheckListComponent implements OnInit {
   displayedColumns: string[] = ['index', 'title', 'actions'];
   dataSource: MatTableDataSource<Check>;
 
-  constructor(private balanceApiService: BalanceApiService, public loaderService: LoaderService, private router: Router) {
+  constructor(
+    private balanceApiService: BalanceApiService,
+    private loaderService: LoaderService,
+    private snackbarService: SnackbarService,
+    private router: Router,
+    private dialog: MatDialog,
+    private snackbar: MatSnackBar) {
+
     loaderService.show();
     balanceApiService.getAllChecks().pipe(
       finalize(() => loaderService.hide())
@@ -41,5 +57,56 @@ export class CheckListComponent implements OnInit {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  deleteCheck(id: number) {
+    const index = this.checks.findIndex(p => p.id === id);
+    if (index == -1) {
+      console.log("Invalid check id:" + id);
+    }
+    let check = this.checks[index];
+    const message = 'Sure to delete check \'' + check.title + '\'?';
+
+    const dialogData = new ConfirmDialogModel("Confirm Delete", message);
+
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      maxWidth: "400px",
+      data: dialogData
+    });
+
+    dialogRef.afterClosed().subscribe(dialogResult => {
+      if (!dialogResult)
+        return;
+
+      this.loaderService.show();
+      this.balanceApiService.deleteCheck(id)
+        .pipe(finalize(() => {
+          this.loaderService.hide();
+        }))
+        .subscribe(
+          (response: BalanceResponse) => {
+            this.snackbarService.openSnackBar(this.snackbar, new SnackbarOptions({
+              backgroundColor: SnackBarColor.Success,
+              message: "Success!",
+              action: "Close",
+              duration: 0
+            }));
+            this.checks.splice(index, 1);
+            this.dataSource.data = this.checks;
+          },
+          (errorResponse: BalanceError) => {
+            let message = "Error. Something went wrong";
+            if (errorResponse.error.error.code == ResponseCode.ValidationFailed)
+              message = 'Incorrect data';
+
+            this.snackbarService.openSnackBar(this.snackbar, new SnackbarOptions({
+              backgroundColor: SnackBarColor.Error,
+              message: message,
+              action: "Close",
+              duration: 0
+            }));
+          }
+        );
+    });
   }
 }

@@ -25,6 +25,8 @@ import { SnackBarColor } from 'src/app/MarkupUtils/SnackBarColor.enum'
 import { ResponseCode } from 'src/app/Utils/ResponseCode.enum';
 import { BalanceError } from 'src/app/BalanceError';
 import { SnackbarOptions } from 'src/app/ControlLayer/SnackbarOptions';
+import { SnackbarService } from 'src/app/Services/snackbar.service';
+import { BalanceResponse } from 'src/app/BalanceResponse';
 
 @Component({
   selector: 'app-check',
@@ -51,11 +53,13 @@ export class CheckComponent implements OnInit, ICanBeCreated {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
-  constructor(public dialog: MatDialog,
-    private _snackBar: MatSnackBar,
+  constructor(
+    public dialog: MatDialog,
+    private snackbar: MatSnackBar,
     private balanceApiService: BalanceApiService,
     activateRoute: ActivatedRoute,
-    private loaderService: LoaderService) {
+    private loaderService: LoaderService,
+    private snackbarService: SnackbarService) {
 
     this.check = new Check();
     this.positionsDataSource = new MatTableDataSource(this.check.positions);
@@ -131,7 +135,7 @@ export class CheckComponent implements OnInit, ICanBeCreated {
     }));
 
     this.positionsDataSource.data = this.check.positions;
-    this.openSnackBar(new SnackbarOptions({ message: "Position was added!" }));
+    this.snackbarService.openSnackBar(this.snackbar, new SnackbarOptions({ message: "Position was added!" }));
   }
 
   updatePosition(data: Position) {
@@ -183,7 +187,7 @@ export class CheckComponent implements OnInit, ICanBeCreated {
     }));
 
     this.paymentsDataSource.data = this.check.payments;
-    this.openSnackBar(new SnackbarOptions({ message: "Payment was added!" }));
+    this.snackbarService.openSnackBar(this.snackbar, new SnackbarOptions({ message: "Payment was added!" }));
   }
 
   updatePayment(data: Payment) {
@@ -216,12 +220,30 @@ export class CheckComponent implements OnInit, ICanBeCreated {
 
   createCheck() {
     let checkDto = CreateUpdateDtoMapper.convertCheckToDto(this.check);
+    this.loaderService.show();
     this.balanceApiService.createCheck(checkDto)
-      .pipe(finalize(() => { debugger }))
+      .pipe(finalize(() => {
+        this.loaderService.hide();
+      }))
       .subscribe(
-        (response: any) => { debugger },
-        (error: any) => {
-          debugger
+        (response: BalanceResponse) => {
+          this.snackbarService.openSnackBar(this.snackbar, new SnackbarOptions({
+            backgroundColor: SnackBarColor.Success,
+            message: "Success!",
+            action: "Close",
+            duration: 0
+          }));
+        },
+        (errorResponse: BalanceError) => {
+          let message = "Error. Something went wrong";
+          if (errorResponse.error.error.code == ResponseCode.ValidationFailed)
+            message = 'Incorrect data';
+          this.snackbarService.openSnackBar(this.snackbar, new SnackbarOptions({
+            backgroundColor: SnackBarColor.Error,
+            message: message,
+            action: "Close",
+            duration: 0
+          }));
         }
       );
   }
@@ -234,8 +256,8 @@ export class CheckComponent implements OnInit, ICanBeCreated {
         this.loaderService.hide();
       }))
       .subscribe(
-        (response: any) => {
-          this.openSnackBar(new SnackbarOptions({
+        (response: BalanceResponse) => {
+          this.snackbarService.openSnackBar(this.snackbar, new SnackbarOptions({
             backgroundColor: SnackBarColor.Success,
             message: "Success!",
             action: "Close",
@@ -246,25 +268,16 @@ export class CheckComponent implements OnInit, ICanBeCreated {
           let message = "Error. Something went wrong";
           if (errorResponse.error.error.code == ResponseCode.ValidationFailed)
             message = 'Incorrect data';
-          this.openSnackBar(new SnackbarOptions({
+          this.snackbarService.openSnackBar(this.snackbar, new SnackbarOptions({
             backgroundColor: SnackBarColor.Error,
             message: message,
             action: "Close",
             duration: 0
           }));
         }
-      );;
+      );
   }
 
-  openSnackBar(options: SnackbarOptions) {
-    var colorClass = 'snackbar-' + options.backgroundColor.toString()
-    this._snackBar.open(options.message, options.action,
-      {
-        duration: options.duration,
-        verticalPosition: "top",
-        horizontalPosition: "right",
-        panelClass: ['snackbar', colorClass]
-      });
-  }
+
 
 }

@@ -26,6 +26,8 @@ import { LoaderService } from './Services/loader.service';
 import { PaymentCardComponent } from './Components/payment-card/payment-card.component';
 import { DigitOnlyDirective } from './Directives/digit-only.directive';
 import { CheckListComponent } from './Components/check-list/check-list.component';
+import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
+import { SnackbarService } from './Services/snackbar.service';
 
 export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
@@ -44,6 +46,7 @@ export function initializeApp(appConfig: AppConfig) {
     LoaderComponent,
     DigitOnlyDirective,
     CheckListComponent,
+    ConfirmDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -59,11 +62,13 @@ export function initializeApp(appConfig: AppConfig) {
   ],
   entryComponents: [
     PositionCardComponent,
-    PaymentCardComponent
+    PaymentCardComponent,
+    ConfirmDialogComponent
   ],
   providers: [
     JwtHelper,
     LoaderService,
+    SnackbarService,
     // AppConfig,
     // {
     //   provide: APP_INITIALIZER,
