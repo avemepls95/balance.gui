@@ -27,6 +27,7 @@ import { BalanceError } from 'src/app/BalanceError';
 import { SnackbarOptions } from 'src/app/ControlLayer/SnackbarOptions';
 import { SnackbarService } from 'src/app/Services/snackbar.service';
 import { BalanceResponse } from 'src/app/BalanceResponse';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-check',
@@ -37,6 +38,8 @@ export class CheckComponent implements OnInit, ICanBeCreated {
   titleFormControl = new FormControl('', [
     Validators.required
   ]);
+
+  canBeProcessed: boolean = false;
 
   matcher = new MyErrorStateMatcher();
 
@@ -71,11 +74,12 @@ export class CheckComponent implements OnInit, ICanBeCreated {
           this.editingMode = true
           loaderService.show();
           balanceApiService.getCheckById(params['id']).subscribe(result => {
-            debugger
             this.check = GetDtoMapper.convertDtoToCheck(result.data);
             this.positionsDataSource = new MatTableDataSource(this.check.positions);
             this.paymentsDataSource = new MatTableDataSource(this.check.payments);
             loaderService.hide();
+
+            this.canBeProcessed = true;
           });
         } else {
           // TODO: handle incorrect id
@@ -227,6 +231,8 @@ export class CheckComponent implements OnInit, ICanBeCreated {
       }))
       .subscribe(
         (response: BalanceResponse) => {
+          this.canBeProcessed = true;
+          this.check.id = response.data.id;
           this.snackbarService.openSnackBar(this.snackbar, new SnackbarOptions({
             backgroundColor: SnackBarColor.Success,
             message: "Success!",
@@ -234,7 +240,7 @@ export class CheckComponent implements OnInit, ICanBeCreated {
             duration: 0
           }));
         },
-        (errorResponse: BalanceError) => {
+        (errorResponse: HttpErrorResponse) => {
           let message = "Error. Something went wrong";
           if (errorResponse.error.error.code == ResponseCode.ValidationFailed)
             message = 'Incorrect data';
@@ -264,7 +270,7 @@ export class CheckComponent implements OnInit, ICanBeCreated {
             duration: 0
           }));
         },
-        (errorResponse: BalanceError) => {
+        (errorResponse: HttpErrorResponse) => {
           let message = "Error. Something went wrong";
           if (errorResponse.error.error.code == ResponseCode.ValidationFailed)
             message = 'Incorrect data';
@@ -278,6 +284,38 @@ export class CheckComponent implements OnInit, ICanBeCreated {
       );
   }
 
-
+  processCheck() {
+    let checkDto = CreateUpdateDtoMapper.convertCheckToDto(this.check);
+    this.loaderService.show();
+    this.balanceApiService.processCheck(checkDto)
+      .pipe(finalize(() => {
+        this.loaderService.hide();
+      }))
+      .subscribe(
+        (response: BalanceResponse) => {
+          this.snackbarService.openSnackBar(this.snackbar, new SnackbarOptions({
+            backgroundColor: SnackBarColor.Success,
+            message: "Success!",
+            action: "Close",
+            duration: 0
+          }));
+        },
+        (errorResponse: HttpErrorResponse) => {
+          let message = "Error. Something went wrong";
+          if (errorResponse.error.error.code == ResponseCode.ValidationFailed) {
+            message = 'Incorrect data';
+            // errorResponse.error.error.info.validation.forEach(element => {
+            //   console.log(element);
+            // });
+          }
+          this.snackbarService.openSnackBar(this.snackbar, new SnackbarOptions({
+            backgroundColor: SnackBarColor.Error,
+            message: message,
+            action: "Close",
+            duration: 0
+          }));
+        }
+      );
+  }
 
 }

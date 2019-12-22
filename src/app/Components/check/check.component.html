@@ -1,11 +1,18 @@
 <mat-card class="content-card">
   <mat-card-header>
-    <mat-card-title *ngIf="!editingMode">Check creating</mat-card-title>
-    <mat-card-title *ngIf="editingMode">Check editing</mat-card-title>
+    <div class='flex-h-space-between header-row'>
+      <mat-card-title *ngIf="!editingMode">Check creating</mat-card-title>
+      <mat-card-title *ngIf="editingMode">Check editing</mat-card-title>
+      <button *ngIf="canBeProcessed" class="process-check-button" mat-button (click)="processCheck()" mat-flat-button>
+        <mat-icon mat-list-icon color="primary" class='process-check-icon'>refresh</mat-icon>
+        Process check
+      </button>
+    </div>
   </mat-card-header>
   <mat-card-content>
     <mat-form-field class="check-title-input">
-      <input matInput [(ngModel)] = "check.title" placeholder="Title" [formControl]="titleFormControl" [errorStateMatcher]="matcher">
+      <input matInput [(ngModel)]="check.title" placeholder="Title" [formControl]="titleFormControl"
+        [errorStateMatcher]="matcher">
       <mat-error *ngIf="titleFormControl.hasError('required')">
         Title is <strong>required</strong>
       </mat-error>
@@ -71,18 +78,18 @@
 
     <!-- Payments table -->
     <div class="container payments-block">
-        <div class="flex">
-          <mat-icon mat-list-icon color="primary">reorder</mat-icon>
-          <mat-card-title class="positions-label">Payments</mat-card-title>
-        </div>
-        <div class="flex-h-space-between">
-          <mat-form-field>
-            <input matInput (keyup)="applyPaymentsFilter($event.target.value)" placeholder="Filter">
-          </mat-form-field>
-          <button class="add-row-button" mat-button (click)="openPaymentCard('Add',{})" mat-flat-button color="primary">
-            Add Payment
-          </button>
-        </div>
+      <div class="flex">
+        <mat-icon mat-list-icon color="primary">reorder</mat-icon>
+        <mat-card-title class="positions-label">Payments</mat-card-title>
+      </div>
+      <div class="flex-h-space-between">
+        <mat-form-field>
+          <input matInput (keyup)="applyPaymentsFilter($event.target.value)" placeholder="Filter">
+        </mat-form-field>
+        <button class="add-row-button" mat-button (click)="openPaymentCard('Add',{})" mat-flat-button color="primary">
+          Add Payment
+        </button>
+      </div>
       <div class="mat-elevation-z5">
 
         <table mat-table [dataSource]="paymentsDataSource" matSort>

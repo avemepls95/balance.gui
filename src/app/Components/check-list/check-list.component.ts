@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Check } from 'src/app/Model/Check';
 import { BalanceApiService } from 'src/app/Services/balance-api.service';
@@ -15,6 +15,8 @@ import { SnackBarColor } from 'src/app/MarkupUtils/SnackBarColor.enum';
 import { ResponseCode } from 'src/app/Utils/ResponseCode.enum';
 import { BalanceError } from 'src/app/BalanceError';
 import { BalanceResponse } from 'src/app/BalanceResponse';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-check-list',
@@ -28,11 +30,13 @@ export class CheckListComponent implements OnInit {
   displayedColumns: string[] = ['index', 'title', 'actions'];
   dataSource: MatTableDataSource<Check>;
 
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
+
   constructor(
     private balanceApiService: BalanceApiService,
     private loaderService: LoaderService,
     private snackbarService: SnackbarService,
-    private router: Router,
     private dialog: MatDialog,
     private snackbar: MatSnackBar) {
 
@@ -43,12 +47,15 @@ export class CheckListComponent implements OnInit {
       (response) => {
         this.checks = response.data.map(c => GetDtoMapper.convertDtoToCheck(c))
         this.dataSource = new MatTableDataSource(this.checks);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
       },
       (error) => console.error(error)
     );
   }
 
   ngOnInit() {
+
   }
 
   applyFilter(filterValue: string) {

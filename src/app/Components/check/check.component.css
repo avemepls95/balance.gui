@@ -110,3 +110,20 @@ div.row-action-buttons button {
     }
 }
 
+::ng-deep .mat-card-header-text {
+    margin: 0 7px;
+}
+
+.header-row {
+    width: 100%;
+}
+
+.process-check-icon {
+    margin-bottom: 2px;
+}
+
+.process-check-button {
+    background-color: #26b926;
+    color: black;
+    padding-left: 8px;
+}
