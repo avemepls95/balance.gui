@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { finalize } from 'rxjs/operators';
 import { CommonDtoMapper } from 'src/app/Model/Utils/CommonDtoMapper';
+import { FromVkAuthDto } from 'src/app/Model/Dto/Auth/FromVkAuthDto';
+import { LocalStorageManager } from 'src/app/LocalStorageManager';
 
 @Component({
   selector: 'app-vk-login-widget',
@@ -51,11 +53,14 @@ export class VkLoginWidgetComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    window['loginViaVk'] = loginData => this.loginViaVk(loginData);
+      window['loginViaVk'] = (loginData: FromVkAuthDto) => {
+      LocalStorageManager.setUserData(loginData);
+      this.loginViaVk(loginData) 
+    };
     this.convertToScript();
   }
 
-  private loginViaVk(loginData) {
+  private loginViaVk(loginData: FromVkAuthDto) {
     this.loginStarted.emit();
 
     this.loginService.loginViaVk(CommonDtoMapper.getVkAuthDto(loginData))

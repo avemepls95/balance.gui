@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 // import { AppConfig } from '../app.config';
-import { TelegramAuthDto } from '../Model/Dto/TelegramAuthDto'
-import { VkAuthDto } from '../Model/Dto/VkAuthDto';
 import { JwtHelper } from 'angular2-jwt';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { TelegramToBalanceAuthDto } from '../Model/Dto/Auth/TelegramToBalanceAuthDto';
+import { VkToBalanceAuthDto } from '../Model/Dto/Auth/VkToBalanceAuthDto';
 
 @Injectable({
   providedIn: 'root'
@@ -19,13 +19,13 @@ export class AuthService {
     this.apiBaseUrl = 'http://localhost:8081/';
   }
 
-  loginViaTelegram(loginData: TelegramAuthDto) : Observable<any> {
+  loginViaTelegram(loginData: TelegramToBalanceAuthDto) : Observable<any> {
     return this.http.post(this.apiBaseUrl + 'auth/telegram ', loginData).pipe(map(response => {
       this.handleBalanceAuthResponse(response);
     }));
   }
 
-  loginViaVk(loginData: VkAuthDto): Observable<any> {
+  loginViaVk(loginData: VkToBalanceAuthDto): Observable<any> {
     return this.http.post(this.apiBaseUrl + 'auth/vk', loginData).pipe(map(response => {
       this.handleBalanceAuthResponse(response);
     }));

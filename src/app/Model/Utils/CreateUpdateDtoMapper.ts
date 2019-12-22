@@ -1,9 +1,6 @@
-import { TelegramAuthDto } from "../Dto/TelegramAuthDto";
-import { VkAuthDto } from '../Dto/VkAuthDto';
 import { Check } from '../Check';
 import { Payment } from '../Payment';
 import { Position } from '../Position';
-import { User } from '../User';
 import { CreateUpdateCheckDto } from '../Dto/Check/CreateUpdate/CreateUpdateCheckDto';
 import { CreateUpdatePositionDto } from '../Dto/Check/CreateUpdate/CreateUpdatePositionDto';
 import { CreateUpdateConsumptionDto } from '../Dto/Check/CreateUpdate/CreateUpdateConsumptionDto';

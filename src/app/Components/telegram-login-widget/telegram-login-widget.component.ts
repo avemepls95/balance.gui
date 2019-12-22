@@ -5,6 +5,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { CommonDtoMapper } from 'src/app/Model/Utils/CommonDtoMapper';
+import { FromTelegramAuthDto } from 'src/app/Model/Dto/Auth/FromTelegramAuthDto';
+import { LocalStorageManager } from 'src/app/LocalStorageManager';
 
 @Component({
   selector: 'app-telegram-login-widget',
@@ -43,11 +45,15 @@ export class TelegramLoginWidget implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    window['loginViaTelegram'] = loginData => this.loginViaTelegram(loginData);
+    window['loginViaTelegram'] = (loginData: FromTelegramAuthDto) => {
+      debugger
+      LocalStorageManager.setUserData(loginData as FromTelegramAuthDto);
+      this.loginViaTelegram(loginData)
+    };
     this.convertToScript();
   }
 
-  private loginViaTelegram(loginData) {
+  private loginViaTelegram(loginData: FromTelegramAuthDto) {
     this.loginStarted.emit();
 
     this.loginService.loginViaTelegram(CommonDtoMapper.getTelegramAuthDto(loginData))

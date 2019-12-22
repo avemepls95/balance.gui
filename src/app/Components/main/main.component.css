@@ -308,3 +308,25 @@
     .app-title {
         margin-left: 20px;
     }
+
+    .menu-sidenav .mat-list-item {
+        cursor: pointer;
+    }
+
+    .avatar-card {
+        height: 100%;
+        background: transparent;
+        transition: none !important;
+        box-shadow: none !important;
+        padding-top: 12px;
+      }
+      
+      .avatar-header-image {
+        background-size: cover;
+        cursor: pointer;
+      }
+
+    .avatar-firstname-block label {
+        align-self: center;
+        font-size: smaller;
+    }

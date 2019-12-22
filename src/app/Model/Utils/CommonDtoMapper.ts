@@ -1,21 +1,22 @@
-import { TelegramAuthDto } from "../Dto/TelegramAuthDto";
-import { VkAuthDto } from '../Dto/VkAuthDto';
+import { TelegramToBalanceAuthDto } from "../Dto/Auth/TelegramToBalanceAuthDto";
+import { VkToBalanceAuthDto } from '../Dto/Auth/VkToBalanceAuthDto';
+import { FromTelegramAuthDto } from '../Dto/Auth/FromTelegramAuthDto';
+import { FromVkAuthDto } from '../Dto/Auth/FromVkAuthDto';
 
 export class CommonDtoMapper {
-    static getTelegramAuthDto(loginData) {
-        return new TelegramAuthDto({
-            authDate: loginData.auth_date,
+    static getTelegramAuthDto(loginData: FromTelegramAuthDto) {
+        return new TelegramToBalanceAuthDto({
+            authDate: loginData.auth_date.toString(),
             firstName: loginData.first_name,
             hash: loginData.hash,
             userId: loginData.id,
             lastName: loginData.last_name,
             photoUrl: loginData.photo_url,
-            username: loginData.user_name
         });
     }
 
-    static getVkAuthDto(loginData) {
-        return new VkAuthDto({
+    static getVkAuthDto(loginData: FromVkAuthDto) {
+        return new VkToBalanceAuthDto({
             firstName: loginData.first_name,
             hash: loginData.hash,
             uid: loginData.uid,

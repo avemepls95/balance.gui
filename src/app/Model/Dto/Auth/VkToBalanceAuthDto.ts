@@ -1,21 +1,19 @@
-export class TelegramAuthDto {
-    authDate: string;
+export class VkToBalanceAuthDto {
     firstName: string;
     hash: string;
     lastName: string;
-    photoUrl: string;
-    userId: string;
-    username: string;
+    photo: string;
+    photoRec: string;
+    uid: number;
 
     public constructor(
         fields?: {
-            authDate?: string,
             firstName?: string,
             hash?: string,
             lastName?: string,
-            photoUrl?: string
-            userId?: string
-            username?: string
+            photo?: string
+            photoRec?: string
+            uid?: number
         }) {
         if (fields) Object.assign(this, fields);
     }
