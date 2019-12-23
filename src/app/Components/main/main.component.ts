@@ -12,13 +12,15 @@ import { LocalStorageManager } from 'src/app/LocalStorageManager';
 export class MainComponent implements OnInit {
   title: string = 'Balance';
   userFirstName: string;
+  avatar: string;
 
-  constructor(private router: Router, private authService: AuthService) { }
+  constructor(private router: Router, private authService: AuthService) { 
+    this.userFirstName = localStorage.getItem(LocalStorageManager.userFirstNameKey);
+    this.avatar = localStorage.getItem(LocalStorageManager.userPhotoUrlKey); 
+  }
 
   ngOnInit() {
-    this.userFirstName = localStorage.getItem(LocalStorageManager.userFirstNameKey);
-    (document.getElementsByClassName("avatar-header-image")[0] as HTMLElement).style.backgroundImage = 
-      'url(\'' + localStorage.getItem(LocalStorageManager.userPhotoUrlKey) + '\')';
+
   }
 
   logout() {

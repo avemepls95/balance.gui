@@ -111,11 +111,12 @@ div.row-action-buttons button {
 }
 
 ::ng-deep .mat-card-header-text {
-    margin: 0 7px;
+    display: none;
 }
 
 .header-row {
     width: 100%;
+    margin-left: 1vw;
 }
 
 .process-check-icon {
@@ -127,3 +128,33 @@ div.row-action-buttons button {
     color: black;
     padding-left: 8px;
 }
+
+.mat-column-username {
+    word-wrap: break-word !important;
+    white-space: unset !important;
+    flex: 0 0 28% !important;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  
+    word-break: break-word;
+  
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+  }
+
+  .mat-column-title {
+    word-wrap: break-word !important;
+    white-space: unset !important;
+    flex: 0 0 28% !important;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  
+    word-break: break-word;
+  
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+  }
