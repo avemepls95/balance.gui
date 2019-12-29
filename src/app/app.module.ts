@@ -26,8 +26,9 @@ import { LoaderService } from './Services/loader.service';
 import { PaymentCardComponent } from './Components/payment-card/payment-card.component';
 import { DigitOnlyDirective } from './Directives/digit-only.directive';
 import { CheckListComponent } from './Components/check-list/check-list.component';
-import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { SnackbarService } from './Services/snackbar.service';
+import { ConfirmDialogComponent } from './Components/confirm-dialog/confirm-dialog.component';
+import { MyBalanceComponent } from './Components/my-balance/my-balance.component';
 
 export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
@@ -47,6 +48,7 @@ export function initializeApp(appConfig: AppConfig) {
     DigitOnlyDirective,
     CheckListComponent,
     ConfirmDialogComponent,
+    MyBalanceComponent,
   ],
   imports: [
     BrowserModule,

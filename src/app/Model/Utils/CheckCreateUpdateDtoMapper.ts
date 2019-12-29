@@ -6,14 +6,14 @@ import { CreateUpdatePositionDto } from '../Dto/Check/CreateUpdate/CreateUpdateP
 import { CreateUpdateConsumptionDto } from '../Dto/Check/CreateUpdate/CreateUpdateConsumptionDto';
 import { CreateUpdatePaymentDto } from '../Dto/Check/CreateUpdate/CreateUpdatePaymentDto';
 
-export class CreateUpdateDtoMapper {
+export class CheckCreateUpdateDtoMapper {
 
     static convertCheckToDto(check: Check): CreateUpdateCheckDto {
         return new CreateUpdateCheckDto({
             id: check.id,
             title: check.title,
-            positions: CreateUpdateDtoMapper.convertPositionToDto(check.positions),
-            payments: CreateUpdateDtoMapper.convertPaymentToDto(check.payments),
+            positions: CheckCreateUpdateDtoMapper.convertPositionToDto(check.positions),
+            payments: CheckCreateUpdateDtoMapper.convertPaymentToDto(check.payments),
         })
     }
 
@@ -22,7 +22,7 @@ export class CreateUpdateDtoMapper {
             title: p.title,
             amount: p.amount,
             consumptions: p.users.map(u => new CreateUpdateConsumptionDto({
-                amount: 1,
+                amount: p.amount / p.users.length,
                 userId: u.id
             }))
         }));

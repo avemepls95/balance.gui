@@ -1,0 +1,4 @@
+<mat-card *ngFor='let debt of debts' class="debt-card" [ngClass]="debt.amount > '0' ? 'positive-amount-color' : 'negative-amount-color'">
+    <h1>{{debt.user.username}}</h1>
+    <h1>{{debt.amount}}</h1>
+</mat-card>

@@ -7,13 +7,13 @@ import { GetPositionDto } from '../Dto/Check/Get/GetPositionDto';
 import { GetConsumptionDto } from '../Dto/Check/Get/GetConsumptionDto';
 import { GetPaymentDto } from '../Dto/Check/Get/GetPaymentDto';
 
-export class GetDtoMapper {
+export class CheckGetDtoMapper {
     static convertCheckToDto(check: Check): GetCheckDto {
         return new GetCheckDto({
             id: check.id,
             title: check.title,
-            positions: GetDtoMapper.convertPositionToDto(check.positions),
-            payments: GetDtoMapper.convertPaymentToDto(check.payments),
+            positions: CheckGetDtoMapper.convertPositionToDto(check.positions),
+            payments: CheckGetDtoMapper.convertPaymentToDto(check.payments),
         })
     }
 
@@ -39,8 +39,8 @@ export class GetDtoMapper {
         return new Check({
             id: checkDto.id,
             title: checkDto.title,
-            positions: GetDtoMapper.convertDtoToPosition(checkDto.positions),
-            payments: GetDtoMapper.convertDtoToPayment(checkDto.payments),
+            positions: CheckGetDtoMapper.convertDtoToPosition(checkDto.positions),
+            payments: CheckGetDtoMapper.convertDtoToPayment(checkDto.payments),
         })
     }
 

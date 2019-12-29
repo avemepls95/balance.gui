@@ -1,0 +1,17 @@
+.negative-amount-color {
+    background-color: orangered;
+}
+
+.positive-amount-color {
+    background-color: mediumseagreen;
+}
+
+.debt-card {
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 2vh;
+}
+
+.debt-card h1 {
+    margin-bottom: 0;
+}

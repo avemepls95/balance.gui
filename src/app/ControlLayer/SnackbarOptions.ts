@@ -1,4 +1,4 @@
-import { SnackBarColor } from '../MarkupUtils/SnackBarColor.enum';
+import { SnackBarColor } from './SnackBarColor.enum';
 
 export class SnackbarOptions {
     backgroundColor: SnackBarColor = SnackBarColor.Default;

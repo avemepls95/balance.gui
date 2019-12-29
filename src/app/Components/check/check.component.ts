@@ -18,10 +18,10 @@ import { BalanceApiService } from 'src/app/Services/balance-api.service';
 import { finalize, take } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { TouchSequence } from 'selenium-webdriver';
-import { GetDtoMapper } from 'src/app/Model/Utils/GetDtoMapper';
+import { CheckGetDtoMapper } from 'src/app/Model/Utils/CheckGetDtoMapper';
 import { LoaderService } from 'src/app/Services/loader.service';
-import { CreateUpdateDtoMapper } from 'src/app/Model/Utils/CreateUpdateDtoMapper';
-import { SnackBarColor } from 'src/app/MarkupUtils/SnackBarColor.enum'
+import { CheckCreateUpdateDtoMapper } from 'src/app/Model/Utils/CheckCreateUpdateDtoMapper';
+import { SnackBarColor } from 'src/app/ControlLayer/SnackBarColor.enum'
 import { ResponseCode } from 'src/app/Utils/ResponseCode.enum';
 import { BalanceError } from 'src/app/BalanceError';
 import { SnackbarOptions } from 'src/app/ControlLayer/SnackbarOptions';
@@ -74,7 +74,7 @@ export class CheckComponent implements OnInit, ICanBeCreated {
           this.editingMode = true
           loaderService.show();
           balanceApiService.getCheckById(params['id']).subscribe(result => {
-            this.check = GetDtoMapper.convertDtoToCheck(result.data);
+            this.check = CheckGetDtoMapper.convertDtoToCheck(result.data);
             this.positionsDataSource = new MatTableDataSource(this.check.positions);
             this.paymentsDataSource = new MatTableDataSource(this.check.payments);
             loaderService.hide();
@@ -223,7 +223,7 @@ export class CheckComponent implements OnInit, ICanBeCreated {
   }
 
   createCheck() {
-    let checkDto = CreateUpdateDtoMapper.convertCheckToDto(this.check);
+    let checkDto = CheckCreateUpdateDtoMapper.convertCheckToDto(this.check);
     this.loaderService.show();
     this.balanceApiService.createCheck(checkDto)
       .pipe(finalize(() => {
@@ -255,7 +255,7 @@ export class CheckComponent implements OnInit, ICanBeCreated {
   }
 
   updateCheck() {
-    let checkDto = CreateUpdateDtoMapper.convertCheckToDto(this.check);
+    let checkDto = CheckCreateUpdateDtoMapper.convertCheckToDto(this.check);
     this.loaderService.show();
     this.balanceApiService.updateCheck(checkDto)
       .pipe(finalize(() => {
@@ -285,9 +285,8 @@ export class CheckComponent implements OnInit, ICanBeCreated {
   }
 
   processCheck() {
-    let checkDto = CreateUpdateDtoMapper.convertCheckToDto(this.check);
     this.loaderService.show();
-    this.balanceApiService.processCheck(checkDto)
+    this.balanceApiService.processCheck(this.check.id)
       .pipe(finalize(() => {
         this.loaderService.hide();
       }))

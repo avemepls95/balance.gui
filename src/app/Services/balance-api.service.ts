@@ -58,13 +58,14 @@ export class BalanceApiService {
     return this.http.delete(this.apiBaseUrl + 'checks/' + id.toString()) as Observable<BalanceResponse>;
   }
 
-  processCheck(check: CreateUpdateCheckDto): Observable<BalanceResponse> {
-    if (isNullOrUndefined(check))
-      throw Error("Cannot update a check. Passed parameter is null or indefined.");
-
+  processCheck(checkId: number): Observable<BalanceResponse> {
     return this.http.post(
-      this.apiBaseUrl + 'checks/' + check.id.toString() + '/process',
-      check
+      this.apiBaseUrl + 'checks/' + checkId.toString() + '/process', 
+      {}
     ) as Observable<BalanceResponse>;
+  }
+
+  getDebts(): Observable<BalanceResponse> {
+    return this.http.get(this.apiBaseUrl + 'balances') as Observable<BalanceResponse>;
   }
 }

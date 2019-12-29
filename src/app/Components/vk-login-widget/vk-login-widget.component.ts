@@ -1,6 +1,6 @@
 import { Component, OnInit, ElementRef, ViewChild, AfterViewInit, Output, EventEmitter } from '@angular/core';
 import { AuthService } from 'src/app/Services/auth.service';
-import { GetDtoMapper } from 'src/app/Model/Utils/GetDtoMapper';
+import { CheckGetDtoMapper } from 'src/app/Model/Utils/CheckGetDtoMapper';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { finalize } from 'rxjs/operators';
