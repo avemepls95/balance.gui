@@ -17,6 +17,7 @@ import { BalanceResponse } from 'src/app/BalanceResponse';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { ConfirmDialogModel, ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-check-list',
@@ -101,7 +102,7 @@ export class CheckListComponent implements OnInit {
             this.checks.splice(index, 1);
             this.dataSource.data = this.checks;
           },
-          (errorResponse: BalanceError) => {
+          (errorResponse: HttpErrorResponse) => {
             let message = "Error. Something went wrong";
             if (errorResponse.error.error.code == ResponseCode.ValidationFailed)
               message = 'Incorrect data';

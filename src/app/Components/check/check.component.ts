@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { Payment } from 'src/app/Model/Payment';
 import { Position } from 'src/app/Model/Position';
 import { FormControl, Validators } from '@angular/forms';
@@ -34,7 +34,7 @@ import { HttpErrorResponse } from '@angular/common/http';
   templateUrl: './check.component.html',
   styleUrls: ['./check.component.css'],
 })
-export class CheckComponent implements OnInit, ICanBeCreated {
+export class CheckComponent implements OnInit, OnDestroy, ICanBeCreated {
   titleFormControl = new FormControl('', [
     Validators.required
   ]);
@@ -91,6 +91,10 @@ export class CheckComponent implements OnInit, ICanBeCreated {
   ngOnInit() {
     this.positionsDataSource.paginator = this.paginator;
     this.positionsDataSource.sort = this.sort;
+  }
+
+  ngOnDestroy() {
+    this.snackbar.ngOnDestroy();
   }
 
   applyPositionsFilter(filterValue: string) {
@@ -244,6 +248,7 @@ export class CheckComponent implements OnInit, ICanBeCreated {
           let message = "Error. Something went wrong";
           if (errorResponse.error.error.code == ResponseCode.ValidationFailed)
             message = 'Incorrect data';
+
           this.snackbarService.openSnackBar(this.snackbar, new SnackbarOptions({
             backgroundColor: SnackBarColor.Error,
             message: message,
@@ -274,6 +279,7 @@ export class CheckComponent implements OnInit, ICanBeCreated {
           let message = "Error. Something went wrong";
           if (errorResponse.error.error.code == ResponseCode.ValidationFailed)
             message = 'Incorrect data';
+
           this.snackbarService.openSnackBar(this.snackbar, new SnackbarOptions({
             backgroundColor: SnackBarColor.Error,
             message: message,
@@ -303,10 +309,8 @@ export class CheckComponent implements OnInit, ICanBeCreated {
           let message = "Error. Something went wrong";
           if (errorResponse.error.error.code == ResponseCode.ValidationFailed) {
             message = 'Incorrect data';
-            // errorResponse.error.error.info.validation.forEach(element => {
-            //   console.log(element);
-            // });
           }
+
           this.snackbarService.openSnackBar(this.snackbar, new SnackbarOptions({
             backgroundColor: SnackBarColor.Error,
             message: message,

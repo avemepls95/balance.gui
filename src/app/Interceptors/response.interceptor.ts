@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import 'rxjs/add/operator/do';
 import { Injectable } from '@angular/core';
+import { isNullOrUndefined } from 'util';
 
 @Injectable()
 export class ResponseInterceptor implements HttpInterceptor {
@@ -13,15 +14,23 @@ export class ResponseInterceptor implements HttpInterceptor {
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return next.handle(request).do(
             (event: HttpEvent<any>) => {},
-            (err: any) => {}
+            (err: any) => { this.handleResponseError(err) }
         );
     }
 
-    handleResponseError(err: any) {
-        if (err instanceof HttpErrorResponse) {
-            if (err.status === 401) {
-                this.router.navigate(['/auth']);
-            }
+    handleResponseError(errorResponse: any) {
+        if (isNullOrUndefined(errorResponse.error))
+            return;
+
+        if (isNullOrUndefined(errorResponse.error.error.info) ||
+            errorResponse.error.error.info.validation.$.length == 0) {
+                
+            console.log(errorResponse.error.error.message);
+            return;
         }
+
+        errorResponse.error.error.info.validation.$.forEach(element => {
+            console.log(element);
+        });
     }
 }
