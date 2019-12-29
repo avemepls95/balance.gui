@@ -4,6 +4,7 @@ import { GetPaymentDto } from './GetPaymentDto';
 export class GetCheckDto {
     id: number;
     title: string;
+    isReadyForProcess: boolean;
     positions: GetPositionDto[] = [];
     payments: GetPaymentDto[] = [];
 
@@ -11,6 +12,7 @@ export class GetCheckDto {
         fields?: {
             id?: number,
             title?: string,
+            isReadyForProcess?: boolean,
             positions?: GetPositionDto[],
             payments?: GetPaymentDto[]
         }) {

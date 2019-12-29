@@ -4,6 +4,7 @@ import { Position } from 'src/app/Model/Position';
 export class Check {
     id: number;
     title: string;
+    isReadyForProcess: boolean;
     positions: Position[] = [];
     payments: Payment[] = [];
 
@@ -11,6 +12,7 @@ export class Check {
         fields?: {
             id?: number,
             title?: string,
+            isReadyForProcess: boolean,
             positions?: Position[],
             payments?: Payment[]
         }) {

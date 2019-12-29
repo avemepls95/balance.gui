@@ -6,12 +6,61 @@
     background-color: mediumseagreen;
 }
 
+h1 {
+    color: white;
+}
+
 .debt-card {
     display: flex;
     justify-content: space-evenly;
     margin-top: 2vh;
 }
 
-.debt-card h1 {
-    margin-bottom: 0;
+    .debt-card h1 {
+        margin-bottom: 0;
+    }
+
+.concrete-debt {
+    margin-left: 5vw;
+    margin-right: 5vw;
 }
+
+.total-debt {
+    margin-left: 10vw;
+    margin-right: 10vw;
+}
+
+table {
+    width: 100%;
+}
+
+.mat-column-index {
+    width: 40px;
+    opacity: 0.5;
+}
+
+::ng-deep .mat-sort-header-container {
+    display:flex;
+    justify-content:center;
+    transform: translateX(12px); /* 12px - sort arrow */
+}
+
+.mat-cell { 
+    text-align: center;
+}
+
+
+.mat-column-title {
+    word-wrap: break-word !important;
+    white-space: unset !important;
+    flex: 0 0 28% !important;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  
+    word-break: break-word;
+  
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+  }

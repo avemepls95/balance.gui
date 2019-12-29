@@ -39,6 +39,7 @@ export class CheckGetDtoMapper {
         return new Check({
             id: checkDto.id,
             title: checkDto.title,
+            isReadyForProcess: checkDto.isReadyForProcess,
             positions: CheckGetDtoMapper.convertDtoToPosition(checkDto.positions),
             payments: CheckGetDtoMapper.convertDtoToPayment(checkDto.payments),
         })
