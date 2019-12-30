@@ -16,8 +16,8 @@ import { BalanceError } from 'src/app/BalanceError';
 import { BalanceResponse } from 'src/app/BalanceResponse';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { ConfirmDialogModel, ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ConfirmDialogModel, ConfirmDialogComponent } from '../../Common/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-check-list',

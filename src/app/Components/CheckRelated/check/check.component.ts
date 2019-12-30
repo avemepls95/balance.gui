@@ -7,7 +7,6 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
-import { PositionCardComponent } from 'src/app/Components/position-card/position-card.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { config, pipe } from 'rxjs';
 import { PaymentCardComponent } from '../payment-card/payment-card.component';
@@ -27,6 +26,7 @@ import { SnackbarOptions } from 'src/app/ControlLayer/SnackbarOptions';
 import { SnackbarService } from 'src/app/Services/snackbar.service';
 import { BalanceResponse } from 'src/app/BalanceResponse';
 import { HttpErrorResponse } from '@angular/common/http';
+import { PositionCardComponent } from '../position-card/position-card.component';
 
 @Component({
   selector: 'app-check',
