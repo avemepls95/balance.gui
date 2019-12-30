@@ -129,6 +129,12 @@ div.row-action-buttons button {
     padding-left: 8px;
 }
 
+.rollback-check-button {
+    background-color: orangered;
+    color: black;
+    padding-left: 8px;
+}
+
 .mat-column-username {
     word-wrap: break-word !important;
     white-space: unset !important;

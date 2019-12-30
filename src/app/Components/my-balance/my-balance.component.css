@@ -39,16 +39,19 @@ table {
     opacity: 0.5;
 }
 
-::ng-deep .mat-sort-header-container {
-    display:flex;
-    justify-content:center;
-    transform: translateX(12px); /* 12px - sort arrow */
+th.mat-header-cell {
+    text-align: center;
+    font-size: medium;
+    color: black;
+}
+
+.mat-header-row {
+    border-bottom: white 1rem solid;
 }
 
 .mat-cell { 
     text-align: center;
 }
-
 
 .mat-column-title {
     word-wrap: break-word !important;
@@ -64,3 +67,7 @@ table {
     -webkit-hyphens: auto;
     hyphens: auto;
   }
+
+.mat-column-actions {
+    width: 70px;
+}

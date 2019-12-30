@@ -5,7 +5,6 @@ import { BalanceApiService } from 'src/app/Services/balance-api.service';
 import { Debt } from 'src/app/Model/Debt';
 import { DebtsDtoMapper } from 'src/app/Model/Utils/DebtsDtoMapper';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 
 @Component({
@@ -18,7 +17,7 @@ export class MyBalanceComponent implements OnInit {
   debts: Debt[];
   totalAmount: number = 0;
 
-  displayedColumns: string[] = ['index', 'username', 'amount'];
+  displayedColumns: string[] = ['index', 'username', 'amount', 'actions'];
   dataSource: MatTableDataSource<Debt>;
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -33,10 +32,14 @@ export class MyBalanceComponent implements OnInit {
       finalize(() => loaderService.hide())
     ).subscribe(
       (response) => {
-        this.debts = response.data.map(d => DebtsDtoMapper.convertDtoToDebt(d))
+        this.debts = response.data.map(d => DebtsDtoMapper.convertDtoToDebt(d));
         this.totalAmount = this.debts.reduce((sum, current) => sum + current.amount, 0);
         this.dataSource = new MatTableDataSource(this.debts);
         this.dataSource.sort = this.sort;
+        this.dataSource.filterPredicate = function (debt: Debt, filter: string): boolean {
+          return debt.user.username.toLowerCase().includes(filter) ||
+            debt.amount.toString().toLowerCase().includes(filter);
+        };
       },
       (error) => console.error(error)
     );
@@ -47,6 +50,10 @@ export class MyBalanceComponent implements OnInit {
 
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  getTotalAmount() : number {
+    return this.dataSource.filteredData.reduce((sum, current) => sum + current.amount, 0);
   }
 
 }

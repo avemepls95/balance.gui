@@ -41,3 +41,14 @@ table {
     -webkit-hyphens: auto;
     hyphens: auto;
   }
+
+ .mat-column-title > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+ }
+
+ .mat-column-title > div > .mat-icon {
+    margin-bottom: 4px;
+    margin-left: 4px;
+ }

@@ -17,7 +17,6 @@ import { isNullOrUndefined, isNumber } from 'util';
 import { BalanceApiService } from 'src/app/Services/balance-api.service';
 import { finalize, take } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
-import { TouchSequence } from 'selenium-webdriver';
 import { CheckGetDtoMapper } from 'src/app/Model/Utils/CheckGetDtoMapper';
 import { LoaderService } from 'src/app/Services/loader.service';
 import { CheckCreateUpdateDtoMapper } from 'src/app/Model/Utils/CheckCreateUpdateDtoMapper';
@@ -51,7 +50,7 @@ export class CheckComponent implements OnInit, OnDestroy, ICanBeCreated {
 
   check: Check;
 
-  editingMode: boolean = false;
+  mode: string = 'creating';
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -71,7 +70,7 @@ export class CheckComponent implements OnInit, OnDestroy, ICanBeCreated {
     activateRoute.params.subscribe(params => {
       if (!isNullOrUndefined(params['id'])) {
         if (+params['id']) {
-          this.editingMode = true
+          this.mode = 'editing';
           loaderService.show();
           balanceApiService.getCheckById(params['id']).subscribe(result => {
             this.check = CheckGetDtoMapper.convertDtoToCheck(result.data);
@@ -114,6 +113,7 @@ export class CheckComponent implements OnInit, OnDestroy, ICanBeCreated {
   }
 
   openPositionCard(action, obj) {
+    debugger
     let data = {
       obj: Object.assign({}, obj),
       action: action
@@ -236,7 +236,8 @@ export class CheckComponent implements OnInit, OnDestroy, ICanBeCreated {
       .subscribe(
         (response: BalanceResponse) => {
           this.canBeProcessed = true;
-          this.check.id = response.data.id;
+          
+          this.check = CheckGetDtoMapper.convertDtoToCheck(response.data);
           this.snackbarService.openSnackBar(this.snackbar, new SnackbarOptions({
             backgroundColor: SnackBarColor.Success,
             message: "Success!",
@@ -298,6 +299,40 @@ export class CheckComponent implements OnInit, OnDestroy, ICanBeCreated {
       }))
       .subscribe(
         (response: BalanceResponse) => {
+          this.check = CheckGetDtoMapper.convertDtoToCheck(response.data);
+          this.mode = "editing";
+          this.snackbarService.openSnackBar(this.snackbar, new SnackbarOptions({
+            backgroundColor: SnackBarColor.Success,
+            message: "Success!",
+            action: "Close",
+            duration: 0
+          }));
+        },
+        (errorResponse: HttpErrorResponse) => {
+          let message = "Error. Something went wrong";
+          if (errorResponse.error.error.code == ResponseCode.ValidationFailed) {
+            message = 'Incorrect data';
+          }
+
+          this.snackbarService.openSnackBar(this.snackbar, new SnackbarOptions({
+            backgroundColor: SnackBarColor.Error,
+            message: message,
+            action: "Close",
+            duration: 0
+          }));
+        }
+      );
+  }
+
+  rollbackCheck() {
+    this.loaderService.show();
+    this.balanceApiService.rollbackCheck(this.check.id)
+      .pipe(finalize(() => {
+        this.loaderService.hide();
+      }))
+      .subscribe(
+        (response: BalanceResponse) => {
+          this.check = CheckGetDtoMapper.convertDtoToCheck(response.data);
           this.snackbarService.openSnackBar(this.snackbar, new SnackbarOptions({
             backgroundColor: SnackBarColor.Success,
             message: "Success!",

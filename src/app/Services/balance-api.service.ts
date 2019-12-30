@@ -65,6 +65,13 @@ export class BalanceApiService {
     ) as Observable<BalanceResponse>;
   }
 
+  rollbackCheck(checkId: number): Observable<BalanceResponse> {
+    return this.http.post(
+      this.apiBaseUrl + 'checks/' + checkId.toString() + '/rollback', 
+      {}
+    ) as Observable<BalanceResponse>;
+  }
+
   getDebts(): Observable<BalanceResponse> {
     return this.http.get(this.apiBaseUrl + 'balances') as Observable<BalanceResponse>;
   }

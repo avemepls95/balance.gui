@@ -47,6 +47,7 @@ export class CheckListComponent implements OnInit {
     ).subscribe(
       (response) => {
         this.checks = response.data.map(c => CheckGetDtoMapper.convertDtoToCheck(c))
+        debugger
         this.dataSource = new MatTableDataSource(this.checks);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;

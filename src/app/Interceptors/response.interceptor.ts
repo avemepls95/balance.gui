@@ -13,7 +13,7 @@ export class ResponseInterceptor implements HttpInterceptor {
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return next.handle(request).do(
-            (event: HttpEvent<any>) => {},
+            (event: HttpEvent<any>) => { },
             (err: any) => { this.handleResponseError(err) }
         );
     }
@@ -22,15 +22,25 @@ export class ResponseInterceptor implements HttpInterceptor {
         if (isNullOrUndefined(errorResponse.error))
             return;
 
-        if (isNullOrUndefined(errorResponse.error.error.info) ||
-            errorResponse.error.error.info.validation.$.length == 0) {
-                
-            console.log(errorResponse.error.error.message);
+        if (!isNullOrUndefined(errorResponse.error.error.info)) {
+            if (isNullOrUndefined(errorResponse.error.error.info.validation.$)) {
+                for (let key in errorResponse.error.error.info.validation) {
+                    console.log(errorResponse.error.error.info.validation[key]);
+                }
+            } else {
+                errorResponse.error.error.info.validation.$.forEach(element => {
+                    console.log(element);
+                });
+            }
+
             return;
         }
 
-        errorResponse.error.error.info.validation.$.forEach(element => {
-            console.log(element);
-        });
+        console.log(errorResponse.error.error.message);
+        return;
     }
+}
+
+interface IDictionary {
+    [index: string]: string;
 }
