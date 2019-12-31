@@ -98,7 +98,7 @@ export class MyBalanceComponent implements OnInit {
         }))
         .subscribe(
           (response: BalanceResponse) => {
-            debt.amount += data.amount;
+            debt.amount += +data.amount;
 
             this.snackbarService.openSnackBar(this.snackbar, new SnackbarOptions({
               backgroundColor: SnackBarColor.Success,
