@@ -1,7 +1,6 @@
 import { Component, OnInit, Optional, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { PaymentCardComponent } from '../CheckRelated/payment-card/payment-card.component';
-import { User } from 'src/app/Model/User';
 import { Debt } from 'src/app/Model/Debt';
 import { ConfirmDialogModel, ConfirmDialogComponent } from '../Common/confirm-dialog/confirm-dialog.component';
 
@@ -49,7 +48,8 @@ export class TransferCardComponent implements OnInit {
   }
 
   canRegister() {
-    return this.amount != 0 && !isNaN(this.amount);
+    return this.amount != 0 && !isNaN(this.amount) &&
+      this.amount > 0 && this.amount <= - this.debt.amount;
   }
 
 }

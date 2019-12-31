@@ -25,6 +25,7 @@ export class DigitOnlyDirective {
       (e.keyCode == 86 && e.ctrlKey === true) ||
       // Allow: Ctrl+X
       (e.keyCode == 88 && e.ctrlKey === true) ||
+      (e.keyCode > 95 && e.keyCode < 106) ||
       // Allow: home, end, left, right
       (e.keyCode >= 35 && e.keyCode <= 39)) {
       // let it happen, don't do anything
