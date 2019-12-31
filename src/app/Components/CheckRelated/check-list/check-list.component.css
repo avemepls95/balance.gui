@@ -27,6 +27,10 @@ table {
     text-align: center;
 }
 
+.mat-row {
+    cursor: pointer;
+}
+
 .mat-column-title {
     word-wrap: break-word !important;
     white-space: unset !important;
