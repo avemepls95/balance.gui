@@ -113,7 +113,6 @@ export class CheckComponent implements OnInit, OnDestroy, ICanBeCreated {
   }
 
   openPositionCard(action, obj) {
-    debugger
     let data = {
       obj: Object.assign({}, obj),
       action: action

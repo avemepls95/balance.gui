@@ -41,9 +41,9 @@
                                     onclick="this.blur()">
                                     <mat-icon>edit</mat-icon>
                                 </button>
-                                <button class="row-remove-button" mat-icon-button (click)="deleteCheck(item.id)"
+                                <button [disabled]="!item.isReadyForProcess" mat-icon-button (click)="deleteCheck(item.id)"
                                     onclick="this.blur()">
-                                    <mat-icon class="red">delete</mat-icon>
+                                    <mat-icon [ngClass]="item.isReadyForProcess ? 'red' : 'transparent'">delete</mat-icon>
                                 </button>
                             </div>
                         </td>

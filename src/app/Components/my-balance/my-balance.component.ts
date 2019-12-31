@@ -6,6 +6,19 @@ import { Debt } from 'src/app/Model/Debt';
 import { DebtsDtoMapper } from 'src/app/Model/Utils/DebtsDtoMapper';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
+import { TransferCardComponent } from '../transfer-card/transfer-card.component';
+import { MatDialog } from '@angular/material/dialog';
+import { isNullOrUndefined } from 'util';
+import { BalanceResponse } from 'src/app/BalanceResponse';
+import { CheckGetDtoMapper } from 'src/app/Model/Utils/CheckGetDtoMapper';
+import { SnackbarOptions } from 'src/app/ControlLayer/SnackbarOptions';
+import { SnackBarColor } from 'src/app/ControlLayer/SnackBarColor.enum';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ResponseCode } from 'src/app/Utils/ResponseCode.enum';
+import { SnackbarService } from 'src/app/Services/snackbar.service';
+import { TransferDto } from 'src/app/Model/Dto/TransferDto';
+import { UUID } from 'angular2-uuid';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-my-balance',
@@ -23,8 +36,11 @@ export class MyBalanceComponent implements OnInit {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(
-    balanceApiService: BalanceApiService,
-    loaderService: LoaderService,
+    private snackbar: MatSnackBar,
+    private balanceApiService: BalanceApiService,
+    private loaderService: LoaderService,
+    private snackbarService: SnackbarService,
+    public dialog: MatDialog,
   ) {
 
     loaderService.show();
@@ -52,8 +68,60 @@ export class MyBalanceComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  getTotalAmount() : number {
+  getTotalAmount(): number {
+    if (isNullOrUndefined(this.dataSource) || isNullOrUndefined(this.dataSource.filteredData))
+      return this.totalAmount;
+
     return this.dataSource.filteredData.reduce((sum, current) => sum + current.amount, 0);
+  }
+
+  openTransferCard(debt: Debt) {
+    const dialogRef = this.dialog.open(TransferCardComponent, {
+      data: debt
+    });
+
+    dialogRef.afterClosed().subscribe(data => {
+      debugger
+      if (isNaN(data.amount))
+        return;
+
+      let transferDto = new TransferDto({
+        id: UUID.UUID(),
+        amount: data.amount,
+        recipientId: debt.user.id
+      });
+
+      this.loaderService.show();
+      this.balanceApiService.registerTransfer(transferDto)
+        .pipe(finalize(() => {
+          this.loaderService.hide();
+        }))
+        .subscribe(
+          (response: BalanceResponse) => {
+            debt.amount += data.amount;
+
+            this.snackbarService.openSnackBar(this.snackbar, new SnackbarOptions({
+              backgroundColor: SnackBarColor.Success,
+              message: "Success!",
+              action: "Close",
+              duration: 0
+            }));
+          },
+          (errorResponse: HttpErrorResponse) => {
+            let message = "Error. Something went wrong";
+            if (errorResponse.error.error.code == ResponseCode.ValidationFailed)
+              message = 'Incorrect data';
+
+            this.snackbarService.openSnackBar(this.snackbar, new SnackbarOptions({
+              backgroundColor: SnackBarColor.Error,
+              message: message,
+              action: "Close",
+              duration: 0
+            }));
+          }
+        );
+
+    });
   }
 
 }

@@ -4,6 +4,7 @@ import { Observable, EMPTY } from 'rxjs';
 import { isNullOrUndefined } from 'util';
 import { CreateUpdateCheckDto } from '../Model/Dto/Check/CreateUpdate/CreateUpdateCheckDto';
 import { BalanceResponse } from '../BalanceResponse';
+import { TransferDto } from '../Model/Dto/TransferDto';
 
 @Injectable({
   providedIn: 'root'
@@ -60,19 +61,29 @@ export class BalanceApiService {
 
   processCheck(checkId: number): Observable<BalanceResponse> {
     return this.http.post(
-      this.apiBaseUrl + 'checks/' + checkId.toString() + '/process', 
+      this.apiBaseUrl + 'checks/' + checkId.toString() + '/process',
       {}
     ) as Observable<BalanceResponse>;
   }
 
   rollbackCheck(checkId: number): Observable<BalanceResponse> {
     return this.http.post(
-      this.apiBaseUrl + 'checks/' + checkId.toString() + '/rollback', 
+      this.apiBaseUrl + 'checks/' + checkId.toString() + '/rollback',
       {}
     ) as Observable<BalanceResponse>;
   }
 
   getDebts(): Observable<BalanceResponse> {
     return this.http.get(this.apiBaseUrl + 'balances') as Observable<BalanceResponse>;
+  }
+
+  registerTransfer(transferDto: TransferDto) {
+    if (isNullOrUndefined(transferDto))
+      throw Error("Cannot register a transfer. Passed parameter is null or indefined.");
+
+    return this.http.post(
+      this.apiBaseUrl + 'transfers',
+      transferDto
+    ) as Observable<BalanceResponse>;
   }
 }

@@ -47,6 +47,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .material-icons.red { color: red; }
 .material-icons.green { color: seagreen; }
+.material-icons.transparent { color: transparent; }
 
 .mat-dialog-content {
     font-size: 14px;
@@ -107,4 +108,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .content-card {
     margin-top: 2vh;
+}
+
+.mat-dialog-actions {
+    display: flex;
+    justify-content: center;
 }
