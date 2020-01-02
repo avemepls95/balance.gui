@@ -8,7 +8,7 @@ import { MainComponent } from './Components/main/main.component';
 import { AuthComponent } from './Components/AuthRelated/auth/auth.component';
 
 const menuRoutes: Routes = [
-  { path: '', redirectTo: 'main/debts', pathMatch: 'full' },
+  { path: '', redirectTo: '/debts', pathMatch: 'full' },
   { path: 'checks', component: CheckListComponent },
   { path: 'createCheck', component: CheckComponent },
   { path: 'editCheck/:id', component: CheckComponent },
@@ -18,12 +18,11 @@ const menuRoutes: Routes = [
 const routes: Routes = [
   {
     path: '', canActivate: [AuthGuard], children: [
-      { path: '', redirectTo: '/main', pathMatch: 'full' },
-      { path: 'main', component: MainComponent, children: menuRoutes },
+      { path: '', component: MainComponent, children: menuRoutes },
     ]
   },
   { path: 'auth', component: AuthComponent },
-  // { path: '**', redirectTo: '/main' },
+  { path: '**', redirectTo: '' },
 ];
 
 @NgModule({
