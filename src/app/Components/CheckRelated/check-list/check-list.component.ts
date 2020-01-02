@@ -41,6 +41,7 @@ export class CheckListComponent implements OnInit {
     private dialog: MatDialog,
     private snackbar: MatSnackBar) {
 
+    snackbarService.setSnackbar(snackbar);
     loaderService.show();
     balanceApiService.getAllChecks().pipe(
       finalize(() => loaderService.hide())
@@ -94,7 +95,7 @@ export class CheckListComponent implements OnInit {
         }))
         .subscribe(
           (response: BalanceResponse) => {
-            this.snackbarService.openSnackBar(this.snackbar, new SnackbarOptions({
+            this.snackbarService.openSnackBar(new SnackbarOptions({
               backgroundColor: SnackBarColor.Success,
               message: "Success!",
               action: "Close",
@@ -108,7 +109,7 @@ export class CheckListComponent implements OnInit {
             if (errorResponse.error.error.code == ResponseCode.ValidationFailed)
               message = 'Incorrect data';
 
-            this.snackbarService.openSnackBar(this.snackbar, new SnackbarOptions({
+            this.snackbarService.openSnackBar(new SnackbarOptions({
               backgroundColor: SnackBarColor.Error,
               message: message,
               action: "Close",

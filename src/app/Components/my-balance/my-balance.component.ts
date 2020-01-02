@@ -42,6 +42,7 @@ export class MyBalanceComponent implements OnInit {
     private snackbarService: SnackbarService,
     public dialog: MatDialog,
   ) {
+    snackbarService.setSnackbar(snackbar);
 
     loaderService.show();
     balanceApiService.getDebts().pipe(
@@ -100,7 +101,7 @@ export class MyBalanceComponent implements OnInit {
           (response: BalanceResponse) => {
             debt.amount += +data.amount;
 
-            this.snackbarService.openSnackBar(this.snackbar, new SnackbarOptions({
+            this.snackbarService.openSnackBar(new SnackbarOptions({
               backgroundColor: SnackBarColor.Success,
               message: "Success!",
               action: "Close",
@@ -112,7 +113,7 @@ export class MyBalanceComponent implements OnInit {
             if (errorResponse.error.error.code == ResponseCode.ValidationFailed)
               message = 'Incorrect data';
 
-            this.snackbarService.openSnackBar(this.snackbar, new SnackbarOptions({
+            this.snackbarService.openSnackBar(new SnackbarOptions({
               backgroundColor: SnackBarColor.Error,
               message: message,
               action: "Close",

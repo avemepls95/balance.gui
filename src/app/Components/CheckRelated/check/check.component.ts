@@ -21,7 +21,6 @@ import { LoaderService } from 'src/app/Services/loader.service';
 import { CheckCreateUpdateDtoMapper } from 'src/app/Model/Utils/CheckCreateUpdateDtoMapper';
 import { SnackBarColor } from 'src/app/ControlLayer/SnackBarColor.enum'
 import { ResponseCode } from 'src/app/Utils/ResponseCode.enum';
-import { BalanceError } from 'src/app/BalanceError';
 import { SnackbarOptions } from 'src/app/ControlLayer/SnackbarOptions';
 import { SnackbarService } from 'src/app/Services/snackbar.service';
 import { BalanceResponse } from 'src/app/BalanceResponse';
@@ -57,11 +56,13 @@ export class CheckComponent implements OnInit, OnDestroy, ICanBeCreated {
 
   constructor(
     public dialog: MatDialog,
-    private snackbar: MatSnackBar,
     private balanceApiService: BalanceApiService,
+    private snackbar: MatSnackBar,
     activateRoute: ActivatedRoute,
     private loaderService: LoaderService,
     private snackbarService: SnackbarService) {
+
+    snackbarService.setSnackbar(snackbar);
 
     this.check = new Check();
     this.positionsDataSource = new MatTableDataSource(this.check.positions);
@@ -142,7 +143,7 @@ export class CheckComponent implements OnInit, OnDestroy, ICanBeCreated {
     }));
 
     this.positionsDataSource.data = this.check.positions;
-    this.snackbarService.openSnackBar(this.snackbar, new SnackbarOptions({ message: "Position was added!" }));
+    this.snackbarService.openSnackBar(new SnackbarOptions({ message: "Position was added!" }));
   }
 
   updatePosition(data: Position) {
@@ -194,7 +195,7 @@ export class CheckComponent implements OnInit, OnDestroy, ICanBeCreated {
     }));
 
     this.paymentsDataSource.data = this.check.payments;
-    this.snackbarService.openSnackBar(this.snackbar, new SnackbarOptions({ message: "Payment was added!" }));
+    this.snackbarService.openSnackBar(new SnackbarOptions({ message: "Payment was added!" }));
   }
 
   updatePayment(data: Payment) {
@@ -237,7 +238,7 @@ export class CheckComponent implements OnInit, OnDestroy, ICanBeCreated {
           this.canBeProcessed = true;
           
           this.check = CheckGetDtoMapper.convertDtoToCheck(response.data);
-          this.snackbarService.openSnackBar(this.snackbar, new SnackbarOptions({
+          this.snackbarService.openSnackBar(new SnackbarOptions({
             backgroundColor: SnackBarColor.Success,
             message: "Success!",
             action: "Close",
@@ -249,7 +250,7 @@ export class CheckComponent implements OnInit, OnDestroy, ICanBeCreated {
           if (errorResponse.error.error.code == ResponseCode.ValidationFailed)
             message = 'Incorrect data';
 
-          this.snackbarService.openSnackBar(this.snackbar, new SnackbarOptions({
+          this.snackbarService.openSnackBar(new SnackbarOptions({
             backgroundColor: SnackBarColor.Error,
             message: message,
             action: "Close",
@@ -268,24 +269,10 @@ export class CheckComponent implements OnInit, OnDestroy, ICanBeCreated {
       }))
       .subscribe(
         (response: BalanceResponse) => {
-          this.snackbarService.openSnackBar(this.snackbar, new SnackbarOptions({
-            backgroundColor: SnackBarColor.Success,
-            message: "Success!",
-            action: "Close",
-            duration: 0
-          }));
+          this.snackbarService.showSuccessMessage();
         },
         (errorResponse: HttpErrorResponse) => {
-          let message = "Error. Something went wrong";
-          if (errorResponse.error.error.code == ResponseCode.ValidationFailed)
-            message = 'Incorrect data';
-
-          this.snackbarService.openSnackBar(this.snackbar, new SnackbarOptions({
-            backgroundColor: SnackBarColor.Error,
-            message: message,
-            action: "Close",
-            duration: 0
-          }));
+          this.snackbarService.showErrorMessage(errorResponse);
         }
       );
   }
@@ -300,25 +287,10 @@ export class CheckComponent implements OnInit, OnDestroy, ICanBeCreated {
         (response: BalanceResponse) => {
           this.check = CheckGetDtoMapper.convertDtoToCheck(response.data);
           this.mode = "editing";
-          this.snackbarService.openSnackBar(this.snackbar, new SnackbarOptions({
-            backgroundColor: SnackBarColor.Success,
-            message: "Success!",
-            action: "Close",
-            duration: 0
-          }));
+          this.snackbarService.showSuccessMessage();
         },
         (errorResponse: HttpErrorResponse) => {
-          let message = "Error. Something went wrong";
-          if (errorResponse.error.error.code == ResponseCode.ValidationFailed) {
-            message = 'Incorrect data';
-          }
-
-          this.snackbarService.openSnackBar(this.snackbar, new SnackbarOptions({
-            backgroundColor: SnackBarColor.Error,
-            message: message,
-            action: "Close",
-            duration: 0
-          }));
+          this.snackbarService.showErrorMessage(errorResponse);
         }
       );
   }
@@ -332,25 +304,10 @@ export class CheckComponent implements OnInit, OnDestroy, ICanBeCreated {
       .subscribe(
         (response: BalanceResponse) => {
           this.check = CheckGetDtoMapper.convertDtoToCheck(response.data);
-          this.snackbarService.openSnackBar(this.snackbar, new SnackbarOptions({
-            backgroundColor: SnackBarColor.Success,
-            message: "Success!",
-            action: "Close",
-            duration: 0
-          }));
+          this.snackbarService.showSuccessMessage();
         },
         (errorResponse: HttpErrorResponse) => {
-          let message = "Error. Something went wrong";
-          if (errorResponse.error.error.code == ResponseCode.ValidationFailed) {
-            message = 'Incorrect data';
-          }
-
-          this.snackbarService.openSnackBar(this.snackbar, new SnackbarOptions({
-            backgroundColor: SnackBarColor.Error,
-            message: message,
-            action: "Close",
-            duration: 0
-          }));
+          this.snackbarService.showErrorMessage(errorResponse);
         }
       );
   }
