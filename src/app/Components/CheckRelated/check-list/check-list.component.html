@@ -25,10 +25,10 @@
 
                     <ng-container matColumnDef="title">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Title </th>
-                        <td mat-cell *matCellDef="let row">
+                        <td mat-cell *matCellDef="let check">
                             <div>
-                                <span> {{row.title}} </span>
-                                <mat-icon *ngIf="!row.isReadyForProcess" class="green">done</mat-icon>
+                                <span> {{check.title}} </span>
+                                <mat-icon [style.visibility]="!check.isReadyForProcess ? 'visible' : 'hidden'" class="green">done</mat-icon>
                             </div>
                         </td>
                     </ng-container>
@@ -37,9 +37,9 @@
                         <th mat-header-cell *matHeaderCellDef></th>
                         <td mat-cell *matCellDef="let check" class="row-actions-td">
                             <div class="row-action-buttons" (click)="$event.stopPropagation()">
-                                <button [disabled]="!check.isReadyForProcess" mat-icon-button (click)="deleteCheck(check.id)"
+                                <button [style.visibility]="check.isReadyForProcess ? 'visible' : 'hidden'" mat-icon-button (click)="deleteCheck(check.id)"
                                     onclick="this.blur()">
-                                    <mat-icon [ngClass]="check.isReadyForProcess ? 'red' : 'transparent'">delete</mat-icon>
+                                    <mat-icon class="red">delete</mat-icon>
                                 </button>
                             </div>
                         </td>
