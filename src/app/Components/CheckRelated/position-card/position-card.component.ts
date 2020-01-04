@@ -26,6 +26,8 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
   addOnBlur = true;
   separatorKeysCodes: number[] = [ENTER, COMMA];
 
+  equalShares: Boolean = true;
+
   @ViewChild('usersInput', { static: false }) usersInput: ElementRef<HTMLInputElement>;
 
   searchUserCtrl = new FormControl();

@@ -1,51 +1,57 @@
-<h1 mat-dialog-title>{{action}} Position</h1>
-<div mat-dialog-content class="position-dialog">
-  <div *ngIf="action != 'Delete'; else elseTemplate">
-    <mat-form-field>
-      <input placeholder="Title" required matInput [readonly]="action == 'View'" [(ngModel)]="position.title">
-    </mat-form-field>
-    <mat-form-field>
-      <input matInput required DigitOnly="true" type="text" placeholder="Amount" [readonly]="action == 'View'"
-        [(ngModel)]="position.amount">
-    </mat-form-field>
+<fieldset [disabled]="action == 'View' ? 'disabled' : null">
 
-    <div>
+  <h1 mat-dialog-title>{{action}} Position</h1>
+  <div mat-dialog-content class="position-dialog">
+    <div *ngIf="action != 'Delete'; else elseTemplate">
       <mat-form-field>
-        <mat-chip-list #chipList>
-          <mat-chip *ngFor="let user of position.users" [selectable]="selectable" [removable]="removable"
-            (removed)="removeUser(user)">
-            {{user.username}}
-            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-          </mat-chip>
-          <input matInput #usersInput placeholder="Search users..." aria-label="State" [matAutocomplete]="auto"
-            [formControl]="searchUserCtrl" [matChipInputFor]="chipList"
-            [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur" [readonly]="action == 'View'">
-        </mat-chip-list>
-        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="selectedUser($event)">
-          <mat-option class="is-loading" *ngIf="isLoading" [disabled]="true">
-            <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-          </mat-option>
-          <ng-container *ngIf="!isLoading">
-            <mat-option *ngFor="let user of filteredUsers" [value]="user.id">
-              <span>{{user.username}}</span>
-            </mat-option>
-          </ng-container>
-        </mat-autocomplete>
+        <input placeholder="Title" required matInput [(ngModel)]="position.title">
       </mat-form-field>
-      <br>
-      <ng-container *ngIf="errorMsg">
-        {{errorMsg}}
-      </ng-container>
-      <ng-template #elseTemplate>
-        <h5>Selected Value: {{searchUserCtrl.value}}</h5>
-      </ng-template>
+      <mat-form-field>
+        <input matInput required DigitOnly="true" type="text" placeholder="Amount" [(ngModel)]="position.amount">
+      </mat-form-field>
+
+      <mat-checkbox [(ngModel)]="equalShares"> Equal shares </mat-checkbox>
+
+      <div>
+        <mat-form-field>
+          <mat-chip-list #chipList>
+            <mat-chip *ngFor="let user of position.users" [selectable]="selectable" [removable]="removable"
+              (removed)="removeUser(user)">
+              {{user.username}}
+              <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+            </mat-chip>
+            <input matInput #usersInput placeholder="Search users..." aria-label="State" [matAutocomplete]="auto"
+              [formControl]="searchUserCtrl" [matChipInputFor]="chipList"
+              [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur">
+          </mat-chip-list>
+          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="selectedUser($event)">
+            <mat-option class="is-loading" *ngIf="isLoading" [disabled]="true">
+              <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+            </mat-option>
+            <ng-container *ngIf="!isLoading">
+              <mat-option *ngFor="let user of filteredUsers" [value]="user.id">
+                <span>{{user.username}}</span>
+              </mat-option>
+            </ng-container>
+          </mat-autocomplete>
+        </mat-form-field>
+        <br>
+        <ng-container *ngIf="errorMsg">
+          {{errorMsg}}
+        </ng-container>
+        <ng-template #elseTemplate>
+          <h5>Selected Value: {{searchUserCtrl.value}}</h5>
+        </ng-template>
+      </div>
     </div>
 
+    <ng-template #elseTemplate>
+      Sure to delete <b>{{position.title}}</b>?
+    </ng-template>
   </div>
-  <ng-template #elseTemplate>
-    Sure to delete <b>{{position.title}}</b>?
-  </ng-template>
-</div>
+
+</fieldset>
+
 <div mat-dialog-actions>
   <button mat-button (click)="closeDialog()" mat-flat-button color="warn">Cancel</button>
   <button mat-button (click)="doAction()" [hidden]="action == 'View'" [disabled]="!canBeCreated()">{{action}}</button>
