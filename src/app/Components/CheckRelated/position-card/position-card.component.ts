@@ -1,5 +1,5 @@
 import { Component, OnInit, Optional, Inject, ViewChild, ElementRef } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
@@ -9,6 +9,8 @@ import { BalanceApiService } from 'src/app/Services/balance-api.service';
 import { User } from 'src/app/Model/User';
 import { Position } from 'src/app/Model/Position';
 import { ICanBeCreated } from 'src/app/Interfaces/ICanBeCreated';
+import { ConsumptionsCardComponent } from '../consumptions/consumptions-card.component';
+import { Consumption } from 'src/app/Model/Consumption';
 
 @Component({
   selector: 'app-position-card',
@@ -26,7 +28,7 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
   addOnBlur = true;
   separatorKeysCodes: number[] = [ENTER, COMMA];
 
-  equalShares: Boolean = true;
+  equalConsumptions: Boolean = true;
 
   @ViewChild('usersInput', { static: false }) usersInput: ElementRef<HTMLInputElement>;
 
@@ -37,8 +39,8 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
 
   constructor(
     public dialogRef: MatDialogRef<PositionCardComponent>,
-    //@Optional() is used to prevent error if no data is passed
     @Optional() @Inject(MAT_DIALOG_DATA) public data,
+    public dialog: MatDialog,
     private balanceApiService: BalanceApiService) {
     this.position = data.obj;
     this.action = data.action;
@@ -83,32 +85,32 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
     this.dialogRef.close({ event: 'Cancel' });
   }
 
-  removeUser(user: User): void {
+  removeConsumption(consumption: Consumption): void {
     if (this.action == 'View')
       return;
-      
-    const index = this.position.users.findIndex(u => u.id == +user.id);
+    
+    const index = this.position.consumptions.findIndex(u => u.user.id == consumption.user.id);
 
     if (index >= 0) {
-      this.position.users.splice(index, 1);
+      this.position.consumptions.splice(index, 1);
     }
   }
 
   selectedUser(event: MatAutocompleteSelectedEvent): void {
     let user = this.filteredUsers.filter(u => u.id == +event.option.value)[0];
-    if (this.position.users == null)
-      this.position.users = new Array<User>();
+    if (this.position.consumptions == null)
+      this.position.consumptions = new Array<Consumption>();
 
-    this.position.users.push(user);
+    this.position.consumptions.push(new Consumption({ user: user }));
     this.usersInput.nativeElement.value = '';
     this.searchUserCtrl.setValue('');
   }
 
   removeSelectedUsersFromSuggestion(suggestion: User[]): User[] {
-    if (this.position.users == null || this.position.users.length == 0)
+    if (this.position.consumptions == null || this.position.consumptions.length == 0)
       return suggestion;
 
-    this.position.users.forEach(selectedUser => {
+    this.position.consumptions.map(c => c.user).forEach(selectedUser => {
       const index = suggestion.findIndex(u => u.id == selectedUser.id);
       if (index >= 0) {
         suggestion.splice(index, 1);
@@ -118,11 +120,31 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
     return suggestion;
   }
 
+  equalConsumptionsValueChanged(event) {
+    if (!event.checked)
+      this.openConsumptionCard(this.action, this.position.consumptions)
+  }
+
+  openConsumptionCard(action: string, consumptions: Consumption[]) {
+    let data = {
+      obj: consumptions.map(c => Object.assign({}, c)),
+      action: action
+    }
+    
+    const dialogRef = this.dialog.open(ConsumptionsCardComponent, {
+      data: data
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      
+    });
+  }
+
   canBeCreated() : boolean {
     return this.position.title != null &&
       this.position.title != '' &&
       !isNaN(this.position.amount) &&
-      this.position.users != null &&
-      this.position.users.length != 0;
+      this.position.consumptions != null &&
+      this.position.consumptions.length != 0;
   }
 }

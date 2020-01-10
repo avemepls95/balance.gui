@@ -11,5 +11,5 @@ div.ng-star-inserted, div.ng-star-inserted > .mat-form-field {
 }
 
 .mat-input-element:disabled {
-    color: initial;
+    color: rgba(0,0,0,.58);
 }

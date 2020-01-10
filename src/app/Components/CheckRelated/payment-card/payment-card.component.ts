@@ -59,7 +59,7 @@ export class PaymentCardComponent implements OnInit, AfterContentInit, ICanBeCre
         })
       )
       .subscribe(data => {
-        if (data['data'] == undefined) {
+        if (isNullOrUndefined(data['data'])) {
           this.errorMsg = "Internal Error. We're Sorry :(";
           this.filteredUsers = [];
           console.log('Internal Error. Users data is null');

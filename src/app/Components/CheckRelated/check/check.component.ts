@@ -139,7 +139,7 @@ export class CheckComponent implements OnInit, OnDestroy, ICanBeCreated {
       internalId: this.check.positions.length + 1,
       title: data.title,
       amount: data.amount,
-      users: data.users
+      consumptions: data.consumptions
     }));
 
     this.positionsDataSource.data = this.check.positions;

@@ -6,6 +6,7 @@ import { GetCheckDto } from '../Dto/Check/Get/GetCheckDto';
 import { GetPositionDto } from '../Dto/Check/Get/GetPositionDto';
 import { GetConsumptionDto } from '../Dto/Check/Get/GetConsumptionDto';
 import { GetPaymentDto } from '../Dto/Check/Get/GetPaymentDto';
+import { Consumption } from '../Consumption';
 
 export class CheckGetDtoMapper {
     static convertCheckToDto(check: Check): GetCheckDto {
@@ -21,9 +22,9 @@ export class CheckGetDtoMapper {
         return positions.map(p => new GetPositionDto({
             title: p.title,
             amount: p.amount,
-            consumptions: p.users.map(u => new GetConsumptionDto({
+            consumptions: p.consumptions.map(u => new GetConsumptionDto({
                 amount: 1,
-                user: new User({ id: u.id, username: u.username })
+                user: u.user
             }))
         }));
     }
@@ -49,7 +50,12 @@ export class CheckGetDtoMapper {
         return positionDtoArray.map(p => new Position({
             title: p.title,
             amount: p.amount,
-            users: p.consumptions.map(c => new User({ id: c.user.id, username: c.user.username }))
+            consumptions: p.consumptions.map(c =>
+                new Consumption({
+                    amount: c.amount,
+                    user: c.user
+                })
+            )
         }));
     }
 

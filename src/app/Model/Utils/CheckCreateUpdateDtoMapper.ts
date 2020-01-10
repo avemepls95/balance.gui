@@ -21,9 +21,9 @@ export class CheckCreateUpdateDtoMapper {
         return positions.map(p => new CreateUpdatePositionDto({
             title: p.title,
             amount: p.amount,
-            consumptions: p.users.map(u => new CreateUpdateConsumptionDto({
-                amount: p.amount / p.users.length,
-                userId: u.id
+            consumptions: p.consumptions.map(c => new CreateUpdateConsumptionDto({
+                amount: c.amount,
+                userId: c.user.id
             }))
         }));
     }

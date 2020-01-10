@@ -30,6 +30,7 @@ import { LoaderComponent } from './Components/Common/loader/loader.component';
 import { CheckListComponent } from './Components/CheckRelated/check-list/check-list.component';
 import { ConfirmDialogComponent } from './Components/Common/confirm-dialog/confirm-dialog.component';
 import { TransferCardComponent } from './Components/transfer-card/transfer-card.component';
+import { ConsumptionsCardComponent } from './Components/CheckRelated/consumptions/consumptions-card.component';
 
 export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
@@ -51,6 +52,7 @@ export function initializeApp(appConfig: AppConfig) {
     ConfirmDialogComponent,
     MyBalanceComponent,
     TransferCardComponent,
+    ConsumptionsCardComponent,
   ],
   imports: [
     BrowserModule,
@@ -68,7 +70,8 @@ export function initializeApp(appConfig: AppConfig) {
     PositionCardComponent,
     PaymentCardComponent,
     ConfirmDialogComponent,
-    TransferCardComponent
+    TransferCardComponent,
+    ConsumptionsCardComponent
   ],
   providers: [
     JwtHelper,

@@ -46,7 +46,6 @@ export class TelegramLoginWidget implements AfterViewInit {
 
   ngAfterViewInit() {
     window['loginViaTelegram'] = (loginData: FromTelegramAuthDto) => {
-      debugger
       LocalStorageManager.setUserData(loginData as FromTelegramAuthDto);
       this.loginViaTelegram(loginData)
     };

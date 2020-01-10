@@ -1,13 +1,13 @@
-import { UserDto } from './Dto/UserDto';
+import { User } from './User';
 
 export class Consumption {
     amount: number;
-    user: UserDto;
+    user: User;
 
     public constructor(
         fields?: {
             amount?: number,
-            user?: UserDto
+            user?: User
         }) {
         if (fields) Object.assign(this, fields);
     }

@@ -1,11 +1,12 @@
 import { User } from './User';
+import { Consumption } from './Consumption';
 
 export class Position {
     internalId: number;
     id: number;
     amount: number;
     title: string;
-    users: User[];
+    consumptions: Consumption[];
 
     public constructor(
         fields?: {
@@ -13,9 +14,8 @@ export class Position {
             id?: number,
             amount?: number,
             title?: string,
-            users?: User[]
-        }) 
-    {
+            consumptions?: Consumption[]
+        }) {
         if (fields)
             Object.assign(this, fields);
     }
