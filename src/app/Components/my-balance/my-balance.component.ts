@@ -51,7 +51,7 @@ export class MyBalanceComponent implements OnInit {
       finalize(() => loaderService.hide())
     ).subscribe(
       (response) => {
-        if (response.data.lenght == 0 || response.data.lenght == response.data.filter(debt => debt.amount == 0).lenght) {
+        if (response.data.length == 0 || response.data.length == response.data.filter(debt => debt.value == 0).length) {
           this.isZeroBalance = true;
           return;
         }

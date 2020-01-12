@@ -236,7 +236,7 @@ export class CheckComponent implements OnInit, OnDestroy, ICanBeCreated {
       .subscribe(
         (response: BalanceResponse) => {
           this.canBeProcessed = true;
-          
+          debugger
           this.check = CheckGetDtoMapper.convertDtoToCheck(response.data);
           this.snackbarService.openSnackBar(new SnackbarOptions({
             backgroundColor: SnackBarColor.Success,

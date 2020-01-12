@@ -100,7 +100,8 @@ table {
     color: black;
 }
 
-.zero-balance-img-wrap {
-    display: flex;
-    justify-content: center;
+@media only screen and (max-width: 600px) {
+    .zero-balance-wrap img {
+        width: 100vw;
+    }
 }
