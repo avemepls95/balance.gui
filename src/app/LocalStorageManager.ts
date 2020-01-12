@@ -28,7 +28,7 @@ export class LocalStorageManager {
     }
 
     private static setUserDataFromVk(data: FromVkAuthDto) {
-        localStorage.setItem(this.userFirstNameKey, data.last_name);
+        localStorage.setItem(this.userFirstNameKey, data.first_name);
         localStorage.setItem(this.userLastNameKey, data.last_name);
         localStorage.setItem(this.userHashKey, data.hash);
         localStorage.setItem(this.userIdKey, data.uid.toString());

@@ -6,6 +6,7 @@ import { CheckListComponent } from './Components/CheckRelated/check-list/check-l
 import { CheckComponent } from './Components/CheckRelated/check/check.component';
 import { MainComponent } from './Components/main/main.component';
 import { AuthComponent } from './Components/AuthRelated/auth/auth.component';
+import { TapeComponent } from './Components/tape/tape.component';
 
 const menuRoutes: Routes = [
   { path: '', redirectTo: '/debts', pathMatch: 'full' },
@@ -13,6 +14,7 @@ const menuRoutes: Routes = [
   { path: 'createCheck', component: CheckComponent },
   { path: 'editCheck/:id', component: CheckComponent },
   { path: 'debts', component: MyBalanceComponent},
+  { path: 'tape', component: TapeComponent},
 ];
 
 const routes: Routes = [

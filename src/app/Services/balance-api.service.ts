@@ -86,4 +86,8 @@ export class BalanceApiService {
       transferDto
     ) as Observable<BalanceResponse>;
   }
+
+  getTape() : Observable<any> {
+    return this.http.get(this.apiBaseUrl + 'news') as Observable<BalanceResponse>;
+  }
 }

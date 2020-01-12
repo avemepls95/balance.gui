@@ -50,6 +50,7 @@ export class MyBalanceComponent implements OnInit {
     ).subscribe(
       (response) => {
         this.debts = response.data.map(d => DebtsDtoMapper.convertDtoToDebt(d));
+        debugger
         this.totalAmount = this.debts.reduce((sum, current) => sum + current.amount, 0);
         this.dataSource = new MatTableDataSource(this.debts);
         this.dataSource.sort = this.sort;

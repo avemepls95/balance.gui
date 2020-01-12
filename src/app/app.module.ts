@@ -31,6 +31,7 @@ import { CheckListComponent } from './Components/CheckRelated/check-list/check-l
 import { ConfirmDialogComponent } from './Components/Common/confirm-dialog/confirm-dialog.component';
 import { TransferCardComponent } from './Components/transfer-card/transfer-card.component';
 import { ConsumptionsCardComponent } from './Components/CheckRelated/consumptions/consumptions-card.component';
+import { TapeComponent } from './Components/tape/tape.component';
 
 export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
@@ -53,6 +54,7 @@ export function initializeApp(appConfig: AppConfig) {
     MyBalanceComponent,
     TransferCardComponent,
     ConsumptionsCardComponent,
+    TapeComponent,
   ],
   imports: [
     BrowserModule,

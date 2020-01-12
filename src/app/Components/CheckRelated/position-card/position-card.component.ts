@@ -78,6 +78,12 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
   }
 
   doAction() {
+    if (this.equalConsumptions) {
+      this.position.consumptions.forEach(consumption => {
+        consumption.amount = this.position.amount / this.position.consumptions.length;
+      });
+    }
+
     this.dialogRef.close({ event: this.action, data: this.position });
   }
 

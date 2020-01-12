@@ -28,6 +28,10 @@
                 <mat-icon mat-list-icon class="green">sync_alt</mat-icon>
                 <h4 mat-line>Balance</h4>
             </mat-list-item>
+            <mat-list-item [routerLink]="'/tape'" (click)="sidenav.toggle()">
+                <mat-icon mat-list-icon class="green">view_headline</mat-icon>
+                <h4 mat-line>Tape</h4>
+            </mat-list-item>
             <mat-list-item [routerLink]="'/createCheck'" (click)="sidenav.toggle()">
                 <mat-icon mat-list-icon class="green">add</mat-icon>
                 <h4 mat-line>Create Check</h4>
