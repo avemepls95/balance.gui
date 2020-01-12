@@ -298,6 +298,10 @@ mat-sidenav-content {
     max-width: 960px;
 }
 
+.mat-sidenav-container {
+    height: 93vh;
+}
+
 .mat-toolbar-row {
     justify-content: space-between;
 }

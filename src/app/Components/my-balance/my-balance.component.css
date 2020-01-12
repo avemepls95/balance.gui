@@ -91,3 +91,16 @@ table {
     box-shadow: none;
 }
 
+.zero-balance-wrap {
+    text-align: center;
+    margin-top: 2vh;
+}
+
+.zero-balance-wrap h1 {
+    color: black;
+}
+
+.zero-balance-img-wrap {
+    display: flex;
+    justify-content: center;
+}

@@ -15,7 +15,7 @@
     background-position: center;
     background-size: cover;
     /* background-color: green; */
-    background-image: url('src/images/gradient-1.jpg');
+    background-image: url('src/assets/images/gradient-1.jpg');
 }
 
 .login-form {

@@ -1,4 +1,4 @@
-<mat-card class="content-card">
+<mat-card class="content-card" *ngIf="!isZeroBalance">
     <mat-card-header>
         <mat-card-title>My Balance</mat-card-title>
     </mat-card-header>
@@ -43,13 +43,18 @@
 
                     <tr mat-header-row *matHeaderRowDef="displayedColumns"
                         [ngClass]="getTotalAmount() > '0' ? 'positive-amount-color' : 'negative-amount-color'"></tr>
-                    <tr mat-row *matRowDef="let debt; columns: displayedColumns;"  [hidden]="debt.amount == 0"
+                    <tr mat-row *matRowDef="let debt; columns: displayedColumns;" [hidden]="debt.amount == 0"
                         [ngClass]="debt.amount > '0' ? 'positive-amount-color' : 'negative-amount-color'">
                     </tr>
                 </table>
             </div>
         </div>
-
     </mat-card-content>
 
 </mat-card>
+
+<div class="zero-balance-wrap" *ngIf="isZeroBalance">
+    <h1>Your balance is 0</h1>
+
+    <img src="assets/images/balance.png">
+</div>

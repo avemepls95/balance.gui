@@ -33,6 +33,8 @@ export class MyBalanceComponent implements OnInit {
   displayedColumns: string[] = ['index', 'username', 'amount', 'actions'];
   dataSource: MatTableDataSource<Debt>;
 
+  isZeroBalance: boolean = false;
+
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(
@@ -49,8 +51,12 @@ export class MyBalanceComponent implements OnInit {
       finalize(() => loaderService.hide())
     ).subscribe(
       (response) => {
+        if (response.data.lenght == 0 || response.data.lenght == response.data.filter(debt => debt.amount == 0).lenght) {
+          this.isZeroBalance = true;
+          return;
+        }
+
         this.debts = response.data.map(d => DebtsDtoMapper.convertDtoToDebt(d));
-        debugger
         this.totalAmount = this.debts.reduce((sum, current) => sum + current.amount, 0);
         this.dataSource = new MatTableDataSource(this.debts);
         this.dataSource.sort = this.sort;
