@@ -147,10 +147,6 @@
     text-decoration: none;
     }
     
-    a:hover {
-    color: #125699;
-    }
-    
     .terminal {
     position: relative;
     width: 80%;
@@ -300,6 +296,7 @@ mat-sidenav-content {
 
 .mat-sidenav-container {
     height: 93vh;
+    overflow: overlay;
 }
 
 .mat-toolbar-row {

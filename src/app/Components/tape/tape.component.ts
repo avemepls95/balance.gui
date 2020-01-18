@@ -8,6 +8,8 @@ import { Debt } from 'src/app/Model/Debt';
 import { TapeRecord } from 'src/app/Model/TapeRecord';
 import { TapeRecordDto } from 'src/app/Model/Dto/TapeRecordDto';
 import { TapeRecordType } from 'src/app/Model/TapeRecordType.enum';
+import { TapeTransferData } from 'src/app/Model/TapeTransferData';
+import { User } from 'src/app/Model/User';
 
 @Component({
   selector: 'app-tape',
@@ -28,7 +30,6 @@ export class TapeComponent implements OnInit {
     ).subscribe(
       (response) => {
         this.records = response.data.sort((a,b) => (a.date > b.date) ? -1 : ((b.date > a.date) ? 1 : 0));
-        console.log(this.records)
       },
       (error) => console.error(error)
     );

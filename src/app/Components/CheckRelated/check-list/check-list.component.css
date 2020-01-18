@@ -56,3 +56,7 @@ table {
     margin-bottom: 4px;
     margin-left: 4px;
  }
+
+ .mat-column-title span {
+     margin-left: 24px;
+ }

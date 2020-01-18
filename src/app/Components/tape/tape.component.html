@@ -2,7 +2,7 @@
     <mat-card class="record-wrap" *ngIf="record.type == 'check_processed'">
         <mat-card-content>
             <div class="record-header">
-                <h2><b>Check registered&nbsp;&nbsp;&nbsp;</b></h2>
+                <h2><b>Check processed&nbsp;&nbsp;&nbsp;</b></h2>
                 <mat-divider [vertical]="true"></mat-divider>
                 <span>{{ record.date | date:'dd.MM.yyyy H:mm' }}</span>
             </div>
@@ -17,46 +17,42 @@
             </div>
         </mat-card-content>
     </mat-card>
-    <ng-template *ngIf="record.type == 'transfer_registered'; else checkRolledBack" #transferRegisteredTemplate>
-        <mat-card class="record-wrap">
-            <mat-card-content>
-                <div class="record-header">
-                    <h2><b>Transfer</b></h2>
-                    <mat-divider [vertical]="true"></mat-divider>
-                    <span>{{ record.date | date:'dd.MM.yyyy H:mm' }}</span>
+    <mat-card class="record-wrap" *ngIf="record.type == 'transfer_registered'">
+        <mat-card-content>
+            <div class="record-header">
+                <h2><b>Transfer</b></h2>
+                <mat-divider [vertical]="true"></mat-divider>
+                <span>{{ record.date | date:'dd.MM.yyyy H:mm' }}</span>
+            </div>
+            <div class="users-amount-div">
+                <div class="sender-recipient-div">
+                    <span>Sender: &nbsp;{{ record.data.sender.username }}</span> <br>
+                    <span>Recipient: &nbsp;{{ record.data.recipient.username }}</span>
                 </div>
-                <div class="users-amount-div">
-                    <div class="sender-recipient-div">
-                        <span>Sender: &nbsp;{{ record.data.sender.username }}</span> <br>
-                        <span>Recipient: &nbsp;{{ record.data.recipient.username }}</span>
-                    </div>
-                    <div class="amount"
-                        [ngClass]="record.data.amount > '0' ? 'negative-amount-color' : 'positive-amount-color'">
-                        {{ record.data.amount }}
-                    </div>
+                <div class="amount"
+                    [ngClass]="record.data.amount > '0' ? 'negative-amount-color' : 'positive-amount-color'">
+                    {{ record.data.amount }}
                 </div>
-            </mat-card-content>
-        </mat-card>
-    </ng-template>
-    <ng-template #checkRolledBack>
-        <mat-card class="record-wrap">
-            <mat-card-content>
-                <div class="record-header">
-                    <h2><b>Check rolled back&nbsp;&nbsp;&nbsp;</b></h2>
-                    <mat-divider [vertical]="true"></mat-divider>
-                    <span>{{ record.date | date:'dd.MM.yyyy H:mm' }}</span>
+            </div>
+        </mat-card-content>
+    </mat-card>
+    <mat-card class="record-wrap" *ngIf="record.type == 'check_rolled_back'">
+        <mat-card-content>
+            <div class="record-header">
+                <h2><b>Check rolled back&nbsp;&nbsp;&nbsp;</b></h2>
+                <mat-divider [vertical]="true"></mat-divider>
+                <span>{{ record.date | date:'dd.MM.yyyy H:mm' }}</span>
+            </div>
+            <div class="checktitle-amount-div">
+                <div class="checktitle-div">
+                    <span>Name: &nbsp;{{ record.data.check.title }}</span> <br>
                 </div>
-                <div class="checktitle-amount-div">
-                    <div class="checktitle-div">
-                        <span>Name: &nbsp;{{ record.data.check.title }}</span> <br>
-                    </div>
-                    <div class="amount"
-                        [ngClass]="record.data.amount > '0' ? 'positive-amount-color' : 'negative-amount-color'">
-                        {{ record.data.balanceDiff }}
-                    </div>
+                <div class="amount"
+                    [ngClass]="record.data.amount > '0' ? 'positive-amount-color' : 'negative-amount-color'">
+                    {{ record.data.balanceDiff }}
                 </div>
-            </mat-card-content>
-        </mat-card>
-    </ng-template>
+            </div>
+        </mat-card-content>
+    </mat-card>
     <!-- check_rolled_back -->
 </div>
