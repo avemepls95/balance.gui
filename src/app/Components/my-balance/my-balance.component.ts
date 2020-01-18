@@ -42,7 +42,7 @@ export class MyBalanceComponent implements OnInit {
     private balanceApiService: BalanceApiService,
     private loaderService: LoaderService,
     private snackbarService: SnackbarService,
-    public dialog: MatDialog,
+    private dialog: MatDialog,
   ) {
     snackbarService.setSnackbar(snackbar);
 
@@ -89,8 +89,7 @@ export class MyBalanceComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(data => {
-      debugger
-      if (isNaN(data.amount))
+      if (isNullOrUndefined(data))
         return;
 
       let transferDto = new TransferDto({

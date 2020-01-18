@@ -60,8 +60,9 @@ export class CheckComponent implements OnInit, OnDestroy, ICanBeCreated {
     private snackbar: MatSnackBar,
     activateRoute: ActivatedRoute,
     private loaderService: LoaderService,
-    private snackbarService: SnackbarService) {
-
+    private snackbarService: SnackbarService
+  ) 
+  {
     snackbarService.setSnackbar(snackbar);
 
     this.check = new Check();

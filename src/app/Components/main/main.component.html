@@ -32,6 +32,7 @@
                 <mat-icon mat-list-icon class="purple">view_headline</mat-icon>
                 <h4 mat-line>Tape</h4>
             </mat-list-item>
+            <mat-divider></mat-divider>
             <mat-list-item [routerLink]="'/createCheck'" (click)="sidenav.toggle()">
                 <mat-icon mat-list-icon class="green">add</mat-icon>
                 <h4 mat-line>Create Check</h4>
@@ -40,6 +41,12 @@
                 <mat-icon mat-list-icon>list_alt</mat-icon>
                 <h4 mat-line>Checks</h4>
             </mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item (click)="openTransferCard()">
+                <mat-icon mat-list-icon class="green">arrow_forward</mat-icon>
+                <h4 mat-line>Make Transfer</h4>
+            </mat-list-item>
+            <mat-divider></mat-divider>
             <mat-list-item (click)="sidenav.toggle()">
                 <mat-icon mat-list-icon class="red">close</mat-icon>
                 <h4 mat-line>Close</h4>

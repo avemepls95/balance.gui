@@ -3,6 +3,18 @@ import { Router } from '@angular/router';
 import { BalanceApiService } from 'src/app/Services/balance-api.service';
 import { AuthService } from 'src/app/Services/auth.service';
 import { LocalStorageManager } from 'src/app/LocalStorageManager';
+import { TransferCardComponent } from '../transfer-card/transfer-card.component';
+import { TransferDto } from 'src/app/Model/Dto/TransferDto';
+import { UUID } from 'angular2-uuid';
+import { finalize } from 'rxjs/operators';
+import { BalanceResponse } from 'src/app/BalanceResponse';
+import { SnackbarOptions } from 'src/app/ControlLayer/SnackbarOptions';
+import { SnackBarColor } from 'src/app/ControlLayer/SnackBarColor.enum';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ResponseCode } from 'src/app/Utils/ResponseCode.enum';
+import { MatDialog } from '@angular/material/dialog';
+import { LoaderService } from 'src/app/Services/loader.service';
+import { SnackbarService } from 'src/app/Services/snackbar.service';
 
 @Component({
   selector: 'app-main',
@@ -14,12 +26,63 @@ export class MainComponent implements OnInit {
   userFirstName: string;
   avatar: string;
 
-  constructor(private router: Router, private authService: AuthService) { 
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private balanceApiService: BalanceApiService,
+    private loaderService: LoaderService,
+    private dialog: MatDialog,
+    private snackbarService: SnackbarService
+  ) { 
     this.userFirstName = localStorage.getItem(LocalStorageManager.userFirstNameKey);
     this.avatar = localStorage.getItem(LocalStorageManager.userPhotoUrlKey); 
   }
 
   ngOnInit() {
+  }
+
+  openTransferCard() {
+    const dialogRef = this.dialog.open(TransferCardComponent, { });
+
+    dialogRef.afterClosed().subscribe(data => {
+      if (isNaN(data.amount))
+        return;
+
+      let transferDto = new TransferDto({
+        id: UUID.UUID(),
+        amount: data.amount,
+        recipientId: data.user.id
+      });
+
+      this.loaderService.show();
+      this.balanceApiService.registerTransfer(transferDto)
+        .pipe(finalize(() => {
+          this.loaderService.hide();
+        }))
+        .subscribe(
+          (response: BalanceResponse) => {
+            this.snackbarService.openSnackBar(new SnackbarOptions({
+              backgroundColor: SnackBarColor.Success,
+              message: "Success!",
+              action: "Close",
+              duration: 0
+            }));
+          },
+          (errorResponse: HttpErrorResponse) => {
+            let message = "Error. Something went wrong";
+            if (errorResponse.error.error.code == ResponseCode.ValidationFailed)
+              message = 'Incorrect data';
+
+            this.snackbarService.openSnackBar(new SnackbarOptions({
+              backgroundColor: SnackBarColor.Error,
+              message: message,
+              action: "Close",
+              duration: 0
+            }));
+          }
+        );
+
+    });
   }
 
   logout() {

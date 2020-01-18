@@ -32,8 +32,8 @@ export class PaymentCardComponent implements OnInit, AfterContentInit, ICanBeCre
   constructor(
     public dialogRef: MatDialogRef<PaymentCardComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public data,
-    private balanceApiService: BalanceApiService) {
-      
+    private balanceApiService: BalanceApiService
+  ) {    
     this.payment = data.obj;
     this.action = data.action;
   }

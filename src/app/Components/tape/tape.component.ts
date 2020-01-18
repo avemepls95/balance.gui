@@ -2,14 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { BalanceApiService } from 'src/app/Services/balance-api.service';
 import { LoaderService } from 'src/app/Services/loader.service';
 import { finalize } from 'rxjs/operators';
-import { DebtsDtoMapper } from 'src/app/Model/Utils/DebtsDtoMapper';
-import { MatTableDataSource } from '@angular/material/table';
-import { Debt } from 'src/app/Model/Debt';
 import { TapeRecord } from 'src/app/Model/TapeRecord';
-import { TapeRecordDto } from 'src/app/Model/Dto/TapeRecordDto';
-import { TapeRecordType } from 'src/app/Model/TapeRecordType.enum';
-import { TapeTransferData } from 'src/app/Model/TapeTransferData';
-import { User } from 'src/app/Model/User';
+import { LocalStorageManager } from 'src/app/LocalStorageManager';
 
 @Component({
   selector: 'app-tape',
@@ -20,9 +14,12 @@ export class TapeComponent implements OnInit {
 
   records: TapeRecord[];
 
+  myUsername: string = localStorage.getItem(LocalStorageManager.userFirstNameKey) + '_' +
+    localStorage.getItem(LocalStorageManager.userLastNameKey);
+
   constructor(
-    private loaderService: LoaderService,
-    private balanceApiService: BalanceApiService
+    loaderService: LoaderService,
+    balanceApiService: BalanceApiService
   ) {
     loaderService.show();
     balanceApiService.getTape().pipe(
@@ -36,11 +33,5 @@ export class TapeComponent implements OnInit {
    }
 
   ngOnInit() {
-  }
-
-  processTapeRecordDto(record: TapeRecordDto) {
-    // if (record.type == TapeRecordType.TransferRegistered) {
-    //   this.balanceApiService.
-    // }
   }
 }
