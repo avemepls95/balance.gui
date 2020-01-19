@@ -8,6 +8,7 @@ export class LocalStorageManager {
     static userHashKey = 'userHash';
     static userIdKey = 'userId';
     static userPhotoUrlKey = 'userPhotoUrl';
+    static tokenKey = 'token';
 
     static setUserData(data: FromTelegramAuthDto | FromVkAuthDto) {
         if (this.isTelegramData(data)){
@@ -23,7 +24,7 @@ export class LocalStorageManager {
         localStorage.setItem(this.userLastNameKey, data.last_name);
         localStorage.setItem(this.userAuthDateKey, data.auth_date.toString());
         localStorage.setItem(this.userHashKey, data.hash);
-        localStorage.setItem(this.userIdKey, data.id.toString());
+        // localStorage.setItem(this.userIdKey, data.id.toString());
         localStorage.setItem(this.userPhotoUrlKey, data.photo_url);
     }
 
@@ -31,7 +32,7 @@ export class LocalStorageManager {
         localStorage.setItem(this.userFirstNameKey, data.first_name);
         localStorage.setItem(this.userLastNameKey, data.last_name);
         localStorage.setItem(this.userHashKey, data.hash);
-        localStorage.setItem(this.userIdKey, data.uid.toString());
+        // localStorage.setItem(this.userIdKey, data.uid.toString());
         localStorage.setItem(this.userPhotoUrlKey, data.photo_rec);
     }
 

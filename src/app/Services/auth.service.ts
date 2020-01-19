@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { TelegramToBalanceAuthDto } from '../Model/Dto/Auth/TelegramToBalanceAuthDto';
 import { VkToBalanceAuthDto } from '../Model/Dto/Auth/VkToBalanceAuthDto';
+import { LocalStorageManager } from '../LocalStorageManager';
 
 @Injectable({
   providedIn: 'root'
@@ -32,15 +33,16 @@ export class AuthService {
   }
 
   handleBalanceAuthResponse(response) {
-    localStorage.setItem('token', response.data.token)
+    localStorage.setItem(LocalStorageManager.tokenKey, response.data.token)
+    localStorage.setItem(LocalStorageManager.userIdKey, response.data.user.id)
   }
 
   public removeCurrentToken() {
-    localStorage.removeItem('token');
+    localStorage.removeItem(LocalStorageManager.tokenKey);
   }
 
   public getToken(): string {
-    return localStorage.getItem('token');
+    return localStorage.getItem(LocalStorageManager.tokenKey);
   }
 
   public isAuthenticated(): boolean {

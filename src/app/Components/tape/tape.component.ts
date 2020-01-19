@@ -14,13 +14,14 @@ export class TapeComponent implements OnInit {
 
   records: TapeRecord[];
 
-  myUsername: string = localStorage.getItem(LocalStorageManager.userFirstNameKey) + '_' +
-    localStorage.getItem(LocalStorageManager.userLastNameKey);
+  currentUserId: number;
 
   constructor(
     loaderService: LoaderService,
     balanceApiService: BalanceApiService
   ) {
+    this.currentUserId = (Number)(localStorage.getItem(LocalStorageManager.userIdKey));
+
     loaderService.show();
     balanceApiService.getTape().pipe(
       finalize(() => loaderService.hide())

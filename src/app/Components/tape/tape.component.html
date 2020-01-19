@@ -30,7 +30,7 @@
                     <span>Recipient: &nbsp;{{ record.data.recipient.username }}</span>
                 </div>
                 <div class="amount"
-                    [ngClass]="record.data.amount > '0' ? 'negative-amount-color' : 'positive-amount-color'">
+                    [ngClass]="record.data.sender.id == currentUserId ? 'negative-amount-color' : 'positive-amount-color'">
                     {{ record.data.amount }}
                 </div>
             </div>
