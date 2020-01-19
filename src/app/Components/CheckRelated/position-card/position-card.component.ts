@@ -79,9 +79,22 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
 
   doAction() {
     if (this.equalConsumptions) {
+      let part = Math.floor(this.position.amount / this.position.consumptions.length * 100) / 100;
       this.position.consumptions.forEach(consumption => {
-        consumption.amount = this.position.amount / this.position.consumptions.length;
+        consumption.amount = part;
       });
+
+      if (part * this.position.consumptions.length == this.position.amount)
+        return;
+
+      let index = 0;
+      while (this.position.consumptions.reduce((sum, current) => sum + current.amount, 0) != this.position.amount){
+        this.position.consumptions[index].amount += 0.01;
+        if (index == this.position.consumptions.length - 1)
+          index = 0;
+
+        ++index;  
+      }
     }
 
     this.dialogRef.close({ event: this.action, data: this.position });
@@ -94,7 +107,7 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
   removeConsumption(consumption: Consumption): void {
     if (this.action == 'View')
       return;
-    
+
     const index = this.position.consumptions.findIndex(u => u.user.id == consumption.user.id);
 
     if (index >= 0) {
@@ -136,17 +149,17 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
       obj: consumptions.map(c => Object.assign({}, c)),
       action: action
     }
-    
+
     const dialogRef = this.dialog.open(ConsumptionsCardComponent, {
       data: data
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      
+
     });
   }
 
-  canBeCreated() : boolean {
+  canBeCreated(): boolean {
     return this.position.title != null &&
       this.position.title != '' &&
       !isNaN(this.position.amount) &&
