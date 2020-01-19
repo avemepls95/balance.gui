@@ -64,9 +64,9 @@ export class PaymentCardComponent implements OnInit, AfterContentInit, ICanBeCre
           this.filteredUsers = [];
           console.log('Internal Error. Users data is null');
         } else {
-          if (data['data'].length == 0)
-            this.errorMsg = "Search results are empty.";
           this.filteredUsers = data['data'];
+          if (this.filteredUsers.length == 0)
+            this.errorMsg = "Search results are empty.";
         }
       });
   }

@@ -3,13 +3,13 @@
     <div class='flex-h-space-between header-row'>
       <mat-card-title *ngIf="mode == 'creating'">Check creating</mat-card-title>
       <mat-card-title *ngIf="mode == 'editing'">Check editing</mat-card-title>
-      <button *ngIf="check.isReadyForProcess" class="process-check-button" mat-button
-        (click)="processCheck()" mat-flat-button>
+      <button *ngIf="check.isReadyForProcess" class="process-check-button" mat-button (click)="processCheck()"
+        mat-flat-button>
         <mat-icon mat-list-icon color="primary" class='process-check-icon'>refresh</mat-icon>
         Process
       </button>
-      <button *ngIf="check.state == 'PROCESSED'" class="rollback-check-button" mat-button
-        (click)="rollbackCheck()" mat-flat-button>
+      <button *ngIf="check.state == 'PROCESSED'" class="rollback-check-button" mat-button (click)="rollbackCheck()"
+        mat-flat-button>
         <mat-icon mat-list-icon class='process-check-icon'>cancel</mat-icon>
         Rollback
       </button>
@@ -34,7 +34,8 @@
         <mat-form-field>
           <input matInput (keyup)="applyPositionsFilter($event.target.value)" placeholder="Filter">
         </mat-form-field>
-        <button class="add-row-button" mat-button (click)="openPositionCard('Add',{})" mat-flat-button color="primary" matTooltip="Add position"> 
+        <button class="add-row-button" mat-button (click)="openPositionCard('Add',{})" mat-flat-button color="primary"
+          matTooltip="Add position">
           + Position
         </button>
       </div>

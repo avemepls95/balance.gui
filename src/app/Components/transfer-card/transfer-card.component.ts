@@ -10,6 +10,7 @@ import { debounceTime, tap, switchMap, finalize } from 'rxjs/operators';
 import { EMPTY } from 'rxjs';
 import { BalanceApiService } from 'src/app/Services/balance-api.service';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { LocalStorageManager } from 'src/app/LocalStorageManager';
 
 @Component({
   selector: 'app-transfer-card',
@@ -30,12 +31,16 @@ export class TransferCardComponent implements OnInit {
   errorMsg: string;
   userAlreadyIsSelected: boolean = false;
 
+  currentUserId: number;
+
   constructor(
     private balanceApiService: BalanceApiService,
     private dialog: MatDialog,
     public dialogRef: MatDialogRef<PaymentCardComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public data: Debt,
   ) {
+    this.currentUserId = (Number)(localStorage.getItem(LocalStorageManager.userIdKey));
+
     if (!isNullOrUndefined(data)) {
       this.debt = data;
       this.amount = -data.amount;
@@ -70,9 +75,9 @@ export class TransferCardComponent implements OnInit {
           this.filteredUsers = [];
           console.log('Internal Error. Users data is null');
         } else {
-          if (data['data'].length == 0)
+          this.filteredUsers = data['data'].filter(u => u.id != this.currentUserId);
+          if (this.filteredUsers.length == 0)
             this.errorMsg = "Search results are empty.";
-          this.filteredUsers = data['data'];
         }
       });
   }
