@@ -8,8 +8,8 @@
         <mat-icon mat-list-icon color="primary" class='process-check-icon'>refresh</mat-icon>
         Process
       </button>
-      <button *ngIf="!check.isReadyForProcess && mode == 'editing'" class="rollback-check-button" mat-button (click)="rollbackCheck()"
-        mat-flat-button>
+      <button *ngIf="!check.isReadyForProcess && mode == 'editing'" class="rollback-check-button" mat-button
+        (click)="rollbackCheck()" mat-flat-button>
         <mat-icon mat-list-icon class='process-check-icon'>cancel</mat-icon>
         Rollback
       </button>
@@ -34,7 +34,7 @@
         <mat-form-field>
           <input matInput (keyup)="applyPositionsFilter($event.target.value)" placeholder="Filter">
         </mat-form-field>
-        <button class="add-row-button" mat-button (click)="openPositionCard('Add',{})" mat-flat-button color="primary">
+        <button class="add-row-button" mat-button (click)="openPositionCard('Add',{})" mat-flat-button color="primary" matTooltip="Add position"> 
           + Position
         </button>
       </div>
@@ -62,11 +62,11 @@
             <td mat-cell *matCellDef="let item" class="row-actions-td">
               <div class="row-action-buttons" (click)="$event.stopPropagation()">
                 <button class="row-edit-button" mat-icon-button (click)="openPositionCard('Edit', item)"
-                  onclick="this.blur()">
+                  onclick="this.blur()" matTooltip="Edit position">
                   <mat-icon>edit</mat-icon>
                 </button>
                 <button class="row-remove-button" mat-icon-button (click)="openPositionCard('Delete', item)"
-                  onclick="this.blur()">
+                  onclick="this.blur()" matTooltip="Delete position">
                   <mat-icon class="red">delete</mat-icon>
                 </button>
               </div>
@@ -92,7 +92,8 @@
         <mat-form-field>
           <input matInput (keyup)="applyPaymentsFilter($event.target.value)" placeholder="Filter">
         </mat-form-field>
-        <button class="add-row-button" mat-button (click)="openPaymentCard('Add',{})" mat-flat-button color="primary">
+        <button class="add-row-button" mat-button (click)="openPaymentCard('Add',{})" mat-flat-button color="primary"
+          matTooltip="Add payment">
           + Payment
         </button>
       </div>
