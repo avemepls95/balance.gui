@@ -39,4 +39,8 @@ export class LocalStorageManager {
     private static isTelegramData(data) {
         return data.hasOwnProperty('photo_url');
     }
+
+    static setUserId(id: number) {
+        localStorage.setItem(LocalStorageManager.userIdKey, id.toString())
+    }
 }

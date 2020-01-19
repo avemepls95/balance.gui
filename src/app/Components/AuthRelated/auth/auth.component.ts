@@ -2,6 +2,7 @@ import { Component, OnInit, ChangeDetectorRef, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/Services/auth.service';
 import { LoaderService } from 'src/app/Services/loader.service';
+import { LocalStorageManager } from 'src/app/LocalStorageManager';
 
 @Component({
   selector: 'app-auth',
@@ -39,7 +40,10 @@ export class AuthComponent implements OnInit {
     this.loaderService.hide();
   }
 
-  loginSuccessful() {
+  loginSuccessful(response) {
+    this.authService.setToken(response.data.token);
+    LocalStorageManager.setUserId(response.data.user.id);
+    
     this.ngZone.run(() => this.router.navigate(['/main']));
   }
 }

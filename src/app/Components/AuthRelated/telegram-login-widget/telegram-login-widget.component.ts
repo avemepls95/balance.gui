@@ -63,7 +63,7 @@ export class TelegramLoginWidget implements AfterViewInit {
       )
       .subscribe(
         (response: any) => {
-          this.loginSuccessful.emit();
+          this.loginSuccessful.emit(response);
         },
         (error: any) => {
           if (error instanceof HttpErrorResponse) {

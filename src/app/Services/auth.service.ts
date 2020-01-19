@@ -21,20 +21,15 @@ export class AuthService {
   }
 
   loginViaTelegram(loginData: TelegramToBalanceAuthDto): Observable<any> {
-    return this.http.post(this.apiBaseUrl + 'auth/telegram ', loginData).pipe(map(response => {
-      this.handleBalanceAuthResponse(response);
-    }));
+    return this.http.post(this.apiBaseUrl + 'auth/telegram ', loginData);
   }
 
   loginViaVk(loginData: VkToBalanceAuthDto): Observable<any> {
-    return this.http.post(this.apiBaseUrl + 'auth/vk', loginData).pipe(map(response => {
-      this.handleBalanceAuthResponse(response);
-    }));
+    return this.http.post(this.apiBaseUrl + 'auth/vk', loginData);
   }
 
-  handleBalanceAuthResponse(response) {
-    localStorage.setItem(LocalStorageManager.tokenKey, response.data.token)
-    localStorage.setItem(LocalStorageManager.userIdKey, response.data.user.id)
+  setToken(token) {
+    localStorage.setItem(LocalStorageManager.tokenKey, token)
   }
 
   public removeCurrentToken() {
