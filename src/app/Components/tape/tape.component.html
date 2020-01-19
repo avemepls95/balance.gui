@@ -2,7 +2,7 @@
     <mat-card class="record-wrap" *ngIf="record.type == 'check_processed'">
         <mat-card-content>
             <div class="record-header">
-                <h2><b>Check processed&nbsp;&nbsp;&nbsp;</b></h2>
+                <h2><b>Check processed</b></h2>
                 <mat-divider [vertical]="true"></mat-divider>
                 <span>{{ record.date | date:'dd.MM.yyyy H:mm' }}</span>
             </div>
@@ -10,9 +10,12 @@
                 <div class="checktitle-div">
                     <span>Name: &nbsp;{{ record.data.check.title }}</span> <br>
                 </div>
-                <div class="amount"
-                    [ngClass]="record.data.amount > '0' ? 'positive-amount-color' : 'negative-amount-color'">
-                    {{ record.data.balanceDiff }}
+                <div class="amount-checkref-div">
+                    <div class="amount"
+                        [ngClass]="record.data.amount > '0' ? 'positive-amount-color' : 'negative-amount-color'">
+                        {{ record.data.balanceDiff }}
+                    </div>
+                    <mat-icon class="font-large" [routerLink]="['../editCheck', record.data.check.id]">receipt</mat-icon>
                 </div>
             </div>
         </mat-card-content>
@@ -47,9 +50,12 @@
                 <div class="checktitle-div">
                     <span>Name: &nbsp;{{ record.data.check.title }}</span> <br>
                 </div>
-                <div class="amount"
-                    [ngClass]="record.data.amount > '0' ? 'positive-amount-color' : 'negative-amount-color'">
-                    {{ record.data.balanceDiff }}
+                <div class="amount-checkref-div">
+                    <div class="amount"
+                        [ngClass]="record.data.amount > '0' ? 'positive-amount-color' : 'negative-amount-color'">
+                        {{ record.data.balanceDiff }}
+                    </div>
+                    <mat-icon class="font-large" [routerLink]="['../editCheck', record.data.check.id]">receipt</mat-icon>
                 </div>
             </div>
         </mat-card-content>

@@ -328,21 +328,18 @@ mat-sidenav-content {
     cursor: pointer;
     }
 
-.avatar-firstname-block {
-    margin-top: 4px;
+.avatar-firstname-block label {
+    align-self: center;
+    font-size: smaller;
+    margin-top: 8px;
 }
 
-    .avatar-firstname-block label {
-        align-self: center;
-        font-size: smaller;
-    }
+.avatar-firstname-block .avatar-card {
+    margin-top: 6px;
+}
 
 .mat-drawer-content {
     /* overflow: initial; */
-}
-
-.font-large {
-    font-size: xx-large;
 }
 
 .refresh-button {
