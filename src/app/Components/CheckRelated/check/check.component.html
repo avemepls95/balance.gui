@@ -143,7 +143,7 @@
   </mat-card-content>
 
   <mat-card-actions class="create-check-btn-wrap">
-    <button mat-button [disabled]="!canBeCreated()" *ngIf="mode == 'creating' && !check.id" (click)="createCheck()">CREATE</button>
-    <button mat-button [disabled]="!canBeCreated()" *ngIf="mode == 'editing' && check.isReadyForProcess" (click)="updateCheck()">EDIT</button>
+    <button mat-button *ngIf="mode == 'creating' && !check.id" (click)="createCheck()">CREATE</button>
+    <button mat-button *ngIf="mode == 'editing' && check.isReadyForProcess" (click)="updateCheck()">EDIT</button>
   </mat-card-actions>
 </mat-card>

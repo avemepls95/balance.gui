@@ -32,7 +32,7 @@ import { PositionCardComponent } from '../position-card/position-card.component'
   templateUrl: './check.component.html',
   styleUrls: ['./check.component.css'],
 })
-export class CheckComponent implements OnInit, OnDestroy, ICanBeCreated {
+export class CheckComponent implements OnInit, OnDestroy {
   titleFormControl = new FormControl('', [
     Validators.required
   ]);
@@ -61,8 +61,7 @@ export class CheckComponent implements OnInit, OnDestroy, ICanBeCreated {
     activateRoute: ActivatedRoute,
     private loaderService: LoaderService,
     private snackbarService: SnackbarService
-  ) 
-  {
+  ) {
     snackbarService.setSnackbar(snackbar);
 
     this.check = new Check();
@@ -219,15 +218,12 @@ export class CheckComponent implements OnInit, OnDestroy, ICanBeCreated {
     this.paymentsDataSource.data = this.check.payments;
   }
 
-  canBeCreated(): boolean {
-    return !isNullOrUndefined(this.check.payments) &&
-      this.check.payments.length != 0 &&
-      !isNullOrUndefined(this.check.positions) &&
-      this.check.positions.length != 0 &&
-      this.check.title != '';
-  }
-
   createCheck() {
+    if (isNullOrUndefined(this.check.title) || this.check.title == ''){
+      this.titleFormControl.markAsTouched();
+      return;
+    }
+
     let checkDto = CheckCreateUpdateDtoMapper.convertCheckToDto(this.check);
     this.loaderService.show();
     this.balanceApiService.createCheck(checkDto)
