@@ -340,3 +340,11 @@ mat-sidenav-content {
 .mat-drawer-content {
     /* overflow: initial; */
 }
+
+.font-large {
+    font-size: xx-large;
+}
+
+.refresh-button {
+    margin-right: 2vw;
+}

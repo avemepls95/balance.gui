@@ -85,6 +85,10 @@ export class MainComponent implements OnInit {
     });
   }
 
+  refreshPage() {
+    window.location.reload();
+  }
+
   logout() {
     this.authService.removeCurrentToken();
     this.router.navigate(['/auth']);

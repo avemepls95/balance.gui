@@ -9,15 +9,18 @@
             <h1 class="app-title">{{title}} |</h1>
             <span class="menu-spacer"></span>
         </div>
-        <div class="flex-h-space-between avatar-firstname-block">
-            <label>{{userFirstName}}</label>
-            <mat-card class="avatar-card">
-                <div mat-card-avatar class="avatar-header-image" [matMenuTriggerFor]="dropdownMenu" [ngStyle]="{'background-image':'url('+avatar+')'}"></div>
-            </mat-card>
+        <div class="flex-v-center">
+            <button mat-icon-button (click)="refreshPage()" class="refresh-button">
+                <mat-icon class="font-large">refresh</mat-icon>
+            </button>
+            <div class="flex-h-space-between avatar-firstname-block">
+                <label>{{userFirstName}}</label>
+                <mat-card class="avatar-card">
+                    <div mat-card-avatar class="avatar-header-image" [matMenuTriggerFor]="dropdownMenu"
+                        [ngStyle]="{'background-image':'url('+avatar+')'}"></div>
+                </mat-card>
+            </div>
         </div>
-        <!-- <button mat-icon-button [matMenuTriggerFor]="dropdownMenu">
-            <mat-icon>more_vert</mat-icon>
-        </button> -->
     </mat-toolbar-row>
 </mat-toolbar>
 
