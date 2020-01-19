@@ -28,7 +28,7 @@
                         <td mat-cell *matCellDef="let check">
                             <div>
                                 <span> {{check.title}} </span>
-                                <mat-icon [style.visibility]="!check.isReadyForProcess ? 'visible' : 'hidden'"
+                            <mat-icon [style.visibility]="check.state == 'PROCESSED' ? 'visible' : 'hidden'"
                                     class="green">done</mat-icon>
                             </div>
                         </td>
@@ -38,7 +38,7 @@
                         <th mat-header-cell *matHeaderCellDef></th>
                         <td mat-cell *matCellDef="let check" class="row-actions-td">
                             <div class="row-action-buttons" (click)="$event.stopPropagation()">
-                                <button [style.visibility]="check.isReadyForProcess ? 'visible' : 'hidden'"
+                                <button [style.visibility]="check.state == 'PROCESSED' ? 'hidden' : 'visible'"
                                     mat-icon-button (click)="deleteCheck(check.id)" onclick="this.blur()" matTooltip="Delete check">
                                     <mat-icon class="red">delete</mat-icon>
                                 </button>

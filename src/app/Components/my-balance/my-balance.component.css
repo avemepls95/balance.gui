@@ -100,6 +100,10 @@ table {
     color: black;
 }
 
+.zero-balance-wrap img {
+    transform: translateY(-20px);
+}
+
 @media only screen and (max-width: 600px) {
     .zero-balance-wrap img {
         width: 100vw;

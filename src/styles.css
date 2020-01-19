@@ -119,3 +119,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .font-large {
     font-size: xx-large;
 }
+
+.mat-tooltip {
+    font-size: 14px;
+}

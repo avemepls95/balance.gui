@@ -11,7 +11,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { config, pipe } from 'rxjs';
 import { PaymentCardComponent } from '../payment-card/payment-card.component';
 import { Check } from 'src/app/Model/Check';
-import { ICanBeCreated } from 'src/app/Interfaces/ICanBeCreated';
 import { isNullOrUndefined, isNumber } from 'util';
 import { BalanceApiService } from 'src/app/Services/balance-api.service';
 import { finalize, take } from 'rxjs/operators';
@@ -36,8 +35,6 @@ export class CheckComponent implements OnInit, OnDestroy {
   titleFormControl = new FormControl('', [
     Validators.required
   ]);
-
-  canBeProcessed: boolean = false;
 
   matcher = new MyErrorStateMatcher();
 
@@ -78,8 +75,6 @@ export class CheckComponent implements OnInit, OnDestroy {
             this.positionsDataSource = new MatTableDataSource(this.check.positions);
             this.paymentsDataSource = new MatTableDataSource(this.check.payments);
             loaderService.hide();
-
-            this.canBeProcessed = true;
           });
         } else {
           // TODO: handle incorrect id
@@ -232,27 +227,11 @@ export class CheckComponent implements OnInit, OnDestroy {
       }))
       .subscribe(
         (response: BalanceResponse) => {
-          this.canBeProcessed = true;
-          debugger
           this.check = CheckGetDtoMapper.convertDtoToCheck(response.data);
-          this.snackbarService.openSnackBar(new SnackbarOptions({
-            backgroundColor: SnackBarColor.Success,
-            message: "Success!",
-            action: "Close",
-            duration: 0
-          }));
+          this.snackbarService.showSuccessMessage();
         },
         (errorResponse: HttpErrorResponse) => {
-          let message = "Error. Something went wrong";
-          if (errorResponse.error.error.code == ResponseCode.ValidationFailed)
-            message = 'Incorrect data';
-
-          this.snackbarService.openSnackBar(new SnackbarOptions({
-            backgroundColor: SnackBarColor.Error,
-            message: message,
-            action: "Close",
-            duration: 0
-          }));
+          this.snackbarService.showErrorMessage(errorResponse);
         }
       );
   }
@@ -266,6 +245,8 @@ export class CheckComponent implements OnInit, OnDestroy {
       }))
       .subscribe(
         (response: BalanceResponse) => {
+          this.check = CheckGetDtoMapper.convertDtoToCheck(response.data);
+          debugger
           this.snackbarService.showSuccessMessage();
         },
         (errorResponse: HttpErrorResponse) => {

@@ -78,22 +78,25 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
   }
 
   doAction() {
+    debugger
     if (this.equalConsumptions) {
       let part = Math.floor(this.position.amount / this.position.consumptions.length * 100) / 100;
       this.position.consumptions.forEach(consumption => {
         consumption.amount = part;
       });
 
-      if (part * this.position.consumptions.length == this.position.amount)
+      if (part * this.position.consumptions.length == this.position.amount) {
+        this.dialogRef.close({ event: this.action, data: this.position });
         return;
+      }
 
       let index = 0;
-      while (this.position.consumptions.reduce((sum, current) => sum + current.amount, 0) != this.position.amount){
+      while (this.position.consumptions.reduce((sum, current) => sum + current.amount, 0) != this.position.amount) {
         this.position.consumptions[index].amount += 0.01;
         if (index == this.position.consumptions.length - 1)
           index = 0;
 
-        ++index;  
+        ++index;
       }
     }
 

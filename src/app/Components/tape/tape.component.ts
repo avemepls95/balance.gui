@@ -28,7 +28,6 @@ export class TapeComponent implements OnInit {
     ).subscribe(
       (response) => {
         this.records = response.data.sort((a,b) => (a.date > b.date) ? -1 : ((b.date > a.date) ? 1 : 0));
-        debugger
       },
       (error) => console.error(error)
     );

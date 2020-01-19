@@ -26,7 +26,7 @@ export class VkLoginWidgetComponent implements AfterViewInit {
   @Output()
   loginEnded = new EventEmitter();
   @Output()
-  loginSuccessful = new EventEmitter();
+  loginSuccessful = new EventEmitter<any>();
 
   @ViewChild('script', { static: true }) script: ElementRef;
 
@@ -71,7 +71,7 @@ export class VkLoginWidgetComponent implements AfterViewInit {
       )
       .subscribe(
         (response: any) => {
-          this.loginSuccessful.emit();
+          this.loginSuccessful.emit(response);
         },
         (error: any) => {
           if (error instanceof HttpErrorResponse) {

@@ -3,12 +3,12 @@
     <div class='flex-h-space-between header-row'>
       <mat-card-title *ngIf="mode == 'creating'">Check creating</mat-card-title>
       <mat-card-title *ngIf="mode == 'editing'">Check editing</mat-card-title>
-      <button *ngIf="canBeProcessed && check.isReadyForProcess" class="process-check-button" mat-button
+      <button *ngIf="check.isReadyForProcess" class="process-check-button" mat-button
         (click)="processCheck()" mat-flat-button>
         <mat-icon mat-list-icon color="primary" class='process-check-icon'>refresh</mat-icon>
         Process
       </button>
-      <button *ngIf="!check.isReadyForProcess && mode == 'editing'" class="rollback-check-button" mat-button
+      <button *ngIf="check.state == 'PROCESSED'" class="rollback-check-button" mat-button
         (click)="rollbackCheck()" mat-flat-button>
         <mat-icon mat-list-icon class='process-check-icon'>cancel</mat-icon>
         Rollback
@@ -145,6 +145,6 @@
 
   <mat-card-actions class="create-check-btn-wrap">
     <button mat-button *ngIf="mode == 'creating' && !check.id" (click)="createCheck()">CREATE</button>
-    <button mat-button *ngIf="mode == 'editing' && check.isReadyForProcess" (click)="updateCheck()">EDIT</button>
+    <button mat-button *ngIf="check.state == 'EDITING'" (click)="updateCheck()">EDIT</button>
   </mat-card-actions>
 </mat-card>

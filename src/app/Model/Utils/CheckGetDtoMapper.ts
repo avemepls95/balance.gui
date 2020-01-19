@@ -13,6 +13,7 @@ export class CheckGetDtoMapper {
         return new GetCheckDto({
             id: check.id,
             title: check.title,
+            state: check.state,
             positions: CheckGetDtoMapper.convertPositionToDto(check.positions),
             payments: CheckGetDtoMapper.convertPaymentToDto(check.payments),
         })
@@ -41,6 +42,7 @@ export class CheckGetDtoMapper {
             id: checkDto.id,
             title: checkDto.title,
             isReadyForProcess: checkDto.isReadyForProcess,
+            state: checkDto.state,
             positions: CheckGetDtoMapper.convertDtoToPosition(checkDto.positions),
             payments: CheckGetDtoMapper.convertDtoToPayment(checkDto.payments),
         })
