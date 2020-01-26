@@ -12,7 +12,7 @@ const menuRoutes: Routes = [
   { path: '', redirectTo: '/debts', pathMatch: 'full' },
   { path: 'checks', component: CheckListComponent },
   { path: 'createCheck', component: CheckComponent },
-  { path: 'editCheck/:id', component: CheckComponent },
+  { path: 'editCheck/:id', component: CheckComponent, data: { check: {} } },
   { path: 'debts', component: MyBalanceComponent},
   { path: 'tape', component: TapeComponent},
 ];

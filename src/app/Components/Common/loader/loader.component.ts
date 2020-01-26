@@ -1,13 +1,13 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Component, OnInit, ChangeDetectorRef, AfterViewChecked } from '@angular/core';
 import { LoaderService } from 'src/app/Services/loader.service';
+import { isNullOrUndefined } from 'util';
 
 @Component({
   selector: 'app-loader',
   templateUrl: './loader.component.html',
   styleUrls: ['./loader.component.css']
 })
-export class LoaderComponent implements OnInit {
+export class LoaderComponent implements OnInit, AfterViewChecked {
 
   color = 'primary';
   mode = 'indeterminate';
@@ -22,6 +22,15 @@ export class LoaderComponent implements OnInit {
    }
 
   ngOnInit() {
+  }
+
+  ngAfterViewChecked() {
+    var spinner = document.getElementsByClassName('spinner')[0] as HTMLElement;
+    if (isNullOrUndefined(spinner))
+      return;
+
+    spinner.style.left = (window.innerWidth / 2 - 50) + 'px';
+    spinner.style.top = (window.innerHeight / 2 - 50) + 'px';
   }
 
 }

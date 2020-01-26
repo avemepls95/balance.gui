@@ -14,7 +14,7 @@ import { Check } from 'src/app/Model/Check';
 import { isNullOrUndefined, isNumber } from 'util';
 import { BalanceApiService } from 'src/app/Services/balance-api.service';
 import { finalize, take } from 'rxjs/operators';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CheckGetDtoMapper } from 'src/app/Model/Utils/CheckGetDtoMapper';
 import { LoaderService } from 'src/app/Services/loader.service';
 import { CheckCreateUpdateDtoMapper } from 'src/app/Model/Utils/CheckCreateUpdateDtoMapper';
@@ -56,26 +56,42 @@ export class CheckComponent implements OnInit, OnDestroy {
     private balanceApiService: BalanceApiService,
     private snackbar: MatSnackBar,
     activateRoute: ActivatedRoute,
+    private router: Router,
     private loaderService: LoaderService,
     private snackbarService: SnackbarService
   ) {
     snackbarService.setSnackbar(snackbar);
 
-    this.check = new Check();
+    let state = this.router.getCurrentNavigation().extras.state;
+    if (!isNullOrUndefined(state))
+      this.check = state.check;
+    else
+      this.check = new Check();
+
     this.positionsDataSource = new MatTableDataSource(this.check.positions);
     this.paymentsDataSource = new MatTableDataSource(this.check.payments);
 
+    if (!isNullOrUndefined(state))
+      return;
+      
     activateRoute.params.subscribe(params => {
       if (!isNullOrUndefined(params['id'])) {
         if (+params['id']) {
           this.mode = 'editing';
           loaderService.show();
-          balanceApiService.getCheckById(params['id']).subscribe(result => {
-            this.check = CheckGetDtoMapper.convertDtoToCheck(result.data);
-            this.positionsDataSource = new MatTableDataSource(this.check.positions);
-            this.paymentsDataSource = new MatTableDataSource(this.check.payments);
-            loaderService.hide();
-          });
+          balanceApiService.getCheckById(params['id']).subscribe(
+            result => {
+              this.check = CheckGetDtoMapper.convertDtoToCheck(result.data);
+              this.positionsDataSource = new MatTableDataSource(this.check.positions);
+              this.paymentsDataSource = new MatTableDataSource(this.check.payments);
+              loaderService.hide();
+            },
+            (httpErrorResponse: HttpErrorResponse ) => {
+              loaderService.hide();
+              if (httpErrorResponse.error.error.code == 'check_not_found')
+                snackbarService.showErrorMessage(null, 'Error. Check not found');
+            }
+          );
         } else {
           // TODO: handle incorrect id
         }
@@ -214,7 +230,7 @@ export class CheckComponent implements OnInit, OnDestroy {
   }
 
   createCheck() {
-    if (isNullOrUndefined(this.check.title) || this.check.title == ''){
+    if (isNullOrUndefined(this.check.title) || this.check.title == '') {
       this.titleFormControl.markAsTouched();
       return;
     }

@@ -308,7 +308,7 @@ mat-sidenav-content {
 }
 
 .app-title {
-    margin-left: 20px;
+    margin-left: 2vw;
 }
 
 .menu-sidenav .mat-list-item {
@@ -338,9 +338,9 @@ mat-sidenav-content {
     margin-top: 6px;
 }
 
-.mat-drawer-content {
-    /* overflow: initial; */
-}
+/* .mat-drawer-content {
+    overflow: initial;
+} */
 
 .refresh-button {
     margin-right: 2vw;
