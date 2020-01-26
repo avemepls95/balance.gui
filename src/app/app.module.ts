@@ -14,7 +14,6 @@ import { MainComponent } from './Components/main/main.component';
 import { DemoMaterialModule } from './material-module';
 import { TextMaskModule } from 'angular2-text-mask';
 import { TokenInterceptor } from './Interceptors/token.interceptor';
-import { ResponseInterceptor } from './Interceptors/response.interceptor';
 import { JwtHelper } from 'angular2-jwt';
 import { LoaderService } from './Services/loader.service';
 import { DigitOnlyDirective } from './Directives/digit-only.directive';
@@ -86,7 +85,6 @@ export function initializeApp(appConfig: AppConfig) {
     //   deps: [AppConfig], multi: true
     // },
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true, },
-    { provide: HTTP_INTERCEPTORS, useClass: ResponseInterceptor, multi: true },
   ],
   bootstrap: [AppComponent]
 })
