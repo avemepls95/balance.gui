@@ -9,7 +9,7 @@
         <div *ngIf="!isDebtMode">
             <mat-form-field>
                 <input matInput #userInput placeholder="Search" [matAutocomplete]="auto" [formControl]="searchUserCtrl"
-                    (ngModelChange)="onUserInputTextChange($event)" [readonly]="action == 'View'">
+                    (ngModelChange)="onUserInputTextChange($event)">
                 <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn"
                     (optionSelected)="selectedUser($event)">
                     <mat-option class="is-loading" *ngIf="isLoading" [disabled]="true">

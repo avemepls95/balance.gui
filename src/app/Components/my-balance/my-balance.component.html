@@ -42,7 +42,7 @@
                     </ng-container>
 
                     <tr mat-header-row *matHeaderRowDef="displayedColumns"
-                        [ngClass]="getTotalAmount() > '0' ? 'positive-amount-color' : 'negative-amount-color'"></tr>
+                        [ngClass]="getTotalAmount() > 0 ? 'positive-amount-color' : 'negative-amount-color'"></tr>
                     <tr mat-row *matRowDef="let debt; columns: displayedColumns;" [hidden]="debt.amount == 0"
                         [ngClass]="debt.amount > '0' ? 'positive-amount-color' : 'negative-amount-color'">
                     </tr>
