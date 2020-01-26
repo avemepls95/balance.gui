@@ -14,30 +14,8 @@ export class ResponseInterceptor implements HttpInterceptor {
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return next.handle(request).do(
             (event: HttpEvent<any>) => { },
-            (err: any) => { this.handleResponseError(err) }
+            (err: any) => { }
         );
-    }
-
-    handleResponseError(errorResponse: any) {
-        if (isNullOrUndefined(errorResponse.error))
-            return;
-
-        if (!isNullOrUndefined(errorResponse.error.error.info)) {
-            if (isNullOrUndefined(errorResponse.error.error.info.validation.$)) {
-                for (let key in errorResponse.error.error.info.validation) {
-                    console.log(errorResponse.error.error.info.validation[key]);
-                }
-            } else {
-                errorResponse.error.error.info.validation.$.forEach(element => {
-                    console.log(element);
-                });
-            }
-
-            return;
-        }
-
-        console.log(errorResponse.error.error.message);
-        return;
     }
 }
 
