@@ -24,7 +24,7 @@
     background: #fff;
     border-radius: 10px;
     overflow: hidden;
-    padding: 65px 55px 54px 55px;
+    padding: 25px 55px 34px 55px;
 }
 
 .login100-form-title {
@@ -34,7 +34,7 @@
     color: #333;
     line-height: 1.2;
     text-align: center;
-    padding-bottom: 49px;
+    padding-bottom: 19px;
 }
 
 .wrap-input100 {
@@ -194,4 +194,24 @@ a {
 
 .auth-failed-div {
     widows: 100%;
+}
+
+.hello-wrap {
+    text-align: center;
+    margin-top: 2vh;
+}
+
+.hello-wrap h1 {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: black;
+}
+
+.hello-wrap img {
+    transform: translateY(-20px);
+}
+
+@media only screen and (max-width: 600px) {
+    .hello-wrap img {
+        width: 100%;
+    }
 }
