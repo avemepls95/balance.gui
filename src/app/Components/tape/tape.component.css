@@ -82,3 +82,22 @@
         margin-right: 8vw;
     }
 }
+
+.no-tape-wrap {
+    text-align: center;
+    margin-top: 2vh;
+}
+
+.no-tape-wrap h1 {
+    color: black;
+}
+
+.no-tape-wrap img {
+    transform: translateY(-20px);
+}
+
+@media only screen and (max-width: 600px) {
+    .no-tape-wrap img {
+        width: 100vw;
+    }
+}

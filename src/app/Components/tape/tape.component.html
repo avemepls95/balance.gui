@@ -33,7 +33,7 @@
                     <span>Recipient: &nbsp;{{ record.data.recipient.username }}</span>
                 </div>
                 <div class="amount"
-                    [ngClass]="record.data.sender.id == currentUserId ? 'negative-amount-color' : 'positive-amount-color'">
+                    [ngClass]="record.data.sender.id == currentUserId ? 'positive-amount-color' : 'negative-amount-color'">
                     {{ record.data.amount }}
                 </div>
             </div>
@@ -61,4 +61,9 @@
         </mat-card-content>
     </mat-card>
     <!-- check_rolled_back -->
+</div>
+
+<div class="no-tape-wrap" *ngIf="isNoTape">
+    <h1>No tape records</h1>
+    <img src="assets/images/empty-tape.jpeg">
 </div>

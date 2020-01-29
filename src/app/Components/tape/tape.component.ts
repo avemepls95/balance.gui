@@ -21,6 +21,7 @@ export class TapeComponent implements OnInit {
   records: TapeRecord[];
 
   currentUserId: number;
+  isNoTape: boolean;
 
   constructor(
     private balanceApiService: BalanceApiService,
@@ -37,6 +38,8 @@ export class TapeComponent implements OnInit {
       finalize(() => loaderService.hide())
     ).subscribe(
       (response) => {
+        if (response.data.length == 0)
+          this.isNoTape = true;
         this.records = response.data.sort((a,b) => (a.date > b.date) ? -1 : ((b.date > a.date) ? 1 : 0));
       },
       (error) => console.error(error)
