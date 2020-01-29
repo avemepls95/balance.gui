@@ -7,7 +7,6 @@ import { LocalStorageManager } from 'src/app/LocalStorageManager';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackbarService } from 'src/app/Services/snackbar.service';
 import { CheckGetDtoMapper } from 'src/app/Model/Utils/CheckGetDtoMapper';
-import { MatTableDataSource } from '@angular/material/table';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 
@@ -40,27 +39,30 @@ export class TapeComponent implements OnInit {
       (response) => {
         if (response.data.length == 0)
           this.isNoTape = true;
-        this.records = response.data.sort((a,b) => (a.date > b.date) ? -1 : ((b.date > a.date) ? 1 : 0));
+        this.records = response.data.sort((a, b) => (a.date > b.date) ? -1 : ((b.date > a.date) ? 1 : 0));
       },
       (error) => console.error(error)
     );
-   }
+  }
 
   ngOnInit() {
   }
 
   openCheck(checkId: number) {
-    this.balanceApiService.getCheckById(checkId).subscribe(
-      result => {
+    this.loaderService.show();
+    this.balanceApiService.getCheckById(checkId).pipe()
+      .pipe(finalize(() => {
         this.loaderService.hide();
-        let check = CheckGetDtoMapper.convertDtoToCheck(result.data);
-        this.router.navigateByUrl('/editCheck/' + checkId, { state: { check }});
-      },
-      (httpErrorResponse: HttpErrorResponse ) => {
-        this.loaderService.hide();
-        if (httpErrorResponse.error.error.code == 'check_not_found')
-          this.snackbarService.showErrorMessage(null, 'Error. Check not found');
-      }
-    );
+      }))
+      .subscribe(
+        result => {
+          let check = CheckGetDtoMapper.convertDtoToCheck(result.data);
+          this.router.navigateByUrl('/editCheck/' + checkId, { state: { check } });
+        },
+        (httpErrorResponse: HttpErrorResponse) => {
+          if (httpErrorResponse.error.error.code == 'check_not_found')
+            this.snackbarService.showErrorMessage(null, 'Error. Check not found');
+        }
+      );
   }
 }
