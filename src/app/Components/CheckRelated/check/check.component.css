@@ -81,10 +81,17 @@ div.row-action-buttons button {
     opacity: 0.5;
 }
 
+.header-label-wrap {
+    height: 36px;
+    align-items: center;
+    margin-bottom: 17px;
+}
+
 .positions-label {
     font-size: 18px;
     margin-top: initial !important;
     margin-left: 1rem;
+    margin-bottom: 0 !important;
 }
 
 .positions-block {

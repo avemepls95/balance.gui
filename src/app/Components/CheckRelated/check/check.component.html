@@ -27,12 +27,12 @@
     <!-- Position table -->
     <div class="container positions-block">
       <div class="flex-h-space-between">
-        <div class="flex">
+        <div class="flex header-label-wrap">
           <mat-icon mat-list-icon color="primary">reorder</mat-icon>
           <mat-card-title class="positions-label">Positions</mat-card-title>
         </div>
         <button class="add-row-button" mat-button (click)="openPositionCard('Add',{})" mat-flat-button color="primary"
-          matTooltip="Add position">
+          matTooltip="Add position" [hidden]="check.state == 'PROCESSED'">
           + Position
         </button>
       </div>
@@ -82,12 +82,12 @@
     <!-- Payments table -->
     <div class="container payments-block">
       <div class="flex-h-space-between">
-        <div class="flex">
+        <div class="flex header-label-wrap">
           <mat-icon mat-list-icon color="primary">reorder</mat-icon>
           <mat-card-title class="positions-label">Payments</mat-card-title>
         </div>
         <button class="add-row-button" mat-button (click)="openPaymentCard('Add',{})" mat-flat-button color="primary"
-          matTooltip="Add payment">
+          matTooltip="Add payment" [hidden]="check.state == 'PROCESSED'">
           + Payment
         </button>
       </div>
