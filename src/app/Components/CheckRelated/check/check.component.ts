@@ -48,7 +48,7 @@ export class CheckComponent implements OnInit, OnDestroy {
 
   mode: string = 'creating';
 
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  // @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(
@@ -100,7 +100,7 @@ export class CheckComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.positionsDataSource.paginator = this.paginator;
+    // this.positionsDataSource.paginator = this.paginator;
     this.positionsDataSource.sort = this.sort;
   }
 
@@ -108,21 +108,21 @@ export class CheckComponent implements OnInit, OnDestroy {
     this.snackbar.ngOnDestroy();
   }
 
-  applyPositionsFilter(filterValue: string) {
-    this.applyFilter(this.positionsDataSource, filterValue);
-  }
+  // applyPositionsFilter(filterValue: string) {
+  //   this.applyFilter(this.positionsDataSource, filterValue);
+  // }
 
-  applyPaymentsFilter(filterValue: string) {
-    this.applyFilter(this.paymentsDataSource, filterValue);
-  }
+  // applyPaymentsFilter(filterValue: string) {
+  //   this.applyFilter(this.paymentsDataSource, filterValue);
+  // }
 
-  applyFilter(dataSource, filterValue: string) {
-    dataSource.filter = filterValue.trim().toLowerCase();
+  // applyFilter(dataSource, filterValue: string) {
+  //   dataSource.filter = filterValue.trim().toLowerCase();
 
-    if (dataSource.paginator) {
-      dataSource.paginator.firstPage();
-    }
-  }
+  //   if (dataSource.paginator) {
+  //     dataSource.paginator.firstPage();
+  //   }
+  // }
 
   getPositionsDisplayedColumns() {
     if (this.positionsDisplayedColumns.indexOf('actions') == -1)

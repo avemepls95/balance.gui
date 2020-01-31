@@ -78,7 +78,6 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
   }
 
   doAction() {
-    debugger
     if (this.equalConsumptions) {
       let part = Math.floor(this.position.amount / this.position.consumptions.length * 100) / 100;
       this.position.consumptions.forEach(consumption => {
