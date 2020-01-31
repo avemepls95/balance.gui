@@ -82,6 +82,12 @@ export class CheckComponent implements OnInit, OnDestroy {
           balanceApiService.getCheckById(params['id']).subscribe(
             result => {
               this.check = CheckGetDtoMapper.convertDtoToCheck(result.data);
+
+              let internalId = 0;
+              this.check.positions.forEach(position => position.internalId = ++internalId );
+              internalId = 0;
+              this.check.payments.forEach(payment => payment.internalId = ++internalId );
+
               this.positionsDataSource = new MatTableDataSource(this.check.positions);
               this.paymentsDataSource = new MatTableDataSource(this.check.payments);
               loaderService.hide();
@@ -180,6 +186,7 @@ export class CheckComponent implements OnInit, OnDestroy {
   }
 
   updatePosition(data: Position) {
+    debugger
     const index = this.check.positions.findIndex(p => p.internalId === data.internalId);
     if (index == -1) {
       console.log("Invalid position id:" + data);
