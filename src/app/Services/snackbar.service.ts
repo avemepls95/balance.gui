@@ -28,7 +28,7 @@ export class SnackbarService {
             backgroundColor: SnackBarColor.Success,
             message: "Success!",
             action: "Close",
-            duration: 1000
+            duration: 2000
         }));
     }
 
@@ -44,7 +44,7 @@ export class SnackbarService {
             backgroundColor: SnackBarColor.Error,
             message: message,
             action: "Close",
-            duration: 1000
+            duration: 2000
         }));
     }
 }

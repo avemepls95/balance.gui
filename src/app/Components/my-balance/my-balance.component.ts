@@ -27,7 +27,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class MyBalanceComponent implements OnInit {
 
-  debts: Debt[];
+  debts: Debt[] = [];
   totalAmount: number = 0;
 
   displayedColumns: string[] = ['index', 'username', 'amount', 'actions'];
@@ -56,7 +56,12 @@ export class MyBalanceComponent implements OnInit {
           return;
         }
 
-        this.debts = response.data.map(d => DebtsDtoMapper.convertDtoToDebt(d));
+        let tmp = response.data.map(d => DebtsDtoMapper.convertDtoToDebt(d)) as Debt[];
+        tmp.forEach(debt => {
+          if (debt.amount != 0)
+            this.debts.push(debt);
+        });
+
         this.totalAmount = this.debts.reduce((sum, current) => sum + current.amount, 0);
         this.dataSource = new MatTableDataSource(this.debts);
         this.dataSource.sort = this.sort;

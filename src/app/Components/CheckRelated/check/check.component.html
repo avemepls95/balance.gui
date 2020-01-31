@@ -74,8 +74,8 @@
             </td>
           </ng-container>
 
-          <tr mat-header-row *matHeaderRowDef="positionsDisplayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: positionsDisplayedColumns;" (click)="openPositionCard('View',row)">
+          <tr mat-header-row *matHeaderRowDef="getPositionsDisplayedColumns();"></tr>
+          <tr mat-row *matRowDef="let row; columns: getPositionsDisplayedColumns();" (click)="openPositionCard('View',row)">
           </tr>
         </table>
 
@@ -133,8 +133,8 @@
             </td>
           </ng-container>
 
-          <tr mat-header-row *matHeaderRowDef="paymentsDisplayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: paymentsDisplayedColumns;" (click)="openPaymentCard('View', row)">
+          <tr mat-header-row *matHeaderRowDef="getPaymentsDisplayedColumns();"></tr>
+          <tr mat-row *matRowDef="let row; columns: getPaymentsDisplayedColumns();" (click)="openPaymentCard('View', row)">
           </tr>
         </table>
 

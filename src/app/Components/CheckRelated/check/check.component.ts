@@ -73,7 +73,7 @@ export class CheckComponent implements OnInit, OnDestroy {
 
     if (!isNullOrUndefined(state))
       return;
-      
+
     activateRoute.params.subscribe(params => {
       if (!isNullOrUndefined(params['id'])) {
         if (+params['id']) {
@@ -86,7 +86,7 @@ export class CheckComponent implements OnInit, OnDestroy {
               this.paymentsDataSource = new MatTableDataSource(this.check.payments);
               loaderService.hide();
             },
-            (httpErrorResponse: HttpErrorResponse ) => {
+            (httpErrorResponse: HttpErrorResponse) => {
               loaderService.hide();
               if (httpErrorResponse.error.error.code == 'check_not_found')
                 snackbarService.showErrorMessage(null, 'Error. Check not found');
@@ -122,6 +122,28 @@ export class CheckComponent implements OnInit, OnDestroy {
     if (dataSource.paginator) {
       dataSource.paginator.firstPage();
     }
+  }
+
+  getPositionsDisplayedColumns() {
+    if (this.positionsDisplayedColumns.indexOf('actions') == -1)
+      return;
+
+    let columns = Object.assign([],this.positionsDisplayedColumns);
+    if (this.check.state == 'PROCESSED')
+      columns.splice(columns.length - 1);
+
+    return columns;
+  }
+
+  getPaymentsDisplayedColumns() {
+    if (this.positionsDisplayedColumns.indexOf('actions') == -1)
+      return;
+      
+    let columns = Object.assign([],this.paymentsDisplayedColumns);
+    if (this.check.state == 'PROCESSED')
+      columns.splice(columns.length - 1);
+
+    return columns;
   }
 
   openPositionCard(action, obj) {
