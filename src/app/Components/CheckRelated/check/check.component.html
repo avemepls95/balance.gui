@@ -4,7 +4,7 @@
       <mat-card-title *ngIf="mode == 'creating'">Check creating</mat-card-title>
       <mat-card-title *ngIf="mode == 'editing'">Check editing</mat-card-title>
       <button *ngIf="check.isReadyForProcess" class="process-check-button" mat-button (click)="processCheck()"
-        mat-flat-button>
+        mat-flat-button matTooltip="Calculate debts">
         <mat-icon mat-list-icon color="primary" class='process-check-icon'>refresh</mat-icon>
         Process
       </button>
@@ -115,11 +115,11 @@
             <td mat-cell *matCellDef="let item" class="row-actions-td">
               <div class="row-action-buttons" (click)="$event.stopPropagation()">
                 <button class="row-edit-button" mat-icon-button (click)="openPaymentCard('Edit', item)"
-                  onclick="this.blur()">
+                  onclick="this.blur()" matTooltip="Edit payment">
                   <mat-icon>edit</mat-icon>
                 </button>
                 <button class="row-remove-button" mat-icon-button (click)="openPaymentCard('Delete', item)"
-                  onclick="this.blur()">
+                  onclick="this.blur()" matTooltip="Delete payment">
                   <mat-icon class="red">delete</mat-icon>
                 </button>
               </div>
