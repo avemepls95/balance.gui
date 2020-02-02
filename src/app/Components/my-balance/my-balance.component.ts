@@ -111,6 +111,8 @@ export class MyBalanceComponent implements OnInit {
         .subscribe(
           (response: BalanceResponse) => {
             debt.amount += +data.amount;
+            if (this.debts.filter(d => d.amount == 0).length == this.debts.length)
+              this.isZeroBalance = true;
 
             this.snackbarService.showSuccessMessage()
           },

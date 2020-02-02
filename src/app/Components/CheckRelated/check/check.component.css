@@ -135,7 +135,12 @@ div.row-action-buttons button {
     color: black;
     padding-left: 8px;
     height: 42px;
-    padding-right: 21px;
+}
+
+@media only screen and (max-width: 600px) {
+    .process-check-button {
+        padding-right: 25px;
+    }
 }
 
 .rollback-check-button {
