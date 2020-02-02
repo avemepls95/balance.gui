@@ -32,7 +32,7 @@ export class MainComponent implements OnInit {
     private loaderService: LoaderService,
     private dialog: MatDialog,
     private snackbarService: SnackbarService,
-    private translateService: TranslateService,
+    public translateService: TranslateService,
     private cookieService: CookieService
   ) { 
     this.userFirstName = localStorage.getItem(LocalStorageManager.userFirstNameKey);
