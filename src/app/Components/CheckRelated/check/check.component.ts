@@ -18,8 +18,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CheckGetDtoMapper } from 'src/app/Model/Utils/CheckGetDtoMapper';
 import { LoaderService } from 'src/app/Services/loader.service';
 import { CheckCreateUpdateDtoMapper } from 'src/app/Model/Utils/CheckCreateUpdateDtoMapper';
-import { SnackBarColor } from 'src/app/ControlLayer/SnackBarColor.enum'
-import { ResponseCode } from 'src/app/Utils/ResponseCode.enum';
 import { SnackbarOptions } from 'src/app/ControlLayer/SnackbarOptions';
 import { SnackbarService } from 'src/app/Services/snackbar.service';
 import { BalanceResponse } from 'src/app/BalanceResponse';

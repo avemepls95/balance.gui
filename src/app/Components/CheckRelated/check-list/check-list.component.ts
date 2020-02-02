@@ -5,14 +5,9 @@ import { BalanceApiService } from 'src/app/Services/balance-api.service';
 import { CheckGetDtoMapper } from 'src/app/Model/Utils/CheckGetDtoMapper';
 import { LoaderService } from 'src/app/Services/loader.service';
 import { finalize } from 'rxjs/operators';
-import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { SnackbarService } from 'src/app/Services/snackbar.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { SnackbarOptions } from 'src/app/ControlLayer/SnackbarOptions';
-import { SnackBarColor } from 'src/app/ControlLayer/SnackBarColor.enum';
-import { ResponseCode } from 'src/app/Utils/ResponseCode.enum';
-import { BalanceError } from 'src/app/BalanceError';
 import { BalanceResponse } from 'src/app/BalanceResponse';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -57,7 +52,6 @@ export class CheckListComponent implements OnInit {
   }
 
   ngOnInit() {
-
   }
 
   applyFilter(filterValue: string) {
@@ -94,26 +88,12 @@ export class CheckListComponent implements OnInit {
         }))
         .subscribe(
           (response: BalanceResponse) => {
-            this.snackbarService.openSnackBar(new SnackbarOptions({
-              backgroundColor: SnackBarColor.Success,
-              message: "Success!",
-              action: "Close",
-              duration: 0
-            }));
+            this.snackbarService.showSuccessMessage();
             this.checks.splice(index, 1);
             this.dataSource.data = this.checks;
           },
           (errorResponse: HttpErrorResponse) => {
-            let message = "Error. Something went wrong";
-            if (errorResponse.error.error.code == ResponseCode.ValidationFailed)
-              message = 'Incorrect data';
-
-            this.snackbarService.openSnackBar(new SnackbarOptions({
-              backgroundColor: SnackBarColor.Error,
-              message: message,
-              action: "Close",
-              duration: 0
-            }));
+            this.snackbarService.showErrorMessage(errorResponse);
           }
         );
     });

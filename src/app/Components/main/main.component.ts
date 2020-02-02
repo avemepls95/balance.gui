@@ -61,24 +61,10 @@ export class MainComponent implements OnInit {
         }))
         .subscribe(
           (response: BalanceResponse) => {
-            this.snackbarService.openSnackBar(new SnackbarOptions({
-              backgroundColor: SnackBarColor.Success,
-              message: "Success!",
-              action: "Close",
-              duration: 0
-            }));
+            this.snackbarService.showSuccessMessage();
           },
           (errorResponse: HttpErrorResponse) => {
-            let message = "Error. Something went wrong";
-            if (errorResponse.error.error.code == ResponseCode.ValidationFailed)
-              message = 'Incorrect data';
-
-            this.snackbarService.openSnackBar(new SnackbarOptions({
-              backgroundColor: SnackBarColor.Error,
-              message: message,
-              action: "Close",
-              duration: 0
-            }));
+            this.snackbarService.showErrorMessage(errorResponse);
           }
         );
 

@@ -134,12 +134,19 @@ div.row-action-buttons button {
     background-color: #26b926;
     color: black;
     padding-left: 8px;
+    height: 42px;
+    padding-right: 21px;
 }
 
 .rollback-check-button {
     background-color: orangered;
     color: black;
     padding-left: 8px;
+    height: 42px;
+}
+
+.rollback-check-button span {
+    margin-left: 2px;
 }
 
 .mat-column-username {
