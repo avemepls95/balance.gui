@@ -6,6 +6,7 @@ import { NavigationCancel,
         NavigationError,
         NavigationStart,
         Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +14,12 @@ import { NavigationCancel,
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  constructor(private loadingBar: SlimLoadingBarService, private router: Router) {
+  constructor(
+    private loadingBar: SlimLoadingBarService,
+    private router: Router,
+    private translate: TranslateService) 
+  {
+    translate.setDefaultLang('ru');
     this.router.events.subscribe((event: Event) => {
       this.navigationInterceptor(event);
     });

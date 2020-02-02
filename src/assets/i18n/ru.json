@@ -1,0 +1,61 @@
+{
+  "common": {
+    "logout": "Выйти",
+    "fieldRequired": "Поле заполни э",
+    "cancel": "Отмена",
+    "filter": "Фильтр",
+    "success": "Успех",
+    "close": "Закрыть",
+    "incorrectData": "Ошибка валидации",
+    "somethingWentWrong": "Упс! Что-то пошло не так"
+  },
+  "menu": {
+    "balance": "Баланс",
+    "tape": "Лента",
+    "createCheck": "Создать Чек",
+    "checks": "Чеки",
+    "makeTransfer": "Перевод",
+    "close": "Закрыть"
+  },
+  "balance": {
+    "zeroBalance": "Никаких долгов. Так держать!",
+    "myBalance": "Мой Баланс",
+    "total": "Итого"
+  },
+  "tape": {
+    "noRecords": "Лента пуста",
+    "checkProcessed": "Чек обработан",
+    "checkRolledBack": "Откат чека",
+    "transfer": "Перевод",
+    "sender": "Отправитель",
+    "recipient": "Получатель"
+  },
+  "check": {
+    "check": "Чек",
+    "checks": "Чеки",
+    "checkCreating": "Создание чека",
+    "checkEditing": "Редактирование чека",
+    "create": "СОЗДАТЬ",
+    "edit": "РЕДАКТИРОВАТЬ",
+    "position": "Позиция",
+    "payment": "Платеж",
+    "positions": "Позиции",
+    "payments": "Платежи",
+    "title": "Название",
+    "amount": "Сумма",
+    "user": "Пользователь",
+    "addPosition": "Добавить Позицию",
+    "editPosition": "Редактировать Позицию",
+    "deletePosition": "Удалить Позицию",
+    "addPayment": "Добавить Платеж",
+    "editPayment": "Редактировать Платеж",
+    "deletePayment": "Удалить Платеж",
+    "searchUsers": "Поиск людей...",
+    "search": "Поиск",
+    "process": "Обработать",
+    "rollback": "Откатить",
+    "positionWasAdded": "Позиция добавлена",
+    "paymentWasAdded":  "Платеж добавлен",
+    "searchResultsEmpty": "Нет совпадений"
+  }
+}

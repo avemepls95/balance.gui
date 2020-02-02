@@ -11,6 +11,7 @@ import { EMPTY } from 'rxjs';
 import { BalanceApiService } from 'src/app/Services/balance-api.service';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { LocalStorageManager } from 'src/app/LocalStorageManager';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-transfer-card',
@@ -33,13 +34,18 @@ export class TransferCardComponent implements OnInit {
 
   currentUserId: number;
 
+  searchResultEmptyMessage: string;
+
   constructor(
     private balanceApiService: BalanceApiService,
     private dialog: MatDialog,
     public dialogRef: MatDialogRef<PaymentCardComponent>,
+    private translateService: TranslateService,
     @Optional() @Inject(MAT_DIALOG_DATA) public data: Debt,
   ) {
     this.currentUserId = (Number)(localStorage.getItem(LocalStorageManager.userIdKey));
+
+    this.searchResultEmptyMessage = this.translateService.instant('check.searchResultsEmpty');
 
     if (!isNullOrUndefined(data)) {
       this.debt = data;
@@ -77,7 +83,7 @@ export class TransferCardComponent implements OnInit {
         } else {
           this.filteredUsers = data['data'].filter(u => u.id != this.currentUserId);
           if (this.filteredUsers.length == 0)
-            this.errorMsg = "Search results are empty.";
+            this.errorMsg = this.searchResultEmptyMessage;
         }
       });
   }

@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
 import { APP_INITIALIZER } from '@angular/core';
 import { AppConfig } from './app.config';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -31,9 +31,15 @@ import { ConfirmDialogComponent } from './Components/Common/confirm-dialog/confi
 import { TransferCardComponent } from './Components/transfer-card/transfer-card.component';
 import { ConsumptionsCardComponent } from './Components/CheckRelated/consumptions/consumptions-card.component';
 import { TapeComponent } from './Components/tape/tape.component';
+import { TranslateModule, TranslateLoader, TranslateService } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
+}
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
 }
 
 @NgModule({
@@ -66,6 +72,13 @@ export function initializeApp(appConfig: AppConfig) {
     ReactiveFormsModule,
     ToastrModule.forRoot(),
     TextMaskModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    })
   ],
   entryComponents: [
     PositionCardComponent,

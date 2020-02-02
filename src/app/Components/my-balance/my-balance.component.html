@@ -1,13 +1,13 @@
 <mat-card class="content-card" *ngIf="!isZeroBalance && debts != null">
     <mat-card-header>
-        <mat-card-title>My Balance</mat-card-title>
+        <mat-card-title [translate]="'balance.myBalance'"></mat-card-title>
     </mat-card-header>
     <mat-card-content>
 
         <div class="container positions-block">
             <div class="flex-h-space-between">
                 <mat-form-field>
-                    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="{{ 'common.filter' | translate }}">
                 </mat-form-field>
             </div>
             <div>
@@ -20,7 +20,7 @@
                     </ng-container>
 
                     <ng-container matColumnDef="username">
-                        <th mat-header-cell *matHeaderCellDef> Total </th>
+                        <th mat-header-cell *matHeaderCellDef [translate]="'balance.total'"></th>
                         <td mat-cell *matCellDef="let debt"> {{debt.user.username}} </td>
                     </ng-container>
 
@@ -54,6 +54,6 @@
 </mat-card>
 
 <div class="zero-balance-wrap" *ngIf="isZeroBalance">
-    <h1>Your balance is 0</h1>
+    <h1 [translate]="'balance.zeroBalance'" [translateParams]="{amount: '0'}"></h1>
     <img src="assets/images/balance.png">
 </div>

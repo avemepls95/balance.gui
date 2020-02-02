@@ -25,6 +25,7 @@ import { SnackbarService } from 'src/app/Services/snackbar.service';
 import { BalanceResponse } from 'src/app/BalanceResponse';
 import { HttpErrorResponse } from '@angular/common/http';
 import { PositionCardComponent } from '../position-card/position-card.component';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-check',
@@ -58,7 +59,8 @@ export class CheckComponent implements OnInit, OnDestroy {
     activateRoute: ActivatedRoute,
     private router: Router,
     private loaderService: LoaderService,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
+    private translateService: TranslateService
   ) {
     snackbarService.setSnackbar(snackbar);
 
@@ -182,11 +184,11 @@ export class CheckComponent implements OnInit, OnDestroy {
     }));
 
     this.positionsDataSource.data = this.check.positions;
-    this.snackbarService.openSnackBar(new SnackbarOptions({ message: "Position was added!" }));
+    let message:string = this.translateService.instant('check.positionWasAdded') + '!';
+    this.snackbarService.openSnackBar(new SnackbarOptions({ message: message }));
   }
 
   updatePosition(data: Position) {
-    debugger
     const index = this.check.positions.findIndex(p => p.internalId === data.internalId);
     if (index == -1) {
       console.log("Invalid position id:" + data);
@@ -235,7 +237,8 @@ export class CheckComponent implements OnInit, OnDestroy {
     }));
 
     this.paymentsDataSource.data = this.check.payments;
-    this.snackbarService.openSnackBar(new SnackbarOptions({ message: "Payment was added!" }));
+    let message:string = this.translateService.instant('check.paymentWasAdded') + '!';
+    this.snackbarService.openSnackBar(new SnackbarOptions({ message: message }));
   }
 
   updatePayment(data: Payment) {

@@ -1,0 +1,61 @@
+{
+  "common": {
+    "logout": "Logout",
+    "fieldRequired": "Field is required",
+    "cancel": "Cancel",
+    "filter": "Filter",
+    "success": "Success",
+    "close": "Close",
+    "incorrectData": "Incorrect data",
+    "somethingWentWrong": "Oops! Something went wrong"
+  },
+  "menu": {
+    "balance": "Balance",
+    "tape": "Tape",
+    "createCheck": "Create Check",
+    "checks": "Checks",
+    "makeTransfer": "Make Transfer",
+    "close": "Close"
+  },
+  "balance": {
+    "zeroBalance": "Your balance is {{amount}}",
+    "myBalance": "My Balance",
+    "total": "Total"
+  },
+  "tape": {
+    "noRecords": "No tape records",
+    "checkProcessed": "Check processed",
+    "checkRolledBack": "Check rolled back",
+    "transfer": "Transfer",
+    "sender": "Sender",
+    "recipient": "Recipient"
+  },
+  "check": {
+    "check": "Check",
+    "checks": "Checks",
+    "checkCreating": "Check creating",
+    "checkEditing": "Check editing",
+    "create": "CREATE",
+    "edit": "EDIT",
+    "position": "Position",
+    "payment": "Payment",
+    "positions": "Positions",
+    "payments": "Payments",
+    "title": "Title",
+    "amount": "Amount",
+    "user": "User",
+    "addPosition": "Add Position",
+    "editPosition": "Edit Position",
+    "deletePosition": "Delete Position",
+    "addPayment": "Add Payment",
+    "editPayment": "Edit Payment",
+    "deletePayment": "Delete Payment",
+    "searchUsers": "Search users...",
+    "search": "Search",
+    "process": "Process",
+    "rollback": "Rollback",
+    "positionWasAdded": "Position was added",
+    "paymentWasAdded":  "Payment was added",
+    "searchResultsEmpty": "Search results are empty"
+  }
+}

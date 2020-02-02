@@ -1,16 +1,20 @@
 <fieldset [disabled]="action == 'View' ? 'disabled' : null">
 
-  <h1 mat-dialog-title>{{action}} Position</h1>
+  <h1 mat-dialog-title *ngIf="action == 'Add'" [translate]="'check.addPosition'"></h1>
+  <h1 mat-dialog-title *ngIf="action == 'Edit'" [translate]="'check.editPosition'"></h1>
+  <h1 mat-dialog-title *ngIf="action == 'Delete'" [translate]="'check.deletePosition'"></h1>
   <div mat-dialog-content class="position-dialog">
     <div *ngIf="action != 'Delete'; else elseTemplate">
       <mat-form-field>
-        <input placeholder="Title" required matInput [(ngModel)]="position.title">
+        <input placeholder="{{ 'check.title' | translate }}" required matInput [(ngModel)]="position.title">
       </mat-form-field>
       <mat-form-field>
-        <input matInput required DigitOnly="true" type="text" placeholder="Amount" [(ngModel)]="position.amount">
+        <input matInput required DigitOnly="true" type="text" placeholder="{{ 'check.amount' | translate }}"
+          [(ngModel)]="position.amount">
       </mat-form-field>
 
-      <mat-checkbox [hidden]="true" [(ngModel)]="equalConsumptions" (change)="equalConsumptionsValueChanged($event)"> Equal consumptions
+      <mat-checkbox [hidden]="true" [(ngModel)]="equalConsumptions" (change)="equalConsumptionsValueChanged($event)">
+        Equal consumptions
       </mat-checkbox>
 
       <div>
@@ -21,8 +25,8 @@
               {{consumption.user.username}}
               <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
             </mat-chip>
-            <input matInput #usersInput placeholder="Search users..." aria-label="State" [matAutocomplete]="auto"
-              [formControl]="searchUserCtrl" [matChipInputFor]="chipList"
+            <input matInput #usersInput placeholder="{{ 'check.searchUsers' | translate }}" aria-label="State"
+              [matAutocomplete]="auto" [formControl]="searchUserCtrl" [matChipInputFor]="chipList"
               [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur">
           </mat-chip-list>
           <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedUser($event)">
@@ -51,6 +55,8 @@
 </fieldset>
 
 <div mat-dialog-actions>
-  <button mat-button (click)="closeDialog()" mat-flat-button color="warn">Cancel</button>
-  <button mat-button (click)="doAction()" [hidden]="action == 'View'" [disabled]="!canBeCreated()">{{action}}</button>
+  <button mat-button (click)="closeDialog()" mat-flat-button color="warn">
+    <span [translate]="'common.cancel'"></span>
+  </button>
+  <button mat-button (click)="doAction()" [hidden]="action == 'View'" [disabled]="!canBeCreated()">OK</button>
 </div>

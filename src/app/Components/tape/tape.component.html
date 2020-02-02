@@ -2,7 +2,7 @@
     <mat-card class="record-wrap" *ngIf="record.type == 'check_processed'">
         <mat-card-content>
             <div class="record-header">
-                <h2><b>Check processed</b></h2>
+                <h2><b [translate]="'tape.checkProcessed'"></b></h2>
                 <mat-divider [vertical]="true"></mat-divider>
                 <span>{{ record.date | date:'dd.MM.yyyy H:mm' }}</span>
             </div>
@@ -23,14 +23,14 @@
     <mat-card class="record-wrap" *ngIf="record.type == 'transfer_registered'">
         <mat-card-content>
             <div class="record-header">
-                <h2><b>Transfer</b></h2>
+                <h2><b [translate]="'tape.transfer'"></b></h2>
                 <mat-divider [vertical]="true"></mat-divider>
                 <span>{{ record.date | date:'dd.MM.yyyy H:mm' }}</span>
             </div>
             <div class="users-amount-div">
                 <div class="sender-recipient-div">
-                    <span>Sender: &nbsp;{{ record.data.sender.username }}</span> <br>
-                    <span>Recipient: &nbsp;{{ record.data.recipient.username }}</span>
+                    <span [translate]="'tape.sender'"></span><span>: {{ record.data.sender.username }}</span> <br>
+                    <span [translate]="'tape.recipient'"></span><span>: {{ record.data.recipient.username }}</span>
                 </div>
                 <div class="amount"
                     [ngClass]="record.data.sender.id == currentUserId ? 'positive-amount-color' : 'negative-amount-color'">
@@ -42,7 +42,7 @@
     <mat-card class="record-wrap" *ngIf="record.type == 'check_rolled_back'">
         <mat-card-content>
             <div class="record-header">
-                <h2><b>Check rolled back&nbsp;&nbsp;&nbsp;</b></h2>
+                <h2><b [translate]="'tape.checkRolledBack'"></b></h2>
                 <mat-divider [vertical]="true"></mat-divider>
                 <span>{{ record.date | date:'dd.MM.yyyy H:mm' }}</span>
             </div>
@@ -55,15 +55,14 @@
                         [ngClass]="record.data.balanceDiff > '0' ? 'positive-amount-color' : 'negative-amount-color'">
                         {{ record.data.balanceDiff }}
                     </div>
-                    <mat-icon class="font-large" (click)="openCheck(record.data.check.id)">more_horiz</mat-icon>
+                    <mat-icon class="font-large" (click)="openCheck(record.data.check.id)" matTooltip="Open check">more_horiz</mat-icon>
                 </div>
             </div>
         </mat-card-content>
     </mat-card>
-    <!-- check_rolled_back -->
 </div>
 
 <div class="no-tape-wrap" *ngIf="isNoTape">
-    <h1>No tape records</h1>
+    <h1 [translate]="'tape.noRecords'"></h1>
     <img src="assets/images/empty-tape.jpeg">
 </div>

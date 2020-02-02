@@ -11,6 +11,7 @@ import { Position } from 'src/app/Model/Position';
 import { ICanBeCreated } from 'src/app/Interfaces/ICanBeCreated';
 import { ConsumptionsCardComponent } from '../consumptions/consumptions-card.component';
 import { Consumption } from 'src/app/Model/Consumption';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-position-card',
@@ -30,6 +31,8 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
 
   equalConsumptions: Boolean = true;
 
+  searchResultEmptyMessage: string;
+
   @ViewChild('usersInput', { static: false }) usersInput: ElementRef<HTMLInputElement>;
 
   searchUserCtrl = new FormControl();
@@ -41,9 +44,14 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
     public dialogRef: MatDialogRef<PositionCardComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public data,
     public dialog: MatDialog,
-    private balanceApiService: BalanceApiService) {
+    private balanceApiService: BalanceApiService,
+    private translateService: TranslateService
+  ) 
+  {
     this.position = data.obj;
     this.action = data.action;
+
+    this.searchResultEmptyMessage = this.translateService.instant('check.searchResultsEmpty');
   }
 
   ngOnInit(): void {
@@ -71,7 +79,7 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
           console.log('Internal Error. Users data is null');
         } else {
           if (data['data'].length == 0)
-            this.errorMsg = "Search results are empty.";
+            this.errorMsg = this.searchResultEmptyMessage;
           this.filteredUsers = this.removeSelectedUsersFromSuggestion(data['data']);
         }
       });

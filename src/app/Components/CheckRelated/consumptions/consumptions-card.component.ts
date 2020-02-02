@@ -9,6 +9,7 @@ import { debounceTime, tap, switchMap, finalize } from 'rxjs/operators';
 import { EMPTY } from 'rxjs';
 import { BalanceApiService } from 'src/app/Services/balance-api.service';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-consumptions',
@@ -28,13 +29,18 @@ export class ConsumptionsCardComponent implements OnInit, AfterContentInit {
 
   myForm: FormGroup;
 
+  searchResultEmptyMessage: string;
+
   constructor(
     public dialogRef: MatDialogRef<PositionCardComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public data,
-    private balanceApiService: BalanceApiService
-  ) {
+    private balanceApiService: BalanceApiService,
+    private translateService: TranslateService
+    ) 
+  {
     this.consumptions = data.obj;
     this.action = data.action;
+    this.searchResultEmptyMessage = this.translateService.instant('check.searchResultsEmpty');
 
     this.myForm = new FormGroup({});
     this.errorMessages = new Array<string>(this.consumptions.length);
@@ -92,7 +98,7 @@ export class ConsumptionsCardComponent implements OnInit, AfterContentInit {
           console.log('Internal Error. Users data is null');
         } else {
           if (data['data'].length == 0)
-            this.errorMessages[index] = "Search results are empty." + index.toString();
+            this.errorMessages[index] = this.searchResultEmptyMessage + index.toString();
           this.filteredUsers = data['data'];
         }
       });

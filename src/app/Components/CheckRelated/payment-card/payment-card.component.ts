@@ -9,6 +9,7 @@ import { EMPTY } from 'rxjs';
 import { Payment } from 'src/app/Model/Payment';
 import { isNullOrUndefined } from 'util';
 import { ICanBeCreated } from 'src/app/Interfaces/ICanBeCreated';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-payment-card',
@@ -27,15 +28,20 @@ export class PaymentCardComponent implements OnInit, AfterContentInit, ICanBeCre
 
   userAlreadyIsSelected: boolean = false;
 
+  searchResultEmptyMessage: string;
+
   @ViewChild('userInput', { static: false }) userInput: ElementRef<HTMLInputElement>;
 
   constructor(
     public dialogRef: MatDialogRef<PaymentCardComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public data,
-    private balanceApiService: BalanceApiService
+    private balanceApiService: BalanceApiService,
+    private translateService: TranslateService
   ) {    
     this.payment = data.obj;
     this.action = data.action;
+
+    this.searchResultEmptyMessage = this.translateService.instant('check.searchResultsEmpty');
   }
 
   ngOnInit() {
@@ -66,7 +72,7 @@ export class PaymentCardComponent implements OnInit, AfterContentInit, ICanBeCre
         } else {
           this.filteredUsers = data['data'];
           if (this.filteredUsers.length == 0)
-            this.errorMsg = "Search results are empty.";
+            this.errorMsg = this.searchResultEmptyMessage;
         }
       });
   }

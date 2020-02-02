@@ -1,14 +1,16 @@
-<h1 mat-dialog-title>{{action}} Payment</h1>
+<h1 mat-dialog-title *ngIf="action == 'Add'" [translate]="'check.addPayment'"></h1>
+<h1 mat-dialog-title *ngIf="action == 'Edit'" [translate]="'check.editPayment'"></h1>
+<h1 mat-dialog-title *ngIf="action == 'Delete'" [translate]="'check.deletePayment'"></h1>
 <div mat-dialog-content class="position-dialog">
     <div *ngIf="action != 'Delete'; else elseTemplate">
         <mat-form-field>
-            <input matInput required DigitOnly="true" type="text" placeholder="Amount" [readonly]="action == 'View'"
-                [(ngModel)]="payment.amount">
+            <input matInput required DigitOnly="true" type="text" placeholder="{{ 'check.amount' | translate }}"
+                [readonly]="action == 'View'" [(ngModel)]="payment.amount">
         </mat-form-field>
 
         <div>
             <mat-form-field>
-                <input matInput #userInput placeholder="Search" [matAutocomplete]="auto" [formControl]="searchUserCtrl"
+                <input matInput #userInput placeholder="{{ 'check.search' | translate }}" [matAutocomplete]="auto" [formControl]="searchUserCtrl"
                     (ngModelChange)="onUserInputTextChange($event)" [readonly]="action == 'View'">
                 <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn"
                     (optionSelected)="selectedUser($event)">
@@ -35,6 +37,8 @@
     </ng-template>
 </div>
 <div mat-dialog-actions>
-    <button mat-button (click)="closeDialog()" mat-flat-button color="warn">Cancel</button>
-    <button mat-button (click)="doAction()" [hidden]="action == 'View'" [disabled]="!canBeCreated()">{{action}}</button>
+    <button mat-button (click)="closeDialog()" mat-flat-button color="warn">
+        <span [translate]="'common.cancel'"></span>
+    </button>
+    <button mat-button (click)="doAction()" [hidden]="action == 'View'" [disabled]="!canBeCreated()">OK</button>
 </div>
