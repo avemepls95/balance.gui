@@ -105,6 +105,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .account-actions-menu {
     width: 150px;
+    background-color: #ececec;
 }
 
 .content-card {

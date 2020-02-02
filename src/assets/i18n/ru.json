@@ -7,7 +7,8 @@
     "success": "Успех",
     "close": "Закрыть",
     "incorrectData": "Ошибка валидации",
-    "somethingWentWrong": "Упс! Что-то пошло не так"
+    "somethingWentWrong": "Упс! Что-то пошло не так",
+    "language": "Язык"
   },
   "menu": {
     "balance": "Баланс",

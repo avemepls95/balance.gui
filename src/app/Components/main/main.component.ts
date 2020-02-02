@@ -8,13 +8,12 @@ import { TransferDto } from 'src/app/Model/Dto/TransferDto';
 import { UUID } from 'angular2-uuid';
 import { finalize } from 'rxjs/operators';
 import { BalanceResponse } from 'src/app/BalanceResponse';
-import { SnackbarOptions } from 'src/app/ControlLayer/SnackbarOptions';
-import { SnackBarColor } from 'src/app/ControlLayer/SnackBarColor.enum';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ResponseCode } from 'src/app/Utils/ResponseCode.enum';
 import { MatDialog } from '@angular/material/dialog';
 import { LoaderService } from 'src/app/Services/loader.service';
 import { SnackbarService } from 'src/app/Services/snackbar.service';
+import { TranslateService } from '@ngx-translate/core';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-main',
@@ -32,10 +31,13 @@ export class MainComponent implements OnInit {
     private balanceApiService: BalanceApiService,
     private loaderService: LoaderService,
     private dialog: MatDialog,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
+    private translateService: TranslateService,
+    private cookieService: CookieService
   ) { 
     this.userFirstName = localStorage.getItem(LocalStorageManager.userFirstNameKey);
-    this.avatar = localStorage.getItem(LocalStorageManager.userPhotoUrlKey); 
+    this.avatar = localStorage.getItem(LocalStorageManager.userPhotoUrlKey);
+    console.log(translateService.currentLang);
   }
 
   ngOnInit() {
@@ -73,6 +75,12 @@ export class MainComponent implements OnInit {
 
   refreshPage() {
     window.location.reload();
+  }
+
+  switchLanguage() {
+    let language = this.translateService.currentLang == 'ru' ? 'en' : 'ru';
+    this.translateService.use(language);
+    this.cookieService.set('language', language);
   }
 
   logout() {

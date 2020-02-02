@@ -93,12 +93,13 @@
 </mat-sidenav-container>
 
 <mat-menu #dropdownMenu x-position="before" class="account-actions-menu">
+    <a mat-menu-item (click)="switchLanguage()">
+        <span class="flag-icon"
+            [ngClass]="translateService.currentLang == 'ru' ? 'flag-icon-ru' : 'flag-icon-gb'"></span>
+        <span [translate]="'common.language'"></span>
+    </a>
     <a mat-menu-item (click)="logout()">
         <mat-icon>exit_to_app</mat-icon>
         <span [translate]="'common.logout'"></span>
     </a>
-    <!-- <a mat-menu-item href="" routerLink="/about">
-        <mat-icon>info_outline</mat-icon>
-        <span>About</span>
-    </a> -->
 </mat-menu>

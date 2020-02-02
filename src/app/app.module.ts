@@ -31,8 +31,9 @@ import { ConfirmDialogComponent } from './Components/Common/confirm-dialog/confi
 import { TransferCardComponent } from './Components/transfer-card/transfer-card.component';
 import { ConsumptionsCardComponent } from './Components/CheckRelated/consumptions/consumptions-card.component';
 import { TapeComponent } from './Components/tape/tape.component';
-import { TranslateModule, TranslateLoader, TranslateService } from '@ngx-translate/core';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { CookieService } from 'ngx-cookie-service';
 
 export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
@@ -59,7 +60,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     MyBalanceComponent,
     TransferCardComponent,
     ConsumptionsCardComponent,
-    TapeComponent,
+    TapeComponent
   ],
   imports: [
     BrowserModule,
@@ -91,6 +92,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     JwtHelper,
     LoaderService,
     SnackbarService,
+    CookieService,
     // AppConfig,
     // {
     //   provide: APP_INITIALIZER,
