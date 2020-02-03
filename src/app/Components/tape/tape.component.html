@@ -8,14 +8,14 @@
             </div>
             <div class="checktitle-amount-div">
                 <div class="checktitle-div">
-                    <span>Name: &nbsp;{{ record.data.check.title }}</span> <br>
+                    <span [translate]="'check.title'"></span>:&nbsp;<span>{{ record.data.check.title }}</span> <br>
                 </div>
                 <div class="amount-checkref-div">
                     <div class="amount"
                         [ngClass]="record.data.balanceDiff > '0' ? 'positive-amount-color' : 'negative-amount-color'">
                         {{ record.data.balanceDiff }}
                     </div>
-                    <mat-icon class="font-large" (click)="openCheck(record.data.check.id)" matTooltip="Open check">more_horiz</mat-icon>
+                    <mat-icon class="font-large" (click)="openCheck(record.data.check.id)" matTooltip="{{ 'openCheck' | translate }}">more_horiz</mat-icon>
                 </div>
             </div>
         </mat-card-content>
@@ -48,14 +48,14 @@
             </div>
             <div class="checktitle-amount-div">
                 <div class="checktitle-div">
-                    <span>Name: &nbsp;{{ record.data.check.title }}</span> <br>
+                    <span [translate]="'check.title'"></span>:&nbsp;<span>{{ record.data.check.title }}</span> <br>
                 </div>
                 <div class="amount-checkref-div">
                     <div class="amount"
                         [ngClass]="record.data.balanceDiff > '0' ? 'positive-amount-color' : 'negative-amount-color'">
                         {{ record.data.balanceDiff }}
                     </div>
-                    <mat-icon class="font-large" (click)="openCheck(record.data.check.id)" matTooltip="Open check">more_horiz</mat-icon>
+                    <mat-icon class="font-large" (click)="openCheck(record.data.check.id)" matTooltip="{{ 'openCheck' | translate }}">more_horiz</mat-icon>
                 </div>
             </div>
         </mat-card-content>

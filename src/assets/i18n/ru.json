@@ -59,5 +59,10 @@
     "positionWasAdded": "Позиция добавлена",
     "paymentWasAdded":  "Платеж добавлен",
     "searchResultsEmpty": "Нет совпадений"
-  }
+  },
+  "transfer": {
+    "register": "ОК",
+    "registerTransfer": "Перевод"
+  },
+  "openCheck": "Перейти к чеку"
 }

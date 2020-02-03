@@ -1,14 +1,13 @@
-<h1 mat-dialog-title>Register transfer</h1>
+<h1 mat-dialog-title [translate]="'transfer.registerTransfer'"></h1>
 <div mat-dialog-content class="position-dialog">
     <div>
         <mat-form-field>
-            <input matInput required DigitOnly="true" type="text" placeholder="Amount"
-                [(ngModel)]="amount">
+            <input matInput required DigitOnly="true" type="text" placeholder="{{ 'check.amount' | translate }}" [(ngModel)]="amount">
         </mat-form-field>
 
         <div *ngIf="!isDebtMode">
             <mat-form-field>
-                <input matInput #userInput placeholder="Search" [matAutocomplete]="auto" [formControl]="searchUserCtrl"
+                <input matInput #userInput placeholder="{{ 'check.search' | translate }}" [matAutocomplete]="auto" [formControl]="searchUserCtrl"
                     (ngModelChange)="onUserInputTextChange($event)">
                 <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn"
                     (optionSelected)="selectedUser($event)">
@@ -31,6 +30,10 @@
     </div>
 </div>
 <div mat-dialog-actions>
-    <button mat-button (click)="closeDialog()" mat-flat-button color="warn">Cancel</button>
-    <button mat-button (click)="doAction()" mat-flat-button [disabled]="!canRegister()">Register</button>
+    <button mat-button (click)="closeDialog()" mat-flat-button color="warn">
+        <span [translate]="'common.cancel'"></span>
+    </button>
+    <button mat-button (click)="doAction()" mat-flat-button [disabled]="!canRegister()">
+        <span [translate]="'transfer.register'"></span>
+    </button>
 </div>
