@@ -18,7 +18,7 @@ export class AuthService {
   constructor(private http: HttpClient, public jwtHelper: JwtHelper) {
     // this.apiBaseUrl = AppConfig.settings.apiServer.url;
     // this.apiBaseUrl = 'http://localhost:8081/';
-    this.apiBaseUrl = 'http://194.67.92.135:8081/';
+    this.apiBaseUrl = 'https://api.кутилы.рф/'
   }
 
   loginViaTelegram(loginData: TelegramToBalanceAuthDto): Observable<any> {

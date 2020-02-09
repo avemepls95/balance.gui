@@ -15,7 +15,7 @@ export class BalanceApiService {
 
   constructor(private http: HttpClient) {
     // this.apiBaseUrl = 'http://localhost:8081/';
-    this.apiBaseUrl = 'http://194.67.92.135:8081/';
+    this.apiBaseUrl = 'https://api.кутилы.рф/'
   }
 
   getUsersSuggestion(query: string): Observable<any> {
