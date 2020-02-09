@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './Guards/auth.guard';
-import { MyBalanceComponent } from './Components/my-balance/my-balance.component';
-import { CheckListComponent } from './Components/CheckRelated/check-list/check-list.component';
-import { CheckComponent } from './Components/CheckRelated/check/check.component';
-import { MainComponent } from './Components/main/main.component';
-import { AuthComponent } from './Components/AuthRelated/auth/auth.component';
-import { TapeComponent } from './Components/tape/tape.component';
+import { CheckListComponent } from './Components/Domain/CheckRelated/check-list/check-list.component';
+import { CheckComponent } from './Components/Domain/CheckRelated/check/check.component';
+import { AuthComponent } from './Components/Common/AuthRelated/auth/auth.component';
+import { TapeComponent } from './Components/Domain/tape/tape.component';
+import { MyBalanceComponent } from './Components/Domain/my-balance/my-balance.component';
+import { MainComponent } from './Components/Common/main/main.component';
 
 const menuRoutes: Routes = [
   { path: '', redirectTo: '/debts', pathMatch: 'full' },

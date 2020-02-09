@@ -10,11 +10,7 @@ import { TransferCardComponent } from '../transfer-card/transfer-card.component'
 import { MatDialog } from '@angular/material/dialog';
 import { isNullOrUndefined } from 'util';
 import { BalanceResponse } from 'src/app/BalanceResponse';
-import { CheckGetDtoMapper } from 'src/app/Model/Utils/CheckGetDtoMapper';
-import { SnackbarOptions } from 'src/app/ControlLayer/SnackbarOptions';
-import { SnackBarColor } from 'src/app/ControlLayer/SnackBarColor.enum';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ResponseCode } from 'src/app/Utils/ResponseCode.enum';
 import { SnackbarService } from 'src/app/Services/snackbar.service';
 import { TransferDto } from 'src/app/Model/Dto/TransferDto';
 import { UUID } from 'angular2-uuid';

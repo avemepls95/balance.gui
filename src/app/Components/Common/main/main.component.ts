@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { BalanceApiService } from 'src/app/Services/balance-api.service';
 import { AuthService } from 'src/app/Services/auth.service';
 import { LocalStorageManager } from 'src/app/LocalStorageManager';
-import { TransferCardComponent } from '../transfer-card/transfer-card.component';
+import { TransferCardComponent } from '../../Domain/transfer-card/transfer-card.component';
 import { TransferDto } from 'src/app/Model/Dto/TransferDto';
 import { UUID } from 'angular2-uuid';
 import { finalize } from 'rxjs/operators';
