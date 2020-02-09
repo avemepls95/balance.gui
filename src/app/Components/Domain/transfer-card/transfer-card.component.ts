@@ -11,7 +11,7 @@ import { EMPTY } from 'rxjs';
 import { BalanceApiService } from 'src/app/Services/balance-api.service';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { LocalStorageManager } from 'src/app/LocalStorageManager';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateHelper } from 'src/app/Utils/TranslateHelper';
 
 @Component({
   selector: 'app-transfer-card',
@@ -40,12 +40,12 @@ export class TransferCardComponent implements OnInit {
     private balanceApiService: BalanceApiService,
     private dialog: MatDialog,
     public dialogRef: MatDialogRef<PaymentCardComponent>,
-    private translateService: TranslateService,
+    private translateHelper: TranslateHelper,
     @Optional() @Inject(MAT_DIALOG_DATA) public data: Debt,
   ) {
     this.currentUserId = (Number)(localStorage.getItem(LocalStorageManager.userIdKey));
 
-    this.searchResultEmptyMessage = this.translateService.instant('check.searchResultsEmpty');
+    this.searchResultEmptyMessage = this.translateHelper.getValue('check.searchResultsEmpty');
 
     if (!isNullOrUndefined(data)) {
       this.debt = data;

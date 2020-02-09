@@ -9,7 +9,7 @@ import { EMPTY } from 'rxjs';
 import { Payment } from 'src/app/Model/Payment';
 import { isNullOrUndefined } from 'util';
 import { ICanBeCreated } from 'src/app/Interfaces/ICanBeCreated';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateHelper } from 'src/app/Utils/TranslateHelper';
 
 @Component({
   selector: 'app-payment-card',
@@ -36,12 +36,12 @@ export class PaymentCardComponent implements OnInit, AfterContentInit, ICanBeCre
     public dialogRef: MatDialogRef<PaymentCardComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public data,
     private balanceApiService: BalanceApiService,
-    private translateService: TranslateService
+    private translateHelper: TranslateHelper
   ) {    
     this.payment = data.obj;
     this.action = data.action;
 
-    this.searchResultEmptyMessage = this.translateService.instant('check.searchResultsEmpty');
+    this.searchResultEmptyMessage = this.translateHelper.getValue('check.searchResultsEmpty');
   }
 
   ngOnInit() {

@@ -6,8 +6,8 @@ import { NavigationCancel,
         NavigationError,
         NavigationStart,
         Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
 import { CookieService } from 'ngx-cookie-service';
+import { TranslateHelper } from './Utils/TranslateHelper';
 
 @Component({
   selector: 'app-root',
@@ -18,16 +18,13 @@ export class AppComponent {
   constructor(
     private loadingBar: SlimLoadingBarService,
     private router: Router,
-    translate: TranslateService,
+    translateHelper: TranslateHelper,
     cookieService: CookieService
   ) 
   {
-    translate.setDefaultLang('en');
-    let language = cookieService.get('language');
-    if (language == '')
-      language = 'en';
-    translate.use(language);
-
+    translateHelper.setDefaultLanguage(TranslateHelper.enKey);
+    translateHelper.restoreCurrentLanguage();
+    
     this.router.events.subscribe((event: Event) => {
       this.navigationInterceptor(event);
     });

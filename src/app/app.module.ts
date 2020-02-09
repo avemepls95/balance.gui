@@ -34,6 +34,8 @@ import { TapeComponent } from './Components/Domain/tape/tape.component';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { CookieService } from 'ngx-cookie-service';
+import { SettingsComponent } from './Components/Common/settings/settings.component';
+import { TranslateHelper } from './Utils/TranslateHelper';
 
 export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
@@ -60,7 +62,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     MyBalanceComponent,
     TransferCardComponent,
     ConsumptionsCardComponent,
-    TapeComponent
+    TapeComponent,
+    SettingsComponent
   ],
   imports: [
     BrowserModule,
@@ -93,6 +96,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     LoaderService,
     SnackbarService,
     CookieService,
+    TranslateHelper,
     // AppConfig,
     // {
     //   provide: APP_INITIALIZER,

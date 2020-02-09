@@ -23,7 +23,7 @@ import { SnackbarService } from 'src/app/Services/snackbar.service';
 import { BalanceResponse } from 'src/app/BalanceResponse';
 import { HttpErrorResponse } from '@angular/common/http';
 import { PositionCardComponent } from '../position-card/position-card.component';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateHelper } from 'src/app/Utils/TranslateHelper';
 
 @Component({
   selector: 'app-check',
@@ -58,7 +58,7 @@ export class CheckComponent implements OnInit, OnDestroy {
     private router: Router,
     private loaderService: LoaderService,
     private snackbarService: SnackbarService,
-    private translateService: TranslateService
+    private translateHelper: TranslateHelper
   ) {
     snackbarService.setSnackbar(snackbar);
 
@@ -182,7 +182,7 @@ export class CheckComponent implements OnInit, OnDestroy {
     }));
 
     this.positionsDataSource.data = this.check.positions;
-    let message:string = this.translateService.instant('check.positionWasAdded') + '!';
+    let message:string = this.translateHelper.getValue('check.positionWasAdded') + '!';
     this.snackbarService.openSnackBar(new SnackbarOptions({ message: message }));
   }
 
@@ -235,7 +235,7 @@ export class CheckComponent implements OnInit, OnDestroy {
     }));
 
     this.paymentsDataSource.data = this.check.payments;
-    let message:string = this.translateService.instant('check.paymentWasAdded') + '!';
+    let message:string = this.translateHelper.getValue('check.paymentWasAdded') + '!';
     this.snackbarService.openSnackBar(new SnackbarOptions({ message: message }));
   }
 

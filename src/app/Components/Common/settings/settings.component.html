@@ -1,0 +1,20 @@
+<mat-card class="content-card">
+    <mat-card-header>
+        <mat-card-title [translate]="'menu.settings'"></mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <div class="language-section">
+            <span [translate]="'common.language'"></span>
+            <mat-button-toggle-group #group="matButtonToggleGroup">
+                <mat-button-toggle (click)="switchToLanguage('ru')">
+                    <span class="flag-icon flag-icon-ru"></span>
+                    <span [translate]="'common.russian'"></span>
+                </mat-button-toggle>
+                <mat-button-toggle (click)="switchToLanguage('en')">
+                    <span class="flag-icon flag-icon-gb"></span>
+                    <span [translate]="'common.english'"></span>
+                </mat-button-toggle>
+            </mat-button-toggle-group>
+        </div>
+    </mat-card-content>
+</mat-card>

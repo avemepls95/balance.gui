@@ -8,7 +8,9 @@
     "close": "Закрыть",
     "incorrectData": "Ошибка валидации",
     "somethingWentWrong": "Упс! Что-то пошло не так",
-    "language": "Язык"
+    "language": "Язык",
+    "russian": "Русский",
+    "english": "Заморский окаянный"
   },
   "menu": {
     "balance": "Баланс",
@@ -17,6 +19,7 @@
     "checks": "Чеки",
     "makeTransfer": "Перевод",
     "refreshPage": "Обновить страницу",
+    "settings": "Настройки",
     "close": "Закрыть"
   },
   "balance": {

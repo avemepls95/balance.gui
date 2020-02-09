@@ -11,7 +11,7 @@ import { Position } from 'src/app/Model/Position';
 import { ICanBeCreated } from 'src/app/Interfaces/ICanBeCreated';
 import { ConsumptionsCardComponent } from '../consumptions/consumptions-card.component';
 import { Consumption } from 'src/app/Model/Consumption';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateHelper } from 'src/app/Utils/TranslateHelper';
 
 @Component({
   selector: 'app-position-card',
@@ -45,13 +45,13 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
     @Optional() @Inject(MAT_DIALOG_DATA) public data,
     public dialog: MatDialog,
     private balanceApiService: BalanceApiService,
-    private translateService: TranslateService
+    private translateHelper: TranslateHelper
   ) 
   {
     this.position = data.obj;
     this.action = data.action;
 
-    this.searchResultEmptyMessage = this.translateService.instant('check.searchResultsEmpty');
+    this.searchResultEmptyMessage = this.translateHelper.getValue('check.searchResultsEmpty');
   }
 
   ngOnInit(): void {

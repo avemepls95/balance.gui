@@ -9,7 +9,7 @@ import { debounceTime, tap, switchMap, finalize } from 'rxjs/operators';
 import { EMPTY } from 'rxjs';
 import { BalanceApiService } from 'src/app/Services/balance-api.service';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateHelper } from 'src/app/Utils/TranslateHelper';
 
 @Component({
   selector: 'app-consumptions',
@@ -35,12 +35,12 @@ export class ConsumptionsCardComponent implements OnInit, AfterContentInit {
     public dialogRef: MatDialogRef<PositionCardComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public data,
     private balanceApiService: BalanceApiService,
-    private translateService: TranslateService
+    private translateHelper: TranslateHelper
     ) 
   {
     this.consumptions = data.obj;
     this.action = data.action;
-    this.searchResultEmptyMessage = this.translateService.instant('check.searchResultsEmpty');
+    this.searchResultEmptyMessage = this.translateHelper.getValue('check.searchResultsEmpty');
 
     this.myForm = new FormGroup({});
     this.errorMessages = new Array<string>(this.consumptions.length);

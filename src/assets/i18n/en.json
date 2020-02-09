@@ -8,7 +8,9 @@
     "close": "Close",
     "incorrectData": "Incorrect data",
     "somethingWentWrong": "Oops! Something went wrong",
-    "language": "Language"
+    "language": "Language",
+    "russian": "Russian",
+    "english": "English"
   },
   "menu": {
     "balance": "Balance",
@@ -17,6 +19,7 @@
     "checks": "Checks",
     "makeTransfer": "Make Transfer",
     "refreshPage": "Refresh page",
+    "settings": "Settings",
     "close": "Close"
   },
   "balance": {

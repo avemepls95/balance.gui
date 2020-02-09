@@ -12,9 +12,10 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { LoaderService } from 'src/app/Services/loader.service';
 import { SnackbarService } from 'src/app/Services/snackbar.service';
-import { TranslateService } from '@ngx-translate/core';
 import { CookieService } from 'ngx-cookie-service';
 import { isNullOrUndefined } from 'util';
+import { TranslateHelper } from 'src/app/Utils/TranslateHelper';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-main',
@@ -25,6 +26,7 @@ export class MainComponent implements OnInit {
   title: string = 'Balance';
   userFirstName: string;
   avatarUrl: string;
+  languagesIcons = [];
 
   constructor(
     private router: Router,
@@ -33,9 +35,14 @@ export class MainComponent implements OnInit {
     private loaderService: LoaderService,
     private dialog: MatDialog,
     private snackbarService: SnackbarService,
-    public translateService: TranslateService,
-    private cookieService: CookieService
+    snackbar: MatSnackBar,
+    public translateHelper: TranslateHelper,
   ) { 
+    snackbarService.setSnackbar(snackbar);
+
+    this.languagesIcons[TranslateHelper.ruKey] = 'flag-icon-ru';
+    this.languagesIcons[TranslateHelper.enKey] = 'flag-icon-gb';
+
     this.userFirstName = localStorage.getItem(LocalStorageManager.userFirstNameKey);
     let avatarTmp = localStorage.getItem(LocalStorageManager.userPhotoUrlKey);
     this.avatarUrl = !isNullOrUndefined(avatarTmp) ? avatarTmp : 'assets/images/empty-avatar.png';
@@ -74,14 +81,19 @@ export class MainComponent implements OnInit {
     });
   }
 
+  getCurrentLanguageIconClass() : string {
+    let language = this.translateHelper.getCurrentLanguage();
+    return this.languagesIcons[language];
+  }
+
   refreshPage() {
     window.location.reload();
   }
 
   switchLanguage() {
-    let language = this.translateService.currentLang == 'ru' ? 'en' : 'ru';
-    this.translateService.use(language);
-    this.cookieService.set('language', language);
+    let language = this.translateHelper.getCurrentLanguage() == TranslateHelper.ruKey ?
+      TranslateHelper.enKey : TranslateHelper.ruKey;
+    this.translateHelper.switchToLanguage(language);
   }
 
   logout() {

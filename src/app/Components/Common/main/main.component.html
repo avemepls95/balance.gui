@@ -35,6 +35,10 @@
                 <mat-icon mat-list-icon class="purple">view_headline</mat-icon>
                 <h4 mat-line [translate]="'menu.tape'"></h4>
             </mat-list-item>
+            <mat-list-item (click)="openTransferCard()">
+                <mat-icon mat-list-icon class="green">arrow_forward</mat-icon>
+                <h4 mat-line [translate]="'menu.makeTransfer'"></h4>
+            </mat-list-item>
             <mat-divider></mat-divider>
             <mat-list-item [routerLink]="'/createCheck'" (click)="sidenav.toggle()">
                 <mat-icon mat-list-icon class="green">add</mat-icon>
@@ -45,9 +49,9 @@
                 <h4 mat-line [translate]="'menu.checks'"></h4>
             </mat-list-item>
             <mat-divider></mat-divider>
-            <mat-list-item (click)="openTransferCard()">
-                <mat-icon mat-list-icon class="green">arrow_forward</mat-icon>
-                <h4 mat-line [translate]="'menu.makeTransfer'"></h4>
+            <mat-list-item [routerLink]="'/settings'" (click)="sidenav.toggle()">
+                <mat-icon mat-list-icon>settings</mat-icon>
+                <h4 mat-line [translate]="'menu.settings'"></h4>
             </mat-list-item>
             <mat-divider></mat-divider>
             <mat-list-item (click)="sidenav.toggle()">
@@ -94,8 +98,7 @@
 
 <mat-menu #dropdownMenu x-position="before" class="account-actions-menu">
     <a mat-menu-item (click)="switchLanguage()">
-        <span class="flag-icon"
-            [ngClass]="translateService.currentLang == 'ru' ? 'flag-icon-ru' : 'flag-icon-gb'"></span>
+        <span class="flag-icon" [ngClass]="getCurrentLanguageIconClass()"></span>
         <span [translate]="'common.language'"></span>
     </a>
     <a mat-menu-item (click)="logout()">

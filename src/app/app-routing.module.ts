@@ -7,6 +7,7 @@ import { AuthComponent } from './Components/Common/AuthRelated/auth/auth.compone
 import { TapeComponent } from './Components/Domain/tape/tape.component';
 import { MyBalanceComponent } from './Components/Domain/my-balance/my-balance.component';
 import { MainComponent } from './Components/Common/main/main.component';
+import { SettingsComponent } from './Components/Common/settings/settings.component';
 
 const menuRoutes: Routes = [
   { path: '', redirectTo: '/debts', pathMatch: 'full' },
@@ -15,6 +16,7 @@ const menuRoutes: Routes = [
   { path: 'editCheck/:id', component: CheckComponent, data: { check: {} } },
   { path: 'debts', component: MyBalanceComponent},
   { path: 'tape', component: TapeComponent},
+  { path: 'settings', component: SettingsComponent},
 ];
 
 const routes: Routes = [
