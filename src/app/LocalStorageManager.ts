@@ -10,7 +10,20 @@ export class LocalStorageManager {
     static userPhotoUrlKey = 'userPhotoUrl';
     static tokenKey = 'token';
 
+    private static authFieldsKeys = [
+        LocalStorageManager.userFirstNameKey,
+        LocalStorageManager.userLastNameKey,
+        LocalStorageManager.userAuthDateKey,
+        LocalStorageManager.userHashKey,
+        LocalStorageManager.userIdKey,
+        LocalStorageManager.userPhotoUrlKey,
+    ]
+
     static setUserData(data: FromTelegramAuthDto | FromVkAuthDto) {
+        LocalStorageManager.authFieldsKeys.forEach(key => {
+            localStorage.removeItem(key);
+        });
+        
         if (this.isTelegramData(data)){
             this.setUserDataFromTelegram(data as FromTelegramAuthDto);
             return;
@@ -33,7 +46,8 @@ export class LocalStorageManager {
         localStorage.setItem(this.userLastNameKey, data.last_name);
         localStorage.setItem(this.userHashKey, data.hash);
         // localStorage.setItem(this.userIdKey, data.uid.toString());
-        localStorage.setItem(this.userPhotoUrlKey, data.photo_rec);
+        if (data.photo_rec != '/images/camera_50.png?ava=1')
+            localStorage.setItem(this.userPhotoUrlKey, data.photo_rec);
     }
 
     private static isTelegramData(data) {

@@ -14,6 +14,7 @@ import { LoaderService } from 'src/app/Services/loader.service';
 import { SnackbarService } from 'src/app/Services/snackbar.service';
 import { TranslateService } from '@ngx-translate/core';
 import { CookieService } from 'ngx-cookie-service';
+import { isNullOrUndefined } from 'util';
 
 @Component({
   selector: 'app-main',
@@ -23,7 +24,7 @@ import { CookieService } from 'ngx-cookie-service';
 export class MainComponent implements OnInit {
   title: string = 'Balance';
   userFirstName: string;
-  avatar: string;
+  avatarUrl: string;
 
   constructor(
     private router: Router,
@@ -36,8 +37,8 @@ export class MainComponent implements OnInit {
     private cookieService: CookieService
   ) { 
     this.userFirstName = localStorage.getItem(LocalStorageManager.userFirstNameKey);
-    this.avatar = localStorage.getItem(LocalStorageManager.userPhotoUrlKey);
-    console.log(translateService.currentLang);
+    let avatarTmp = localStorage.getItem(LocalStorageManager.userPhotoUrlKey);
+    this.avatarUrl = !isNullOrUndefined(avatarTmp) ? avatarTmp : 'assets/images/empty-avatar.png';
   }
 
   ngOnInit() {
