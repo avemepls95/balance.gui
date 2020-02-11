@@ -5,12 +5,13 @@
     <mat-card-content>
         <div class="language-section">
             <span [translate]="'common.language'"></span>
-            <mat-button-toggle-group #group="matButtonToggleGroup">
-                <mat-button-toggle (click)="switchToLanguage('ru')">
+            <mat-button-toggle-group #group="matButtonToggleGroup" [value]="selectedLanguage"
+                (change)="onLanguagelChange(group.value)">
+                <mat-button-toggle value="ru">
                     <span class="flag-icon flag-icon-ru"></span>
                     <span [translate]="'common.russian'"></span>
                 </mat-button-toggle>
-                <mat-button-toggle (click)="switchToLanguage('en')">
+                <mat-button-toggle value="en">
                     <span class="flag-icon flag-icon-gb"></span>
                     <span [translate]="'common.english'"></span>
                 </mat-button-toggle>
