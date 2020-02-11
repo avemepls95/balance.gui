@@ -7,7 +7,7 @@
                 <span>{{ record.date | date:'dd.MM.yyyy H:mm' }}</span>
             </div>
             <div class="checktitle-amount-div">
-                <div class="checktitle-div">
+                <div class="check-title-div">
                     <span [translate]="'check.title'"></span>:&nbsp;<span>{{ record.data.check.title }}</span> <br>
                 </div>
                 <div class="amount-checkref-div">
@@ -47,8 +47,9 @@
                 <span>{{ record.date | date:'dd.MM.yyyy H:mm' }}</span>
             </div>
             <div class="checktitle-amount-div">
-                <div class="checktitle-div">
-                    <span [translate]="'check.title'"></span>:&nbsp;<span>{{ record.data.check.title }}</span> <br>
+                <div class="check-title-div">
+                    <span [translate]="'check.title'"></span>:&nbsp;
+                    <span>{{ record.data.check.title }}</span> <br>
                 </div>
                 <div class="amount-checkref-div">
                     <div class="amount"

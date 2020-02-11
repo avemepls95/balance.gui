@@ -38,10 +38,7 @@
     font-size: initial;
 }
 
-.checktitle-div {
-    display: flex;
-    align-items: center;
-    min-width: fit-content;
+.check-title-div {
     font-size: initial;
 }
 
@@ -75,11 +72,11 @@
 
 @media only screen and (max-width: 600px) {
     .amount-checkref-div .amount {
-        margin-right: 8vw;
+        margin-right: 6vw;
     }
 
     .users-amount-div .amount {
-        margin-right: 8vw;
+        margin-right: 6vw;
     }
 }
 
