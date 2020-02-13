@@ -336,4 +336,9 @@ export class CheckComponent implements OnInit, OnDestroy {
       );
   }
 
+  getPositionsTotalAmount(): number {
+    let amounts = this.check.positions.map(t => +t.amount);
+    return amounts.reduce((acc, value) => acc + value, 0);
+  }
+
 }

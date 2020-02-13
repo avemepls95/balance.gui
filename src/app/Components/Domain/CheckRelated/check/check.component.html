@@ -42,6 +42,7 @@
           <ng-container matColumnDef="index">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> № </th>
             <td mat-cell *matCellDef="let i = index"> {{i + 1}} </td>
+            <td mat-footer-cell *matFooterCellDef></td>
           </ng-container>
 
           <ng-container matColumnDef="title">
@@ -49,6 +50,7 @@
               <span [translate]="'check.title'"></span>
             </th>
             <td mat-cell *matCellDef="let row"> {{row.title}} </td>
+            <td mat-footer-cell *matFooterCellDef></td>
           </ng-container>
 
           <ng-container matColumnDef="amount">
@@ -56,6 +58,7 @@
               <span [translate]="'check.amount'"></span>
             </th>
             <td mat-cell *matCellDef="let row"> {{row.amount}} </td>
+            <td mat-footer-cell *matFooterCellDef>{{getPositionsTotalAmount()}}</td>
           </ng-container>
 
           <ng-container matColumnDef="actions">
@@ -72,12 +75,14 @@
                 </button>
               </div>
             </td>
+            <td mat-footer-cell *matFooterCellDef></td>
           </ng-container>
 
-          <tr mat-header-row *matHeaderRowDef="getPositionsDisplayedColumns();"></tr>
+          <tr mat-header-row *matHeaderRowDef="getPositionsDisplayedColumns()"></tr>
           <tr mat-row *matRowDef="let row; columns: getPositionsDisplayedColumns();"
             (click)="openPositionCard('View',row)">
           </tr>
+          <tr mat-footer-row *matFooterRowDef="getPositionsDisplayedColumns()"></tr>
         </table>
 
       </div>
