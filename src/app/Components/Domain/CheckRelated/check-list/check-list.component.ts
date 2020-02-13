@@ -23,7 +23,7 @@ export class CheckListComponent implements OnInit {
 
   checks: Check[];
 
-  displayedColumns: string[] = ['index', 'title', 'actions'];
+  displayedColumns: string[] = ['index', 'title'];
   dataSource: MatTableDataSource<Check>;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -46,6 +46,8 @@ export class CheckListComponent implements OnInit {
         this.dataSource = new MatTableDataSource(this.checks);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+
+        this.updateColumns();
       },
       (error) => console.error(error)
     );
@@ -91,11 +93,33 @@ export class CheckListComponent implements OnInit {
             this.snackbarService.showSuccessMessage();
             this.checks.splice(index, 1);
             this.dataSource.data = this.checks;
+
+            this.updateColumns();
           },
           (errorResponse: HttpErrorResponse) => {
             this.snackbarService.showErrorMessage(errorResponse);
           }
         );
     });
+  }
+
+  updateColumns() {
+    let index = this.displayedColumns.indexOf('actions');
+    let actionsColumnAlreadyExist = index != -1;
+    let actionsColumnMustBeHidden = 
+      this.checks.filter(c => c.state == 'PROCESSED').length == this.checks.length;
+    
+    if (actionsColumnAlreadyExist) {
+      if (actionsColumnMustBeHidden) {
+        this.displayedColumns.splice(index, 1);
+      }
+      return;
+    }
+
+    if (actionsColumnMustBeHidden) {
+      return;
+    }
+
+    this.displayedColumns.push('actions');
   }
 }
