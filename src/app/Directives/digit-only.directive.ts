@@ -36,7 +36,7 @@ export class DigitOnlyDirective {
     let regEx = new RegExp(this.regexStr);
     if (regEx.test(ch))
       return;
-    else
-      e.preventDefault();
+      
+    e.preventDefault();
   }
 }

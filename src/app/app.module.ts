@@ -36,6 +36,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { CookieService } from 'ngx-cookie-service';
 import { SettingsComponent } from './Components/Common/settings/settings.component';
 import { TranslateHelper } from './Utils/TranslateHelper';
+import { MaskDirective } from './Directives/mask.directive';
 
 export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
@@ -57,6 +58,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     PaymentCardComponent,
     LoaderComponent,
     DigitOnlyDirective,
+    MaskDirective,
     CheckListComponent,
     ConfirmDialogComponent,
     MyBalanceComponent,

@@ -9,7 +9,7 @@
         <input placeholder="{{ 'check.title' | translate }}" required matInput [(ngModel)]="position.title">
       </mat-form-field>
       <mat-form-field>
-        <input matInput required DigitOnly="true" type="text" placeholder="{{ 'check.amount' | translate }}"
+        <input matInput required Mask="^\d*\.?\d{0,2}$" DigitOnly="true" type="text" placeholder="{{ 'check.amount' | translate }}"
           [(ngModel)]="position.amount">
       </mat-form-field>
 

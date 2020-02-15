@@ -81,7 +81,8 @@ export class MyBalanceComponent implements OnInit {
     if (isNullOrUndefined(this.dataSource) || isNullOrUndefined(this.dataSource.filteredData))
       return this.totalAmount;
 
-    return this.dataSource.filteredData.reduce((sum, current) => sum + current.amount, 0);
+    let result = this.dataSource.filteredData.reduce((sum, current) => sum + current.amount, 0);
+    return Math.floor(result * 100) / 100;
   }
 
   openTransferCard(debt: Debt) {
