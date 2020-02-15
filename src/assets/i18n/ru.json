@@ -61,11 +61,16 @@
     "rollback": "Откатить",
     "positionWasAdded": "Позиция добавлена",
     "paymentWasAdded":  "Платеж добавлен",
-    "searchResultsEmpty": "Нет совпадений"
+    "searchResultsEmpty": "Нет совпадений",
+    "createdAt": "Дата создания",
+    "notFoundError": "Ошибка. Чек не найден"
   },
   "transfer": {
     "register": "ОК",
     "registerTransfer": "Перевод"
+  },
+  "grid": {
+    "itemsPerPage": "Эл-ов на странице"
   },
   "openCheck": "Перейти к чеку"
 }

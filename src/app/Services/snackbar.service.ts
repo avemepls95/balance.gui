@@ -51,8 +51,8 @@ export class SnackbarService {
         message: string = this.translateHelper.getValue('common.somethingWentWrong')
     ) {
         if (!isNullOrUndefined(errorResponse) &&
-            errorResponse.error.error.code == ResponseCode.ValidationFailed &&
-            isNullOrUndefined(message)) {
+            errorResponse.error.error.code == ResponseCode.ValidationFailed) 
+        {
             message = this.translateHelper.getValue('common.incorrectData');
         }
 

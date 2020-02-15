@@ -61,11 +61,16 @@
     "rollback": "Rollback",
     "positionWasAdded": "Position was added",
     "paymentWasAdded": "Payment was added",
-    "searchResultsEmpty": "Search results are empty"
+    "searchResultsEmpty": "Search results are empty",
+    "createdAt": "Created date",
+    "notFoundError": "Error. Check not found"
   },
   "transfer": {
     "register": "Register",
     "registerTransfer": "Register Transfer"
+  },
+  "grid": {
+    "itemsPerPage": "Items per page"
   },
   "openCheck": "Open check"
 }

@@ -16,6 +16,7 @@ export class CheckGetDtoMapper {
             state: check.state,
             positions: CheckGetDtoMapper.convertPositionToDto(check.positions),
             payments: CheckGetDtoMapper.convertPaymentToDto(check.payments),
+            createdAt: new Date(check.createdAt)
         })
     }
 
@@ -45,6 +46,7 @@ export class CheckGetDtoMapper {
             state: checkDto.state,
             positions: CheckGetDtoMapper.convertDtoToPosition(checkDto.positions),
             payments: CheckGetDtoMapper.convertDtoToPayment(checkDto.payments),
+            createdAt: new Date(checkDto.createdAt)
         })
     }
 

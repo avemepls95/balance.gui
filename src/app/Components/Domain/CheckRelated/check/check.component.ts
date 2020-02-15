@@ -63,10 +63,13 @@ export class CheckComponent implements OnInit, OnDestroy {
     snackbarService.setSnackbar(snackbar);
 
     let state = this.router.getCurrentNavigation().extras.state;
-    if (!isNullOrUndefined(state))
+    if (!isNullOrUndefined(state)) {
+      this.mode = 'editing';
       this.check = state.check;
-    else
+    }
+    else {
       this.check = new Check();
+    }
 
     this.positionsDataSource = new MatTableDataSource(this.check.positions);
     this.paymentsDataSource = new MatTableDataSource(this.check.payments);
@@ -84,9 +87,9 @@ export class CheckComponent implements OnInit, OnDestroy {
               this.check = CheckGetDtoMapper.convertDtoToCheck(result.data);
 
               let internalId = 0;
-              this.check.positions.forEach(position => position.internalId = ++internalId );
+              this.check.positions.forEach(position => position.internalId = ++internalId);
               internalId = 0;
-              this.check.payments.forEach(payment => payment.internalId = ++internalId );
+              this.check.payments.forEach(payment => payment.internalId = ++internalId);
 
               this.positionsDataSource = new MatTableDataSource(this.check.positions);
               this.paymentsDataSource = new MatTableDataSource(this.check.payments);
@@ -94,8 +97,10 @@ export class CheckComponent implements OnInit, OnDestroy {
             },
             (httpErrorResponse: HttpErrorResponse) => {
               loaderService.hide();
-              if (httpErrorResponse.error.error.code == 'check_not_found')
-                snackbarService.showErrorMessage(null, 'Error. Check not found');
+              if (httpErrorResponse.error.error.code == 'check_not_found') {
+                let message: string = this.translateHelper.getValue('check.notFoundError') + '!';
+                snackbarService.showErrorMessage(null, message);
+              }
             }
           );
         } else {
@@ -134,7 +139,7 @@ export class CheckComponent implements OnInit, OnDestroy {
     if (this.positionsDisplayedColumns.indexOf('actions') == -1)
       return;
 
-    let columns = Object.assign([],this.positionsDisplayedColumns);
+    let columns = Object.assign([], this.positionsDisplayedColumns);
     if (this.check.state == 'PROCESSED')
       columns.splice(columns.length - 1);
 
@@ -144,8 +149,8 @@ export class CheckComponent implements OnInit, OnDestroy {
   getPaymentsDisplayedColumns() {
     if (this.positionsDisplayedColumns.indexOf('actions') == -1)
       return;
-      
-    let columns = Object.assign([],this.paymentsDisplayedColumns);
+
+    let columns = Object.assign([], this.paymentsDisplayedColumns);
     if (this.check.state == 'PROCESSED')
       columns.splice(columns.length - 1);
 
@@ -182,7 +187,7 @@ export class CheckComponent implements OnInit, OnDestroy {
     }));
 
     this.positionsDataSource.data = this.check.positions;
-    let message:string = this.translateHelper.getValue('check.positionWasAdded') + '!';
+    let message: string = this.translateHelper.getValue('check.positionWasAdded') + '!';
     this.snackbarService.openSnackBar(new SnackbarOptions({ message: message }));
   }
 
@@ -235,7 +240,7 @@ export class CheckComponent implements OnInit, OnDestroy {
     }));
 
     this.paymentsDataSource.data = this.check.payments;
-    let message:string = this.translateHelper.getValue('check.paymentWasAdded') + '!';
+    let message: string = this.translateHelper.getValue('check.paymentWasAdded') + '!';
     this.snackbarService.openSnackBar(new SnackbarOptions({ message: message }));
   }
 

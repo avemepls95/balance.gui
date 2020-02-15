@@ -34,7 +34,7 @@ mat-card-content {
     padding: 0 1vw;
 }
 
-.check-title-input {
+.width-100-percents {
     width: 100%;
 }
 
@@ -48,6 +48,10 @@ table {
 
 .mat-cell, .mat-footer-cell { 
     text-align: center;
+}
+
+.mat-footer-row {
+    background-color: #80808029;
 }
 
 ::ng-deep .mat-sort-header-container {

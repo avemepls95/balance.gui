@@ -353,3 +353,9 @@ mat-sidenav-content {
     vertical-align: middle;
     transform: scale(1.3,1);
 }
+
+@media only screen and (max-width: 600px) {
+    .name-avatar {
+        transform: translateX(18px);
+    }
+}

@@ -9,7 +9,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { SnackbarService } from 'src/app/Services/snackbar.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BalanceResponse } from 'src/app/BalanceResponse';
-import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ConfirmDialogModel, ConfirmDialogComponent } from 'src/app/Components/Common/confirm-dialog/confirm-dialog.component';
@@ -23,10 +22,9 @@ export class CheckListComponent implements OnInit {
 
   checks: Check[];
 
-  displayedColumns: string[] = ['index', 'title'];
+  displayedColumns: string[] = ['createdAt', 'title'];
   dataSource: MatTableDataSource<Check>;
 
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(
@@ -34,7 +32,7 @@ export class CheckListComponent implements OnInit {
     private loaderService: LoaderService,
     private snackbarService: SnackbarService,
     private dialog: MatDialog,
-    private snackbar: MatSnackBar) {
+    snackbar: MatSnackBar) {
 
     snackbarService.setSnackbar(snackbar);
     loaderService.show();
@@ -43,8 +41,9 @@ export class CheckListComponent implements OnInit {
     ).subscribe(
       (response) => {
         this.checks = response.data.map(c => CheckGetDtoMapper.convertDtoToCheck(c))
+          .sort((a: Check, b: Check) => b.createdAt.getTime() - a.createdAt.getTime());
+
         this.dataSource = new MatTableDataSource(this.checks);
-        this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
 
         this.updateColumns();
@@ -58,10 +57,6 @@ export class CheckListComponent implements OnInit {
 
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
   }
 
   deleteCheck(id: number) {
@@ -106,9 +101,9 @@ export class CheckListComponent implements OnInit {
   updateColumns() {
     let index = this.displayedColumns.indexOf('actions');
     let actionsColumnAlreadyExist = index != -1;
-    let actionsColumnMustBeHidden = 
+    let actionsColumnMustBeHidden =
       this.checks.filter(c => c.state == 'PROCESSED').length == this.checks.length;
-    
+
     if (actionsColumnAlreadyExist) {
       if (actionsColumnMustBeHidden) {
         this.displayedColumns.splice(index, 1);

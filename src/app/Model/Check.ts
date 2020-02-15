@@ -8,6 +8,7 @@ export class Check {
     isReadyForProcess: boolean;
     positions: Position[] = [];
     payments: Payment[] = [];
+    createdAt: Date;
 
     public constructor(
         fields?: {
@@ -16,7 +17,8 @@ export class Check {
             state: string,
             isReadyForProcess: boolean,
             positions?: Position[],
-            payments?: Payment[]
+            payments?: Payment[],
+            createdAt?: Date;
         }) {
         if (fields) Object.assign(this, fields);
     }

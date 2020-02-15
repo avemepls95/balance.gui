@@ -9,6 +9,7 @@ import { SnackbarService } from 'src/app/Services/snackbar.service';
 import { CheckGetDtoMapper } from 'src/app/Model/Utils/CheckGetDtoMapper';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { TranslateHelper } from 'src/app/Utils/TranslateHelper';
 
 @Component({
   selector: 'app-tape',
@@ -24,9 +25,10 @@ export class TapeComponent implements OnInit {
 
   constructor(
     private balanceApiService: BalanceApiService,
-    private snackbar: MatSnackBar,
+    snackbar: MatSnackBar,
     private router: Router,
     private loaderService: LoaderService,
+    private translateHelper: TranslateHelper,
     private snackbarService: SnackbarService
   ) {
     snackbarService.setSnackbar(snackbar);
@@ -60,8 +62,10 @@ export class TapeComponent implements OnInit {
           this.router.navigateByUrl('/editCheck/' + checkId, { state: { check } });
         },
         (httpErrorResponse: HttpErrorResponse) => {
-          if (httpErrorResponse.error.error.code == 'check_not_found')
-            this.snackbarService.showErrorMessage(null, 'Error. Check not found');
+          if (httpErrorResponse.error.error.code == 'check_not_found') {
+            let message: string = this.translateHelper.getValue('check.notFoundError') + '!';
+            this.snackbarService.showErrorMessage(null, message);
+          }
         }
       );
   }

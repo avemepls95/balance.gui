@@ -8,6 +8,7 @@ export class GetCheckDto {
     isReadyForProcess: boolean;
     positions: GetPositionDto[] = [];
     payments: GetPaymentDto[] = [];
+    createdAt: Date;
 
     public constructor(
         fields?: {
@@ -16,7 +17,8 @@ export class GetCheckDto {
             state: string,
             isReadyForProcess?: boolean,
             positions?: GetPositionDto[],
-            payments?: GetPaymentDto[]
+            payments?: GetPaymentDto[],
+            createdAt: Date
         }) {
         if (fields) Object.assign(this, fields);
     }
