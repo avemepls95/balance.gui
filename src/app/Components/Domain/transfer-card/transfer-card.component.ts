@@ -132,6 +132,7 @@ export class TransferCardComponent implements OnInit {
   canRegister() {
     let canRegister = this.amount != 0 && !isNaN(this.amount) &&
       this.amount > 0;
+      
     return this.isDebtMode ? 
       canRegister && this.amount <= - this.debt.amount :
       canRegister ;

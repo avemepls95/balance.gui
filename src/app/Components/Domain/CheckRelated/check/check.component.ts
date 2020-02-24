@@ -24,6 +24,7 @@ import { BalanceResponse } from 'src/app/BalanceResponse';
 import { HttpErrorResponse } from '@angular/common/http';
 import { PositionCardComponent } from '../position-card/position-card.component';
 import { TranslateHelper } from 'src/app/Utils/TranslateHelper';
+import { ConfirmDialogModel, ConfirmDialogComponent } from 'src/app/Components/Common/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-check',
@@ -325,25 +326,32 @@ export class CheckComponent implements OnInit, OnDestroy {
   }
 
   rollbackCheck() {
-    this.loaderService.show();
-    this.balanceApiService.rollbackCheck(this.check.id)
-      .pipe(finalize(() => {
-        this.loaderService.hide();
-      }))
-      .subscribe(
-        (response: BalanceResponse) => {
-          this.check = CheckGetDtoMapper.convertDtoToCheck(response.data);
-          this.snackbarService.showSuccessMessage();
-        },
-        (errorResponse: HttpErrorResponse) => {
-          this.snackbarService.showErrorMessage(errorResponse);
-        }
-      );
+    const dialogData = new ConfirmDialogModel("Confirm Rollback", 'Sure to rollback check?');
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, { data: dialogData });
+
+    dialogRef.afterClosed().subscribe(dialogResult => {
+      if (!dialogResult)
+        return;
+
+      this.loaderService.show();
+      this.balanceApiService.rollbackCheck(this.check.id)
+        .pipe(finalize(() => {
+          this.loaderService.hide();
+        }))
+        .subscribe(
+          (response: BalanceResponse) => {
+            this.check = CheckGetDtoMapper.convertDtoToCheck(response.data);
+            this.snackbarService.showSuccessMessage();
+          },
+          (errorResponse: HttpErrorResponse) => {
+            this.snackbarService.showErrorMessage(errorResponse);
+          }
+        );
+    });
   }
 
   getPositionsTotalAmount(): number {
     let amounts = this.check.positions.map(t => +t.amount);
     return amounts.reduce((acc, value) => acc + value, 0);
   }
-
 }

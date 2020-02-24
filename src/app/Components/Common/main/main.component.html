@@ -10,13 +10,14 @@
             <span class="menu-spacer"></span>
         </div>
         <div class="flex-v-center name-avatar">
-            <button mat-icon-button (click)="refreshPage()" class="refresh-button" matTooltip="{{ 'menu.refreshPage' | translate }}">
+            <button mat-icon-button (click)="refreshPage()" class="refresh-button"
+                matTooltip="{{ 'menu.refreshPage' | translate }}">
                 <mat-icon class="font-large">refresh</mat-icon>
             </button>
-            <div class="flex-h-space-between avatar-firstname-block">
+            <div class="flex-h-space-between avatar-firstname-block" [matMenuTriggerFor]="dropdownMenu">
                 <label>{{userFirstName}}</label>
                 <mat-card class="avatar-card">
-                    <div mat-card-avatar class="avatar-header-image" [matMenuTriggerFor]="dropdownMenu"
+                    <div mat-card-avatar class="avatar-header-image"
                         [ngStyle]="{'background-image':'url('+avatarUrl+')'}"></div>
                 </mat-card>
             </div>
