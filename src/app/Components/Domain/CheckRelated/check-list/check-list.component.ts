@@ -9,6 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { SnackbarService } from 'src/app/Services/snackbar.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BalanceResponse } from 'src/app/BalanceResponse';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ConfirmDialogModel, ConfirmDialogComponent } from 'src/app/Components/Common/confirm-dialog/confirm-dialog.component';
@@ -25,6 +26,7 @@ export class CheckListComponent implements OnInit {
   displayedColumns: string[] = ['createdAt', 'title'];
   dataSource: MatTableDataSource<Check>;
 
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(
@@ -44,6 +46,7 @@ export class CheckListComponent implements OnInit {
           .sort((a: Check, b: Check) => b.createdAt.getTime() - a.createdAt.getTime());
 
         this.dataSource = new MatTableDataSource(this.checks);
+        this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
 
         this.updateColumns();
@@ -57,6 +60,10 @@ export class CheckListComponent implements OnInit {
 
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
 
   deleteCheck(id: number) {
