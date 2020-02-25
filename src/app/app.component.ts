@@ -6,7 +6,6 @@ import { NavigationCancel,
         NavigationError,
         NavigationStart,
         Router } from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
 import { TranslateHelper } from './Utils/TranslateHelper';
 
 @Component({
@@ -19,10 +18,9 @@ export class AppComponent {
     private loadingBar: SlimLoadingBarService,
     private router: Router,
     translateHelper: TranslateHelper,
-    cookieService: CookieService
   ) 
   {
-    translateHelper.setDefaultLanguage(TranslateHelper.enKey);
+    translateHelper.setDefaultLanguage(TranslateHelper.ruKey);
     translateHelper.restoreCurrentLanguage();
     
     this.router.events.subscribe((event: Event) => {

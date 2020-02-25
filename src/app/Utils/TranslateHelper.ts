@@ -33,7 +33,7 @@ export class TranslateHelper {
     restoreCurrentLanguage() {
         let language = this.cookieService.get('language');
         if (language == '')
-            language = TranslateHelper.enKey;
+            language = TranslateHelper.ruKey;
 
         this.translateService.use(language);
     }
