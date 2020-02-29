@@ -3,7 +3,6 @@ import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dial
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-
 import { debounceTime, tap, switchMap, finalize } from 'rxjs/operators';
 import { BalanceApiService } from 'src/app/Services/balance-api.service';
 import { User } from 'src/app/Model/User';
@@ -12,6 +11,7 @@ import { ICanBeCreated } from 'src/app/Interfaces/ICanBeCreated';
 import { ConsumptionsCardComponent } from '../consumptions/consumptions-card.component';
 import { Consumption } from 'src/app/Model/Consumption';
 import { TranslateHelper } from 'src/app/Utils/TranslateHelper';
+import { ConfirmDialogModel, ConfirmDialogComponent } from 'src/app/Components/Common/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-position-card',
@@ -46,8 +46,7 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
     public dialog: MatDialog,
     private balanceApiService: BalanceApiService,
     private translateHelper: TranslateHelper
-  ) 
-  {
+  ) {
     this.position = data.obj;
     this.action = data.action;
 
@@ -55,6 +54,7 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
   }
 
   ngOnInit(): void {
+    this.equalConsumptions = this.isEqualConsumptions();
 
     this.searchUserCtrl.valueChanges
       .pipe(
@@ -65,10 +65,7 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
           this.isLoading = true;
         }),
         switchMap(value => this.balanceApiService.getUsersSuggestion(value)
-          .pipe(
-            finalize(() => {
-              this.isLoading = false
-            }),
+          .pipe(finalize(() => { this.isLoading = false }),
           )
         )
       )
@@ -85,29 +82,51 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
       });
   }
 
+  isEqualConsumptions(): boolean {
+    if (this.action == 'Add')
+      return true;
+
+    if (!this.position.consumptions || this.position.consumptions.length == 0)
+      throw Error("Invalid consumptions.");
+
+    var tolerance = 0.01;
+    var amounts = this.position.consumptions.map(c => c.amount);
+
+    return amounts.every(a => Math.abs(a - amounts[0]) < tolerance);
+  }
+
   doAction() {
     if (this.equalConsumptions) {
-      let part = Math.floor(this.position.amount / this.position.consumptions.length * 100) / 100;
-      this.position.consumptions.forEach(consumption => {
-        consumption.amount = part;
-      });
-
-      if (part * this.position.consumptions.length == this.position.amount) {
-        this.dialogRef.close({ event: this.action, data: this.position });
-        return;
-      }
-
-      let index = 0;
-      while (this.position.consumptions.reduce((sum, current) => sum + current.amount, 0) != this.position.amount) {
-        this.position.consumptions[index].amount += 0.01;
-        if (index == this.position.consumptions.length - 1)
-          index = 0;
-
-        ++index;
-      }
+      this.recalculateEqualConsumptions();
     }
 
     this.dialogRef.close({ event: this.action, data: this.position });
+  }
+
+  recalculateEqualConsumptions() {
+    if (!this.position.consumptions || this.position.consumptions.length == 0)
+      return;
+
+    if (!this.position.amount)
+      this.position.amount = 0;
+
+    let part = Math.floor(this.position.amount / this.position.consumptions.length * 100) / 100;
+    this.position.consumptions.forEach(consumption => {
+      consumption.amount = part;
+    });
+
+    if (part * this.position.consumptions.length == this.position.amount) {
+      return;
+    }
+
+    let index = 0;
+    while (this.position.consumptions.reduce((sum, current) => sum + current.amount, 0) != this.position.amount) {
+      this.position.consumptions[index].amount += 0.01;
+      if (index == this.position.consumptions.length - 1)
+        index = 0;
+
+      ++index;
+    }
   }
 
   closeDialog() {
@@ -122,6 +141,7 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
 
     if (index >= 0) {
       this.position.consumptions.splice(index, 1);
+      this.recalculateEqualConsumptions();
     }
   }
 
@@ -130,9 +150,15 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
     if (this.position.consumptions == null)
       this.position.consumptions = new Array<Consumption>();
 
-    this.position.consumptions.push(new Consumption({ user: user }));
+    this.position.consumptions.push(new Consumption({ user: user, amount: 0 }));
+    this.recalculateEqualConsumptions();
+
     this.usersInput.nativeElement.value = '';
     this.searchUserCtrl.setValue('');
+  }
+
+  onAmountChanged(amountString: string): void {
+    this.recalculateEqualConsumptions();
   }
 
   removeSelectedUsersFromSuggestion(suggestion: User[]): User[] {
@@ -150,22 +176,61 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
   }
 
   equalConsumptionsValueChanged(event) {
-    if (!event.checked)
-      this.openConsumptionCard(this.action, this.position.consumptions)
+    if (!event.checked) {
+      this.openConsumptionCard(this.action)
+      return;
+    }
+
+    if (this.position.consumptions.length == 0 || this.position.consumptions.length == 1)
+      return;
+
+    const dialogData = new ConfirmDialogModel(
+      this.translateHelper.getValue('common.confirmation'),
+      this.translateHelper.getValue('check.makeConsumptionsEqual'));
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, { data: dialogData });
+
+    dialogRef.afterClosed().subscribe(dialogResult => {
+      if (!dialogResult) {
+        this.equalConsumptions = false;
+        return;
+      }
+
+      this.recalculateEqualConsumptions();
+    });
   }
 
-  openConsumptionCard(action: string, consumptions: Consumption[]) {
+  openConsumptions(): void {
+    this.openConsumptionCard(this.action);
+  }
+
+  openConsumptionCard(action: string) {
     let data = {
-      obj: consumptions.map(c => Object.assign({}, c)),
+      obj: this.position.consumptions ? this.position.consumptions.map(c => Object.assign({}, c)) : [],
       action: action
     }
 
     const dialogRef = this.dialog.open(ConsumptionsCardComponent, {
+      width: '370px',
       data: data
     });
 
     dialogRef.afterClosed().subscribe(result => {
+      let consumptions = this.position.consumptions;
+      if (result.event == 'Cancel') {
+        if (!consumptions || consumptions.length == 0 || consumptions.length == 1 ||
+          consumptions.filter(c => c.amount == 0).length == consumptions.length
+        )
+          this.equalConsumptions = true;
+        return;
+      }
 
+      this.position.consumptions = result.data;
+      this.position.amount = this.position.consumptions.reduce((sum, current) => sum + +current.amount, 0)
+
+      if (result.data.length == 1) {
+        this.equalConsumptions = true;
+        return
+      }
     });
   }
 

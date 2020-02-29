@@ -10,7 +10,8 @@
     "somethingWentWrong": "Oops! Something went wrong",
     "language": "Language",
     "russian": "Russian",
-    "english": "English"
+    "english": "English",
+    "confirmation": "Confirmation"
   },
   "menu": {
     "balance": "Balance",
@@ -46,6 +47,11 @@
     "payment": "Payment",
     "positions": "Positions",
     "payments": "Payments",
+    "consumption": "Consumption",
+    "consumptions": "Consumptions",
+    "equalConsumptions": "Equal consumptions",
+    "addConsumption": "Add consumption",
+    "addConsumptions": "Add consumptions",
     "title": "Title",
     "amount": "Amount",
     "user": "User",
@@ -63,7 +69,9 @@
     "paymentWasAdded": "Payment was added",
     "searchResultsEmpty": "Search results are empty",
     "createdAt": "Created date",
-    "notFoundError": "Error. Check not found"
+    "notFoundError": "Error. Check not found",
+    "rollbackConfirmation": "Are you sure to rollback check?",
+    "makeConsumptionsEqual": "Are you sure to make consumptions equal?"
   },
   "transfer": {
     "register": "Register",

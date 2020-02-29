@@ -35,7 +35,7 @@
           <mat-card-title class="positions-label" [translate]="'check.positions'"></mat-card-title>
         </div>
         <button class="add-row-button" mat-button (click)="openPositionCard('Add',{})" mat-flat-button color="primary"
-          matTooltip="Add position" [hidden]="check.state == 'PROCESSED'">
+          matTooltip="{{ 'check.addConsumption' | translate }}" [hidden]="check.state == 'PROCESSED'">
           + <span [translate]="'check.position'"></span>
         </button>
       </div>

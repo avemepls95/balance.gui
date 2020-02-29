@@ -10,7 +10,8 @@
     "somethingWentWrong": "Упс! Что-то пошло не так",
     "language": "Язык",
     "russian": "Русский",
-    "english": "Заморский окаянный"
+    "english": "Заморский окаянный",
+    "confirmation": "Подтверждение"
   },
   "menu": {
     "balance": "Баланс",
@@ -46,6 +47,11 @@
     "payment": "Платеж",
     "positions": "Позиции",
     "payments": "Платежи",
+    "consumption": "Расход",
+    "consumptions": "Расходы",
+    "equalConsumptions": "Равные доли",
+    "addConsumption": "Добавить Расход",
+    "addConsumptions": "Добавить Расходы",
     "title": "Название",
     "amount": "Сумма",
     "user": "Пользователь",
@@ -63,7 +69,9 @@
     "paymentWasAdded":  "Платеж добавлен",
     "searchResultsEmpty": "Нет совпадений",
     "createdAt": "Дата создания",
-    "notFoundError": "Ошибка. Чек не найден"
+    "notFoundError": "Ошибка. Чек не найден",
+    "rollbackConfirmation": "Вы уверены, что хотите откатить чек?",
+    "makeConsumptionsEqual": "Вы уверены, что хотите сделать доли равными?"
   },
   "transfer": {
     "register": "ОК",

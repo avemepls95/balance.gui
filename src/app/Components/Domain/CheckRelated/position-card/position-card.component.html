@@ -9,20 +9,29 @@
         <input placeholder="{{ 'check.title' | translate }}" required matInput [(ngModel)]="position.title">
       </mat-form-field>
       <mat-form-field>
-        <input matInput required Mask="^\d*\.?\d{0,2}$" DigitOnly="true" type="text" placeholder="{{ 'check.amount' | translate }}"
-          [(ngModel)]="position.amount">
+        <input matInput required Mask="^\d*\.?\d{0,2}$" DigitOnly="true" type="text"
+          placeholder="{{ 'check.amount' | translate }}" [(ngModel)]="position.amount" [disabled]="!equalConsumptions"
+          (change)="onAmountChanged($event.target.value)">
       </mat-form-field>
 
-      <mat-checkbox [hidden]="true" [(ngModel)]="equalConsumptions" (change)="equalConsumptionsValueChanged($event)">
-        Equal consumptions
-      </mat-checkbox>
+      <div class="equal-consumptions-block">
+        <mat-checkbox [(ngModel)]="equalConsumptions" (change)="equalConsumptionsValueChanged($event)"
+          [disabled]="action == 'View'">
+          <span [translate]="'check.equalConsumptions'"></span>
+        </mat-checkbox>
+
+        <button mat-button (click)="openConsumptions()" [hidden]="equalConsumptions" onclick="this.blur()"
+          [disabled]="action == 'View'">
+          <mat-icon mat-list-icon class='process-check-icon'>open_in_new</mat-icon>
+        </button>
+      </div>
 
       <div>
         <mat-form-field>
-          <mat-chip-list #chipList>
+          <mat-chip-list #chipList [disabled]="!equalConsumptions">
             <mat-chip *ngFor="let consumption of position.consumptions" [selectable]="selectable"
               [removable]="removable" (removed)="removeConsumption(consumption)">
-              {{consumption.user.username}}
+              {{consumption.user.username}} - {{consumption.amount}}
               <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
             </mat-chip>
             <input matInput #usersInput placeholder="{{ 'check.searchUsers' | translate }}" aria-label="State"

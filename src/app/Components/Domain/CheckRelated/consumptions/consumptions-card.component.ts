@@ -16,14 +16,13 @@ import { TranslateHelper } from 'src/app/Utils/TranslateHelper';
   templateUrl: './consumptions-card.component.html',
   styleUrls: ['./consumptions-card.component.css']
 })
-export class ConsumptionsCardComponent implements OnInit, AfterContentInit {
+export class ConsumptionsCardComponent implements AfterContentInit {
 
   action: string;
   consumptions: Consumption[] = [];
 
   filteredUsers: User[];
   isLoading = false;
-  errorMessages: Array<string>;
 
   userAlreadyIsSelected: boolean = false;
 
@@ -31,28 +30,25 @@ export class ConsumptionsCardComponent implements OnInit, AfterContentInit {
 
   searchResultEmptyMessage: string;
 
+  userControlCounter: number = 0;
+
+  errorMessageVisibilityArray: Array<boolean> = []
+
   constructor(
     public dialogRef: MatDialogRef<PositionCardComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public data,
     private balanceApiService: BalanceApiService,
     private translateHelper: TranslateHelper
-    ) 
-  {
+  ) {
     this.consumptions = data.obj;
+    this.userControlCounter = this.consumptions.length;
     this.action = data.action;
     this.searchResultEmptyMessage = this.translateHelper.getValue('check.searchResultsEmpty');
 
     this.myForm = new FormGroup({});
-    this.errorMessages = new Array<string>(this.consumptions.length);
     for (let i = 0; i < this.consumptions.length; ++i) {
-      let userControl = new FormControl();
-      this.registerUserControlValueChanged(userControl, i);
-      this.myForm.addControl("userControl" + i.toString(), userControl);
+      this.addUserControl(i);
     }
-  }
-
-  ngOnInit() {
-
   }
 
   ngAfterContentInit(): void {
@@ -69,13 +65,18 @@ export class ConsumptionsCardComponent implements OnInit, AfterContentInit {
     }, 0);
   }
 
-  registerUserControlValueChanged(userControl, index: number) {
+  addUserControl(number: number): void {
+    let userControl = new FormControl();
+    this.registerUserControlValueChanged(userControl, number);
+    this.myForm.addControl('userControl' + number.toString(), userControl);
+  }
+
+  registerUserControlValueChanged(userControl, index: number): void {
     userControl.valueChanges
       .pipe(
         debounceTime(500),
         tap(() => {
-          debugger
-          this.errorMessages[index] = "";
+          this.setUserSearchMessage(index, '');
           this.filteredUsers = [];
           this.isLoading = true;
         }),
@@ -86,30 +87,85 @@ export class ConsumptionsCardComponent implements OnInit, AfterContentInit {
             return EMPTY;
           }
 
+          if (value == '')
+            this.consumptions[index].user = undefined;
+
           return this.balanceApiService.getUsersSuggestion(value)
             .pipe(finalize(() => { this.isLoading = false }));
         })
       )
       .subscribe(data => {
-        debugger
         if (isNullOrUndefined(data['data'])) {
-          this.errorMessages[index] = "Internal Error. We're Sorry :(";
+          this.consumptions[index].user = undefined;
+          this.setUserSearchMessage(index, "Internal Error. We're Sorry :(");
           this.filteredUsers = [];
-          console.log('Internal Error. Users data is null');
         } else {
-          if (data['data'].length == 0)
-            this.errorMessages[index] = this.searchResultEmptyMessage + index.toString();
+          if (data['data'].length == 0) {
+            this.consumptions[index].user = undefined;
+            this.setUserSearchMessage(index, this.searchResultEmptyMessage);
+          }
           this.filteredUsers = data['data'];
         }
       });
   }
 
-  displayFn(user: User) {
+  displayFn(user: User): User | string {
     return user ? user.username : user;
   }
 
   selectedUser(event: MatAutocompleteSelectedEvent, consumption: Consumption): void {
     consumption.user = this.filteredUsers.filter(u => u.id == +event.option.value.id)[0];
     this.userAlreadyIsSelected = true;
+  }
+
+  addEmptyConsumption(): void {
+    this.consumptions.push(new Consumption());
+
+    this.addUserControl(this.userControlCounter);
+    ++this.userControlCounter;
+  }
+
+  deleteConsumption(consumptionIndex): void {
+    this.consumptions.splice(consumptionIndex);
+  }
+
+  setUserSearchMessage(index: number, message: string): void {
+    let invisible = message == '' || isNullOrUndefined(message);
+    this.errorMessageVisibilityArray[index] = !invisible;
+
+    let elem = <HTMLInputElement>document.getElementById("error-message-" + index.toString());
+    elem.textContent = message;
+  }
+
+  doAction(): void {
+    this.dialogRef.close({ event: this.action, data: this.consumptions });
+  }
+
+  closeDialog(): void {
+    this.dialogRef.close({ event: 'Cancel' });
+  }
+
+  canBeCreated(): boolean {
+    if (this.consumptions.length == 0)
+      return false;
+
+    for (var consumption of this.consumptions) {
+      if (!consumption.amount || consumption.amount == 0 || !consumption.user)
+        return false;
+    }
+
+    return true;
+  }
+
+  canAdd(): boolean {
+    if (this.consumptions.length == 0)
+      return true;
+
+    for (var consumption of this.consumptions) {
+      if (!consumption.amount || consumption.amount == 0 || !consumption.user)
+        return false;
+    }
+
+    return true;
   }
 }

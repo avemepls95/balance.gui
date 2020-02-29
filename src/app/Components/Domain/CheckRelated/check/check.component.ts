@@ -298,7 +298,6 @@ export class CheckComponent implements OnInit, OnDestroy {
       .subscribe(
         (response: BalanceResponse) => {
           this.check = CheckGetDtoMapper.convertDtoToCheck(response.data);
-          debugger
           this.snackbarService.showSuccessMessage();
         },
         (errorResponse: HttpErrorResponse) => {
@@ -326,7 +325,9 @@ export class CheckComponent implements OnInit, OnDestroy {
   }
 
   rollbackCheck() {
-    const dialogData = new ConfirmDialogModel("Confirm Rollback", 'Sure to rollback check?');
+    const dialogData = new ConfirmDialogModel(
+      this.translateHelper.getValue('common.confirmation'),
+      this.translateHelper.getValue('check.rollbackConfirmation'));
     const dialogRef = this.dialog.open(ConfirmDialogComponent, { data: dialogData });
 
     dialogRef.afterClosed().subscribe(dialogResult => {

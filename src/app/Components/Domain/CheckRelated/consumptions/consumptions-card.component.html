@@ -1,33 +1,55 @@
 <div [formGroup]="myForm">
-    <mat-card *ngFor="let consumption of consumptions; index as i; let errorMessage of errorMessages">
-        <mat-card-content>
-            <div>
-                <mat-form-field>
-                    <input matInput id="user-input-{{i}}" placeholder="User" [matAutocomplete]="auto"
-                        formControlName="userControl{{i}}" [readonly]="action == 'View'">
-                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn"
-                        (optionSelected)="selectedUser($event, consumption)">
-                        <mat-option class="is-loading" *ngIf="isLoading" [disabled]="true">
-                            <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-                        </mat-option>
-                        <ng-container *ngIf="!isLoading">
-                            <mat-option *ngFor="let user of filteredUsers" [value]="user">
-                                <span>{{user.username}}</span>
+    <h2 [translate]="'check.consumptions'" class="header-title"></h2>
+    <mat-card
+        *ngFor="let consumption of consumptions; index as i;let errorMessageVisible of errorMessageVisibilityArray">
+        <div class="consumption-block">
+            <mat-card-content>
+                <div>
+                    <mat-form-field>
+                        <input matInput id="user-input-{{i}}" placeholder="{{ 'check.search' | translate }}"
+                            [matAutocomplete]="auto" formControlName="userControl{{i}}" [readonly]="action == 'View'">
+                        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn"
+                            (optionSelected)="selectedUser($event, consumption)">
+                            <mat-option class="is-loading" *ngIf="isLoading" [disabled]="true">
+                                <mat-progress-bar mode="indeterminate"></mat-progress-bar>
                             </mat-option>
-                        </ng-container>
-                    </mat-autocomplete>
+                            <ng-container *ngIf="!isLoading">
+                                <mat-option *ngFor="let user of filteredUsers" [value]="user">
+                                    <span>{{user.username}}</span>
+                                </mat-option>
+                            </ng-container>
+                        </mat-autocomplete>
+                    </mat-form-field>
+
+                    <br>
+                    <ng-container *ngIf="errorMessageVisible">
+                        <div style="margin-bottom: 5px;">
+                            <span id="error-message-{{i}}"></span>
+                        </div>
+                    </ng-container>
+                </div>
+                <mat-form-field>
+                    <input matInput required DigitOnly="true" placeholder="{{ 'check.amount' | translate }}"
+                        [readonly]="action == 'View'" [(ngModel)]="consumption.amount"
+                        [ngModelOptions]="{standalone: true}">
                 </mat-form-field>
 
-                <br>
-                <ng-container>
-                    {{errorMessage}}
-                </ng-container>
-            </div>
-            <!-- <mat-form-field>
-                <input matInput required DigitOnly="true" type="text" placeholder="Amount" [readonly]="action == 'View'"
-                    [(ngModel)]="consumption.amount">
-            </mat-form-field> -->
+            </mat-card-content>
 
-        </mat-card-content>
+            <button mat-button (click)="deleteConsumption(i)" onclick="this.blur()">
+                <mat-icon class='red'>delete</mat-icon>
+            </button>
+        </div>
     </mat-card>
+    <button class="width-100-percents" mat-button (click)="addEmptyConsumption()" mat-flat-button color="primary"
+        matTooltip="{{ 'check.addConsumption' | translate }}" [disabled]="!canAdd()">
+        + <span [translate]="'check.consumption'"></span>
+    </button>
+</div>
+
+<div mat-dialog-actions>
+    <button mat-button (click)="closeDialog()" mat-flat-button color="warn">
+        <span [translate]="'common.cancel'"></span>
+    </button>
+    <button mat-button (click)="doAction()" [hidden]="action == 'View'" [disabled]="!canBeCreated()">OK</button>
 </div>

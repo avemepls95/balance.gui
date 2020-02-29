@@ -1,0 +1,23 @@
+.mat-form-field {
+    width: 100%;
+}
+
+.mat-card {
+    margin-bottom: 1vh;
+}
+
+.consumption-block {
+    display: flex;
+}
+
+.header-title {
+    margin-bottom: 1.5rem;
+}
+
+.mat-card {
+    padding-bottom: 0;
+}
+
+.mat-card-content {
+    margin-bottom: 0;
+}
