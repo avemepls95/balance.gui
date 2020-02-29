@@ -11,7 +11,9 @@
     "language": "Language",
     "russian": "Russian",
     "english": "English",
-    "confirmation": "Confirmation"
+    "confirmation": "Confirmation",
+    "yes": "Yes",
+    "no": "No"
   },
   "menu": {
     "balance": "Balance",

@@ -126,7 +126,7 @@ export class ConsumptionsCardComponent implements AfterContentInit {
   }
 
   deleteConsumption(consumptionIndex): void {
-    this.consumptions.splice(consumptionIndex);
+    this.consumptions.splice(consumptionIndex, 1);
   }
 
   setUserSearchMessage(index: number, message: string): void {

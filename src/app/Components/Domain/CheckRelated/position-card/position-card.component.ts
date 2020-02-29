@@ -209,9 +209,12 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
       action: action
     }
 
+    let autofocus = this.position.consumptions && this.position.consumptions.length == 0;
     const dialogRef = this.dialog.open(ConsumptionsCardComponent, {
+      maxHeight: '100vh',
       width: '370px',
-      data: data
+      data: data,
+      autoFocus: autofocus
     });
 
     dialogRef.afterClosed().subscribe(result => {

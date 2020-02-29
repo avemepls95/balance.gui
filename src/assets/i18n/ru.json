@@ -11,7 +11,9 @@
     "language": "Язык",
     "russian": "Русский",
     "english": "Заморский окаянный",
-    "confirmation": "Подтверждение"
+    "confirmation": "Подтверждение",
+    "yes": "Да",
+    "no": "Нет"
   },
   "menu": {
     "balance": "Баланс",
