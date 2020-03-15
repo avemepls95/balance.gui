@@ -87,7 +87,8 @@ export class MyBalanceComponent implements OnInit {
 
   openTransferCard(debt: Debt) {
     const dialogRef = this.dialog.open(TransferCardComponent, {
-      data: debt
+      data: debt,
+      autoFocus: false
     });
 
     dialogRef.afterClosed().subscribe(data => {

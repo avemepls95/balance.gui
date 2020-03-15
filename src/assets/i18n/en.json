@@ -73,11 +73,16 @@
     "createdAt": "Created date",
     "notFoundError": "Error. Check not found",
     "rollbackConfirmation": "Are you sure to rollback check?",
-    "makeConsumptionsEqual": "Are you sure to make consumptions equal?"
+    "deleteConfirmation": "Are you sure to delete check?",
+    "makeConsumptionsEqual": "Are you sure to make consumptions equal?",
+    "caclulateDebts": "Caclulate debts",
+    "processWithUnsavedChanges": "There are unsaved changes in check. Are you sure to process old version?"
   },
   "transfer": {
     "register": "Register",
-    "registerTransfer": "Register Transfer"
+    "registerTransfer": "Register Transfer",
+    "sureToRegisterTransferTo": "Sure to register transfer to",
+    "inTheAmountOf": "in the amount of"
   },
   "grid": {
     "itemsPerPage": "Items per page"

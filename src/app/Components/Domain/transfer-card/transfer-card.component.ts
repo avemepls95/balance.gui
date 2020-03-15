@@ -89,14 +89,16 @@ export class TransferCardComponent implements OnInit {
   }
 
   doAction() {
-    const message = 'Sure to register transfer to ' + this.user.username +
-      ' in the amount of ' + this.amount + '?';
-
-    const dialogData = new ConfirmDialogModel("Confirm Transfer", message);
+    const message = this.translateHelper.getValue('transfer.sureToRegisterTransferTo') +
+      ' ' + this.user.username + ' ' + this.translateHelper.getValue('transfer.inTheAmountOf') +
+      ' ' + this.amount + '?';
+    const dialogData = new ConfirmDialogModel(
+      this.translateHelper.getValue('common.confirmation'),
+      message);
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       data: dialogData
     });
-    
+
     dialogRef.afterClosed().subscribe(dialogResult => {
       if (!dialogResult)
         return;
@@ -132,10 +134,10 @@ export class TransferCardComponent implements OnInit {
   canRegister() {
     let canRegister = this.amount != 0 && !isNaN(this.amount) &&
       this.amount > 0;
-      
-    return this.isDebtMode ? 
+
+    return this.isDebtMode ?
       canRegister && this.amount <= - this.debt.amount :
-      canRegister ;
+      canRegister;
   }
 
 }

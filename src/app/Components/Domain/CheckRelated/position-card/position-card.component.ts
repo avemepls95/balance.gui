@@ -21,6 +21,7 @@ import { ConfirmDialogModel, ConfirmDialogComponent } from 'src/app/Components/C
 export class PositionCardComponent implements OnInit, ICanBeCreated {
 
   action: string;
+  inputPosition: Position;
   position: Position;
 
   visible = true;
@@ -47,6 +48,7 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
     private balanceApiService: BalanceApiService,
     private translateHelper: TranslateHelper
   ) {
+    this.inputPosition = data.obj;
     this.position = data.obj;
     this.action = data.action;
 

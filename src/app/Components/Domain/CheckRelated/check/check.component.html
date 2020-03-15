@@ -3,8 +3,8 @@
     <div class='flex-h-space-between header-row'>
       <mat-card-title *ngIf="mode == 'creating'" [translate]="'check.checkCreating'"></mat-card-title>
       <mat-card-title *ngIf="mode == 'editing'" [translate]="'check.checkEditing'"></mat-card-title>
-      <button *ngIf="check.isReadyForProcess" class="process-check-button" mat-button (click)="processCheck()"
-        mat-flat-button matTooltip="Calculate debts">
+      <button *ngIf="check.isReadyForProcess" class="process-check-button" mat-button (click)="handleProcessCheckClick()"
+        mat-flat-button matTooltip="{{ 'check.caclulateDebts' | translate }}">
         <mat-icon mat-list-icon color="primary" class='process-check-icon'>refresh</mat-icon>
         <span [translate]="'check.process'"></span>
       </button>
@@ -100,7 +100,7 @@
           <mat-card-title class="positions-label" [translate]="'check.payments'"></mat-card-title>
         </div>
         <button class="add-row-button" mat-button (click)="openPaymentCard('Add',{})" mat-flat-button color="primary"
-          matTooltip="Add payment" [hidden]="check.state == 'PROCESSED'">
+        matTooltip="{{ 'check.addPayment' | translate }}" [hidden]="check.state == 'PROCESSED'">
           + <span [translate]="'check.payment'"></span>
         </button>
       </div>

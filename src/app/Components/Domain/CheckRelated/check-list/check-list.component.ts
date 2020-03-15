@@ -13,6 +13,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ConfirmDialogModel, ConfirmDialogComponent } from 'src/app/Components/Common/confirm-dialog/confirm-dialog.component';
+import { TranslateHelper } from 'src/app/Utils/TranslateHelper';
 
 @Component({
   selector: 'app-check-list',
@@ -33,6 +34,7 @@ export class CheckListComponent implements OnInit {
     private balanceApiService: BalanceApiService,
     private loaderService: LoaderService,
     private snackbarService: SnackbarService,
+    private translateHelper: TranslateHelper,
     private dialog: MatDialog,
     snackbar: MatSnackBar) {
 
@@ -71,10 +73,10 @@ export class CheckListComponent implements OnInit {
     if (index == -1) {
       console.log("Invalid check id:" + id);
     }
-    let check = this.checks[index];
-    const message = 'Sure to delete check \'' + check.title + '\'?';
 
-    const dialogData = new ConfirmDialogModel("Confirm Delete", message);
+    const dialogData = new ConfirmDialogModel(
+      this.translateHelper.getValue('common.confirmation'),
+      this.translateHelper.getValue('check.deleteConfirmation'));
 
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       maxWidth: "400px",

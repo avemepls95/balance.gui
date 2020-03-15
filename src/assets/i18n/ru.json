@@ -73,11 +73,16 @@
     "createdAt": "Дата создания",
     "notFoundError": "Ошибка. Чек не найден",
     "rollbackConfirmation": "Вы уверены, что хотите откатить чек?",
-    "makeConsumptionsEqual": "Вы уверены, что хотите сделать доли равными?"
+    "deleteConfirmation": "Вы уверены, что хотите удалить чек?",
+    "makeConsumptionsEqual": "Вы уверены, что хотите сделать доли равными?",
+    "caclulateDebts": "Рассчитать долги",
+    "processWithUnsavedChanges": "В чеке есть несохраненные изменения. Уверены, что хотите обработать старую версию?"
   },
   "transfer": {
     "register": "ОК",
-    "registerTransfer": "Перевод"
+    "registerTransfer": "Перевод",
+    "sureToRegisterTransferTo": "Зафиксировать перевод пользователю",
+    "inTheAmountOf": "в количестве"
   },
   "grid": {
     "itemsPerPage": "Эл-ов на странице"

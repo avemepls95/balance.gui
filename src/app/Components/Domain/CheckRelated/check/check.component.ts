@@ -11,7 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { config, pipe } from 'rxjs';
 import { PaymentCardComponent } from '../payment-card/payment-card.component';
 import { Check } from 'src/app/Model/Check';
-import { isNullOrUndefined, isNumber } from 'util';
+import { isNullOrUndefined } from 'util';
 import { BalanceApiService } from 'src/app/Services/balance-api.service';
 import { finalize, take } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -25,6 +25,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { PositionCardComponent } from '../position-card/position-card.component';
 import { TranslateHelper } from 'src/app/Utils/TranslateHelper';
 import { ConfirmDialogModel, ConfirmDialogComponent } from 'src/app/Components/Common/confirm-dialog/confirm-dialog.component';
+import { CopyUtils } from 'src/app/Utils/CopyUtils';
 
 @Component({
   selector: 'app-check',
@@ -44,6 +45,7 @@ export class CheckComponent implements OnInit, OnDestroy {
   paymentsDisplayedColumns: string[] = ['index', 'username', 'amount', 'actions'];
   paymentsDataSource: MatTableDataSource<Payment>;
 
+  unmodifiedCheck: Check;
   check: Check;
 
   mode: string = 'creating';
@@ -59,17 +61,18 @@ export class CheckComponent implements OnInit, OnDestroy {
     private router: Router,
     private loaderService: LoaderService,
     private snackbarService: SnackbarService,
-    private translateHelper: TranslateHelper
+    private translateHelper: TranslateHelper,
+    private copyUtils: CopyUtils
   ) {
     snackbarService.setSnackbar(snackbar);
 
     let state = this.router.getCurrentNavigation().extras.state;
     if (!isNullOrUndefined(state)) {
       this.mode = 'editing';
-      this.check = state.check;
+      this.setCurrentCheck(state.check);
     }
     else {
-      this.check = new Check();
+      this.setCurrentCheck(new Check());
     }
 
     this.positionsDataSource = new MatTableDataSource(this.check.positions);
@@ -85,7 +88,7 @@ export class CheckComponent implements OnInit, OnDestroy {
           loaderService.show();
           balanceApiService.getCheckById(params['id']).subscribe(
             result => {
-              this.check = CheckGetDtoMapper.convertDtoToCheck(result.data);
+              this.setCurrentCheck(CheckGetDtoMapper.convertDtoToCheck(result.data));
 
               let internalId = 0;
               this.check.positions.forEach(position => position.internalId = ++internalId);
@@ -160,7 +163,7 @@ export class CheckComponent implements OnInit, OnDestroy {
 
   openPositionCard(action, obj) {
     let data = {
-      obj: Object.assign({}, obj),
+      obj: this.copyUtils.deepCopy(obj),
       action: action
     }
     const dialogRef = this.dialog.open(PositionCardComponent, {
@@ -279,7 +282,7 @@ export class CheckComponent implements OnInit, OnDestroy {
       }))
       .subscribe(
         (response: BalanceResponse) => {
-          this.check = CheckGetDtoMapper.convertDtoToCheck(response.data);
+          this.setCurrentCheck(CheckGetDtoMapper.convertDtoToCheck(response.data));
           this.snackbarService.showSuccessMessage();
         },
         (errorResponse: HttpErrorResponse) => {
@@ -297,7 +300,7 @@ export class CheckComponent implements OnInit, OnDestroy {
       }))
       .subscribe(
         (response: BalanceResponse) => {
-          this.check = CheckGetDtoMapper.convertDtoToCheck(response.data);
+          this.setCurrentCheck(CheckGetDtoMapper.convertDtoToCheck(response.data));
           this.snackbarService.showSuccessMessage();
         },
         (errorResponse: HttpErrorResponse) => {
@@ -306,7 +309,33 @@ export class CheckComponent implements OnInit, OnDestroy {
       );
   }
 
-  processCheck() {
+  handleProcessCheckClick() {
+    let unmodifiedCheckJson = JSON.stringify(this.unmodifiedCheck);
+    let currentCheckJson = JSON.stringify(this.check);
+    debugger
+    if (unmodifiedCheckJson != currentCheckJson) {
+      const dialogData = new ConfirmDialogModel(
+        this.translateHelper.getValue('common.confirmation'),
+        this.translateHelper.getValue('check.processWithUnsavedChanges'));
+
+      this.dialog.open(ConfirmDialogComponent, {
+        maxWidth: "400px",
+        data: dialogData
+      })
+        .afterClosed().subscribe(dialogResult => {
+          if (!dialogResult)
+            return;
+
+          this.processCheck();
+        });
+
+      return;
+    }
+
+    this.processCheck();
+  }
+
+  private processCheck(){
     this.loaderService.show();
     this.balanceApiService.processCheck(this.check.id)
       .pipe(finalize(() => {
@@ -314,7 +343,7 @@ export class CheckComponent implements OnInit, OnDestroy {
       }))
       .subscribe(
         (response: BalanceResponse) => {
-          this.check = CheckGetDtoMapper.convertDtoToCheck(response.data);
+          this.setCurrentCheck(CheckGetDtoMapper.convertDtoToCheck(response.data));
           this.mode = "editing";
           this.snackbarService.showSuccessMessage();
         },
@@ -341,7 +370,7 @@ export class CheckComponent implements OnInit, OnDestroy {
         }))
         .subscribe(
           (response: BalanceResponse) => {
-            this.check = CheckGetDtoMapper.convertDtoToCheck(response.data);
+            this.setCurrentCheck(CheckGetDtoMapper.convertDtoToCheck(response.data));
             this.snackbarService.showSuccessMessage();
           },
           (errorResponse: HttpErrorResponse) => {
@@ -353,6 +382,13 @@ export class CheckComponent implements OnInit, OnDestroy {
 
   getPositionsTotalAmount(): number {
     let amounts = this.check.positions.map(t => +t.amount);
-    return amounts.reduce((acc, value) => acc + value, 0);
+    let totalAmount = amounts.reduce((acc, value) => acc + value, 0);
+
+    return Math.round(totalAmount * 100) / 100;
+  }
+
+  setCurrentCheck(check: Check): void {
+    this.check = check;
+    this.unmodifiedCheck = this.copyUtils.deepCopy(check);
   }
 }
