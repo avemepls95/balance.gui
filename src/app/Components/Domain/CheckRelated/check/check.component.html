@@ -158,7 +158,7 @@
     <button mat-button *ngIf="mode == 'creating' && !check.id" (click)="createCheck()">
       <span [translate]="'check.create'"></span>
     </button>
-    <button mat-button *ngIf="check.state == 'EDITING'" (click)="updateCheck()">
+    <button mat-button *ngIf="check.state == 'EDITING'" (click)="handleUpdateCheckClick()">
       <span [translate]="'check.edit'"></span>
     </button>
   </mat-card-actions>

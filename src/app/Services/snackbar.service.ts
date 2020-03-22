@@ -21,7 +21,7 @@ export class SnackbarService {
         this.snackbar = snackbar;
     }
 
-    openSnackBar(options: SnackbarOptions) {
+    private openSnackBar(options: SnackbarOptions) {
         var colorClass = 'snackbar-' + options.backgroundColor.toString();
         if (options.action == '')
             options.action = this.translateHelper.getValue('common.close');
@@ -51,14 +51,33 @@ export class SnackbarService {
         message: string = this.translateHelper.getValue('common.somethingWentWrong')
     ) {
         if (!isNullOrUndefined(errorResponse) &&
-            errorResponse.error.error.code == ResponseCode.ValidationFailed) 
-        {
+            errorResponse.error.error.code == ResponseCode.ValidationFailed) {
             message = this.translateHelper.getValue('common.incorrectData');
         }
 
         let closeText = this.translateHelper.getValue('common.close');
         this.openSnackBar(new SnackbarOptions({
             backgroundColor: SnackBarColor.Error,
+            message: message,
+            action: closeText,
+            duration: 2000
+        }));
+    }
+
+    showInformationMessage(message: string): void {
+        let closeText = this.translateHelper.getValue('common.close');
+        this.openSnackBar(new SnackbarOptions({
+            backgroundColor: SnackBarColor.Information,
+            message: message,
+            action: closeText,
+            duration: 2000
+        }));
+    }
+
+    showMessage(message: string): void {
+        let closeText = this.translateHelper.getValue('common.close');
+        this.openSnackBar(new SnackbarOptions({
+            backgroundColor: SnackBarColor.Default,
             message: message,
             action: closeText,
             duration: 2000

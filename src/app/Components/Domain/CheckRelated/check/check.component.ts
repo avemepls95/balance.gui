@@ -192,7 +192,7 @@ export class CheckComponent implements OnInit, OnDestroy {
 
     this.positionsDataSource.data = this.check.positions;
     let message: string = this.translateHelper.getValue('check.positionWasAdded') + '!';
-    this.snackbarService.openSnackBar(new SnackbarOptions({ message: message }));
+    this.snackbarService.showMessage(message);
   }
 
   updatePosition(data: Position) {
@@ -245,7 +245,7 @@ export class CheckComponent implements OnInit, OnDestroy {
 
     this.paymentsDataSource.data = this.check.payments;
     let message: string = this.translateHelper.getValue('check.paymentWasAdded') + '!';
-    this.snackbarService.openSnackBar(new SnackbarOptions({ message: message }));
+    this.snackbarService.showMessage(message);
   }
 
   updatePayment(data: Payment) {
@@ -282,13 +282,25 @@ export class CheckComponent implements OnInit, OnDestroy {
       }))
       .subscribe(
         (response: BalanceResponse) => {
-          this.setCurrentCheck(CheckGetDtoMapper.convertDtoToCheck(response.data));
+          let check = CheckGetDtoMapper.convertDtoToCheck(response.data);
+          this.setCurrentCheck(check);
+          this.router.navigateByUrl('/editCheck/' + response.data.id, { state: { check } });
           this.snackbarService.showSuccessMessage();
         },
         (errorResponse: HttpErrorResponse) => {
           this.snackbarService.showErrorMessage(errorResponse);
         }
       );
+  }
+
+  handleUpdateCheckClick() {
+    if (this.stateHasChanges()) {
+      this.updateCheck();
+      return;
+    }
+
+    let message = this.translateHelper.getValue('check.noChanges');
+    this.snackbarService.showInformationMessage(message);
   }
 
   updateCheck() {
@@ -310,32 +322,28 @@ export class CheckComponent implements OnInit, OnDestroy {
   }
 
   handleProcessCheckClick() {
-    let unmodifiedCheckJson = JSON.stringify(this.unmodifiedCheck);
-    let currentCheckJson = JSON.stringify(this.check);
-    debugger
-    if (unmodifiedCheckJson != currentCheckJson) {
-      const dialogData = new ConfirmDialogModel(
-        this.translateHelper.getValue('common.confirmation'),
-        this.translateHelper.getValue('check.processWithUnsavedChanges'));
-
-      this.dialog.open(ConfirmDialogComponent, {
-        maxWidth: "400px",
-        data: dialogData
-      })
-        .afterClosed().subscribe(dialogResult => {
-          if (!dialogResult)
-            return;
-
-          this.processCheck();
-        });
-
+    if (!this.stateHasChanges()) {
+      this.processCheck();
       return;
     }
 
-    this.processCheck();
+    const dialogData = new ConfirmDialogModel(
+      this.translateHelper.getValue('common.confirmation'),
+      this.translateHelper.getValue('check.processWithUnsavedChanges'));
+
+    this.dialog.open(ConfirmDialogComponent, {
+      maxWidth: "400px",
+      data: dialogData
+    })
+      .afterClosed().subscribe(dialogResult => {
+        if (!dialogResult)
+          return;
+
+        this.processCheck();
+      });
   }
 
-  private processCheck(){
+  private processCheck() {
     this.loaderService.show();
     this.balanceApiService.processCheck(this.check.id)
       .pipe(finalize(() => {
@@ -390,5 +398,12 @@ export class CheckComponent implements OnInit, OnDestroy {
   setCurrentCheck(check: Check): void {
     this.check = check;
     this.unmodifiedCheck = this.copyUtils.deepCopy(check);
+  }
+
+  stateHasChanges(): boolean {
+    let unmodifiedCheckJson = JSON.stringify(this.unmodifiedCheck);
+    let currentCheckJson = JSON.stringify(this.check);
+
+    return unmodifiedCheckJson != currentCheckJson;
   }
 }

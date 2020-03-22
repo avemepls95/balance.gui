@@ -12,6 +12,7 @@ import { ConsumptionsCardComponent } from '../consumptions/consumptions-card.com
 import { Consumption } from 'src/app/Model/Consumption';
 import { TranslateHelper } from 'src/app/Utils/TranslateHelper';
 import { ConfirmDialogModel, ConfirmDialogComponent } from 'src/app/Components/Common/confirm-dialog/confirm-dialog.component';
+import { MathExtensions } from 'src/app/Utils/MathExtensions';
 
 @Component({
   selector: 'app-position-card',
@@ -113,9 +114,7 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
       this.position.amount = 0;
 
     let part = Math.floor(this.position.amount / this.position.consumptions.length * 100) / 100;
-    this.position.consumptions.forEach(consumption => {
-      consumption.amount = part;
-    });
+    this.position.consumptions.forEach(consumption =>  consumption.amount = part);
 
     if (part * this.position.consumptions.length == this.position.amount) {
       return;
@@ -123,7 +122,10 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
 
     let index = 0;
     while (this.position.consumptions.reduce((sum, current) => sum + current.amount, 0) != this.position.amount) {
-      this.position.consumptions[index].amount += 0.01;
+      this.position.consumptions[index].amount = MathExtensions.round(
+        this.position.consumptions[index].amount + 0.01, 2
+      )
+
       if (index == this.position.consumptions.length - 1)
         index = 0;
 
