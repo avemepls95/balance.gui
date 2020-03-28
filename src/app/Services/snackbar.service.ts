@@ -48,11 +48,11 @@ export class SnackbarService {
 
     showErrorMessage(
         errorResponse: HttpErrorResponse = null,
-        message: string = this.translateHelper.getValue('common.somethingWentWrong')
+        message: string = this.translateHelper.getValue('error.somethingWentWrong')
     ) {
         if (!isNullOrUndefined(errorResponse) &&
             errorResponse.error.error.code == ResponseCode.ValidationFailed) {
-            message = this.translateHelper.getValue('common.incorrectData');
+            message = this.translateHelper.getValue('error.incorrectData');
         }
 
         let closeText = this.translateHelper.getValue('common.close');

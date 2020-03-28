@@ -37,6 +37,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { SettingsComponent } from './Components/Common/settings/settings.component';
 import { TranslateHelper } from './Utils/TranslateHelper';
 import { MaskDirective } from './Directives/mask.directive';
+import { ResponseInterceptor } from './Interceptors/response.interceptor';
 
 export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
@@ -106,6 +107,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     //   deps: [AppConfig], multi: true
     // },
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true, },
+    { provide: HTTP_INTERCEPTORS, useClass: ResponseInterceptor, multi: true, },
   ],
   bootstrap: [AppComponent]
 })

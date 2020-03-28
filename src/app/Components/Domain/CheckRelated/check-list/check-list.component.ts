@@ -99,9 +99,6 @@ export class CheckListComponent implements OnInit {
             this.dataSource.data = this.checks;
 
             this.updateColumns();
-          },
-          (errorResponse: HttpErrorResponse) => {
-            this.snackbarService.showErrorMessage(errorResponse);
           }
         );
     });

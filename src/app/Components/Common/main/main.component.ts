@@ -69,15 +69,7 @@ export class MainComponent implements OnInit {
         .pipe(finalize(() => {
           this.loaderService.hide();
         }))
-        .subscribe(
-          (response: BalanceResponse) => {
-            this.snackbarService.showSuccessMessage();
-          },
-          (errorResponse: HttpErrorResponse) => {
-            this.snackbarService.showErrorMessage(errorResponse);
-          }
-        );
-
+        .subscribe(() => { this.snackbarService.showSuccessMessage(); });
     });
   }
 

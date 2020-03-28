@@ -6,14 +6,17 @@
     "filter": "Filter",
     "success": "Success",
     "close": "Close",
-    "incorrectData": "Incorrect data",
-    "somethingWentWrong": "Oops! Something went wrong",
     "language": "Language",
     "russian": "Russian",
     "english": "English",
     "confirmation": "Confirmation",
     "yes": "Yes",
     "no": "No"
+  },
+  "error": {
+    "incorrectData": "Incorrect data",
+    "somethingWentWrong": "Oops! Something went wrong",
+    "accessDenied": "Access denied"
   },
   "menu": {
     "balance": "Balance",

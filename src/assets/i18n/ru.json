@@ -6,14 +6,17 @@
     "filter": "Фильтр",
     "success": "Успех",
     "close": "Закрыть",
-    "incorrectData": "Ошибка валидации",
-    "somethingWentWrong": "Упс! Что-то пошло не так",
     "language": "Язык",
     "russian": "Русский",
     "english": "Заморский окаянный",
     "confirmation": "Подтверждение",
     "yes": "Да",
     "no": "Нет"
+  },
+  "error": {
+    "incorrectData": "Ошибка валидации",
+    "somethingWentWrong": "Упс! Что-то пошло не так",
+    "accessDenied": "Доступ запрещен"
   },
   "menu": {
     "balance": "Баланс",

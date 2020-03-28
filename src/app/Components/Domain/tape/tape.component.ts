@@ -60,12 +60,6 @@ export class TapeComponent implements OnInit {
         result => {
           let check = CheckGetDtoMapper.convertDtoToCheck(result.data);
           this.router.navigateByUrl('/editCheck/' + checkId, { state: { check } });
-        },
-        (httpErrorResponse: HttpErrorResponse) => {
-          if (httpErrorResponse.error.error.code == 'check_not_found') {
-            let message: string = this.translateHelper.getValue('check.notFoundError') + '!';
-            this.snackbarService.showErrorMessage(null, message);
-          }
         }
       );
   }

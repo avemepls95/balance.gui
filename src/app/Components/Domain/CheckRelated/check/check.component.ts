@@ -86,27 +86,24 @@ export class CheckComponent implements OnInit, OnDestroy {
         if (+params['id']) {
           this.mode = 'editing';
           loaderService.show();
-          balanceApiService.getCheckById(params['id']).subscribe(
-            result => {
-              this.setCurrentCheck(CheckGetDtoMapper.convertDtoToCheck(result.data));
+          balanceApiService.getCheckById(params['id'])
+            .pipe(finalize(() => {
+              this.loaderService.hide();
+            }))
+            .subscribe(
+              result => {
+                this.setCurrentCheck(CheckGetDtoMapper.convertDtoToCheck(result.data));
 
-              let internalId = 0;
-              this.check.positions.forEach(position => position.internalId = ++internalId);
-              internalId = 0;
-              this.check.payments.forEach(payment => payment.internalId = ++internalId);
+                let internalId = 0;
+                this.check.positions.forEach(position => position.internalId = ++internalId);
+                internalId = 0;
+                this.check.payments.forEach(payment => payment.internalId = ++internalId);
 
-              this.positionsDataSource = new MatTableDataSource(this.check.positions);
-              this.paymentsDataSource = new MatTableDataSource(this.check.payments);
-              loaderService.hide();
-            },
-            (httpErrorResponse: HttpErrorResponse) => {
-              loaderService.hide();
-              if (httpErrorResponse.error.error.code == 'check_not_found') {
-                let message: string = this.translateHelper.getValue('check.notFoundError') + '!';
-                snackbarService.showErrorMessage(null, message);
+                this.positionsDataSource = new MatTableDataSource(this.check.positions);
+                this.paymentsDataSource = new MatTableDataSource(this.check.payments);
+                loaderService.hide();
               }
-            }
-          );
+            );
         } else {
           // TODO: handle incorrect id
         }
@@ -286,9 +283,6 @@ export class CheckComponent implements OnInit, OnDestroy {
           this.setCurrentCheck(check);
           this.router.navigateByUrl('/editCheck/' + response.data.id, { state: { check } });
           this.snackbarService.showSuccessMessage();
-        },
-        (errorResponse: HttpErrorResponse) => {
-          this.snackbarService.showErrorMessage(errorResponse);
         }
       );
   }
@@ -314,9 +308,6 @@ export class CheckComponent implements OnInit, OnDestroy {
         (response: BalanceResponse) => {
           this.setCurrentCheck(CheckGetDtoMapper.convertDtoToCheck(response.data));
           this.snackbarService.showSuccessMessage();
-        },
-        (errorResponse: HttpErrorResponse) => {
-          this.snackbarService.showErrorMessage(errorResponse);
         }
       );
   }
@@ -354,9 +345,6 @@ export class CheckComponent implements OnInit, OnDestroy {
           this.setCurrentCheck(CheckGetDtoMapper.convertDtoToCheck(response.data));
           this.mode = "editing";
           this.snackbarService.showSuccessMessage();
-        },
-        (errorResponse: HttpErrorResponse) => {
-          this.snackbarService.showErrorMessage(errorResponse);
         }
       );
   }
@@ -380,9 +368,6 @@ export class CheckComponent implements OnInit, OnDestroy {
           (response: BalanceResponse) => {
             this.setCurrentCheck(CheckGetDtoMapper.convertDtoToCheck(response.data));
             this.snackbarService.showSuccessMessage();
-          },
-          (errorResponse: HttpErrorResponse) => {
-            this.snackbarService.showErrorMessage(errorResponse);
           }
         );
     });

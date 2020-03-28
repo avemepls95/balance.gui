@@ -113,9 +113,6 @@ export class MyBalanceComponent implements OnInit {
               this.isZeroBalance = true;
 
             this.snackbarService.showSuccessMessage()
-          },
-          (errorResponse: HttpErrorResponse) => {
-            this.snackbarService.showErrorMessage(errorResponse);
           }
         );
 
