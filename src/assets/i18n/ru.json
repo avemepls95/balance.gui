@@ -81,7 +81,9 @@
     "caclulateDebts": "Рассчитать долги",
     "processWithUnsavedChanges": "В чеке есть несохраненные изменения. Уверены, что хотите обработать старую версию?",
     "noChanges": "Нет изменений",
-    "delete": "Удалить чек"
+    "delete": "Удалить чек",
+    "editingStatus": "В работе",
+    "processedStatus": "Обработан"
   },
   "transfer": {
     "register": "ОК",

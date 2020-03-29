@@ -1,15 +1,20 @@
 <mat-card class="content-card">
   <mat-card-header>
-    <div class='flex-h-space-between header-row'>
-      <mat-card-title *ngIf="mode == 'creating'" [translate]="'check.checkCreating'"></mat-card-title>
-      <mat-card-title *ngIf="mode == 'editing'" [translate]="'check.checkEditing'"></mat-card-title>
-      <button *ngIf="check.isReadyForProcess" class="process-check-button" mat-button (click)="handleProcessCheckClick()"
-        mat-flat-button matTooltip="{{ 'check.caclulateDebts' | translate }}">
+    <div class='flex-h-space-between header-row' style="height: 42px;">
+      <div class='flex-v-center'>
+        <mat-card-title *ngIf="mode == 'creating'" [translate]="'check.checkCreating'"></mat-card-title>
+        <mat-card-title *ngIf="mode == 'editing'" [translate]="'check.check'"></mat-card-title>
+        <span class="status ml-3" *ngIf="check.id"
+          [ngClass]="check.state == CHECK_STATE.PROCESSED ? 'processed-status' : 'in-work-status'">
+          {{getCurrentStatus()}}
+        </span>
+      </div>
+      <button *ngIf="check.isReadyForProcess" class="process-check-button" mat-button
+        (click)="handleProcessCheckClick()" mat-flat-button matTooltip="{{ 'check.caclulateDebts' | translate }}">
         <mat-icon mat-list-icon color="primary" class='process-check-icon'>refresh</mat-icon>
-        <span [translate]="'check.process'"></span>
+        <span [translate]="'check.process'" class="process"></span>
       </button>
-      <button *ngIf="check.state == CHECK_STATE.PROCESSED && canEdit" class="rollback-check-button" mat-button (click)="rollbackCheck()"
-        mat-flat-button>
+      <button *ngIf="canRollback()" class="rollback-check-button" mat-button (click)="rollbackCheck()" mat-flat-button>
         <mat-icon mat-list-icon class='process-check-icon'>cancel</mat-icon>
         <span [translate]="'check.rollback'"></span>
       </button>
@@ -17,14 +22,15 @@
   </mat-card-header>
   <mat-card-content>
     <mat-form-field class="width-100-percents">
-      <input matInput [(ngModel)]="check.title" placeholder="{{ 'check.title' | translate }}" [formControl]="titleFormControl"
-        [errorStateMatcher]="matcher" [readonly]="!canEdit">
+      <input matInput [(ngModel)]="check.title" placeholder="{{ 'check.title' | translate }}"
+        [formControl]="titleFormControl" [errorStateMatcher]="matcher" [readonly]="!canEdit()">
       <mat-error *ngIf="titleFormControl.hasError('required')" [translate]="'common.fieldRequired'">
       </mat-error>
     </mat-form-field>
 
     <mat-form-field class="width-100-percents" *ngIf="mode == 'editing'">
-      <input matInput placeholder="{{ 'check.createdAt' | translate }}" value="{{check.createdAt | date:'dd.MM.yyyy HH:mm'}}" [readonly]="true">
+      <input matInput placeholder="{{ 'check.createdAt' | translate }}"
+        value="{{check.createdAt | date:'dd.MM.yyyy HH:mm'}}" [readonly]="true">
     </mat-form-field>
 
     <!-- Position table -->
@@ -35,7 +41,7 @@
           <mat-card-title class="positions-label" [translate]="'check.positions'"></mat-card-title>
         </div>
         <button class="add-row-button" mat-button (click)="openPositionCard('Add',{})" mat-flat-button color="primary"
-          matTooltip="{{ 'check.addPosition' | translate }}" [hidden]="!canEdit">
+          matTooltip="{{ 'check.addPosition' | translate }}" [hidden]="!canEdit()">
           + <span [translate]="'check.position'"></span>
         </button>
       </div>
@@ -83,8 +89,7 @@
           </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="positionsDisplayedColumns" style="display: none;"></tr>
-          <tr mat-row *matRowDef="let row; columns: positionsDisplayedColumns;"
-            (click)="openPositionCard('View',row)">
+          <tr mat-row *matRowDef="let row; columns: positionsDisplayedColumns;" (click)="openPositionCard('View',row)">
           </tr>
           <tr mat-footer-row *matFooterRowDef="positionsDisplayedColumns"></tr>
         </table>
@@ -100,7 +105,7 @@
           <mat-card-title class="positions-label" [translate]="'check.payments'"></mat-card-title>
         </div>
         <button class="add-row-button" mat-button (click)="openPaymentCard('Add',{})" mat-flat-button color="primary"
-        matTooltip="{{ 'check.addPayment' | translate }}" [hidden]="!canEdit">
+          matTooltip="{{ 'check.addPayment' | translate }}" [hidden]="!canEdit()">
           + <span [translate]="'check.payment'"></span>
         </button>
       </div>
@@ -144,8 +149,7 @@
           </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="paymentsDisplayedColumns;" style="display: none;"></tr>
-          <tr mat-row *matRowDef="let row; columns: paymentsDisplayedColumns;"
-            (click)="openPaymentCard('View', row)">
+          <tr mat-row *matRowDef="let row; columns: paymentsDisplayedColumns;" (click)="openPaymentCard('View', row)">
           </tr>
         </table>
 
@@ -158,7 +162,7 @@
     <button mat-button *ngIf="mode == 'creating' && !check.id" (click)="createCheck()">
       <span [translate]="'check.create'"></span>
     </button>
-    <button mat-button *ngIf="check.id && canEdit" (click)="handleUpdateCheckClick()">
+    <button mat-button *ngIf="check.id && canEdit()" (click)="handleUpdateCheckClick()">
       <span [translate]="'check.edit'"></span>
     </button>
   </mat-card-actions>

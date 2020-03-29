@@ -73,7 +73,7 @@
     "positionWasAdded": "Position was added",
     "paymentWasAdded": "Payment was added",
     "searchResultsEmpty": "Search results are empty",
-    "createdAt": "Created date",
+    "createdAt": "Creation date",
     "notFoundError": "Error. Check not found",
     "rollbackConfirmation": "Are you sure to rollback check?",
     "deleteConfirmation": "Are you sure to delete check?",
@@ -81,7 +81,9 @@
     "caclulateDebts": "Caclulate debts",
     "processWithUnsavedChanges": "There are unsaved changes in check. Are you sure to process old version?",
     "noChanges": "There are no changes",
-    "delete": "Delete check"
+    "delete": "Delete check",
+    "editingStatus": "In work",
+    "processedStatus": "Processed"
   },
   "transfer": {
     "register": "Register",

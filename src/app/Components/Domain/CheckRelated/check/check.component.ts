@@ -48,9 +48,8 @@ export class CheckComponent implements OnInit, OnDestroy {
   mode: string = 'creating';
 
   permissionsResolver: CheckPermissionsResolver = new CheckPermissionsResolver();
-  canEdit: boolean;
+  hasEditPermissions: boolean;
 
-  // @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   CHECK_STATE = CHECK_STATE;
@@ -94,12 +93,14 @@ export class CheckComponent implements OnInit, OnDestroy {
             }))
             .subscribe(
               result => {
-                this.setCurrentCheck(CheckGetDtoMapper.convertDtoToCheck(result.data));
-
+                var tmp = CheckGetDtoMapper.convertDtoToCheck(result.data);
+                
                 let internalId = 0;
-                this.check.positions.forEach(position => position.internalId = ++internalId);
+                tmp.positions.forEach(position => position.internalId = ++internalId);
                 internalId = 0;
-                this.check.payments.forEach(payment => payment.internalId = ++internalId);
+                tmp.payments.forEach(payment => payment.internalId = ++internalId);
+
+                this.setCurrentCheck(tmp);
 
                 this.positionsDataSource = new MatTableDataSource(this.check.positions);
                 this.paymentsDataSource = new MatTableDataSource(this.check.payments);
@@ -114,29 +115,12 @@ export class CheckComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    // this.positionsDataSource.paginator = this.paginator;
     this.positionsDataSource.sort = this.sort;
   }
 
   ngOnDestroy() {
     this.snackbar.ngOnDestroy();
   }
-
-  // applyPositionsFilter(filterValue: string) {
-  //   this.applyFilter(this.positionsDataSource, filterValue);
-  // }
-
-  // applyPaymentsFilter(filterValue: string) {
-  //   this.applyFilter(this.paymentsDataSource, filterValue);
-  // }
-
-  // applyFilter(dataSource, filterValue: string) {
-  //   dataSource.filter = filterValue.trim().toLowerCase();
-
-  //   if (dataSource.paginator) {
-  //     dataSource.paginator.firstPage();
-  //   }
-  // }
 
   openPositionCard(action, obj) {
     let data = {
@@ -364,7 +348,7 @@ export class CheckComponent implements OnInit, OnDestroy {
     this.check = check;
     this.unmodifiedCheck = this.copyUtils.deepCopy(check);
     this.permissionsResolver.setPermissionsObject(check);
-    this.canEdit = this.setCanEdit();
+    this.hasEditPermissions = this.permissionsResolver.canEdit();
 
     this.updateColumns();
   }
@@ -373,20 +357,33 @@ export class CheckComponent implements OnInit, OnDestroy {
     let unmodifiedCheckJson = JSON.stringify(this.unmodifiedCheck);
     let currentCheckJson = JSON.stringify(this.check);
 
-    return unmodifiedCheckJson != currentCheckJson;
+    var result = unmodifiedCheckJson != currentCheckJson;
+    return result;
   }
 
-  setCanEdit(): boolean {
+  canRollback(): boolean {
+    let result = this.check.state == CHECK_STATE.PROCESSED && this.hasEditPermissions;
+    return result;
+  }
+
+  canEdit(): boolean {
     if (!this.check.state)
       return true;
 
-    let result = this.check.state == CHECK_STATE.EDITING &&
-      this.permissionsResolver.canEdit();
+    let result = this.check.state == CHECK_STATE.EDITING && this.hasEditPermissions;
     return result;
   }
 
   updateColumns() {
-    TableUtils.setColumnVisible(this.positionsDisplayedColumns, 'actions', this.canEdit);
-    TableUtils.setColumnVisible(this.paymentsDisplayedColumns, 'actions', this.canEdit);
+    TableUtils.setColumnVisible(this.positionsDisplayedColumns, 'actions', this.canEdit());
+    TableUtils.setColumnVisible(this.paymentsDisplayedColumns, 'actions', this.canEdit());
+  }
+
+  getCurrentStatus(): string {
+    var status = this.check.state == CHECK_STATE.EDITING ?
+      this.translateHelper.getValue('check.editingStatus') :
+      this.translateHelper.getValue('check.processedStatus')
+
+    return status;
   }
 }
