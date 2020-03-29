@@ -4,11 +4,9 @@ import { Position } from 'src/app/Model/Position';
 import { FormControl, Validators } from '@angular/forms';
 import { MyErrorStateMatcher } from 'src/app/Utils/MyErrorStateMatcher';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { config, pipe } from 'rxjs';
 import { PaymentCardComponent } from '../payment-card/payment-card.component';
 import { Check } from 'src/app/Model/Check';
 import { isNullOrUndefined } from 'util';
@@ -18,14 +16,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CheckGetDtoMapper } from 'src/app/Model/Utils/CheckGetDtoMapper';
 import { LoaderService } from 'src/app/Services/loader.service';
 import { CheckCreateUpdateDtoMapper } from 'src/app/Model/Utils/CheckCreateUpdateDtoMapper';
-import { SnackbarOptions } from 'src/app/ControlLayer/SnackbarOptions';
 import { SnackbarService } from 'src/app/Services/snackbar.service';
 import { BalanceResponse } from 'src/app/BalanceResponse';
-import { HttpErrorResponse } from '@angular/common/http';
 import { PositionCardComponent } from '../position-card/position-card.component';
 import { TranslateHelper } from 'src/app/Utils/TranslateHelper';
 import { ConfirmDialogModel, ConfirmDialogComponent } from 'src/app/Components/Common/confirm-dialog/confirm-dialog.component';
 import { CopyUtils } from 'src/app/Utils/CopyUtils';
+import { CheckPermissionsResolver } from 'src/app/Model/Utils/CheckPermissionsResolver';
+import { TableUtils } from 'src/app/ControlLayer/Utils/TableUtils';
+import { CHECK_STATE as CHECK_STATE } from 'src/app/Model/check-state.enum';
 
 @Component({
   selector: 'app-check',
@@ -33,9 +32,7 @@ import { CopyUtils } from 'src/app/Utils/CopyUtils';
   styleUrls: ['./check.component.css'],
 })
 export class CheckComponent implements OnInit, OnDestroy {
-  titleFormControl = new FormControl('', [
-    Validators.required
-  ]);
+  titleFormControl = new FormControl('', [Validators.required]);
 
   matcher = new MyErrorStateMatcher();
 
@@ -50,8 +47,13 @@ export class CheckComponent implements OnInit, OnDestroy {
 
   mode: string = 'creating';
 
+  permissionsResolver: CheckPermissionsResolver = new CheckPermissionsResolver();
+  canEdit: boolean;
+
   // @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
+
+  CHECK_STATE = CHECK_STATE;
 
   constructor(
     public dialog: MatDialog,
@@ -135,28 +137,6 @@ export class CheckComponent implements OnInit, OnDestroy {
   //     dataSource.paginator.firstPage();
   //   }
   // }
-
-  getPositionsDisplayedColumns() {
-    if (this.positionsDisplayedColumns.indexOf('actions') == -1)
-      return;
-
-    let columns = Object.assign([], this.positionsDisplayedColumns);
-    if (this.check.state == 'PROCESSED')
-      columns.splice(columns.length - 1);
-
-    return columns;
-  }
-
-  getPaymentsDisplayedColumns() {
-    if (this.positionsDisplayedColumns.indexOf('actions') == -1)
-      return;
-
-    let columns = Object.assign([], this.paymentsDisplayedColumns);
-    if (this.check.state == 'PROCESSED')
-      columns.splice(columns.length - 1);
-
-    return columns;
-  }
 
   openPositionCard(action, obj) {
     let data = {
@@ -383,6 +363,10 @@ export class CheckComponent implements OnInit, OnDestroy {
   setCurrentCheck(check: Check): void {
     this.check = check;
     this.unmodifiedCheck = this.copyUtils.deepCopy(check);
+    this.permissionsResolver.setPermissionsObject(check);
+    this.canEdit = this.setCanEdit();
+
+    this.updateColumns();
   }
 
   stateHasChanges(): boolean {
@@ -390,5 +374,19 @@ export class CheckComponent implements OnInit, OnDestroy {
     let currentCheckJson = JSON.stringify(this.check);
 
     return unmodifiedCheckJson != currentCheckJson;
+  }
+
+  setCanEdit(): boolean {
+    if (!this.check.state)
+      return true;
+
+    let result = this.check.state == CHECK_STATE.EDITING &&
+      this.permissionsResolver.canEdit();
+    return result;
+  }
+
+  updateColumns() {
+    TableUtils.setColumnVisible(this.positionsDisplayedColumns, 'actions', this.canEdit);
+    TableUtils.setColumnVisible(this.paymentsDisplayedColumns, 'actions', this.canEdit);
   }
 }

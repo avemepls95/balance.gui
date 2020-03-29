@@ -38,6 +38,7 @@ import { SettingsComponent } from './Components/Common/settings/settings.compone
 import { TranslateHelper } from './Utils/TranslateHelper';
 import { MaskDirective } from './Directives/mask.directive';
 import { ResponseInterceptor } from './Interceptors/response.interceptor';
+import { CheckPermissionsResolver } from './Model/Utils/CheckPermissionsResolver';
 
 export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();

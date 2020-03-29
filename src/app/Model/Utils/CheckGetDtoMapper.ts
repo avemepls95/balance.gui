@@ -46,7 +46,8 @@ export class CheckGetDtoMapper {
             state: checkDto.state,
             positions: CheckGetDtoMapper.convertDtoToPosition(checkDto.positions),
             payments: CheckGetDtoMapper.convertDtoToPayment(checkDto.payments),
-            createdAt: new Date(checkDto.createdAt)
+            createdAt: new Date(checkDto.createdAt),
+            roles: checkDto.roles
         })
     }
 

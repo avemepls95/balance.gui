@@ -11,9 +11,12 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { BalanceResponse } from 'src/app/BalanceResponse';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { HttpErrorResponse } from '@angular/common/http';
 import { ConfirmDialogModel, ConfirmDialogComponent } from 'src/app/Components/Common/confirm-dialog/confirm-dialog.component';
 import { TranslateHelper } from 'src/app/Utils/TranslateHelper';
+import { TableUtils } from 'src/app/ControlLayer/Utils/TableUtils';
+import { isNullOrUndefined } from 'util';
+import { UserCheckRoles } from 'src/app/Model/Utils/CheckPermissionsResolver';
+import { CHECK_STATE } from 'src/app/Model/check-state.enum';
 
 @Component({
   selector: 'app-check-list',
@@ -29,6 +32,8 @@ export class CheckListComponent implements OnInit {
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
+  
+  CHECK_STATE = CHECK_STATE;
 
   constructor(
     private balanceApiService: BalanceApiService,
@@ -104,23 +109,26 @@ export class CheckListComponent implements OnInit {
     });
   }
 
+  checkActionsVisible(checkId: number): boolean {
+    let check = this.checks.find(c => c.id == checkId);
+    if (isNullOrUndefined(check))
+      throw Error(`Check with Id = ${checkId} not found.`)
+
+    let result = check.state != CHECK_STATE.PROCESSED && check.roles.includes(UserCheckRoles.Owner)
+    return result;
+  }
+
   updateColumns() {
-    let index = this.displayedColumns.indexOf('actions');
-    let actionsColumnAlreadyExist = index != -1;
-    let actionsColumnMustBeHidden =
-      this.checks.filter(c => c.state == 'PROCESSED').length == this.checks.length;
+    let allChecksProcessed =
+      this.checks.filter(c => c.state == CHECK_STATE.PROCESSED).length == this.checks.length;
 
-    if (actionsColumnAlreadyExist) {
-      if (actionsColumnMustBeHidden) {
-        this.displayedColumns.splice(index, 1);
-      }
-      return;
-    }
+    if (allChecksProcessed)
+      TableUtils.setColumnVisible(this.displayedColumns, 'actions', false);
 
-    if (actionsColumnMustBeHidden) {
-      return;
-    }
-
-    this.displayedColumns.push('actions');
+    let unprocessedChecksWhereOwner = this.checks.filter(c => 
+      c.roles.includes(UserCheckRoles.Owner) && c.state != CHECK_STATE.PROCESSED
+    );
+    let hasAccessForAnyUnprocessedCheckActions = unprocessedChecksWhereOwner.length != 0;
+    TableUtils.setColumnVisible(this.displayedColumns, 'actions', hasAccessForAnyUnprocessedCheckActions);
   }
 }

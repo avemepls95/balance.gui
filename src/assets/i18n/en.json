@@ -80,7 +80,8 @@
     "makeConsumptionsEqual": "Are you sure to make consumptions equal?",
     "caclulateDebts": "Caclulate debts",
     "processWithUnsavedChanges": "There are unsaved changes in check. Are you sure to process old version?",
-    "noChanges": "There are no changes"
+    "noChanges": "There are no changes",
+    "delete": "Delete check"
   },
   "transfer": {
     "register": "Register",

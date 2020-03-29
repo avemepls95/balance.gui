@@ -80,7 +80,8 @@
     "makeConsumptionsEqual": "Вы уверены, что хотите сделать доли равными?",
     "caclulateDebts": "Рассчитать долги",
     "processWithUnsavedChanges": "В чеке есть несохраненные изменения. Уверены, что хотите обработать старую версию?",
-    "noChanges": "Нет изменений"
+    "noChanges": "Нет изменений",
+    "delete": "Удалить чек"
   },
   "transfer": {
     "register": "ОК",
