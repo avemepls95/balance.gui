@@ -367,6 +367,11 @@ export class CheckComponent implements OnInit, OnDestroy {
     return result;
   }
 
+  canProcess(): boolean {
+    let result = this.check.isReadyForProcess && this.hasEditPermissions;
+    return result;
+  }
+
   canRollback(): boolean {
     let result = this.check.state == CHECK_STATE.PROCESSED && this.hasEditPermissions;
     return result;

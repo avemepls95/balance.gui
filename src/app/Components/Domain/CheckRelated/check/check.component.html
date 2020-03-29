@@ -9,8 +9,8 @@
           {{getCurrentStatus()}}
         </span>
       </div>
-      <button *ngIf="check.isReadyForProcess" class="process-check-button" mat-button
-        (click)="handleProcessCheckClick()" mat-flat-button matTooltip="{{ 'check.caclulateDebts' | translate }}">
+      <button *ngIf="canProcess()" class="process-check-button" mat-button (click)="handleProcessCheckClick()"
+        mat-flat-button matTooltip="{{ 'check.caclulateDebts' | translate }}">
         <mat-icon mat-list-icon color="primary" class='process-check-icon'>refresh</mat-icon>
         <span [translate]="'check.process'" class="process"></span>
       </button>
@@ -89,7 +89,8 @@
           </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="positionsDisplayedColumns" style="display: none;"></tr>
-          <tr mat-row *matRowDef="let position; columns: positionsDisplayedColumns;" (click)="openPositionCard('View',position)">
+          <tr mat-row *matRowDef="let position; columns: positionsDisplayedColumns;"
+            (click)="openPositionCard('View',position)">
           </tr>
           <tr mat-footer-row *matFooterRowDef="positionsDisplayedColumns"></tr>
         </table>
