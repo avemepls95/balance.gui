@@ -67,19 +67,19 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header>
               <span [translate]="'check.amount'"></span>
             </th>
-            <td mat-cell *matCellDef="let row"> {{row.amount}} </td>
+            <td mat-cell *matCellDef="let position"> {{position.amount}} </td>
             <td mat-footer-cell *matFooterCellDef><b>{{getPositionsTotalAmount()}}</b></td>
           </ng-container>
 
           <ng-container matColumnDef="actions">
             <th mat-header-cell *matHeaderCellDef></th>
-            <td mat-cell *matCellDef="let item" class="row-actions-td">
+            <td mat-cell *matCellDef="let position" class="row-actions-td">
               <div class="row-action-buttons" (click)="$event.stopPropagation()">
-                <button class="row-edit-button" mat-icon-button (click)="openPositionCard('Edit', item)"
+                <button class="row-edit-button" mat-icon-button (click)="openPositionCard('Edit', position)"
                   onclick="this.blur()" matTooltip="{{ 'check.editPosition' | translate }}">
                   <mat-icon>edit</mat-icon>
                 </button>
-                <button class="row-remove-button" mat-icon-button (click)="openPositionCard('Delete', item)"
+                <button class="row-remove-button" mat-icon-button (click)="openPositionCard('Delete', position)"
                   onclick="this.blur()" matTooltip="{{ 'check.deletePosition' | translate }}">
                   <mat-icon class="red">delete</mat-icon>
                 </button>
@@ -89,7 +89,7 @@
           </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="positionsDisplayedColumns" style="display: none;"></tr>
-          <tr mat-row *matRowDef="let row; columns: positionsDisplayedColumns;" (click)="openPositionCard('View',row)">
+          <tr mat-row *matRowDef="let position; columns: positionsDisplayedColumns;" (click)="openPositionCard('View',position)">
           </tr>
           <tr mat-footer-row *matFooterRowDef="positionsDisplayedColumns"></tr>
         </table>

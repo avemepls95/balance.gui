@@ -49,9 +49,13 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
     private balanceApiService: BalanceApiService,
     private translateHelper: TranslateHelper
   ) {
-    this.inputPosition = data.obj;
-    this.position = data.obj;
+    this.inputPosition = data.position;
+    this.position = data.position;
     this.action = data.action;
+    
+    if (data.action == 'Add' && !!data.predefinedUsers && data.predefinedUsers.length != 0){
+      this.applyPredefinedUsers(data.predefinedUsers);
+    }
 
     this.searchResultEmptyMessage = this.translateHelper.getValue('check.searchResultsEmpty');
   }
@@ -83,6 +87,15 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
           this.filteredUsers = this.removeSelectedUsersFromSuggestion(data['data']);
         }
       });
+  }
+
+  applyPredefinedUsers(users: User[]): void {
+    if (this.position.consumptions == null)
+      this.position.consumptions = new Array<Consumption>();
+
+    users.forEach(user => {
+      this.position.consumptions.push(new Consumption({ user: user, amount: 0 }));
+    });
   }
 
   isEqualConsumptions(): boolean {

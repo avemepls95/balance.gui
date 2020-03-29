@@ -122,11 +122,17 @@ export class CheckComponent implements OnInit, OnDestroy {
     this.snackbar.ngOnDestroy();
   }
 
-  openPositionCard(action, obj) {
+  openPositionCard(action, position) {
     let data = {
-      obj: this.copyUtils.deepCopy(obj),
-      action: action
+      action: action,
+      position: this.copyUtils.deepCopy(position),
     }
+
+    if (this.check.positions.length != 0) {
+      data['predefinedUsers'] = 
+        this.check.positions[this.check.positions.length - 1].consumptions.map(c => c.user)
+    }
+
     const dialogRef = this.dialog.open(PositionCardComponent, {
       width: '370px',
       data: data
