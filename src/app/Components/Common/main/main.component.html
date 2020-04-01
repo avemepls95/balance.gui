@@ -10,9 +10,12 @@
             <span class="menu-spacer"></span>
         </div>
         <div class="flex-v-center name-avatar">
+            <button mat-icon-button (click)="openNotificationsInfo()" onclick="this.blur()">
+                <mat-icon class="icon-font-large yellow">notification_important</mat-icon>
+            </button>
             <button mat-icon-button (click)="refreshPage()" class="refresh-button"
-                matTooltip="{{ 'menu.refreshPage' | translate }}">
-                <mat-icon class="font-large">refresh</mat-icon>
+                matTooltip="{{ 'menu.refreshPage' | translate }}" onclick="this.blur()">
+                <mat-icon class="icon-font-large">refresh</mat-icon>
             </button>
             <div class="flex-h-space-between avatar-firstname-block" [matMenuTriggerFor]="dropdownMenu">
                 <label>{{userFirstName}}</label>

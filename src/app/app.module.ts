@@ -39,6 +39,7 @@ import { TranslateHelper } from './Utils/TranslateHelper';
 import { MaskDirective } from './Directives/mask.directive';
 import { ResponseInterceptor } from './Interceptors/response.interceptor';
 import { CheckPermissionsResolver } from './Model/Utils/CheckPermissionsResolver';
+import { NotificationsInfoComponent } from './Components/Common/notifications-info/notifications-info.component';
 
 export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
@@ -67,7 +68,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     TransferCardComponent,
     ConsumptionsCardComponent,
     TapeComponent,
-    SettingsComponent
+    SettingsComponent,
+    NotificationsInfoComponent
   ],
   imports: [
     BrowserModule,
@@ -93,7 +95,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     PaymentCardComponent,
     ConfirmDialogComponent,
     TransferCardComponent,
-    ConsumptionsCardComponent
+    ConsumptionsCardComponent,
+    NotificationsInfoComponent
   ],
   providers: [
     JwtHelper,

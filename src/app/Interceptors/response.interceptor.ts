@@ -37,6 +37,9 @@ export class ResponseInterceptor implements HttpInterceptor {
                     }
                 }
 
+                if (err.url.includes('auth') && err.status == 0)
+                    throw err;
+
                 this.snackbarService.showErrorMessage(err);
                 return of(err);
             }));

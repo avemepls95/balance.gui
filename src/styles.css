@@ -48,6 +48,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .material-icons.red { color: red; }
 .material-icons.green { color: seagreen; }
 .material-icons.purple { color: #b712c1; }
+.material-icons.yellow { color: yellow; }
 .material-icons.transparent { color: transparent; }
 
 .mat-dialog-content {
@@ -124,6 +125,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .font-large {
     font-size: xx-large;
+}
+
+.icon-font-large {
+    font-size: xx-large;
+    transform: translateX(-4px);
 }
 
 .mat-tooltip {

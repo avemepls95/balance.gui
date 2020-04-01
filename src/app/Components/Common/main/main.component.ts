@@ -16,6 +16,8 @@ import { CookieService } from 'ngx-cookie-service';
 import { isNullOrUndefined } from 'util';
 import { TranslateHelper } from 'src/app/Utils/TranslateHelper';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { NotificationsInfoComponent } from '../notifications-info/notifications-info.component';
 
 @Component({
   selector: 'app-main',
@@ -37,6 +39,7 @@ export class MainComponent implements OnInit {
     private snackbarService: SnackbarService,
     snackbar: MatSnackBar,
     public translateHelper: TranslateHelper,
+    private _bottomSheet: MatBottomSheet
   ) { 
     snackbarService.setSnackbar(snackbar);
 
@@ -51,7 +54,7 @@ export class MainComponent implements OnInit {
   ngOnInit() {
   }
 
-  openTransferCard() {
+  openTransferCard(): void {
     const dialogRef = this.dialog.open(TransferCardComponent, { });
 
     dialogRef.afterClosed().subscribe(data => {
@@ -73,22 +76,26 @@ export class MainComponent implements OnInit {
     });
   }
 
+  openNotificationsInfo(): void {
+    this._bottomSheet.open(NotificationsInfoComponent);
+  }
+
   getCurrentLanguageIconClass() : string {
     let language = this.translateHelper.getCurrentLanguage();
     return this.languagesIcons[language];
   }
 
-  refreshPage() {
+  refreshPage(): void {
     window.location.reload();
   }
 
-  switchLanguage() {
+  switchLanguage(): void {
     let language = this.translateHelper.getCurrentLanguage() == TranslateHelper.ruKey ?
       TranslateHelper.enKey : TranslateHelper.ruKey;
     this.translateHelper.switchToLanguage(language);
   }
 
-  logout() {
+  logout(): void {
     this.authService.removeCurrentToken();
     this.router.navigate(['/auth']);
   }
