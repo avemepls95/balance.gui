@@ -1,0 +1,8 @@
+{
+    "env": {
+        "name": "PROD"
+    },
+    "apiServer": {
+        "url": "https://api.кутилы.рф/"
+    }
+}

@@ -5,6 +5,7 @@ import { isNullOrUndefined } from 'util';
 import { CreateUpdateCheckDto } from '../Model/Dto/Check/CreateUpdate/CreateUpdateCheckDto';
 import { BalanceResponse } from '../BalanceResponse';
 import { TransferDto } from '../Model/Dto/TransferDto';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +15,7 @@ export class BalanceApiService {
   private apiBaseUrl: string;
 
   constructor(private http: HttpClient) {
-    // this.apiBaseUrl = 'http://localhost:8081/';
-    this.apiBaseUrl = 'https://api.кутилы.рф/'
+    this.apiBaseUrl = environment.apiUrl;
   }
 
   getUsersSuggestion(query: string): Observable<any> {

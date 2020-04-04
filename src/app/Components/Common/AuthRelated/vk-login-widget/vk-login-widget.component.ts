@@ -1,12 +1,12 @@
 import { Component, OnInit, ElementRef, ViewChild, AfterViewInit, Output, EventEmitter } from '@angular/core';
 import { AuthService } from 'src/app/Services/auth.service';
-import { CheckGetDtoMapper } from 'src/app/Model/Utils/CheckGetDtoMapper';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { finalize } from 'rxjs/operators';
 import { CommonDtoMapper } from 'src/app/Model/Utils/CommonDtoMapper';
 import { FromVkAuthDto } from 'src/app/Model/Dto/Auth/FromVkAuthDto';
 import { LocalStorageManager } from 'src/app/LocalStorageManager';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-vk-login-widget',
@@ -37,7 +37,7 @@ export class VkLoginWidgetComponent implements AfterViewInit {
 
     const script1 = document.createElement('script');
     script1.type = 'text/javascript';
-    script1.text = 'VK.init({ apiId: 7211443 });';
+    script1.text = `VK.init({ apiId: ${environment.vkApiId} })`;
 
     const div = document.createElement('div');
     div.setAttribute('id', 'vk_auth');
@@ -53,9 +53,9 @@ export class VkLoginWidgetComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-      window['loginViaVk'] = (loginData: FromVkAuthDto) => {
+    window['loginViaVk'] = (loginData: FromVkAuthDto) => {
       LocalStorageManager.setUserData(loginData);
-      this.loginViaVk(loginData) 
+      this.loginViaVk(loginData)
     };
     this.convertToScript();
   }

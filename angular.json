@@ -100,9 +100,6 @@
           "configurations": {
             "production": {
               "browserTarget": "balance-gui:build:production"
-            },
-            "deploy": {
-              "browserTarget": "my-app:build:deploy"
             }
           }
         },

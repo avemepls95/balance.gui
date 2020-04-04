@@ -4,7 +4,9 @@
 
 export const environment = {
   production: false,
-  name: 'dev'
+  name: 'dev',
+  apiUrl: 'http://localhost:8081/',
+  vkApiId: '7296124'
 };
 
 /*
