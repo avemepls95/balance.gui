@@ -9,7 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PaymentCardComponent } from '../payment-card/payment-card.component';
 import { Check } from 'src/app/Model/Check';
-import { isNullOrUndefined } from 'util';
+import { isNullOrUndefined, isNumber } from 'util';
 import { BalanceApiService } from 'src/app/Services/balance-api.service';
 import { finalize, take } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -25,6 +25,7 @@ import { CopyUtils } from 'src/app/Utils/CopyUtils';
 import { CheckPermissionsResolver } from 'src/app/Model/Utils/CheckPermissionsResolver';
 import { TableUtils } from 'src/app/ControlLayer/Utils/TableUtils';
 import { CHECK_STATE as CHECK_STATE } from 'src/app/Model/check-state.enum';
+import { MathExtensions } from 'src/app/Utils/MathExtensions';
 
 @Component({
   selector: 'app-check',
@@ -94,7 +95,7 @@ export class CheckComponent implements OnInit, OnDestroy {
             .subscribe(
               result => {
                 var tmp = CheckGetDtoMapper.convertDtoToCheck(result.data);
-                
+
                 let internalId = 0;
                 tmp.positions.forEach(position => position.internalId = ++internalId);
                 internalId = 0;
@@ -126,10 +127,11 @@ export class CheckComponent implements OnInit, OnDestroy {
     let data = {
       action: action,
       position: this.copyUtils.deepCopy(position),
+      discount: this.check.discount
     }
 
     if (this.check.positions.length != 0) {
-      data['predefinedUsers'] = 
+      data['predefinedUsers'] =
         this.check.positions[this.check.positions.length - 1].consumptions.map(c => c.user)
     }
 
@@ -149,12 +151,13 @@ export class CheckComponent implements OnInit, OnDestroy {
     });
   }
 
-  addPosition(data: Position) {
+  addPosition(position: Position) {
     this.check.positions.push(new Position({
       internalId: this.check.positions.length + 1,
-      title: data.title,
-      amount: data.amount,
-      consumptions: data.consumptions
+      title: position.title,
+      amount: position.amount,
+      consumptions: position.consumptions,
+      applyDiscount: position.applyDiscount
     }));
 
     this.positionsDataSource.data = this.check.positions;
@@ -347,7 +350,7 @@ export class CheckComponent implements OnInit, OnDestroy {
     let amounts = this.check.positions.map(t => +t.amount);
     let totalAmount = amounts.reduce((acc, value) => acc + value, 0);
 
-    return Math.round(totalAmount * 100) / 100;
+    return MathExtensions.round(totalAmount, 2);
   }
 
   setCurrentCheck(check: Check): void {
@@ -397,4 +400,14 @@ export class CheckComponent implements OnInit, OnDestroy {
 
     return status;
   }
+
+  discountInPercentChanged(old, event): void {
+    var result = +event.target.value;
+    this.check.discount.value = result < 1 ?
+      1 :
+      (result > 99 ? 99 : result);
+
+    this.check.recalculateWithDiscount(old);
+  }
+
 }

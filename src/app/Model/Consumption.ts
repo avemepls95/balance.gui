@@ -4,6 +4,8 @@ export class Consumption {
     amount: number;
     user: User;
 
+    amountWithoutDiscount: number;
+    
     public constructor(
         fields?: {
             amount?: number,

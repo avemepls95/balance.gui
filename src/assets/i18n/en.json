@@ -83,7 +83,12 @@
     "noChanges": "There are no changes",
     "delete": "Delete check",
     "editingStatus": "In work",
-    "processedStatus": "Processed"
+    "processedStatus": "Processed",
+    "discount": {
+      "discount": "Discount",
+      "discountInPercent": "Discount value",
+      "applyDiscount": "Apply discount"
+    }
   },
   "transfer": {
     "register": "Register",

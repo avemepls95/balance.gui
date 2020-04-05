@@ -21,17 +21,27 @@
     </div>
   </mat-card-header>
   <mat-card-content>
-    <mat-form-field class="width-100-percents">
+    <mat-form-field class="w-100">
       <input matInput [(ngModel)]="check.title" placeholder="{{ 'check.title' | translate }}"
         [formControl]="titleFormControl" [errorStateMatcher]="matcher" [readonly]="!canEdit()">
       <mat-error *ngIf="titleFormControl.hasError('required')" [translate]="'common.fieldRequired'">
       </mat-error>
     </mat-form-field>
 
-    <mat-form-field class="width-100-percents" *ngIf="mode == 'editing'">
+    <mat-form-field class="w-100" *ngIf="mode == 'editing'">
       <input matInput placeholder="{{ 'check.createdAt' | translate }}"
         value="{{check.createdAt | date:'dd.MM.yyyy HH:mm'}}" [readonly]="true">
     </mat-form-field>
+
+    <div class="w-100 flex discount-wrap">
+      <mat-checkbox [(ngModel)]="check.discount.apply">
+        <span [translate]="'check.discount.discount'"></span>
+      </mat-checkbox>
+      <mat-form-field class="w-100">
+        <input matInput type="number" placeholder="{{ 'check.discount.discountInPercent' | translate }}"
+          [disabled]="!check.discount.apply" [(ngModel)]="check.discount.value" (change)="discountInPercentChanged(old, $event)" (focus)="old=check.discount.value">
+      </mat-form-field>
+    </div>
 
     <!-- Position table -->
     <div class="container positions-block">

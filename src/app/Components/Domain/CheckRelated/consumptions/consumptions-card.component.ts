@@ -10,6 +10,7 @@ import { EMPTY } from 'rxjs';
 import { BalanceApiService } from 'src/app/Services/balance-api.service';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { TranslateHelper } from 'src/app/Utils/TranslateHelper';
+import { MathExtensions } from 'src/app/Utils/MathExtensions';
 
 @Component({
   selector: 'app-consumptions',
@@ -20,6 +21,7 @@ export class ConsumptionsCardComponent implements AfterContentInit {
 
   action: string;
   consumptions: Consumption[] = [];
+  discountInfo: any;
 
   filteredUsers: User[];
   isLoading = false;
@@ -43,12 +45,16 @@ export class ConsumptionsCardComponent implements AfterContentInit {
     this.consumptions = data.obj;
     this.userControlCounter = this.consumptions.length;
     this.action = data.action;
+    this.discountInfo = data.discountInfo;
     this.searchResultEmptyMessage = this.translateHelper.getValue('check.searchResultsEmpty');
 
     this.myForm = new FormGroup({});
     for (let i = 0; i < this.consumptions.length; ++i) {
       this.addUserControl(i);
     }
+
+    if (this.discountInfo.apply)
+      this.fillAmountsWithoutDiscount()
   }
 
   ngAfterContentInit(): void {
@@ -63,6 +69,14 @@ export class ConsumptionsCardComponent implements AfterContentInit {
         elem.value = this.consumptions[i].user.username;
       }
     }, 0);
+  }
+
+  fillAmountsWithoutDiscount(): void {
+    const multiplier = 1 - this.discountInfo.value / 100;
+         
+    this.consumptions.forEach(consumption => {
+      consumption.amountWithoutDiscount = MathExtensions.round(consumption.amount / multiplier, 2);
+    });
   }
 
   addUserControl(number: number): void {
@@ -167,5 +181,11 @@ export class ConsumptionsCardComponent implements AfterContentInit {
     }
 
     return true;
+  }
+
+  onAmountWithoutDiscountChanged(consumption: Consumption): void {
+    const multiplier = 1 - this.discountInfo.value / 100;
+    
+    consumption.amount = consumption.amountWithoutDiscount * multiplier;
   }
 }

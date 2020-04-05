@@ -12,6 +12,8 @@ import { ConsumptionsCardComponent } from '../consumptions/consumptions-card.com
 import { Consumption } from 'src/app/Model/Consumption';
 import { TranslateHelper } from 'src/app/Utils/TranslateHelper';
 import { ConfirmDialogModel, ConfirmDialogComponent } from 'src/app/Components/Common/confirm-dialog/confirm-dialog.component';
+import { Discount } from 'src/app/Model/Discount';
+import { isUndefined } from 'util';
 import { MathExtensions } from 'src/app/Utils/MathExtensions';
 
 @Component({
@@ -24,6 +26,7 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
   action: string;
   inputPosition: Position;
   position: Position;
+  checkDiscount: Discount;
 
   visible = true;
   selectable = true;
@@ -32,6 +35,8 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
   separatorKeysCodes: number[] = [ENTER, COMMA];
 
   equalConsumptions: Boolean = true;
+
+  amountWithoutDiscount: number;
 
   searchResultEmptyMessage: string;
 
@@ -49,19 +54,28 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
     private balanceApiService: BalanceApiService,
     private translateHelper: TranslateHelper
   ) {
+    data.position = new Position(data.position);
+
     this.inputPosition = data.position;
     this.position = data.position;
     this.action = data.action;
-    
-    if (data.action == 'Add' && !!data.predefinedUsers && data.predefinedUsers.length != 0){
+    this.checkDiscount = data.discount;
+    this.position.applyDiscount = data.position.applyDiscount;
+
+    if (data.action == 'Add' && !!data.predefinedUsers && data.predefinedUsers.length != 0) {
       this.applyPredefinedUsers(data.predefinedUsers);
     }
+
+    this.position.applyDiscount = data.action == 'Add' ?
+      data.discount.apply : data.position.applyDiscount;
 
     this.searchResultEmptyMessage = this.translateHelper.getValue('check.searchResultsEmpty');
   }
 
   ngOnInit(): void {
-    this.equalConsumptions = this.isEqualConsumptions();
+    this.equalConsumptions = this.action == 'Add' ? true: this.position.isEqualConsumptions();
+
+    this.fillAmounts()
 
     this.searchUserCtrl.valueChanges
       .pipe(
@@ -89,6 +103,20 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
       });
   }
 
+  fillAmounts() {
+    if (isUndefined(this.position.amount))
+      this.position.amount = 0;
+
+    if (!this.position.applyDiscount) {
+      this.amountWithoutDiscount = this.position.amount;
+      return;
+    }
+
+    const multiplier = 1 - this.checkDiscount.value / 100;
+
+    this.amountWithoutDiscount = MathExtensions.round(this.position.amount / multiplier, 2);
+  }
+
   applyPredefinedUsers(users: User[]): void {
     if (this.position.consumptions == null)
       this.position.consumptions = new Array<Consumption>();
@@ -98,52 +126,12 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
     });
   }
 
-  isEqualConsumptions(): boolean {
-    if (this.action == 'Add')
-      return true;
-
-    if (!this.position.consumptions || this.position.consumptions.length == 0)
-      throw Error("Invalid consumptions.");
-
-    var tolerance = 0.01;
-    var amounts = this.position.consumptions.map(c => c.amount);
-
-    return amounts.every(a => Math.abs(a - amounts[0]) < tolerance);
-  }
-
   doAction() {
     if (this.equalConsumptions) {
-      this.recalculateEqualConsumptions();
+      this.position.recalculateEqualConsumptions();
     }
 
     this.dialogRef.close({ event: this.action, data: this.position });
-  }
-
-  recalculateEqualConsumptions() {
-    if (!this.position.consumptions || this.position.consumptions.length == 0)
-      return;
-
-    if (!this.position.amount)
-      this.position.amount = 0;
-
-    let part = Math.floor(this.position.amount / this.position.consumptions.length * 100) / 100;
-    this.position.consumptions.forEach(consumption =>  consumption.amount = part);
-
-    if (part * this.position.consumptions.length == this.position.amount) {
-      return;
-    }
-
-    let index = 0;
-    while (this.position.consumptions.reduce((sum, current) => sum + current.amount, 0) != this.position.amount) {
-      this.position.consumptions[index].amount = MathExtensions.round(
-        this.position.consumptions[index].amount + 0.01, 2
-      )
-
-      if (index == this.position.consumptions.length - 1)
-        index = 0;
-
-      ++index;
-    }
   }
 
   closeDialog() {
@@ -158,7 +146,7 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
 
     if (index >= 0) {
       this.position.consumptions.splice(index, 1);
-      this.recalculateEqualConsumptions();
+      this.position.recalculateEqualConsumptions();
     }
   }
 
@@ -168,14 +156,19 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
       this.position.consumptions = new Array<Consumption>();
 
     this.position.consumptions.push(new Consumption({ user: user, amount: 0 }));
-    this.recalculateEqualConsumptions();
+    this.position.recalculateEqualConsumptions();
 
     this.usersInput.nativeElement.value = '';
     this.searchUserCtrl.setValue('');
   }
 
-  onAmountChanged(amountString: string): void {
-    this.recalculateEqualConsumptions();
+  onAmountWithoutDiscountChanged(): void {
+    if (this.position.applyDiscount)
+      this.position.recalculateAmountWithDiscount(this.amountWithoutDiscount, this.checkDiscount.value);
+    else
+      this.position.amount = this.amountWithoutDiscount;
+
+    this.position.recalculateEqualConsumptions();
   }
 
   removeSelectedUsersFromSuggestion(suggestion: User[]): User[] {
@@ -212,7 +205,7 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
         return;
       }
 
-      this.recalculateEqualConsumptions();
+      this.position.recalculateEqualConsumptions();
     });
   }
 
@@ -223,7 +216,11 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
   openConsumptionCard(action: string) {
     let data = {
       obj: this.position.consumptions ? this.position.consumptions.map(c => Object.assign({}, c)) : [],
-      action: action
+      action: action,
+      discountInfo: {
+        apply: this.position.applyDiscount,
+        value: this.checkDiscount.value
+      } 
     }
 
     let autofocus = this.position.consumptions && this.position.consumptions.length == 0;
@@ -238,20 +235,37 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
       let consumptions = this.position.consumptions;
       if (result.event == 'Cancel') {
         if (!consumptions || consumptions.length == 0 || consumptions.length == 1 ||
-          consumptions.filter(c => c.amount == 0).length == consumptions.length
-        )
+          consumptions.filter(c => c.amount == 0).length == consumptions.length)
           this.equalConsumptions = true;
         return;
       }
 
       this.position.consumptions = result.data;
-      this.position.amount = this.position.consumptions.reduce((sum, current) => sum + +current.amount, 0)
+      this.amountWithoutDiscount = this.position.consumptions.reduce((sum, current) => sum + +current.amountWithoutDiscount, 0);
+      if (this.position.applyDiscount)
+        this.position.recalculateAmountWithDiscount(this.amountWithoutDiscount, this.checkDiscount.value);
+      else
+        this.position.amount = this.amountWithoutDiscount;
 
       if (result.data.length == 1) {
         this.equalConsumptions = true;
         return
       }
     });
+  }
+
+  applyDiscountValueChanged(event) {
+    if (event.checked) {
+      this.position.recalculateAmountWithDiscount(this.amountWithoutDiscount, this.checkDiscount.value);
+      this.position.recalculateConsumptionsWithDiscount(this.checkDiscount.value);
+  } else {
+      this.position.amount = this.amountWithoutDiscount;
+      this.position.rollbackConsumptionsWithDiscount(this.checkDiscount.value);
+    }
+
+    if (this.equalConsumptions){
+      this.position.recalculateEqualConsumptions();
+    }
   }
 
   canBeCreated(): boolean {

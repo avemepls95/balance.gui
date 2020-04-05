@@ -4,12 +4,14 @@ export class CreateUpdatePositionDto {
     amount: number;
     title: string;
     consumptions: CreateUpdateConsumptionDto[];
+    applyDiscount: boolean;
 
     public constructor(
         fields?: {
             amount?: number,
             title?: string,
-            consumptions?: CreateUpdateConsumptionDto[]
+            consumptions?: CreateUpdateConsumptionDto[],
+            applyDiscount?: boolean
         }) 
     {
         if (fields)

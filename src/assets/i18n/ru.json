@@ -83,7 +83,12 @@
     "noChanges": "Нет изменений",
     "delete": "Удалить чек",
     "editingStatus": "В работе",
-    "processedStatus": "Обработан"
+    "processedStatus": "Обработан",
+    "discount": {
+      "discount": "Скидка",
+      "discountInPercent": "Размер скидки",
+      "applyDiscount": "Применить скидку"
+    }
   },
   "transfer": {
     "register": "ОК",

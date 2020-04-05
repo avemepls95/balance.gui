@@ -5,6 +5,7 @@ import { CreateUpdateCheckDto } from '../Dto/Check/CreateUpdate/CreateUpdateChec
 import { CreateUpdatePositionDto } from '../Dto/Check/CreateUpdate/CreateUpdatePositionDto';
 import { CreateUpdateConsumptionDto } from '../Dto/Check/CreateUpdate/CreateUpdateConsumptionDto';
 import { CreateUpdatePaymentDto } from '../Dto/Check/CreateUpdate/CreateUpdatePaymentDto';
+import { DiscountDto } from '../Dto/DiscountDto';
 
 export class CheckCreateUpdateDtoMapper {
 
@@ -14,6 +15,10 @@ export class CheckCreateUpdateDtoMapper {
             title: check.title,
             positions: CheckCreateUpdateDtoMapper.convertPositionToDto(check.positions),
             payments: CheckCreateUpdateDtoMapper.convertPaymentToDto(check.payments),
+            discount: new DiscountDto({
+                apply: check.discount.apply,
+                value: check.discount.value
+            })
         })
     }
 
@@ -24,7 +29,8 @@ export class CheckCreateUpdateDtoMapper {
             consumptions: p.consumptions.map(c => new CreateUpdateConsumptionDto({
                 amount: c.amount,
                 userId: c.user.id
-            }))
+            })),
+            applyDiscount: p.applyDiscount
         }));
     }
 
@@ -34,28 +40,4 @@ export class CheckCreateUpdateDtoMapper {
             userId: p.user.id
         }));
     }
-
-    // static convertDtoToCheck(checkDto: CreateUpdateCheckDto): Check {
-    //     return new Check({
-    //         id: checkDto.id,
-    //         title: checkDto.title,
-    //         positions: CreateUpdateDtoMapper.convertDtoToPosition(checkDto.positions),
-    //         payments: CreateUpdateDtoMapper.convertDtoToPayment(checkDto.payments),
-    //     })
-    // }
-
-    // static convertDtoToPosition(positionDtoArray: CreateUpdatePositionDto[]): Position[] {
-    //     return positionDtoArray.map(p => new Position({
-    //         title: p.title,
-    //         amount: p.amount,
-    //         users: p.consumptions.map(c => new User({ id: c.user.id, username: c.user.username }))
-    //     }));
-    // }
-
-    // static convertDtoToPayment(paymentDtoArray: CreateUpdatePaymentDto[]): Payment[] {
-    //     return paymentDtoArray.map(p => new Payment({
-    //         amount: p.amount,
-    //         user: new User({ id: p.user.id, username: p.user.username })
-    //     }))
-    // }
 }

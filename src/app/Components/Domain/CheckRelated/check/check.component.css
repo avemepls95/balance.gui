@@ -216,3 +216,13 @@ span.process {
     border-radius: 3px;
     height: 28px;
 }
+
+.discount-wrap {
+    height: 40px;
+    align-items: center;
+    margin-top: 10px;
+}
+.discount-wrap mat-form-field {
+    margin-top: -3px;
+    margin-left: 10px;
+}

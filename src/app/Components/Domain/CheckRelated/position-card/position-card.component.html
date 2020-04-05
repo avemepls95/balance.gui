@@ -8,11 +8,16 @@
       <mat-form-field>
         <input placeholder="{{ 'check.title' | translate }}" required matInput [(ngModel)]="position.title">
       </mat-form-field>
-      <mat-form-field>
-        <input matInput required Mask="^\d*\.?\d{0,2}$" DigitOnly="true" type="text"
-          placeholder="{{ 'check.amount' | translate }}" [(ngModel)]="position.amount" [disabled]="!equalConsumptions"
-          (change)="onAmountChanged($event.target.value)">
-      </mat-form-field>
+      <div class="flex-h-space-between">
+        <mat-form-field [ngClass]="position.applyDiscount ? 'w-48' : 'w-100'">
+          <input matInput required Mask="^\d*\.?\d{0,2}$" placeholder="{{ 'check.amount' | translate }}"
+            [(ngModel)]="amountWithoutDiscount" [disabled]="!equalConsumptions"
+            (change)="onAmountWithoutDiscountChanged()">
+        </mat-form-field>
+        <mat-form-field *ngIf="position.applyDiscount" class="w-48">
+          <input matInput placeholder="alala" [(ngModel)]="position.amount" [disabled]="true">
+        </mat-form-field>
+      </div>
 
       <div class="equal-consumptions-block">
         <mat-checkbox [(ngModel)]="equalConsumptions" (change)="equalConsumptionsValueChanged($event)"
@@ -54,6 +59,11 @@
           {{errorMsg}}
         </ng-container>
       </div>
+
+      <mat-checkbox *ngIf="checkDiscount.apply" [(ngModel)]="position.applyDiscount" (change)="applyDiscountValueChanged($event)">
+        <span [translate]="'check.discount.applyDiscount'"></span>
+      </mat-checkbox>
+
     </div>
 
     <ng-template #elseTemplate>
