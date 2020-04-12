@@ -12,9 +12,10 @@ import { ConsumptionsCardComponent } from '../consumptions/consumptions-card.com
 import { Consumption } from 'src/app/Model/Consumption';
 import { TranslateHelper } from 'src/app/Utils/TranslateHelper';
 import { ConfirmDialogModel, ConfirmDialogComponent } from 'src/app/Components/Common/confirm-dialog/confirm-dialog.component';
-import { Discount } from 'src/app/Model/Discount';
+import { Discount } from 'src/app/Model/Discount/discount';
 import { isUndefined } from 'util';
 import { MathExtensions } from 'src/app/Utils/MathExtensions';
+import { DiscountCalculator } from 'src/app/Model/Discount/discount-calculator';
 
 @Component({
   selector: 'app-position-card',
@@ -27,6 +28,7 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
   inputPosition: Position;
   position: Position;
   checkDiscount: Discount;
+  discountCalculator: DiscountCalculator;
 
   visible = true;
   selectable = true;
@@ -35,8 +37,6 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
   separatorKeysCodes: number[] = [ENTER, COMMA];
 
   equalConsumptions: Boolean = true;
-
-  amountWithoutDiscount: number;
 
   searchResultEmptyMessage: string;
 
@@ -58,9 +58,13 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
 
     this.inputPosition = data.position;
     this.position = data.position;
+    if (data.action == 'Add')
+      this.position.internalId = data.newInternalId;
+      
     this.action = data.action;
     this.checkDiscount = data.discount;
-    this.position.applyDiscount = data.position.applyDiscount;
+    this.position.applyDiscount = data.position.applyDiscount && data.discount.apply;
+    this.discountCalculator = data.discountCalculator;
 
     if (data.action == 'Add' && !!data.predefinedUsers && data.predefinedUsers.length != 0) {
       this.applyPredefinedUsers(data.predefinedUsers);
@@ -108,13 +112,13 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
       this.position.amount = 0;
 
     if (!this.position.applyDiscount) {
-      this.amountWithoutDiscount = this.position.amount;
+      this.position.amountWithoutDiscount = this.position.amount;
       return;
     }
 
     const multiplier = 1 - this.checkDiscount.value / 100;
 
-    this.amountWithoutDiscount = MathExtensions.round(this.position.amount / multiplier, 2);
+    this.position.amountWithoutDiscount = MathExtensions.round(this.position.amount / multiplier, 2);
   }
 
   applyPredefinedUsers(users: User[]): void {
@@ -164,9 +168,9 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
 
   onAmountWithoutDiscountChanged(): void {
     if (this.position.applyDiscount)
-      this.position.recalculateAmountWithDiscount(this.amountWithoutDiscount, this.checkDiscount.value);
+      this.discountCalculator.recalculatePositionAmountWithDiscount(this.position);
     else
-      this.position.amount = this.amountWithoutDiscount;
+      this.position.amount = this.position.amountWithoutDiscount;
 
     this.position.recalculateEqualConsumptions();
   }
@@ -235,32 +239,33 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
       let consumptions = this.position.consumptions;
       if (result.event == 'Cancel') {
         if (!consumptions || consumptions.length == 0 || consumptions.length == 1 ||
-          consumptions.filter(c => c.amount == 0).length == consumptions.length)
+          this.position.isEqualConsumptions())
           this.equalConsumptions = true;
         return;
       }
 
       this.position.consumptions = result.data;
-      this.amountWithoutDiscount = this.position.consumptions.reduce((sum, current) => sum + +current.amountWithoutDiscount, 0);
+      this.position.amountWithoutDiscount = MathExtensions.round(
+        this.position.consumptions.reduce((sum, current) => sum + +current.amountWithoutDiscount, 0),
+        2);
       if (this.position.applyDiscount)
-        this.position.recalculateAmountWithDiscount(this.amountWithoutDiscount, this.checkDiscount.value);
+        this.discountCalculator.recalculatePositionAmountWithDiscount(this.position);
       else
-        this.position.amount = this.amountWithoutDiscount;
+        this.position.amount = this.position.amountWithoutDiscount;
 
       if (result.data.length == 1) {
         this.equalConsumptions = true;
-        return
+        return;
       }
     });
   }
 
   applyDiscountValueChanged(event) {
     if (event.checked) {
-      this.position.recalculateAmountWithDiscount(this.amountWithoutDiscount, this.checkDiscount.value);
-      this.position.recalculateConsumptionsWithDiscount(this.checkDiscount.value);
+      this.discountCalculator.recalculatePosition(this.position);
   } else {
-      this.position.amount = this.amountWithoutDiscount;
-      this.position.rollbackConsumptionsWithDiscount(this.checkDiscount.value);
+      this.position.amount = this.position.amountWithoutDiscount;
+      this.discountCalculator.rollbackConsumptionsWithDiscount(this.position);
     }
 
     if (this.equalConsumptions){

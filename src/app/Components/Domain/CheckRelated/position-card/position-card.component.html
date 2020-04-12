@@ -11,7 +11,7 @@
       <div class="flex-h-space-between">
         <mat-form-field [ngClass]="position.applyDiscount ? 'w-48' : 'w-100'">
           <input matInput required Mask="^\d*\.?\d{0,2}$" placeholder="{{ 'check.amount' | translate }}"
-            [(ngModel)]="amountWithoutDiscount" [disabled]="!equalConsumptions"
+            [(ngModel)]="position.amountWithoutDiscount" [disabled]="!equalConsumptions"
             (change)="onAmountWithoutDiscountChanged()">
         </mat-form-field>
         <mat-form-field *ngIf="position.applyDiscount" class="w-48">

@@ -86,7 +86,9 @@
     "processedStatus": "Обработан",
     "discount": {
       "discount": "Скидка",
-      "discountInPercent": "Размер скидки",
+      "value": "Размер",
+      "percent": "Процент",
+      "rubles": "Рубли",
       "applyDiscount": "Применить скидку"
     }
   },

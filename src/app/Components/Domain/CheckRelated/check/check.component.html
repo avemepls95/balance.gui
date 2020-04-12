@@ -33,15 +33,32 @@
         value="{{check.createdAt | date:'dd.MM.yyyy HH:mm'}}" [readonly]="true">
     </mat-form-field>
 
-    <div class="w-100 flex discount-wrap">
-      <mat-checkbox [(ngModel)]="check.discount.apply">
-        <span [translate]="'check.discount.discount'"></span>
-      </mat-checkbox>
-      <mat-form-field class="w-100">
-        <input matInput type="number" placeholder="{{ 'check.discount.discountInPercent' | translate }}"
-          [disabled]="!check.discount.apply" [(ngModel)]="check.discount.value" (change)="discountInPercentChanged(old, $event)" (focus)="old=check.discount.value">
-      </mat-form-field>
-    </div>
+    <!-- Discount -->
+    <mat-card class="discount-card">
+      <div class="w-100 flex discount-wrap">
+        <mat-checkbox [(ngModel)]="check.discount.apply" class="discount-check">
+          <span [translate]="'check.discount.discount'"></span>
+        </mat-checkbox>
+
+        <mat-radio-group (change)="onDiscountTypeChange($event)" class="discount-type"
+          [disabled]="!check.discount.apply">
+          <mat-radio-button value="DISCOUNT_TYPE.PERCENT" [checked]="check.discount.type == 0">
+            <span>
+              <span [translate]="'check.discount.percent'"></span>
+            </span>
+          </mat-radio-button>
+          <mat-radio-button value="DISCOUNT_TYPE.ABSOLUTE" [checked]="check.discount.type == 1">
+            <span [translate]="'check.discount.rubles'"></span>
+          </mat-radio-button>
+        </mat-radio-group>
+
+        <mat-form-field class="discount-checkbox">
+          <input matInput type="number" (change)="onDiscountValueChange($event)" (focus)="old=check.discount.value"
+            [placeholder]="'check.discount.value' | translate" [disabled]="!check.discount.apply"
+            [(ngModel)]="check.discount.value">
+        </mat-form-field>
+      </div>
+    </mat-card>
 
     <!-- Position table -->
     <div class="container positions-block">

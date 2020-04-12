@@ -6,7 +6,7 @@ import { GetCheckDto } from '../Dto/Check/Get/GetCheckDto';
 import { GetPositionDto } from '../Dto/Check/Get/GetPositionDto';
 import { GetPaymentDto } from '../Dto/Check/Get/GetPaymentDto';
 import { Consumption } from '../Consumption';
-import { Discount } from '../Discount';
+import { Discount } from '../Discount/discount';
 
 export class CheckGetDtoMapper {
 
@@ -21,8 +21,10 @@ export class CheckGetDtoMapper {
             createdAt: new Date(checkDto.createdAt),
             roles: checkDto.roles,
             discount: new Discount({
-                apply: checkDto.discount.apply,
-                value: checkDto.discount.value
+                // apply: checkDto.discount.apply,
+                // value: checkDto.discount.apply ? checkDto.discount.value : 0
+                apply: true,
+                value: 20
             })
         })
     }
@@ -37,7 +39,8 @@ export class CheckGetDtoMapper {
                     user: c.user
                 })
             ),
-            applyDiscount: p.applyDiscount
+            // applyDiscount: p.applyDiscount
+            applyDiscount: true
         }));
     }
 

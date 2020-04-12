@@ -217,12 +217,39 @@ span.process {
     height: 28px;
 }
 
+.discount-card {
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
 .discount-wrap {
     height: 40px;
     align-items: center;
     margin-top: 10px;
+    justify-content: space-around;
 }
-.discount-wrap mat-form-field {
-    margin-top: -3px;
-    margin-left: 10px;
+    .discount-wrap mat-form-field {
+        margin-top: -3px;
+        margin-left: 10px;
+    }
+    .discount-wrap > .discount-type {
+        width: min-content;
+    }
+        ::ng-deep .discount-wrap > .discount-type .mat-radio-label-content {
+            font-weight: normal;
+        }
+    .discount-wrap > .discount-checkbox {
+        width: 60px;
+    }
+    @media (min-width: 1281px) {
+        .discount-wrap {
+            justify-content: center;
+        }
+            .discount-wrap > * {
+                margin-right: 20px;
+            }
+    }
+
+::ng-deep .mat-form-field-infix {
+    width: auto !important;
 }

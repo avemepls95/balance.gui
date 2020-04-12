@@ -26,11 +26,16 @@ import { CheckPermissionsResolver } from 'src/app/Model/Utils/CheckPermissionsRe
 import { TableUtils } from 'src/app/ControlLayer/Utils/TableUtils';
 import { CHECK_STATE as CHECK_STATE } from 'src/app/Model/check-state.enum';
 import { MathExtensions } from 'src/app/Utils/MathExtensions';
+import { MatRadioChange } from '@angular/material/radio';
+import { DISCOUNT_TYPE } from 'src/app/Model/Discount/discount-type.enum';
+import { DiscountCalculator } from 'src/app/Model/Discount/discount-calculator';
+import { DiscountPercentCalculator } from 'src/app/Model/Discount/discount-percent-calculator';
+import { DiscountAbsCalculator } from 'src/app/Model/Discount/discount-abs-calculator';
 
 @Component({
   selector: 'app-check',
   templateUrl: './check.component.html',
-  styleUrls: ['./check.component.css'],
+  styleUrls: ['./check.component.css']
 })
 export class CheckComponent implements OnInit, OnDestroy {
   titleFormControl = new FormControl('', [Validators.required]);
@@ -45,6 +50,10 @@ export class CheckComponent implements OnInit, OnDestroy {
 
   unmodifiedCheck: Check;
   check: Check;
+  CHECK_STATE = CHECK_STATE;
+  DISCOUNT_TYPE: DISCOUNT_TYPE;
+  discountCalculator: DiscountCalculator = new DiscountAbsCalculator();
+  // discountCalculator: DiscountCalculator = new DiscountPercentCalculator();
 
   mode: string = 'creating';
 
@@ -52,8 +61,6 @@ export class CheckComponent implements OnInit, OnDestroy {
   hasEditPermissions: boolean;
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
-
-  CHECK_STATE = CHECK_STATE;
 
   constructor(
     public dialog: MatDialog,
@@ -127,7 +134,9 @@ export class CheckComponent implements OnInit, OnDestroy {
     let data = {
       action: action,
       position: this.copyUtils.deepCopy(position),
-      discount: this.check.discount
+      discount: this.check.discount,
+      discountCalculator: this.discountCalculator,
+      newInternalId: this.check.positions.length + 1
     }
 
     if (this.check.positions.length != 0) {
@@ -153,7 +162,7 @@ export class CheckComponent implements OnInit, OnDestroy {
 
   addPosition(position: Position) {
     this.check.positions.push(new Position({
-      internalId: this.check.positions.length + 1,
+      internalId: position.internalId,
       title: position.title,
       amount: position.amount,
       consumptions: position.consumptions,
@@ -355,6 +364,7 @@ export class CheckComponent implements OnInit, OnDestroy {
 
   setCurrentCheck(check: Check): void {
     this.check = check;
+    this.discountCalculator.setCheck(check);
     this.unmodifiedCheck = this.copyUtils.deepCopy(check);
     this.permissionsResolver.setPermissionsObject(check);
     this.hasEditPermissions = this.permissionsResolver.canEdit();
@@ -401,13 +411,17 @@ export class CheckComponent implements OnInit, OnDestroy {
     return status;
   }
 
-  discountInPercentChanged(old, event): void {
+  onDiscountValueChange(event): void {
     var result = +event.target.value;
-    this.check.discount.value = result < 1 ?
-      1 :
-      (result > 99 ? 99 : result);
+    
+    this.discountCalculator.setDiscountValue(result);
+    this.discountCalculator.recalculateCheckWithDiscount();
 
-    this.check.recalculateWithDiscount(old);
+    if (result == 0)
+      this.check.discount.apply = false;
   }
-
+  
+  onDiscountTypeChange(event: MatRadioChange): void {
+    this.check.discount.type = event.value as DISCOUNT_TYPE;
+  }
 }

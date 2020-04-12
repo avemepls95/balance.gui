@@ -53,8 +53,7 @@ export class ConsumptionsCardComponent implements AfterContentInit {
       this.addUserControl(i);
     }
 
-    if (this.discountInfo.apply)
-      this.fillAmountsWithoutDiscount()
+    this.fillAmountsWithoutDiscount()
   }
 
   ngAfterContentInit(): void {
@@ -72,6 +71,14 @@ export class ConsumptionsCardComponent implements AfterContentInit {
   }
 
   fillAmountsWithoutDiscount(): void {
+    if (!this.discountInfo.apply) {
+      this.consumptions.forEach(consumption => {
+        consumption.amountWithoutDiscount = consumption.amount;
+      });
+
+      return;
+    }
+
     const multiplier = 1 - this.discountInfo.value / 100;
          
     this.consumptions.forEach(consumption => {
@@ -184,8 +191,12 @@ export class ConsumptionsCardComponent implements AfterContentInit {
   }
 
   onAmountWithoutDiscountChanged(consumption: Consumption): void {
+    if (!this.discountInfo.apply) {
+      consumption.amount = consumption.amountWithoutDiscount;
+      return;
+    }
+
     const multiplier = 1 - this.discountInfo.value / 100;
-    
     consumption.amount = consumption.amountWithoutDiscount * multiplier;
   }
 }

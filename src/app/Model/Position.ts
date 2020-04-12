@@ -9,6 +9,8 @@ export class Position {
     consumptions: Consumption[];
     applyDiscount: boolean;
 
+    amountWithoutDiscount: number;
+    
     public constructor(
         fields?: {
             internalId?: number;
@@ -49,33 +51,6 @@ export class Position {
             currentSum = MathExtensions.round(this.consumptions.reduce((sum, current) => sum + current.amount, 0), 2);
             ++index;
         }
-    }
-
-    recalculateAmountWithDiscount(amountWithoutDiscount: number, discount: number) {
-        let multiplier = 1 - discount / 100;
-        this.amount = MathExtensions.round(amountWithoutDiscount * multiplier, 2);
-    }
-
-    recalculateConsumptionsWithDiscount(discountInPercent: number): void {
-        if (!this.consumptions || this.consumptions.length == 0)
-            return;
-
-        let multiplier = 1 - discountInPercent / 100;
-
-        this.consumptions.forEach(consumption => {
-            consumption.amount = MathExtensions.round(consumption.amount * multiplier, 2);
-        });
-    }
-
-    rollbackConsumptionsWithDiscount(discountInPercent: number): void {
-        if (!this.consumptions || this.consumptions.length == 0)
-            return;
-
-        let multiplier = 1 - discountInPercent / 100;
-
-        this.consumptions.forEach(consumption => {
-            consumption.amount = MathExtensions.round(consumption.amount / multiplier, 2);
-        });
     }
 
     isEqualConsumptions(): boolean {

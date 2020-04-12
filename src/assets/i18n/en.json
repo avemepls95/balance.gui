@@ -86,7 +86,9 @@
     "processedStatus": "Processed",
     "discount": {
       "discount": "Discount",
-      "discountInPercent": "Discount value",
+      "value": "Value",
+      "percent": "Percent",
+      "rubles": "Rubles",
       "applyDiscount": "Apply discount"
     }
   },
