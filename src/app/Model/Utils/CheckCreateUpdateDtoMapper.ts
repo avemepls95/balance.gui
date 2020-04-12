@@ -16,7 +16,7 @@ export class CheckCreateUpdateDtoMapper {
             positions: CheckCreateUpdateDtoMapper.convertPositionToDto(check.positions),
             payments: CheckCreateUpdateDtoMapper.convertPaymentToDto(check.payments),
             discount: new DiscountDto({
-                apply: check.discount.apply,
+                type: check.discount.type,
                 value: check.discount.value
             })
         })

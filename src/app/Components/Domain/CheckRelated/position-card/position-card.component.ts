@@ -16,6 +16,7 @@ import { Discount } from 'src/app/Model/Discount/discount';
 import { isUndefined } from 'util';
 import { MathExtensions } from 'src/app/Utils/MathExtensions';
 import { DiscountCalculator } from 'src/app/Model/Discount/discount-calculator';
+import { CopyUtils } from 'src/app/Utils/CopyUtils';
 
 @Component({
   selector: 'app-position-card',
@@ -52,7 +53,8 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
     @Optional() @Inject(MAT_DIALOG_DATA) public data,
     public dialog: MatDialog,
     private balanceApiService: BalanceApiService,
-    private translateHelper: TranslateHelper
+    private translateHelper: TranslateHelper,
+    private copyUtils: CopyUtils
   ) {
     data.position = new Position(data.position);
 
@@ -60,7 +62,7 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
     this.position = data.position;
     if (data.action == 'Add')
       this.position.internalId = data.newInternalId;
-      
+
     this.action = data.action;
     this.checkDiscount = data.discount;
     this.position.applyDiscount = data.position.applyDiscount && data.discount.apply;
@@ -77,7 +79,7 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
   }
 
   ngOnInit(): void {
-    this.equalConsumptions = this.action == 'Add' ? true: this.position.isEqualConsumptions();
+    this.equalConsumptions = this.action == 'Add' ? true : this.position.isEqualConsumptions();
 
     this.fillAmounts()
 
@@ -116,9 +118,7 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
       return;
     }
 
-    const multiplier = 1 - this.checkDiscount.value / 100;
-
-    this.position.amountWithoutDiscount = MathExtensions.round(this.position.amount / multiplier, 2);
+    this.discountCalculator.recalculatePositionAmountWithoutDiscount(this.position);
   }
 
   applyPredefinedUsers(users: User[]): void {
@@ -134,6 +134,11 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
     if (this.equalConsumptions) {
       this.position.recalculateEqualConsumptions();
     }
+
+    // Если окно трат не было открыто, то amountWithoutDiscount у них не заполнилось.
+    // Но это поле нужно для расчета всего чека после закрытия и в случае изменения скидки
+    if (!this.position.consumptions[0].amountWithoutDiscount)
+      this.discountCalculator.recalculateConsumptionsWithoutDiscount(this.position);
 
     this.dialogRef.close({ event: this.action, data: this.position });
   }
@@ -219,12 +224,14 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
 
   openConsumptionCard(action: string) {
     let data = {
-      obj: this.position.consumptions ? this.position.consumptions.map(c => Object.assign({}, c)) : [],
+      position: this.copyUtils.deepCopy(this.position),
+      // obj: this.position.consumptions ? this.position.consumptions.map(c => Object.assign({}, c)) : [],
       action: action,
       discountInfo: {
         apply: this.position.applyDiscount,
         value: this.checkDiscount.value
-      } 
+      },
+      discountCalculator: this.discountCalculator
     }
 
     let autofocus = this.position.consumptions && this.position.consumptions.length == 0;
@@ -237,10 +244,13 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
 
     dialogRef.afterClosed().subscribe(result => {
       let consumptions = this.position.consumptions;
+
+      if (!consumptions || consumptions.length == 0 || consumptions.length == 1 ||
+        this.position.isEqualConsumptions()) {
+        this.equalConsumptions = true;
+      }
+      
       if (result.event == 'Cancel') {
-        if (!consumptions || consumptions.length == 0 || consumptions.length == 1 ||
-          this.position.isEqualConsumptions())
-          this.equalConsumptions = true;
         return;
       }
 
@@ -263,12 +273,12 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
   applyDiscountValueChanged(event) {
     if (event.checked) {
       this.discountCalculator.recalculatePosition(this.position);
-  } else {
+    } else {
       this.position.amount = this.position.amountWithoutDiscount;
       this.discountCalculator.rollbackConsumptionsWithDiscount(this.position);
     }
 
-    if (this.equalConsumptions){
+    if (this.equalConsumptions) {
       this.position.recalculateEqualConsumptions();
     }
   }

@@ -21,10 +21,9 @@ export class CheckGetDtoMapper {
             createdAt: new Date(checkDto.createdAt),
             roles: checkDto.roles,
             discount: new Discount({
-                // apply: checkDto.discount.apply,
-                // value: checkDto.discount.apply ? checkDto.discount.value : 0
-                apply: true,
-                value: 20
+                apply: checkDto.discount.value != 0,
+                type: checkDto.discount.type,
+                value: checkDto.discount.value
             })
         })
     }
@@ -39,8 +38,7 @@ export class CheckGetDtoMapper {
                     user: c.user
                 })
             ),
-            // applyDiscount: p.applyDiscount
-            applyDiscount: true
+            applyDiscount: p.applyDiscount
         }));
     }
 

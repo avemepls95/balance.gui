@@ -1,10 +1,12 @@
+import { DISCOUNT_TYPE } from '../Discount/discount-type.enum';
+
 export class DiscountDto {
-    apply: boolean;
+    type: DISCOUNT_TYPE;
     value: number;
 
     public constructor(
         fields?: {
-            apply?: boolean,
+            type?: DISCOUNT_TYPE,
             value?: number
         }) {
         if (fields)

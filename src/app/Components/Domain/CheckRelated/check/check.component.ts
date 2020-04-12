@@ -78,8 +78,11 @@ export class CheckComponent implements OnInit, OnDestroy {
     let state = this.router.getCurrentNavigation().extras.state;
     if (!isNullOrUndefined(state)) {
       this.mode = 'editing';
+      this.discountCalculator = state.check.discount.type == DISCOUNT_TYPE.PERCENT ?
+        new DiscountPercentCalculator() : new DiscountAbsCalculator();
       this.setCurrentCheck(state.check);
-    }
+      this.discountCalculator.recalculateCheckWithoutDiscount();
+  }
     else {
       this.setCurrentCheck(new Check());
     }
@@ -108,7 +111,10 @@ export class CheckComponent implements OnInit, OnDestroy {
                 internalId = 0;
                 tmp.payments.forEach(payment => payment.internalId = ++internalId);
 
+                this.discountCalculator = tmp.discount.type == DISCOUNT_TYPE.PERCENT ?
+                  new DiscountPercentCalculator() : new DiscountAbsCalculator();
                 this.setCurrentCheck(tmp);
+                this.discountCalculator.recalculateCheckWithoutDiscount();
 
                 this.positionsDataSource = new MatTableDataSource(this.check.positions);
                 this.paymentsDataSource = new MatTableDataSource(this.check.payments);
@@ -157,6 +163,9 @@ export class CheckComponent implements OnInit, OnDestroy {
       } else if (result.event == 'Delete') {
         this.deletePosition(result.data);
       }
+
+      if (result.event != 'Cancel' && this.check.discount.apply)
+        this.discountCalculator.recalculateCheckWithDiscount();
     });
   }
 
@@ -166,7 +175,8 @@ export class CheckComponent implements OnInit, OnDestroy {
       title: position.title,
       amount: position.amount,
       consumptions: position.consumptions,
-      applyDiscount: position.applyDiscount
+      applyDiscount: position.applyDiscount,
+      amountWithoutDiscount: position.amountWithoutDiscount
     }));
 
     this.positionsDataSource.data = this.check.positions;
@@ -368,7 +378,7 @@ export class CheckComponent implements OnInit, OnDestroy {
     this.unmodifiedCheck = this.copyUtils.deepCopy(check);
     this.permissionsResolver.setPermissionsObject(check);
     this.hasEditPermissions = this.permissionsResolver.canEdit();
-
+    
     this.updateColumns();
   }
 
@@ -411,17 +421,34 @@ export class CheckComponent implements OnInit, OnDestroy {
     return status;
   }
 
+  onDiscountApplyChange(event): void {
+    if (!event.checked) {
+      this.check.discount.value = 0;
+      this.discountCalculator.recalculateCheckWithDiscount();
+
+      return;
+    }
+  }
+
   onDiscountValueChange(event): void {
     var result = +event.target.value;
-    
+
     this.discountCalculator.setDiscountValue(result);
     this.discountCalculator.recalculateCheckWithDiscount();
 
     if (result == 0)
       this.check.discount.apply = false;
   }
-  
+
   onDiscountTypeChange(event: MatRadioChange): void {
     this.check.discount.type = event.value as DISCOUNT_TYPE;
+    this.discountCalculator = this.check.discount.type == DISCOUNT_TYPE.PERCENT ?
+        new DiscountPercentCalculator() : new DiscountAbsCalculator();
+    this.discountCalculator.setCheck(this.check);
+
+    if (this.check.discount.value == 0)
+      return;
+
+    this.discountCalculator.recalculateCheckWithDiscount();
   }
 }

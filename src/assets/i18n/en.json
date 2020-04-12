@@ -89,7 +89,8 @@
       "value": "Value",
       "percent": "Percent",
       "rubles": "Rubles",
-      "applyDiscount": "Apply discount"
+      "applyDiscount": "Apply discount",
+      "withDiscount": "With discount"
     }
   },
   "transfer": {

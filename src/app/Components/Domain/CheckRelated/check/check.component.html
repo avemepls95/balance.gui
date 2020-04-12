@@ -36,18 +36,18 @@
     <!-- Discount -->
     <mat-card class="discount-card">
       <div class="w-100 flex discount-wrap">
-        <mat-checkbox [(ngModel)]="check.discount.apply" class="discount-check">
+        <mat-checkbox (change)="onDiscountApplyChange($event)" [(ngModel)]="check.discount.apply" class="discount-check">
           <span [translate]="'check.discount.discount'"></span>
         </mat-checkbox>
 
         <mat-radio-group (change)="onDiscountTypeChange($event)" class="discount-type"
           [disabled]="!check.discount.apply">
-          <mat-radio-button value="DISCOUNT_TYPE.PERCENT" [checked]="check.discount.type == 0">
+          <mat-radio-button value="0" [checked]="check.discount.type == 0">
             <span>
               <span [translate]="'check.discount.percent'"></span>
             </span>
           </mat-radio-button>
-          <mat-radio-button value="DISCOUNT_TYPE.ABSOLUTE" [checked]="check.discount.type == 1">
+          <mat-radio-button value="1" [checked]="check.discount.type == 1">
             <span [translate]="'check.discount.rubles'"></span>
           </mat-radio-button>
         </mat-radio-group>

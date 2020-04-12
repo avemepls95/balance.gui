@@ -89,7 +89,8 @@
       "value": "Размер",
       "percent": "Процент",
       "rubles": "Рубли",
-      "applyDiscount": "Применить скидку"
+      "applyDiscount": "Применить скидку",
+      "withDiscount": "Со скидкой"
     }
   },
   "transfer": {

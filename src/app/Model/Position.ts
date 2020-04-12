@@ -18,7 +18,8 @@ export class Position {
             amount?: number,
             title?: string,
             consumptions?: Consumption[],
-            applyDiscount?: boolean
+            applyDiscount?: boolean,
+            amountWithoutDiscount?: number
         }) {
         if (fields)
             Object.assign(this, fields);
