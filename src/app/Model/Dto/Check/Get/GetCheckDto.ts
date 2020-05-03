@@ -1,6 +1,6 @@
 import { GetPositionDto } from './GetPositionDto';
 import { GetPaymentDto } from './GetPaymentDto';
-import { DiscountDto } from '../../DiscountDto';
+import { CheckDiscountDto } from '../check-discount-dto';
 
 export class GetCheckDto {
     id: number;
@@ -11,7 +11,7 @@ export class GetCheckDto {
     payments: GetPaymentDto[] = [];
     createdAt: Date;
     roles: string[];
-    discount: DiscountDto;
+    discount: CheckDiscountDto;
 
     public constructor(
         fields?: {
@@ -22,7 +22,8 @@ export class GetCheckDto {
             positions?: GetPositionDto[],
             payments?: GetPaymentDto[],
             createdAt?: Date,
-            roles?: string[]
+            roles?: string[],
+            discount? : CheckDiscountDto
         }) {
         if (fields) Object.assign(this, fields);
     }

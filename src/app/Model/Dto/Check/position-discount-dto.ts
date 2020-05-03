@@ -1,12 +1,10 @@
-import { DISCOUNT_TYPE } from '../Discount/discount-type.enum';
-
-export class DiscountDto {
-    type: DISCOUNT_TYPE;
+export class PositionDiscountDto {
+    type: string;
     value: number;
 
     public constructor(
         fields?: {
-            type?: DISCOUNT_TYPE,
+            type?: string,
             value?: number
         }) {
         if (fields)

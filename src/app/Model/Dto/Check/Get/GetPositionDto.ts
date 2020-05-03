@@ -1,17 +1,19 @@
 import { GetConsumptionDto } from './GetConsumptionDto';
+import { PositionDiscountDto } from '../position-discount-dto';
 
 export class GetPositionDto {
     amount: number;
     title: string;
     consumptions: GetConsumptionDto[];
-    applyDiscount: boolean;
+    discount: PositionDiscountDto
 
     public constructor(
         fields?: {
             amount?: number,
             title?: string,
             consumptions?: GetConsumptionDto[],
-            applyDiscount?: boolean
+            applyDiscount?: boolean,
+            discount?: PositionDiscountDto
         }) 
     {
         if (fields)

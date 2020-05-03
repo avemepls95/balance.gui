@@ -1,13 +1,13 @@
 import { CreateUpdatePaymentDto } from './CreateUpdatePaymentDto';
 import { CreateUpdatePositionDto } from './CreateUpdatePositionDto';
-import { DiscountDto } from '../../DiscountDto';
+import { CheckDiscountDto } from '../check-discount-dto';
 
 export class CreateUpdateCheckDto {
     id: number;
     title: string;
     positions: CreateUpdatePositionDto[] = [];
     payments: CreateUpdatePaymentDto[] = [];
-    discount: DiscountDto;
+    discount: CheckDiscountDto;
 
     public constructor(
         fields?: {
@@ -15,7 +15,7 @@ export class CreateUpdateCheckDto {
             title?: string,
             positions?: CreateUpdatePositionDto[],
             payments?: CreateUpdatePaymentDto[],
-            discount?: DiscountDto
+            discount?: CheckDiscountDto
         }) {
         if (fields) Object.assign(this, fields);
     }

@@ -7,6 +7,8 @@ import { GetPositionDto } from '../Dto/Check/Get/GetPositionDto';
 import { GetPaymentDto } from '../Dto/Check/Get/GetPaymentDto';
 import { Consumption } from '../Consumption';
 import { Discount } from '../Discount/discount';
+import { DiscountTypeDtoMapper } from './DiscountDtoMapper';
+import { DISCOUNT_TYPE_DTO } from '../Dto/Check/discount-type-dto.enum';
 
 export class CheckGetDtoMapper {
 
@@ -20,11 +22,11 @@ export class CheckGetDtoMapper {
             payments: CheckGetDtoMapper.convertDtoToPayment(checkDto.payments),
             createdAt: new Date(checkDto.createdAt),
             roles: checkDto.roles,
-            discount: new Discount({
+            discount: checkDto.discount ? new Discount({
                 apply: checkDto.discount.value != 0,
-                type: checkDto.discount.type,
+                type: DiscountTypeDtoMapper.convertDtoToType(DISCOUNT_TYPE_DTO[checkDto.discount.type]),
                 value: checkDto.discount.value
-            })
+            }) : null
         })
     }
 
@@ -38,7 +40,7 @@ export class CheckGetDtoMapper {
                     user: c.user
                 })
             ),
-            applyDiscount: p.applyDiscount
+            applyDiscount: !!p.discount && p.discount.value > 0
         }));
     }
 
