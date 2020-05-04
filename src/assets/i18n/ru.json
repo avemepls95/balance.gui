@@ -83,7 +83,15 @@
     "noChanges": "Нет изменений",
     "delete": "Удалить чек",
     "editingStatus": "В работе",
-    "processedStatus": "Обработан"
+    "processedStatus": "Обработан",
+    "discount": {
+      "discount": "Скидка",
+      "value": "Размер",
+      "percent": "Процент",
+      "rubles": "Рубли",
+      "applyDiscount": "Применить скидку",
+      "withDiscount": "Со скидкой"
+    }
   },
   "transfer": {
     "register": "ОК",

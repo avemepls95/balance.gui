@@ -103,6 +103,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
         color: black;
     }
 
+.position-dialog {
+    overflow: hidden !important;
+}
 .position-dialog .mat-form-field-wrapper,
 .position-dialog .mat-form-field-type-mat-chip-list,
 .position-dialog .mat-form-field-type-mat-input {
@@ -136,6 +139,22 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     font-size: 14px;
 }
 
-.width-100-percents {
-    width: 100%;
+.w-100 {
+    width: 100% !important;
+}
+
+.w-48 {
+    width: 48% !important;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }

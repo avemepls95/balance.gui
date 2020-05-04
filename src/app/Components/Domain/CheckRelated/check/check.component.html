@@ -21,17 +21,44 @@
     </div>
   </mat-card-header>
   <mat-card-content>
-    <mat-form-field class="width-100-percents">
+    <mat-form-field class="w-100">
       <input matInput [(ngModel)]="check.title" placeholder="{{ 'check.title' | translate }}"
         [formControl]="titleFormControl" [errorStateMatcher]="matcher" [readonly]="!canEdit()">
       <mat-error *ngIf="titleFormControl.hasError('required')" [translate]="'common.fieldRequired'">
       </mat-error>
     </mat-form-field>
 
-    <mat-form-field class="width-100-percents" *ngIf="mode == 'editing'">
+    <mat-form-field class="w-100" *ngIf="mode == 'editing'">
       <input matInput placeholder="{{ 'check.createdAt' | translate }}"
         value="{{check.createdAt | date:'dd.MM.yyyy HH:mm'}}" [readonly]="true">
     </mat-form-field>
+
+    <!-- Discount -->
+    <mat-card class="discount-card">
+      <div class="w-100 flex discount-wrap">
+        <mat-checkbox (change)="onDiscountApplyChange($event)" [(ngModel)]="check.discount.apply" class="discount-check">
+          <span [translate]="'check.discount.discount'"></span>
+        </mat-checkbox>
+
+        <mat-radio-group (change)="onDiscountTypeChange($event)" class="discount-type"
+          [disabled]="!check.discount.apply">
+          <mat-radio-button value="0" [checked]="check.discount.type == 0">
+            <span>
+              <span [translate]="'check.discount.percent'"></span>
+            </span>
+          </mat-radio-button>
+          <mat-radio-button value="1" [checked]="check.discount.type == 1">
+            <span [translate]="'check.discount.rubles'"></span>
+          </mat-radio-button>
+        </mat-radio-group>
+
+        <mat-form-field class="discount-checkbox">
+          <input matInput type="number" (change)="onDiscountValueChange($event)" (focus)="old=check.discount.value"
+            [placeholder]="'check.discount.value' | translate" [disabled]="!check.discount.apply"
+            [(ngModel)]="check.discount.value">
+        </mat-form-field>
+      </div>
+    </mat-card>
 
     <!-- Position table -->
     <div class="container positions-block">

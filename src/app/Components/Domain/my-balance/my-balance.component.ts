@@ -15,6 +15,7 @@ import { SnackbarService } from 'src/app/Services/snackbar.service';
 import { TransferDto } from 'src/app/Model/Dto/TransferDto';
 import { UUID } from 'angular2-uuid';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MathExtensions } from 'src/app/Utils/MathExtensions';
 
 @Component({
   selector: 'app-my-balance',
@@ -82,7 +83,7 @@ export class MyBalanceComponent implements OnInit {
       return this.totalAmount;
 
     let result = this.dataSource.filteredData.reduce((sum, current) => sum + current.amount, 0);
-    return Math.floor(result * 100) / 100;
+    return MathExtensions.floor(result, 2);
   }
 
   openTransferCard(debt: Debt) {

@@ -10,6 +10,10 @@ import { EMPTY } from 'rxjs';
 import { BalanceApiService } from 'src/app/Services/balance-api.service';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { TranslateHelper } from 'src/app/Utils/TranslateHelper';
+import { MathExtensions } from 'src/app/Utils/MathExtensions';
+import { DiscountCalculator } from 'src/app/Model/Discount/discount-calculator';
+import { Position } from 'src/app/Model/Position';
+import { DISCOUNT_TYPE } from 'src/app/Model/Discount/discount-type.enum';
 
 @Component({
   selector: 'app-consumptions',
@@ -19,7 +23,10 @@ import { TranslateHelper } from 'src/app/Utils/TranslateHelper';
 export class ConsumptionsCardComponent implements AfterContentInit {
 
   action: string;
+  position: Position;
   consumptions: Consumption[] = [];
+  discountInfo: any;
+  discountCalculator: DiscountCalculator;
 
   filteredUsers: User[];
   isLoading = false;
@@ -40,15 +47,20 @@ export class ConsumptionsCardComponent implements AfterContentInit {
     private balanceApiService: BalanceApiService,
     private translateHelper: TranslateHelper
   ) {
-    this.consumptions = data.obj;
+    this.position = data.position
+    this.consumptions = data.position.consumptions;
     this.userControlCounter = this.consumptions.length;
     this.action = data.action;
+    this.discountInfo = data.discountInfo;
     this.searchResultEmptyMessage = this.translateHelper.getValue('check.searchResultsEmpty');
+    this.discountCalculator = data.discountCalculator;
 
     this.myForm = new FormGroup({});
     for (let i = 0; i < this.consumptions.length; ++i) {
       this.addUserControl(i);
     }
+
+    this.fillAmountsWithoutDiscount()
   }
 
   ngAfterContentInit(): void {
@@ -63,6 +75,18 @@ export class ConsumptionsCardComponent implements AfterContentInit {
         elem.value = this.consumptions[i].user.username;
       }
     }, 0);
+  }
+
+  fillAmountsWithoutDiscount(): void {
+    if (!this.discountInfo.apply) {
+      this.consumptions.forEach(consumption => {
+        consumption.amountWithoutDiscount = consumption.amount;
+      });
+
+      return;
+    }
+
+    this.discountCalculator.recalculateConsumptionsWithoutDiscount(this.position);
   }
 
   addUserControl(number: number): void {
@@ -167,5 +191,22 @@ export class ConsumptionsCardComponent implements AfterContentInit {
     }
 
     return true;
+  }
+
+  onAmountWithoutDiscountChanged(consumption: Consumption): void {
+    if (!this.discountInfo.apply) {
+      consumption.amount = consumption.amountWithoutDiscount;
+      return;
+    }
+
+    const discountType = this.discountCalculator.getDiscountType();
+    if (discountType == DISCOUNT_TYPE.PERCENT) {
+      const multiplier = 1 - this.discountInfo.value / 100;
+      consumption.amount = consumption.amountWithoutDiscount * multiplier;
+
+      return;
+    }
+
+    this.discountCalculator.recalculateConsumptionsWithDiscount(this.position);
   }
 }

@@ -1,5 +1,8 @@
 import { Payment } from './Payment';
 import { Position } from 'src/app/Model/Position';
+import { Discount } from './Discount/discount';
+import { MathExtensions } from '../Utils/MathExtensions';
+import { DISCOUNT_TYPE } from './Discount/discount-type.enum';
 
 export class Check {
     id: number;
@@ -10,6 +13,7 @@ export class Check {
     payments: Payment[] = [];
     createdAt: Date;
     roles: string[];
+    discount: Discount = new Discount();
 
     public constructor(
         fields?: {
@@ -20,7 +24,8 @@ export class Check {
             positions?: Position[],
             payments?: Payment[],
             createdAt?: Date,
-            roles?: string[];
+            roles?: string[],
+            discount: Discount;
         }) {
         if (fields) Object.assign(this, fields);
     }

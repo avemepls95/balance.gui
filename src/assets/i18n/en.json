@@ -83,7 +83,15 @@
     "noChanges": "There are no changes",
     "delete": "Delete check",
     "editingStatus": "In work",
-    "processedStatus": "Processed"
+    "processedStatus": "Processed",
+    "discount": {
+      "discount": "Discount",
+      "value": "Value",
+      "percent": "Percent",
+      "rubles": "Rubles",
+      "applyDiscount": "Apply discount",
+      "withDiscount": "With discount"
+    }
   },
   "transfer": {
     "register": "Register",

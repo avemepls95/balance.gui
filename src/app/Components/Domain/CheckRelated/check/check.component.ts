@@ -9,7 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PaymentCardComponent } from '../payment-card/payment-card.component';
 import { Check } from 'src/app/Model/Check';
-import { isNullOrUndefined } from 'util';
+import { isNullOrUndefined, isNumber } from 'util';
 import { BalanceApiService } from 'src/app/Services/balance-api.service';
 import { finalize, take } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -25,11 +25,17 @@ import { CopyUtils } from 'src/app/Utils/CopyUtils';
 import { CheckPermissionsResolver } from 'src/app/Model/Utils/CheckPermissionsResolver';
 import { TableUtils } from 'src/app/ControlLayer/Utils/TableUtils';
 import { CHECK_STATE as CHECK_STATE } from 'src/app/Model/check-state.enum';
+import { MathExtensions } from 'src/app/Utils/MathExtensions';
+import { MatRadioChange } from '@angular/material/radio';
+import { DISCOUNT_TYPE } from 'src/app/Model/Discount/discount-type.enum';
+import { DiscountCalculator } from 'src/app/Model/Discount/discount-calculator';
+import { DiscountPercentCalculator } from 'src/app/Model/Discount/discount-percent-calculator';
+import { DiscountAbsCalculator } from 'src/app/Model/Discount/discount-abs-calculator';
 
 @Component({
   selector: 'app-check',
   templateUrl: './check.component.html',
-  styleUrls: ['./check.component.css'],
+  styleUrls: ['./check.component.css']
 })
 export class CheckComponent implements OnInit, OnDestroy {
   titleFormControl = new FormControl('', [Validators.required]);
@@ -44,6 +50,10 @@ export class CheckComponent implements OnInit, OnDestroy {
 
   unmodifiedCheck: Check;
   check: Check;
+  CHECK_STATE = CHECK_STATE;
+  DISCOUNT_TYPE: DISCOUNT_TYPE;
+  discountCalculator: DiscountCalculator = new DiscountAbsCalculator();
+  // discountCalculator: DiscountCalculator = new DiscountPercentCalculator();
 
   mode: string = 'creating';
 
@@ -51,8 +61,6 @@ export class CheckComponent implements OnInit, OnDestroy {
   hasEditPermissions: boolean;
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
-
-  CHECK_STATE = CHECK_STATE;
 
   constructor(
     public dialog: MatDialog,
@@ -70,8 +78,11 @@ export class CheckComponent implements OnInit, OnDestroy {
     let state = this.router.getCurrentNavigation().extras.state;
     if (!isNullOrUndefined(state)) {
       this.mode = 'editing';
+      this.discountCalculator = state.check.discount.type == DISCOUNT_TYPE.PERCENT ?
+        new DiscountPercentCalculator() : new DiscountAbsCalculator();
       this.setCurrentCheck(state.check);
-    }
+      this.discountCalculator.recalculateCheckWithoutDiscount();
+  }
     else {
       this.setCurrentCheck(new Check());
     }
@@ -94,13 +105,16 @@ export class CheckComponent implements OnInit, OnDestroy {
             .subscribe(
               result => {
                 var tmp = CheckGetDtoMapper.convertDtoToCheck(result.data);
-                
+
                 let internalId = 0;
                 tmp.positions.forEach(position => position.internalId = ++internalId);
                 internalId = 0;
                 tmp.payments.forEach(payment => payment.internalId = ++internalId);
 
+                this.discountCalculator = tmp.discount.type == DISCOUNT_TYPE.PERCENT ?
+                  new DiscountPercentCalculator() : new DiscountAbsCalculator();
                 this.setCurrentCheck(tmp);
+                this.discountCalculator.recalculateCheckWithoutDiscount();
 
                 this.positionsDataSource = new MatTableDataSource(this.check.positions);
                 this.paymentsDataSource = new MatTableDataSource(this.check.payments);
@@ -126,10 +140,13 @@ export class CheckComponent implements OnInit, OnDestroy {
     let data = {
       action: action,
       position: this.copyUtils.deepCopy(position),
+      discount: this.check.discount,
+      discountCalculator: this.discountCalculator,
+      newInternalId: this.check.positions.length + 1
     }
 
     if (this.check.positions.length != 0) {
-      data['predefinedUsers'] = 
+      data['predefinedUsers'] =
         this.check.positions[this.check.positions.length - 1].consumptions.map(c => c.user)
     }
 
@@ -146,15 +163,20 @@ export class CheckComponent implements OnInit, OnDestroy {
       } else if (result.event == 'Delete') {
         this.deletePosition(result.data);
       }
+
+      if (result.event != 'Cancel' && this.check.discount.apply)
+        this.discountCalculator.recalculateCheckWithDiscount();
     });
   }
 
-  addPosition(data: Position) {
+  addPosition(position: Position) {
     this.check.positions.push(new Position({
-      internalId: this.check.positions.length + 1,
-      title: data.title,
-      amount: data.amount,
-      consumptions: data.consumptions
+      internalId: position.internalId,
+      title: position.title,
+      amount: position.amount,
+      consumptions: position.consumptions,
+      applyDiscount: position.applyDiscount,
+      amountWithoutDiscount: position.amountWithoutDiscount
     }));
 
     this.positionsDataSource.data = this.check.positions;
@@ -347,15 +369,16 @@ export class CheckComponent implements OnInit, OnDestroy {
     let amounts = this.check.positions.map(t => +t.amount);
     let totalAmount = amounts.reduce((acc, value) => acc + value, 0);
 
-    return Math.round(totalAmount * 100) / 100;
+    return MathExtensions.round(totalAmount, 2);
   }
 
   setCurrentCheck(check: Check): void {
     this.check = check;
+    this.discountCalculator.setCheck(check);
     this.unmodifiedCheck = this.copyUtils.deepCopy(check);
     this.permissionsResolver.setPermissionsObject(check);
     this.hasEditPermissions = this.permissionsResolver.canEdit();
-
+    
     this.updateColumns();
   }
 
@@ -396,5 +419,36 @@ export class CheckComponent implements OnInit, OnDestroy {
       this.translateHelper.getValue('check.processedStatus')
 
     return status;
+  }
+
+  onDiscountApplyChange(event): void {
+    if (!event.checked) {
+      this.check.discount.value = 0;
+      this.discountCalculator.recalculateCheckWithDiscount();
+
+      return;
+    }
+  }
+
+  onDiscountValueChange(event): void {
+    var result = +event.target.value;
+
+    this.discountCalculator.setDiscountValue(result);
+    this.discountCalculator.recalculateCheckWithDiscount();
+
+    if (result == 0)
+      this.check.discount.apply = false;
+  }
+
+  onDiscountTypeChange(event: MatRadioChange): void {
+    this.check.discount.type = event.value as DISCOUNT_TYPE;
+    this.discountCalculator = this.check.discount.type == DISCOUNT_TYPE.PERCENT ?
+        new DiscountPercentCalculator() : new DiscountAbsCalculator();
+    this.discountCalculator.setCheck(this.check);
+
+    if (this.check.discount.value == 0)
+      return;
+
+    this.discountCalculator.recalculateCheckWithDiscount();
   }
 }

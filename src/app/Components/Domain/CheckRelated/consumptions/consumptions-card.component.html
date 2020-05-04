@@ -29,8 +29,13 @@
                     </ng-container>
                 </div>
                 <mat-form-field>
-                    <input matInput required DigitOnly="true" placeholder="{{ 'check.amount' | translate }}"
-                        [readonly]="action == 'View'" [(ngModel)]="consumption.amount"
+                    <input matInput required type="number" Mask="^\d*\.?\d{0,2}$" placeholder="{{ 'check.amount' | translate }}"
+                        [readonly]="action == 'View'" [(ngModel)]="consumption.amountWithoutDiscount"
+                        (change)="onAmountWithoutDiscountChanged(consumption)" [ngModelOptions]="{standalone: true}">
+                </mat-form-field>
+
+                <mat-form-field *ngIf="discountInfo.apply">
+                    <input matInput placeholder="alala" [(ngModel)]="consumption.amount" [disabled]="true"
                         [ngModelOptions]="{standalone: true}">
                 </mat-form-field>
 
@@ -41,7 +46,7 @@
             </button>
         </div>
     </mat-card>
-    <button class="width-100-percents" mat-button (click)="addEmptyConsumption()" mat-flat-button color="primary"
+    <button class="w-100" mat-button (click)="addEmptyConsumption()" mat-flat-button color="primary"
         matTooltip="{{ 'check.addConsumption' | translate }}" [disabled]="!canAdd()">
         + <span [translate]="'check.consumption'"></span>
     </button>
