@@ -6,9 +6,9 @@ import { CreateUpdateConsumptionDto } from '../Dto/Check/CreateUpdate/CreateUpda
 import { CreateUpdatePaymentDto } from '../Dto/Check/CreateUpdate/CreateUpdatePaymentDto';
 import { PositionDiscountDto } from '../Dto/Check/position-discount-dto';
 import { POSITION_DISCOUNT_TYPE_DTO } from '../Dto/Check/position-discount-type-dto';
-import { DiscountTypeDtoMapper } from './DiscountDtoMapper';
 import { DISCOUNT_TYPE_DTO } from '../Dto/Check/discount-type-dto.enum';
 import { CheckDiscountDto } from '../Dto/Check/check-discount-dto';
+import { DISCOUNT_TYPE } from '../Discount/discount-type.enum';
 
 export class CheckCreateUpdateDtoMapper {
 
@@ -19,7 +19,7 @@ export class CheckCreateUpdateDtoMapper {
             positions: CheckCreateUpdateDtoMapper.convertPositionToDto(check),
             payments: CheckCreateUpdateDtoMapper.convertPaymentToDto(check.payments),
             discount: new CheckDiscountDto({
-                type: DISCOUNT_TYPE_DTO[DiscountTypeDtoMapper.convertTypeToDto(check.discount.type)],
+                type: DISCOUNT_TYPE_DTO[this.convertDiscountTypeToDto(check.discount.type)],
                 value: check.discount.value
             })
         })
@@ -36,7 +36,7 @@ export class CheckCreateUpdateDtoMapper {
             applyDiscount: p.applyDiscount,
             discount: new PositionDiscountDto({
                 type: POSITION_DISCOUNT_TYPE_DTO[POSITION_DISCOUNT_TYPE_DTO.INHERITED],
-                value: check.discount.value
+                value: p.applyDiscount ? check.discount.value : null
             })
         }));
     }
@@ -46,5 +46,10 @@ export class CheckCreateUpdateDtoMapper {
             amount: p.amount,
             userId: p.user.id
         }));
+    }
+
+    static convertDiscountTypeToDto(discountType: DISCOUNT_TYPE): DISCOUNT_TYPE_DTO {
+        return discountType == DISCOUNT_TYPE.ABSOLUTE ?
+            DISCOUNT_TYPE_DTO.ABSOLUTE : DISCOUNT_TYPE_DTO.RELATIVE;
     }
 }

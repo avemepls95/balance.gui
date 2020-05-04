@@ -31,6 +31,7 @@ import { DISCOUNT_TYPE } from 'src/app/Model/Discount/discount-type.enum';
 import { DiscountCalculator } from 'src/app/Model/Discount/discount-calculator';
 import { DiscountPercentCalculator } from 'src/app/Model/Discount/discount-percent-calculator';
 import { DiscountAbsCalculator } from 'src/app/Model/Discount/discount-abs-calculator';
+import { Discount } from 'src/app/Model/Discount/discount';
 
 @Component({
   selector: 'app-check',
@@ -113,6 +114,7 @@ export class CheckComponent implements OnInit, OnDestroy {
 
                 this.discountCalculator = tmp.discount.type == DISCOUNT_TYPE.PERCENT ?
                   new DiscountPercentCalculator() : new DiscountAbsCalculator();
+
                 this.setCurrentCheck(tmp);
                 this.discountCalculator.recalculateCheckWithoutDiscount();
 
@@ -134,6 +136,11 @@ export class CheckComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.snackbar.ngOnDestroy();
+  }
+
+  initDiscount(discount: Discount) {
+    if (!discount)
+      this
   }
 
   openPositionCard(action, position) {

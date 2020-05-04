@@ -7,8 +7,9 @@ import { GetPositionDto } from '../Dto/Check/Get/GetPositionDto';
 import { GetPaymentDto } from '../Dto/Check/Get/GetPaymentDto';
 import { Consumption } from '../Consumption';
 import { Discount } from '../Discount/discount';
-import { DiscountTypeDtoMapper } from './DiscountDtoMapper';
 import { DISCOUNT_TYPE_DTO } from '../Dto/Check/discount-type-dto.enum';
+import { DISCOUNT_TYPE } from '../Discount/discount-type.enum';
+import { CheckDiscountDto } from '../Dto/Check/check-discount-dto';
 
 export class CheckGetDtoMapper {
 
@@ -22,11 +23,7 @@ export class CheckGetDtoMapper {
             payments: CheckGetDtoMapper.convertDtoToPayment(checkDto.payments),
             createdAt: new Date(checkDto.createdAt),
             roles: checkDto.roles,
-            discount: checkDto.discount ? new Discount({
-                apply: checkDto.discount.value != 0,
-                type: DiscountTypeDtoMapper.convertDtoToType(DISCOUNT_TYPE_DTO[checkDto.discount.type]),
-                value: checkDto.discount.value
-            }) : null
+            discount: this.convertDtoToDiscount(checkDto.discount)
         })
     }
 
@@ -49,5 +46,22 @@ export class CheckGetDtoMapper {
             amount: p.amount,
             user: new User({ id: p.user.id, username: p.user.username })
         }))
+    }
+
+    static convertDtoToDiscount(discountDto: CheckDiscountDto) : Discount {
+        return discountDto ? new Discount({
+            apply: discountDto.value != 0,
+            type: this.convertDtoToDiscountType(DISCOUNT_TYPE_DTO[discountDto.type]),
+            value: discountDto.value
+        }) : new Discount({
+            apply: false,
+            type: DISCOUNT_TYPE.PERCENT,
+            value: 0
+        })
+    }
+
+    static convertDtoToDiscountType(discountType: DISCOUNT_TYPE_DTO): DISCOUNT_TYPE {
+        return discountType == DISCOUNT_TYPE_DTO.ABSOLUTE ?
+            DISCOUNT_TYPE.ABSOLUTE : DISCOUNT_TYPE.PERCENT;
     }
 }

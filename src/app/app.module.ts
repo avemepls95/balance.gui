@@ -38,7 +38,6 @@ import { SettingsComponent } from './Components/Common/settings/settings.compone
 import { TranslateHelper } from './Utils/TranslateHelper';
 import { MaskDirective } from './Directives/mask.directive';
 import { ResponseInterceptor } from './Interceptors/response.interceptor';
-import { CheckPermissionsResolver } from './Model/Utils/CheckPermissionsResolver';
 import { NotificationsInfoComponent } from './Components/Common/notifications-info/notifications-info.component';
 
 export function initializeApp(appConfig: AppConfig) {
@@ -46,7 +45,8 @@ export function initializeApp(appConfig: AppConfig) {
 }
 
 export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http);
+  return new TranslateHttpLoader(http, '/assets/i18n/', '.json?cacheBuster=' 
+      + new Date().getTime());
 }
 
 @NgModule({
