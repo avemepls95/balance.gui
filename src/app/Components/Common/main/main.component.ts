@@ -64,7 +64,8 @@ export class MainComponent implements OnInit {
       let transferDto = new TransferDto({
         id: UUID.UUID(),
         amount: data.amount,
-        recipientId: data.user.id
+        recipientId: data.user.id,
+        description: data.description
       });
 
       this.loaderService.show();

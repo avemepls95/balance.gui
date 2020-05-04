@@ -6,7 +6,7 @@
             <mat-card-content>
                 <div>
                     <mat-form-field>
-                        <input matInput id="user-input-{{i}}" placeholder="{{ 'check.search' | translate }}"
+                        <input matInput id="user-input-{{i}}" placeholder="{{ 'check.searchUser' | translate }}"
                             [matAutocomplete]="auto" formControlName="userControl{{i}}" [readonly]="action == 'View'">
                         <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn"
                             (optionSelected)="selectedUser($event, consumption)">

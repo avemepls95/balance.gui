@@ -10,7 +10,7 @@
 
         <div>
             <mat-form-field>
-                <input matInput #userInput placeholder="{{ 'check.search' | translate }}" [matAutocomplete]="auto" [formControl]="searchUserCtrl"
+                <input matInput #userInput placeholder="{{ 'check.searchUser' | translate }}" [matAutocomplete]="auto" [formControl]="searchUserCtrl"
                     (ngModelChange)="onUserInputTextChange($event)" [readonly]="action == 'View'">
                 <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn"
                     (optionSelected)="selectedUser($event)">

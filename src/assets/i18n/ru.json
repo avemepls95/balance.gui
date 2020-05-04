@@ -67,7 +67,7 @@
     "editPayment": "Редактировать Платеж",
     "deletePayment": "Удалить Платеж",
     "searchUsers": "Поиск людей...",
-    "search": "Поиск",
+    "searchUser": "Поиск человека...",
     "process": "Обработать",
     "rollback": "Откатить",
     "positionWasAdded": "Позиция добавлена",
@@ -96,6 +96,7 @@
   "transfer": {
     "register": "ОК",
     "registerTransfer": "Перевод",
+    "description": "Описание",
     "sureToRegisterTransferTo": "Зафиксировать перевод пользователю",
     "inTheAmountOf": "в количестве"
   },

@@ -67,7 +67,7 @@
     "editPayment": "Edit Payment",
     "deletePayment": "Delete Payment",
     "searchUsers": "Search users...",
-    "search": "Search",
+    "searchUser": "Search user...",
     "process": "Process",
     "rollback": "Rollback",
     "positionWasAdded": "Position was added",
@@ -96,6 +96,7 @@
   "transfer": {
     "register": "Register",
     "registerTransfer": "Register Transfer",
+    "description": "Описание",
     "sureToRegisterTransferTo": "Sure to register transfer to",
     "inTheAmountOf": "in the amount of"
   },

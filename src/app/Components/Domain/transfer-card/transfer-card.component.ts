@@ -23,6 +23,7 @@ export class TransferCardComponent implements OnInit {
   debt: Debt;
   amount: number = 0;
   user: User;
+  description: string;
 
   isDebtMode: boolean = false;
 
@@ -105,7 +106,7 @@ export class TransferCardComponent implements OnInit {
 
       let returnObject = this.isDebtMode ?
         { amount: this.amount } :
-        { amount: this.amount, user: this.user }
+        { amount: this.amount, user: this.user, description: this.description }
 
       this.dialogRef.close(returnObject);
     });

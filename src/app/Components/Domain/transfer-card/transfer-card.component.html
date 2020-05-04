@@ -2,13 +2,14 @@
 <div mat-dialog-content class="position-dialog">
     <div>
         <mat-form-field>
-            <input matInput required DigitOnly="true" type="text" placeholder="{{ 'check.amount' | translate }}" [(ngModel)]="amount">
+            <input matInput required DigitOnly="true" type="text" placeholder="{{ 'check.amount' | translate }}"
+                [(ngModel)]="amount">
         </mat-form-field>
 
         <div *ngIf="!isDebtMode">
             <mat-form-field>
-                <input matInput #userInput placeholder="{{ 'check.search' | translate }}" [matAutocomplete]="auto" [formControl]="searchUserCtrl"
-                    (ngModelChange)="onUserInputTextChange($event)">
+                <input matInput #userInput placeholder="{{ 'check.searchUser' | translate }}" [matAutocomplete]="auto"
+                    [formControl]="searchUserCtrl" (ngModelChange)="onUserInputTextChange($event)">
                 <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn"
                     (optionSelected)="selectedUser($event)">
                     <mat-option class="is-loading" *ngIf="isLoading" [disabled]="true">
@@ -21,11 +22,16 @@
                     </ng-container>
                 </mat-autocomplete>
             </mat-form-field>
-
             <br>
             <ng-container *ngIf="errorMsg">
                 {{errorMsg}}
             </ng-container>
+
+            <mat-form-field>
+                <mat-label [translate]="'transfer.description'"></mat-label>
+                <textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="1" cdkAutosizeMaxRows="5"
+                    [(ngModel)]="description"></textarea>
+            </mat-form-field>
         </div>
     </div>
 </div>

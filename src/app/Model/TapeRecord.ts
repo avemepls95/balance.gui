@@ -1,6 +1,3 @@
-import { TapeCheckProcessedData } from './TapeCheckProcessedData';
-import { TapeTransferData } from './TapeTransferData';
-
 export class TapeRecord {
     id: number;
     type: string;
