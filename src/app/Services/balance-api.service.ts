@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, EMPTY } from 'rxjs';
+import { Observable, EMPTY, of } from 'rxjs';
 import { isNullOrUndefined } from 'util';
 import { CreateUpdateCheckDto } from '../Model/Dto/Check/CreateUpdate/CreateUpdateCheckDto';
 import { BalanceResponse } from '../BalanceResponse';
@@ -88,7 +88,11 @@ export class BalanceApiService {
     ) as Observable<BalanceResponse>;
   }
 
-  getTape() : Observable<any> {
-    return this.http.get(this.apiBaseUrl + 'news') as Observable<BalanceResponse>;
+  getTape(skip: number, take: number) : Observable<any> {
+    const params = new HttpParams()
+      .set('offset', skip.toString())
+      .set('limit', take.toString());
+      
+    return this.http.get(this.apiBaseUrl + 'news', { params }) as Observable<BalanceResponse>;
   }
 }

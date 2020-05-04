@@ -321,12 +321,12 @@ mat-sidenav-content {
     transition: none !important;
     box-shadow: none !important;
     padding-top: 12px;
-    }
+}
     
     .avatar-header-image {
     background-size: cover;
     cursor: pointer;
-    }
+}
 
 .avatar-firstname-block label {
     align-self: center;

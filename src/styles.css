@@ -8,6 +8,7 @@ body {
 
 #body-content {
     width: 100%;
+    overflow: hidden;
 }
 
 .form-control, button, label {

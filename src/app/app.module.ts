@@ -4,7 +4,6 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
-import { APP_INITIALIZER } from '@angular/core';
 import { AppConfig } from './app.config';
 import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
@@ -39,6 +38,8 @@ import { TranslateHelper } from './Utils/TranslateHelper';
 import { MaskDirective } from './Directives/mask.directive';
 import { ResponseInterceptor } from './Interceptors/response.interceptor';
 import { NotificationsInfoComponent } from './Components/Common/notifications-info/notifications-info.component';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
@@ -82,6 +83,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ReactiveFormsModule,
     ToastrModule.forRoot(),
     TextMaskModule,
+    InfiniteScrollModule,
+    NgxSpinnerModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

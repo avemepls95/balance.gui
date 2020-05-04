@@ -7,9 +7,8 @@ import { LocalStorageManager } from 'src/app/LocalStorageManager';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackbarService } from 'src/app/Services/snackbar.service';
 import { CheckGetDtoMapper } from 'src/app/Model/Utils/CheckGetDtoMapper';
-import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { TranslateHelper } from 'src/app/Utils/TranslateHelper';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-tape',
@@ -21,27 +20,36 @@ export class TapeComponent implements OnInit {
   records: TapeRecord[];
 
   currentUserId: number;
-  isNoTape: boolean;
+  noRecords: boolean;
+
+  private recordsCountToShowInitially: number = 10;
+  private recordsCountToLoad: number = 5;
+  private loadedRecordsCount: number = 0;
+
+  isLoading: boolean = false;
 
   constructor(
     private balanceApiService: BalanceApiService,
     snackbar: MatSnackBar,
     private router: Router,
     private loaderService: LoaderService,
-    private translateHelper: TranslateHelper,
-    private snackbarService: SnackbarService
+    snackbarService: SnackbarService,
+    private spinner: NgxSpinnerService
   ) {
     snackbarService.setSnackbar(snackbar);
     this.currentUserId = (Number)(localStorage.getItem(LocalStorageManager.userIdKey));
 
     loaderService.show();
-    balanceApiService.getTape().pipe(
+    
+    balanceApiService.getTape(0, this.recordsCountToShowInitially).pipe(
       finalize(() => loaderService.hide())
     ).subscribe(
       (response) => {
         if (response.data.length == 0)
-          this.isNoTape = true;
-        this.records = response.data.sort((a, b) => (a.date > b.date) ? -1 : ((b.date > a.date) ? 1 : 0));
+          this.noRecords = true;
+
+        this.records = response.data;
+        this.loadedRecordsCount += response.data.length;
       },
       (error) => console.error(error)
     );
@@ -62,5 +70,23 @@ export class TapeComponent implements OnInit {
           this.router.navigateByUrl('/editCheck/' + checkId, { state: { check } });
         }
       );
+  }
+
+  onScroll() {
+    this.spinner.show();
+    this.isLoading = true;
+
+    this.balanceApiService.getTape(this.loadedRecordsCount, this.recordsCountToLoad).pipe(
+      finalize(() => {
+        this.spinner.hide();
+        this.isLoading = false;
+      })
+    ).subscribe(
+      (response) => {
+        this.records = this.records.concat(response.data);
+        this.loadedRecordsCount += response.data.length;
+      },
+      (error) => console.error(error)
+    );
   }
 }
