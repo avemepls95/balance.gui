@@ -11,7 +11,7 @@ import { PaymentCardComponent } from '../payment-card/payment-card.component';
 import { Check } from 'src/app/Model/Check';
 import { isNullOrUndefined, isNumber } from 'util';
 import { BalanceApiService } from 'src/app/Services/balance-api.service';
-import { finalize, take } from 'rxjs/operators';
+import { finalize } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CheckGetDtoMapper } from 'src/app/Model/Utils/CheckGetDtoMapper';
 import { LoaderService } from 'src/app/Services/loader.service';
@@ -54,7 +54,6 @@ export class CheckComponent implements OnInit, OnDestroy {
   CHECK_STATE = CHECK_STATE;
   DISCOUNT_TYPE: DISCOUNT_TYPE;
   discountCalculator: DiscountCalculator = new DiscountAbsCalculator();
-  // discountCalculator: DiscountCalculator = new DiscountPercentCalculator();
 
   mode: string = 'creating';
 
@@ -83,7 +82,7 @@ export class CheckComponent implements OnInit, OnDestroy {
         new DiscountPercentCalculator() : new DiscountAbsCalculator();
       this.setCurrentCheck(state.check);
       this.discountCalculator.recalculateCheckWithoutDiscount();
-  }
+    }
     else {
       this.setCurrentCheck(new Check());
     }
@@ -107,10 +106,7 @@ export class CheckComponent implements OnInit, OnDestroy {
               result => {
                 var tmp = CheckGetDtoMapper.convertDtoToCheck(result.data);
 
-                let internalId = 0;
-                tmp.positions.forEach(position => position.internalId = ++internalId);
-                internalId = 0;
-                tmp.payments.forEach(payment => payment.internalId = ++internalId);
+                this.updateInternalIds(tmp);
 
                 this.discountCalculator = tmp.discount.type == DISCOUNT_TYPE.PERCENT ?
                   new DiscountPercentCalculator() : new DiscountAbsCalculator();
@@ -381,11 +377,13 @@ export class CheckComponent implements OnInit, OnDestroy {
 
   setCurrentCheck(check: Check): void {
     this.check = check;
+    this.updateInternalIds(this.check);
+
     this.discountCalculator.setCheck(check);
     this.unmodifiedCheck = this.copyUtils.deepCopy(check);
     this.permissionsResolver.setPermissionsObject(check);
     this.hasEditPermissions = this.permissionsResolver.canEdit();
-    
+
     this.updateColumns();
   }
 
@@ -450,12 +448,19 @@ export class CheckComponent implements OnInit, OnDestroy {
   onDiscountTypeChange(event: MatRadioChange): void {
     this.check.discount.type = event.value as DISCOUNT_TYPE;
     this.discountCalculator = this.check.discount.type == DISCOUNT_TYPE.PERCENT ?
-        new DiscountPercentCalculator() : new DiscountAbsCalculator();
+      new DiscountPercentCalculator() : new DiscountAbsCalculator();
     this.discountCalculator.setCheck(this.check);
 
     if (this.check.discount.value == 0)
       return;
 
     this.discountCalculator.recalculateCheckWithDiscount();
+  }
+
+  updateInternalIds(check: Check): void {
+    let internalId = 0;
+    check.positions.forEach(position => position.internalId = ++internalId);
+    internalId = 0;
+    check.payments.forEach(payment => payment.internalId = ++internalId);
   }
 }

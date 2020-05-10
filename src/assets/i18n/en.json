@@ -11,7 +11,8 @@
     "english": "English",
     "confirmation": "Confirmation",
     "yes": "Yes",
-    "no": "No"
+    "no": "No",
+    "sureToDelete": "Are you sure to delete"
   },
   "error": {
     "incorrectData": "Incorrect data",
