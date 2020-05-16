@@ -1,5 +1,5 @@
 <div class="search-results" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50"
-    (scrolled)="onScroll()" [scrollWindow]="false">
+    (scrolled)="onScroll()" [scrollWindow]="false" *ngIf="!noRecords">
     <div *ngFor="let record of records">
         <mat-card class="record-wrap" *ngIf="record.type == 'check_processed'">
             <mat-card-content>
@@ -32,10 +32,13 @@
                 </div>
                 <div class="users-amount-div">
                     <div class="sender-recipient-div">
-                        <div><span [translate]="'tape.sender'"></span><span>: {{ record.data.sender.username }}</span><br></div>
-                        <div><span [translate]="'tape.recipient'"></span><span>: {{ record.data.recipient.username }}</span><br></div>
+                        <div><span [translate]="'tape.sender'"></span><span>:
+                                {{ record.data.sender.username }}</span><br></div>
+                        <div><span [translate]="'tape.recipient'"></span><span>:
+                                {{ record.data.recipient.username }}</span><br></div>
                         <div *ngIf="record.data.description != 'null'">
-                            <span [translate]="'transfer.description'"></span><span>: {{ record.data.description }}</span>
+                            <span [translate]="'transfer.description'"></span><span>:
+                                {{ record.data.description }}</span>
                         </div>
                     </div>
                     <div class="amount"

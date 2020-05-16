@@ -78,13 +78,12 @@ export class CheckComponent implements OnInit, OnDestroy {
     let state = this.router.getCurrentNavigation().extras.state;
     if (!isNullOrUndefined(state)) {
       this.mode = 'editing';
-      this.discountCalculator = state.check.discount.type == DISCOUNT_TYPE.PERCENT ?
-        new DiscountPercentCalculator() : new DiscountAbsCalculator();
-      this.setCurrentCheck(state.check);
+      
+      this.setCurrentCheckAndRelatedEntities(state.check);
       this.discountCalculator.recalculateCheckWithoutDiscount();
     }
     else {
-      this.setCurrentCheck(new Check());
+      this.setCurrentCheckAndRelatedEntities(new Check());
     }
 
     this.positionsDataSource = new MatTableDataSource(this.check.positions);
@@ -106,12 +105,7 @@ export class CheckComponent implements OnInit, OnDestroy {
               result => {
                 var tmp = CheckGetDtoMapper.convertDtoToCheck(result.data);
 
-                this.updateInternalIds(tmp);
-
-                this.discountCalculator = tmp.discount.type == DISCOUNT_TYPE.PERCENT ?
-                  new DiscountPercentCalculator() : new DiscountAbsCalculator();
-
-                this.setCurrentCheck(tmp);
+                this.setCurrentCheckAndRelatedEntities(tmp);
                 this.discountCalculator.recalculateCheckWithoutDiscount();
 
                 this.positionsDataSource = new MatTableDataSource(this.check.positions);
@@ -275,7 +269,7 @@ export class CheckComponent implements OnInit, OnDestroy {
       .subscribe(
         (response: BalanceResponse) => {
           let check = CheckGetDtoMapper.convertDtoToCheck(response.data);
-          this.setCurrentCheck(check);
+          this.setCurrentCheckAndRelatedEntities(check);
           this.router.navigateByUrl('/editCheck/' + response.data.id, { state: { check } });
           this.snackbarService.showSuccessMessage();
         }
@@ -301,7 +295,7 @@ export class CheckComponent implements OnInit, OnDestroy {
       }))
       .subscribe(
         (response: BalanceResponse) => {
-          this.setCurrentCheck(CheckGetDtoMapper.convertDtoToCheck(response.data));
+          this.setCurrentCheckAndRelatedEntities(CheckGetDtoMapper.convertDtoToCheck(response.data));
           this.snackbarService.showSuccessMessage();
         }
       );
@@ -337,7 +331,7 @@ export class CheckComponent implements OnInit, OnDestroy {
       }))
       .subscribe(
         (response: BalanceResponse) => {
-          this.setCurrentCheck(CheckGetDtoMapper.convertDtoToCheck(response.data));
+          this.setCurrentCheckAndRelatedEntities(CheckGetDtoMapper.convertDtoToCheck(response.data));
           this.mode = "editing";
           this.snackbarService.showSuccessMessage();
         }
@@ -361,7 +355,7 @@ export class CheckComponent implements OnInit, OnDestroy {
         }))
         .subscribe(
           (response: BalanceResponse) => {
-            this.setCurrentCheck(CheckGetDtoMapper.convertDtoToCheck(response.data));
+            this.setCurrentCheckAndRelatedEntities(CheckGetDtoMapper.convertDtoToCheck(response.data));
             this.snackbarService.showSuccessMessage();
           }
         );
@@ -375,9 +369,12 @@ export class CheckComponent implements OnInit, OnDestroy {
     return MathExtensions.round(totalAmount, 2);
   }
 
-  setCurrentCheck(check: Check): void {
+  setCurrentCheckAndRelatedEntities(check: Check): void {
     this.check = check;
     this.updateInternalIds(this.check);
+
+    this.discountCalculator = check.discount.type == DISCOUNT_TYPE.PERCENT ?
+        new DiscountPercentCalculator() : new DiscountAbsCalculator();
 
     this.discountCalculator.setCheck(check);
     this.unmodifiedCheck = this.copyUtils.deepCopy(check);
