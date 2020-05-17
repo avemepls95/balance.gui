@@ -23,6 +23,12 @@ export class ResponseInterceptor implements HttpInterceptor {
                 if (!(err instanceof HttpErrorResponse))
                     return of(err);
 
+                if (err.status === 401) {
+                    let message = this.translateHelper.getValue('error.authorizationError');
+                    this.snackbarService.showErrorMessage(null, message);
+                    return of(err);
+                }
+
                 if (err.status === 403) {
                     let message = this.translateHelper.getValue('error.accessDenied');
                     this.snackbarService.showErrorMessage(null, message);

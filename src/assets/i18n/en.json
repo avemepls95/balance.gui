@@ -17,7 +17,8 @@
   "error": {
     "incorrectData": "Incorrect data",
     "somethingWentWrong": "Oops! Something went wrong",
-    "accessDenied": "Access denied"
+    "accessDenied": "Access denied",
+    "authorizationError": "Authorization error"
   },
   "menu": {
     "balance": "Balance",
