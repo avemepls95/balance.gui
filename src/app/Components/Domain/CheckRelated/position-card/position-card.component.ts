@@ -286,8 +286,15 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
   canBeCreated(): boolean {
     return this.position.title != null &&
       this.position.title != '' &&
+
       !isNaN(this.position.amount) &&
+      this.position.amount != 0 &&
+
       this.position.consumptions != null &&
       this.position.consumptions.length != 0;
+  }
+
+  showDiscountControls(): boolean {
+    return this.checkDiscount.apply && this.checkDiscount.value != 0;
   }
 }

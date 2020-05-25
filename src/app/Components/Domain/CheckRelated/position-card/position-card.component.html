@@ -10,11 +10,11 @@
       </mat-form-field>
       <div class="flex-h-space-between">
         <mat-form-field [ngClass]="position.applyDiscount ? 'w-48' : 'w-100'">
-          <input matInput type="number" required Mask="^\d*\.?\d{0,2}$" placeholder="{{ 'check.amount' | translate }}"
-            [(ngModel)]="position.amountWithoutDiscount" [disabled]="!equalConsumptions"
-            (change)="onAmountWithoutDiscountChanged()">
+          <input matInput RemoveZero Mask="^\d*\.?\d{0,2}$" type="number" required
+            placeholder="{{ 'check.amount' | translate }}" [(ngModel)]="position.amountWithoutDiscount"
+            [disabled]="!equalConsumptions" (change)="onAmountWithoutDiscountChanged()">
         </mat-form-field>
-        <mat-form-field *ngIf="position.applyDiscount" class="w-48">
+        <mat-form-field *ngIf="showDiscountControls()" class="w-48">
           <input matInput placeholder="{{ 'check.discount.withDiscount' | translate }}" [(ngModel)]="position.amount"
             [disabled]="true">
         </mat-form-field>
@@ -61,7 +61,7 @@
         </ng-container>
       </div>
 
-      <mat-checkbox *ngIf="checkDiscount.apply" [(ngModel)]="position.applyDiscount"
+      <mat-checkbox *ngIf="showDiscountControls()" [(ngModel)]="position.applyDiscount"
         (change)="applyDiscountValueChanged($event)" [disabled]="action == 'View'">
         <span [translate]="'check.discount.applyDiscount'"></span>
       </mat-checkbox>

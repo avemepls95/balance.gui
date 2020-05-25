@@ -21,7 +21,7 @@ import { TranslateHelper } from 'src/app/Utils/TranslateHelper';
 export class TransferCardComponent implements OnInit {
 
   debt: Debt;
-  amount: number = 0;
+  amount: number;
   user: User;
   description: string;
 

@@ -54,9 +54,9 @@
         </mat-radio-group>
 
         <mat-form-field class="discount-checkbox">
-          <input matInput type="number" (change)="onDiscountValueChange($event)"
+          <input matInput RemoveZero type="number" (change)="onDiscountValueChange($event)"
             [placeholder]="'check.discount.value' | translate" [disabled]="!check.discount.apply || !canEdit()"
-            [(ngModel)]="check.discount.value">
+            [(ngModel)]="check.discount.value" (blur)="onBlurMethod($event)">
         </mat-form-field>
       </div>
     </mat-card>

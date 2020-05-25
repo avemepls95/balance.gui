@@ -2,8 +2,8 @@
 <div mat-dialog-content class="position-dialog">
     <div>
         <mat-form-field>
-            <input matInput required DigitOnly="true" type="text" placeholder="{{ 'check.amount' | translate }}"
-                [(ngModel)]="amount">
+            <input matInput required RemoveZero Mask="^\d*\.?\d{0,2}$" type="number"
+                placeholder="{{ 'check.amount' | translate }}" [(ngModel)]="amount">
         </mat-form-field>
 
         <div *ngIf="!isDebtMode">

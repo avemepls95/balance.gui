@@ -442,6 +442,11 @@ export class CheckComponent implements OnInit, OnDestroy {
       this.check.discount.apply = false;
   }
 
+  onBlurMethod(event) {
+    if (event.target.value === '')
+      this.check.discount.apply = false;
+  }
+
   onDiscountTypeChange(event: MatRadioChange): void {
     this.check.discount.type = event.value as DISCOUNT_TYPE;
     this.discountCalculator = this.check.discount.type == DISCOUNT_TYPE.PERCENT ?

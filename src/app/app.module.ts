@@ -15,7 +15,6 @@ import { TextMaskModule } from 'angular2-text-mask';
 import { TokenInterceptor } from './Interceptors/token.interceptor';
 import { JwtHelper } from 'angular2-jwt';
 import { LoaderService } from './Services/loader.service';
-import { DigitOnlyDirective } from './Directives/digit-only.directive';
 import { SnackbarService } from './Services/snackbar.service';
 import { MyBalanceComponent } from './Components/Domain/my-balance/my-balance.component';
 import { CheckComponent } from './Components/Domain/CheckRelated/check/check.component';
@@ -36,6 +35,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { SettingsComponent } from './Components/Common/settings/settings.component';
 import { TranslateHelper } from './Utils/TranslateHelper';
 import { MaskDirective } from './Directives/mask.directive';
+import { RemoveZeroDirective } from './Directives/remove-zero.directive';
 import { ResponseInterceptor } from './Interceptors/response.interceptor';
 import { NotificationsInfoComponent } from './Components/Common/notifications-info/notifications-info.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
@@ -61,8 +61,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     PositionCardComponent,
     PaymentCardComponent,
     LoaderComponent,
-    DigitOnlyDirective,
     MaskDirective,
+    RemoveZeroDirective,
     CheckListComponent,
     ConfirmDialogComponent,
     MyBalanceComponent,
