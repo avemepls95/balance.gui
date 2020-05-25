@@ -17,7 +17,8 @@
   "error": {
     "incorrectData": "Ошибка валидации",
     "somethingWentWrong": "Упс! Что-то пошло не так",
-    "accessDenied": "Доступ запрещен"
+    "accessDenied": "Доступ запрещен",
+    "authorizationError": "Ошибка авторизации"
   },
   "menu": {
     "balance": "Баланс",
