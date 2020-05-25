@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation, OnDestroy, HostListener } from '@angular/core';
 import { Payment } from 'src/app/Model/Payment';
 import { Position } from 'src/app/Model/Position';
 import { FormControl, Validators } from '@angular/forms';
@@ -31,7 +31,6 @@ import { DISCOUNT_TYPE } from 'src/app/Model/Discount/discount-type.enum';
 import { DiscountCalculator } from 'src/app/Model/Discount/discount-calculator';
 import { DiscountPercentCalculator } from 'src/app/Model/Discount/discount-percent-calculator';
 import { DiscountAbsCalculator } from 'src/app/Model/Discount/discount-abs-calculator';
-import { Discount } from 'src/app/Model/Discount/discount';
 
 @Component({
   selector: 'app-check',
@@ -61,6 +60,12 @@ export class CheckComponent implements OnInit, OnDestroy {
   hasEditPermissions: boolean;
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
+
+  @HostListener('window:beforeunload',['$event'])
+  showMessage($event) {
+    if (this.stateHasChanges())
+      $event.returnValue='Your data will be lost!';
+  }
 
   constructor(
     public dialog: MatDialog,
@@ -126,11 +131,6 @@ export class CheckComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.snackbar.ngOnDestroy();
-  }
-
-  initDiscount(discount: Discount) {
-    if (!discount)
-      this
   }
 
   openPositionCard(action, position) {
