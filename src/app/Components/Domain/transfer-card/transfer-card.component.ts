@@ -40,7 +40,7 @@ export class TransferCardComponent implements OnInit {
   constructor(
     private balanceApiService: BalanceApiService,
     private dialog: MatDialog,
-    public dialogRef: MatDialogRef<PaymentCardComponent>,
+    public dialogRef: MatDialogRef<TransferCardComponent>,
     private translateHelper: TranslateHelper,
     @Optional() @Inject(MAT_DIALOG_DATA) public data: Debt,
   ) {
@@ -133,12 +133,10 @@ export class TransferCardComponent implements OnInit {
   }
 
   canRegister() {
-    let canRegister = this.amount != 0 && !isNaN(this.amount) &&
-      this.amount > 0;
+    let canRegister = this.amount > 0 && !isNaN(this.amount);
 
     return this.isDebtMode ?
-      canRegister && this.amount <= - this.debt.amount :
+      canRegister && this.amount <= -this.debt.amount :
       canRegister;
   }
-
 }

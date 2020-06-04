@@ -41,7 +41,10 @@
     "checkRolledBack": "Откат чека",
     "transfer": "Перевод",
     "sender": "Отправитель",
-    "recipient": "Получатель"
+    "recipient": "Получатель",
+    "debtRepaid": "Подтверждение погашения",
+    "creditor": "Кредитор",
+    "debtor": "Должник"
   },
   "check": {
     "check": "Чек",
@@ -100,7 +103,9 @@
     "registerTransfer": "Перевод",
     "description": "Описание",
     "sureToRegisterTransferTo": "Зафиксировать перевод пользователю",
-    "inTheAmountOf": "в количестве"
+    "inTheAmountOf": "в количестве",
+    "commitDebtRepaid": "Долг погашен",
+    "sureToCommitDebtRepaidFrom": "Зафиксировать погашение долга пользователя"
   },
   "grid": {
     "itemsPerPage": "Эл-ов на странице"

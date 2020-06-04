@@ -48,6 +48,31 @@
                 </div>
             </mat-card-content>
         </mat-card>
+        <mat-card class="record-wrap" *ngIf="record.type == 'debt_is_forgiven'">
+            <mat-card-content>
+                <div class="record-header">
+                    <h2><b [translate]="'tape.debtRepaid'"></b></h2>
+                    <mat-divider [vertical]="true"></mat-divider>
+                    <span>{{ record.date | date:'dd.MM.yyyy H:mm' }}</span>
+                </div>
+                <div class="users-amount-div">
+                    <div class="sender-recipient-div">
+                        <div><span [translate]="'tape.creditor'"></span><span>:
+                                {{ record.data.creditor.username }}</span><br></div>
+                        <div><span [translate]="'tape.debtor'"></span><span>:
+                                {{ record.data.debtor.username }}</span><br></div>
+                        <div *ngIf="!!record.data.description">
+                            <span [translate]="'transfer.description'"></span><span>:
+                                {{ record.data.description }}</span>
+                        </div>
+                    </div>
+                    <div class="amount"
+                        [ngClass]="record.data.creditor.id == currentUserId ? 'positive-amount-color' : 'negative-amount-color'">
+                        {{ record.data.amount }}
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
         <mat-card class="record-wrap" *ngIf="record.type == 'check_rolled_back'">
             <mat-card-content>
                 <div class="record-header">

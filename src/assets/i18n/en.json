@@ -41,7 +41,10 @@
     "checkRolledBack": "Check rolled back",
     "transfer": "Transfer",
     "sender": "Sender",
-    "recipient": "Recipient"
+    "recipient": "Recipient",
+    "debtRepaid": "Debt repaid",
+    "creditor": "Creditor",
+    "debtor": "Debtor"
   },
   "check": {
     "check": "Check",
@@ -98,9 +101,11 @@
   "transfer": {
     "register": "Register",
     "registerTransfer": "Register Transfer",
-    "description": "Описание",
+    "description": "Description",
     "sureToRegisterTransferTo": "Sure to register transfer to",
-    "inTheAmountOf": "in the amount of"
+    "inTheAmountOf": "in the amount of",
+    "commitDebtRepaid": "Debt repaid",
+    "sureToCommitDebtRepaidFrom": "Sure to commit debt repaid from"
   },
   "grid": {
     "itemsPerPage": "Items per page"

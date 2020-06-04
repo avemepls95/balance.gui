@@ -6,6 +6,7 @@ import { CreateUpdateCheckDto } from '../Model/Dto/Check/CreateUpdate/CreateUpda
 import { BalanceResponse } from '../BalanceResponse';
 import { TransferDto } from '../Model/Dto/TransferDto';
 import { environment } from 'src/environments/environment';
+import { DebtRepaidDto } from '../Model/Dto/DebtRepaidDto';
 
 @Injectable({
   providedIn: 'root'
@@ -80,11 +81,21 @@ export class BalanceApiService {
 
   registerTransfer(transferDto: TransferDto) {
     if (isNullOrUndefined(transferDto))
-      throw Error("Cannot register a transfer. Passed parameter is null or indefined.");
+      throw Error("Cannot register a transfer. Passed parameter is null or undefined.");
 
     return this.http.post(
       this.apiBaseUrl + 'transfers',
       transferDto
+    ) as Observable<BalanceResponse>;
+  }
+
+  commitDebtRepaid(debtRepaidDto: DebtRepaidDto) {
+    if (isNullOrUndefined(debtRepaidDto))
+      throw Error("Cannot commit that debt repaid. Passed parameter is null or undefined.");
+
+    return this.http.post(
+      this.apiBaseUrl + 'debts/forgive',
+      debtRepaidDto
     ) as Observable<BalanceResponse>;
   }
 

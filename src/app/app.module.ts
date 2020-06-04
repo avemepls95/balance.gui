@@ -40,6 +40,7 @@ import { ResponseInterceptor } from './Interceptors/response.interceptor';
 import { NotificationsInfoComponent } from './Components/Common/notifications-info/notifications-info.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { DebtRepaidCardComponent } from './Components/Domain/transfer-made-card/debt-repaid-card.component';
 
 export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
@@ -70,7 +71,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ConsumptionsCardComponent,
     TapeComponent,
     SettingsComponent,
-    NotificationsInfoComponent
+    NotificationsInfoComponent,
+    DebtRepaidCardComponent
   ],
   imports: [
     BrowserModule,
@@ -99,7 +101,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ConfirmDialogComponent,
     TransferCardComponent,
     ConsumptionsCardComponent,
-    NotificationsInfoComponent
+    NotificationsInfoComponent,
+    DebtRepaidCardComponent
   ],
   providers: [
     JwtHelper,

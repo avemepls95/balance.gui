@@ -10,12 +10,13 @@ import { TransferCardComponent } from '../transfer-card/transfer-card.component'
 import { MatDialog } from '@angular/material/dialog';
 import { isNullOrUndefined } from 'util';
 import { BalanceResponse } from 'src/app/BalanceResponse';
-import { HttpErrorResponse } from '@angular/common/http';
 import { SnackbarService } from 'src/app/Services/snackbar.service';
 import { TransferDto } from 'src/app/Model/Dto/TransferDto';
 import { UUID } from 'angular2-uuid';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MathExtensions } from 'src/app/Utils/MathExtensions';
+import { DebtRepaidCardComponent } from '../transfer-made-card/debt-repaid-card.component';
+import { DebtRepaidDto } from 'src/app/Model/Dto/DebtRepaidDto';
 
 @Component({
   selector: 'app-my-balance',
@@ -120,4 +121,36 @@ export class MyBalanceComponent implements OnInit {
     });
   }
 
+  openDebtRepaidCard(debt: Debt) {
+    const dialogRef = this.dialog.open(DebtRepaidCardComponent, {
+      data: debt,
+      autoFocus: false
+    });
+
+    dialogRef.afterClosed().subscribe(data => {
+      if (isNullOrUndefined(data))
+        return;
+
+      let transferDto = new DebtRepaidDto({
+        id: UUID.UUID(),
+        amount: data.amount,
+        debtorId: debt.user.id
+      });
+
+      this.loaderService.show();
+      this.balanceApiService.commitDebtRepaid(transferDto)
+        .pipe(finalize(() => {
+          this.loaderService.hide();
+        }))
+        .subscribe(
+          (response: BalanceResponse) => {
+            debt.amount -= +data.amount;
+            if (this.debts.filter(d => d.amount == 0).length == this.debts.length)
+              this.isZeroBalance = true;
+
+            this.snackbarService.showSuccessMessage()
+          }
+        );
+    });
+  }
 }

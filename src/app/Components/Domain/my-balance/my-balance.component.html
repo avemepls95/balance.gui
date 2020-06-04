@@ -38,6 +38,12 @@
                                     <mat-icon>payment</mat-icon>
                                 </button>
                             </div>
+                            <div *ngIf="item.amount > 0" class="row-action-buttons" (click)="$event.stopPropagation()">
+                                <button class="row-edit-button" mat-icon-button (click)="openDebtRepaidCard(item)"
+                                    onclick="this.blur()" matTooltip="{{ 'menu.makeTransfer' | translate }}">
+                                    <mat-icon>done</mat-icon>
+                                </button>
+                            </div>
                         </td>
                     </ng-container>
 
