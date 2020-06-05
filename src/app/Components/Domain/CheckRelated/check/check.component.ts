@@ -152,7 +152,7 @@ export class CheckComponent implements OnInit, OnDestroy {
       data: data
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result = 'Cancel') => {
       if (result.event == 'Add') {
         this.addPosition(result.data);
       } else if (result.event == 'Edit') {
@@ -211,7 +211,7 @@ export class CheckComponent implements OnInit, OnDestroy {
       data: data
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result = 'Cancel') => {
       if (result.event == 'Add') {
         this.addPayment(result.data);
       } else if (result.event == 'Edit') {

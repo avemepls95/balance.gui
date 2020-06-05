@@ -15,7 +15,7 @@ import { TransferDto } from 'src/app/Model/Dto/TransferDto';
 import { UUID } from 'angular2-uuid';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MathExtensions } from 'src/app/Utils/MathExtensions';
-import { DebtRepaidCardComponent } from '../transfer-made-card/debt-repaid-card.component';
+import { DebtRepaidCardComponent } from '../debt-repaid-card/debt-repaid-card.component';
 import { DebtRepaidDto } from 'src/app/Model/Dto/DebtRepaidDto';
 
 @Component({
@@ -134,7 +134,8 @@ export class MyBalanceComponent implements OnInit {
       let transferDto = new DebtRepaidDto({
         id: UUID.UUID(),
         amount: data.amount,
-        debtorId: debt.user.id
+        debtorId: debt.user.id,
+        description: data.description
       });
 
       this.loaderService.show();

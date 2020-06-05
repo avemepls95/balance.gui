@@ -114,7 +114,11 @@ export class CheckListComponent implements OnInit {
     if (isNullOrUndefined(check))
       throw Error(`Check with Id = ${checkId} not found.`)
 
-    let result = check.state != CHECK_STATE.PROCESSED && check.roles.includes(UserCheckRoles.Owner)
+    let result = 
+      check.state != CHECK_STATE.PROCESSED &&
+      !!check.roles &&
+      check.roles.includes(UserCheckRoles.Owner)
+
     return result;
   }
 
@@ -126,8 +130,11 @@ export class CheckListComponent implements OnInit {
       TableUtils.setColumnVisible(this.displayedColumns, 'actions', false);
 
     let unprocessedChecksWhereOwner = this.checks.filter(c => 
-      c.roles.includes(UserCheckRoles.Owner) && c.state != CHECK_STATE.PROCESSED
+      !!c.roles &&
+      c.roles.includes(UserCheckRoles.Owner) &&
+      c.state != CHECK_STATE.PROCESSED
     );
+
     let hasAccessForAnyUnprocessedCheckActions = unprocessedChecksWhereOwner.length != 0;
     TableUtils.setColumnVisible(this.displayedColumns, 'actions', hasAccessForAnyUnprocessedCheckActions);
   }
