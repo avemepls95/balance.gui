@@ -98,6 +98,9 @@
       "withDiscount": "With discount"
     }
   },
+  "checkList" : {
+    "loadNextSet" : "Load next set"
+  },
   "transfer": {
     "register": "Register",
     "registerTransfer": "Register Transfer",

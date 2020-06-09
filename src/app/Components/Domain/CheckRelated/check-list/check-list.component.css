@@ -46,10 +46,11 @@ table {
     hyphens: auto;
   }
 
- .mat-column-title > div {
+ .mat-column-title > div, .mat-column-createdAt > div {
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center;
  }
 
  .mat-column-title > div > .mat-icon {
@@ -58,7 +59,8 @@ table {
  }
 
  .mat-column-title span {
-     margin-left: 8px;
+    margin-left: 8px;
+    font-size: initial;
  }
 
 .mat-column-createdAt {
@@ -77,4 +79,9 @@ table {
     .mat-column-actions {
         width: 60px;
     }
+}
+
+.more-items {
+    display: flex;
+    justify-content: center;
 }

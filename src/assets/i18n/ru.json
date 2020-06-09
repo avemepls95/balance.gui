@@ -98,6 +98,9 @@
       "withDiscount": "Со скидкой"
     }
   },
+  "checkList" : {
+    "loadNextSet" : "Загрузить еще"
+  },
   "transfer": {
     "register": "ОК",
     "registerTransfer": "Перевод",

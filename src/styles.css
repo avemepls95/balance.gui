@@ -50,6 +50,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .material-icons.green { color: seagreen; }
 .material-icons.purple { color: #b712c1; }
 .material-icons.yellow { color: yellow; }
+.material-icons.dark-gray { color: darkgray; }
 .material-icons.transparent { color: transparent; }
 
 .mat-dialog-content {
@@ -73,6 +74,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .flex-h-space-between {
     display: flex;
     justify-content: space-between;
+}
+
+.flex-h-flex-end {
+    display: flex;
+    justify-content: flex-end;
 }
 
 .snackbar {

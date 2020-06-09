@@ -1,10 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { Check } from 'src/app/Model/Check';
 import { BalanceApiService } from 'src/app/Services/balance-api.service';
-import { CheckGetDtoMapper } from 'src/app/Model/Utils/CheckGetDtoMapper';
 import { LoaderService } from 'src/app/Services/loader.service';
-import { finalize } from 'rxjs/operators';
+import { finalize, tap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { SnackbarService } from 'src/app/Services/snackbar.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -17,6 +15,7 @@ import { TableUtils } from 'src/app/ControlLayer/Utils/TableUtils';
 import { isNullOrUndefined } from 'util';
 import { UserCheckRoles } from 'src/app/Model/Utils/CheckPermissionsResolver';
 import { CHECK_STATE } from 'src/app/Model/check-state.enum';
+import { CheckGetDtoMapper } from 'src/app/Model/Utils/CheckGetDtoMapper';
 
 @Component({
   selector: 'app-check-list',
@@ -28,11 +27,13 @@ export class CheckListComponent implements OnInit {
   checks: Check[];
 
   displayedColumns: string[] = ['createdAt', 'title'];
-  dataSource: MatTableDataSource<Check>;
+
+  itemsPerPage: number = 5;
+  noMoreItems = false;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
-  
+
   CHECK_STATE = CHECK_STATE;
 
   constructor(
@@ -44,17 +45,13 @@ export class CheckListComponent implements OnInit {
     snackbar: MatSnackBar) {
 
     snackbarService.setSnackbar(snackbar);
+
     loaderService.show();
-    balanceApiService.getAllChecks().pipe(
+    balanceApiService.findChecks(0, this.itemsPerPage).pipe(
       finalize(() => loaderService.hide())
     ).subscribe(
       (response) => {
-        this.checks = response.data.map(c => CheckGetDtoMapper.convertDtoToCheck(c))
-          .sort((a: Check, b: Check) => b.createdAt.getTime() - a.createdAt.getTime());
-
-        this.dataSource = new MatTableDataSource(this.checks);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+        this.checks = response.data.map(c => CheckGetDtoMapper.convertDtoToCheck(c));
 
         this.updateColumns();
       },
@@ -65,16 +62,29 @@ export class CheckListComponent implements OnInit {
   ngOnInit() {
   }
 
-  applyFilter(filterValue: string) {
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+  loadNextSet(): void {
+    const skip = this.checks.length;
+    this.loaderService.show();
+    this.balanceApiService.findChecks(skip, this.itemsPerPage).pipe(
+      finalize(() => this.loaderService.hide())
+    ).subscribe(
+      (response: BalanceResponse) => {
+        if (response.data.length == 0) {
+          this.noMoreItems = true;
+          return;
+        }
 
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
+        let checks = response.data.map(c => CheckGetDtoMapper.convertDtoToCheck(c));
+
+        this.checks = this.checks.concat(checks);
+        this.updateColumns();
+      },
+      (error) => console.error(error)
+    );
   }
 
   deleteCheck(id: number) {
-    const index = this.checks.findIndex(p => p.id === id);
+    const index = this.checks.findIndex(c => c.id === id);
     if (index == -1) {
       console.log("Invalid check id:" + id);
     }
@@ -100,8 +110,9 @@ export class CheckListComponent implements OnInit {
         .subscribe(
           (response: BalanceResponse) => {
             this.snackbarService.showSuccessMessage();
-            this.checks.splice(index, 1);
-            this.dataSource.data = this.checks;
+            var deleted = this.checks.splice(index, 1)[0];
+            // reinitialize for grid updating
+            this.checks = this.checks.filter(c => !this.checks.includes(deleted));
 
             this.updateColumns();
           }
@@ -111,10 +122,11 @@ export class CheckListComponent implements OnInit {
 
   checkActionsVisible(checkId: number): boolean {
     let check = this.checks.find(c => c.id == checkId);
-    if (isNullOrUndefined(check))
+    if (isNullOrUndefined(check)) {
       throw Error(`Check with Id = ${checkId} not found.`)
+    }
 
-    let result = 
+    let result =
       check.state != CHECK_STATE.PROCESSED &&
       !!check.roles &&
       check.roles.includes(UserCheckRoles.Owner)
@@ -129,7 +141,7 @@ export class CheckListComponent implements OnInit {
     if (allChecksProcessed)
       TableUtils.setColumnVisible(this.displayedColumns, 'actions', false);
 
-    let unprocessedChecksWhereOwner = this.checks.filter(c => 
+    let unprocessedChecksWhereOwner = this.checks.filter(c =>
       !!c.roles &&
       c.roles.includes(UserCheckRoles.Owner) &&
       c.state != CHECK_STATE.PROCESSED

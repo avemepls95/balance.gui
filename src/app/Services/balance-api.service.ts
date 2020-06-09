@@ -39,8 +39,12 @@ export class BalanceApiService {
     );
   }
 
-  getAllChecks(): Observable<BalanceResponse> {
-    return this.http.get(this.apiBaseUrl + 'checks') as Observable<BalanceResponse>;
+  findChecks(skip: number, take: number): Observable<BalanceResponse> {
+    const params = new HttpParams()
+      .set('offset', skip.toString())
+      .set('limit', take.toString());
+    
+    return (this.http.get(this.apiBaseUrl + 'checks', { params }) as Observable<BalanceResponse>);
   }
 
   getCheckById(id: number): Observable<BalanceResponse> {
