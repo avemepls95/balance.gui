@@ -36,7 +36,7 @@
                                 {{ record.data.sender.username }}</span><br></div>
                         <div><span [translate]="'tape.recipient'"></span><span>:
                                 {{ record.data.recipient.username }}</span><br></div>
-                        <div *ngIf="record.data.description != 'null'">
+                        <div *ngIf="!!record.data.description">
                             <span [translate]="'transfer.description'"></span><span>:
                                 {{ record.data.description }}</span>
                         </div>

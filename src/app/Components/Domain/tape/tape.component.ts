@@ -72,9 +72,12 @@ export class TapeComponent implements OnInit {
       );
   }
 
-  onScroll() {
-    this.spinner.show();
+  onScroll(): void {
+    if (this.isLoading)
+      return;
+
     this.isLoading = true;
+    this.spinner.show();
 
     this.balanceApiService.getTape(this.loadedRecordsCount, this.recordsCountToLoad).pipe(
       finalize(() => {

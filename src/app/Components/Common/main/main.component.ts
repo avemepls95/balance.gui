@@ -7,12 +7,9 @@ import { TransferCardComponent } from '../../Domain/transfer-card/transfer-card.
 import { TransferDto } from 'src/app/Model/Dto/TransferDto';
 import { UUID } from 'angular2-uuid';
 import { finalize } from 'rxjs/operators';
-import { BalanceResponse } from 'src/app/BalanceResponse';
-import { HttpErrorResponse } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { LoaderService } from 'src/app/Services/loader.service';
 import { SnackbarService } from 'src/app/Services/snackbar.service';
-import { CookieService } from 'ngx-cookie-service';
 import { isNullOrUndefined } from 'util';
 import { TranslateHelper } from 'src/app/Utils/TranslateHelper';
 import { MatSnackBar } from '@angular/material/snack-bar';
