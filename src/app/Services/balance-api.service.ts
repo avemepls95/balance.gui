@@ -44,7 +44,7 @@ export class BalanceApiService {
       .set('offset', skip.toString())
       .set('limit', take.toString());
     
-    return (this.http.get(this.apiBaseUrl + 'checks', { params }) as Observable<BalanceResponse>);
+    return this.http.get(this.apiBaseUrl + 'checks', { params }) as Observable<BalanceResponse>;
   }
 
   getCheckById(id: number): Observable<BalanceResponse> {
@@ -103,11 +103,18 @@ export class BalanceApiService {
     ) as Observable<BalanceResponse>;
   }
 
-  getTape(skip: number, take: number) : Observable<any> {
+  getTape(skip: number, take: number) : Observable<BalanceResponse> {
     const params = new HttpParams()
       .set('offset', skip.toString())
       .set('limit', take.toString());
       
     return this.http.get(this.apiBaseUrl + 'news', { params }) as Observable<BalanceResponse>;
+  }
+
+  remind(debtorId: number) : Observable<BalanceResponse> {
+    const params = new HttpParams()
+      .set('debtorId', debtorId.toString());
+      
+    return this.http.post(this.apiBaseUrl + 'debts/remind', { debtorId }) as Observable<BalanceResponse>;
   }
 }

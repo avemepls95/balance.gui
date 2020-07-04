@@ -18,7 +18,8 @@
     "incorrectData": "Incorrect data",
     "somethingWentWrong": "Oops! Something went wrong",
     "accessDenied": "Access denied",
-    "authorizationError": "Authorization error"
+    "authorizationError": "Authorization error",
+    "remindFrequencyLimit": "You can’t remind about debt more than once on a calendar day"
   },
   "menu": {
     "balance": "Balance",
@@ -31,9 +32,11 @@
     "close": "Close"
   },
   "balance": {
-    "zeroBalance": "Your balance is {{amount}}",
+    "yourBalanceIs": "Your balance is {{amount}}",
     "myBalance": "My Balance",
-    "total": "Total"
+    "total": "Total",
+    "remind": "Remind",
+    "remindConfirmation": "Remind user {0} of debt?"
   },
   "tape": {
     "noRecords": "No tape records",
@@ -53,6 +56,7 @@
     "checkEditing": "Check editing",
     "create": "CREATE",
     "edit": "EDIT",
+    "save": "SAVE",
     "position": "Position",
     "payment": "Payment",
     "positions": "Positions",
@@ -106,12 +110,8 @@
     "registerTransfer": "Register Transfer",
     "description": "Description",
     "sureToRegisterTransferTo": "Sure to register transfer to",
-    "inTheAmountOf": "in the amount of",
     "commitDebtRepaid": "Debt repaid",
-    "sureToCommitDebtRepaidFrom": "Sure to commit debt repaid from"
-  },
-  "grid": {
-    "itemsPerPage": "Items per page"
+    "commitDebtRepaidConfirmation": "Sure to commit debt repaid from {0} in the amount of {1}?"
   },
   "openCheck": "Open check"
 }

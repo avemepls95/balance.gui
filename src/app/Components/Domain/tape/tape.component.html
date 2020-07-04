@@ -17,8 +17,8 @@
                             [ngClass]="record.data.balanceDiff > '0' ? 'positive-amount-color' : 'negative-amount-color'">
                             {{ record.data.balanceDiff }}
                         </div>
-                        <mat-icon class="font-large" (click)="openCheck(record.data.check.id)"
-                            matTooltip="{{ 'openCheck' | translate }}">more_horiz</mat-icon>
+                        <mat-icon (click)="openCheck(record.data.check.id)"
+                            matTooltip="{{ 'openCheck' | translate }}">article</mat-icon>
                     </div>
                 </div>
             </mat-card-content>
@@ -91,7 +91,7 @@
                             {{ record.data.balanceDiff }}
                         </div>
                         <mat-icon class="font-large" (click)="openCheck(record.data.check.id)"
-                            matTooltip="{{ 'openCheck' | translate }}">more_horiz</mat-icon>
+                            matTooltip="{{ 'openCheck' | translate }}">article</mat-icon>
                     </div>
                 </div>
             </mat-card-content>

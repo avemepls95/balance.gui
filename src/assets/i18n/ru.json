@@ -18,7 +18,8 @@
     "incorrectData": "Ошибка валидации",
     "somethingWentWrong": "Упс! Что-то пошло не так",
     "accessDenied": "Доступ запрещен",
-    "authorizationError": "Ошибка авторизации"
+    "authorizationError": "Ошибка авторизации",
+    "remindFrequencyLimit": "Нельзя напоминать о долге чаще, чем раз в каленарный день"
   },
   "menu": {
     "balance": "Баланс",
@@ -31,9 +32,11 @@
     "close": "Закрыть"
   },
   "balance": {
-    "zeroBalance": "Никаких долгов. Так держать!",
+    "yourBalanceIs": "Никаких долгов. Так держать!",
     "myBalance": "Мой Баланс",
-    "total": "Итого"
+    "total": "Итого",
+    "remind": "Напомнить",
+    "remindConfirmation": "Напомнить пользователю {0} о долге?"
   },
   "tape": {
     "noRecords": "Лента пуста",
@@ -53,6 +56,7 @@
     "checkEditing": "Редактирование чека",
     "create": "СОЗДАТЬ",
     "edit": "РЕДАКТИРОВАТЬ",
+    "save": "СОХРАНИТЬ",
     "position": "Позиция",
     "payment": "Платеж",
     "positions": "Позиции",
@@ -106,12 +110,8 @@
     "registerTransfer": "Перевод",
     "description": "Описание",
     "sureToRegisterTransferTo": "Зафиксировать перевод пользователю",
-    "inTheAmountOf": "в количестве",
     "commitDebtRepaid": "Долг погашен",
-    "sureToCommitDebtRepaidFrom": "Зафиксировать погашение долга пользователя"
-  },
-  "grid": {
-    "itemsPerPage": "Эл-ов на странице"
+    "commitDebtRepaidConfirmation": "Зафиксировать погашение долга пользователя {0} в количестве {1}?"
   },
   "openCheck": "Перейти к чеку"
 }

@@ -17,6 +17,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MathExtensions } from 'src/app/Utils/MathExtensions';
 import { DebtRepaidCardComponent } from '../debt-repaid-card/debt-repaid-card.component';
 import { DebtRepaidDto } from 'src/app/Model/Dto/DebtRepaidDto';
+import { ConfirmDialogModel, ConfirmDialogComponent } from '../../Common/confirm-dialog/confirm-dialog.component';
+import { TranslateHelper } from 'src/app/Utils/TranslateHelper';
+import { String } from 'typescript-string-operations';
 
 @Component({
   selector: 'app-my-balance',
@@ -41,6 +44,7 @@ export class MyBalanceComponent implements OnInit {
     private loaderService: LoaderService,
     private snackbarService: SnackbarService,
     private dialog: MatDialog,
+    private translateHelper: TranslateHelper
   ) {
     snackbarService.setSnackbar(snackbar);
 
@@ -121,7 +125,7 @@ export class MyBalanceComponent implements OnInit {
     });
   }
 
-  openDebtRepaidCard(debt: Debt) {
+  openDebtRepaidCard(debt: Debt): void {
     const dialogRef = this.dialog.open(DebtRepaidCardComponent, {
       data: debt,
       autoFocus: false
@@ -153,5 +157,33 @@ export class MyBalanceComponent implements OnInit {
           }
         );
     });
+  }
+
+  remind(debt: Debt): void {
+    const message = String.Format(
+      this.translateHelper.getValue('balance.remindConfirmation'),
+      debt.user.username);
+    const dialogData = new ConfirmDialogModel(
+      this.translateHelper.getValue('common.confirmation'), message);
+
+    this.dialog.open(ConfirmDialogComponent, {
+      maxWidth: "400px",
+      data: dialogData
+    })
+      .afterClosed().subscribe(dialogResult => {
+        if (!dialogResult)
+          return;
+
+        this.loaderService.show();
+        this.balanceApiService.remind(debt.user.id)
+          .pipe(finalize(() => {
+            this.loaderService.hide();
+          }))
+          .subscribe(
+            (response: BalanceResponse) => {
+              this.snackbarService.showSuccessMessage();
+            }
+          );
+      });
   }
 }

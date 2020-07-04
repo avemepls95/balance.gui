@@ -1,10 +1,10 @@
 import { Component, OnInit, Optional, Inject } from '@angular/core';
 import { Debt } from 'src/app/Model/Debt';
-import { BalanceApiService } from 'src/app/Services/balance-api.service';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { TranslateHelper } from 'src/app/Utils/TranslateHelper';
 import { ConfirmDialogModel, ConfirmDialogComponent } from '../../Common/confirm-dialog/confirm-dialog.component';
 import { isNullOrUndefined } from 'util';
+import { String } from 'typescript-string-operations';
 
 @Component({
   selector: 'app-transfer-made-card',
@@ -18,7 +18,6 @@ export class DebtRepaidCardComponent implements OnInit {
   description: string;
 
   constructor(
-    private balanceApiService: BalanceApiService,
     private dialog: MatDialog,
     public dialogRef: MatDialogRef<DebtRepaidCardComponent>,
     private translateHelper: TranslateHelper,
@@ -34,12 +33,14 @@ export class DebtRepaidCardComponent implements OnInit {
   }
 
   doAction() {
-    const message = this.translateHelper.getValue('transfer.sureToCommitDebtRepaidFrom') +
-      ' ' + this.debt.user.username + ' ' + this.translateHelper.getValue('transfer.inTheAmountOf') +
-      ' ' + this.amount + '?';
+    const message = String.Format(
+      this.translateHelper.getValue('transfer.commitDebtRepaidConfirmation'),
+      this.debt.user.username,
+      this.amount);
     const dialogData = new ConfirmDialogModel(
       this.translateHelper.getValue('common.confirmation'),
       message);
+
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       data: dialogData
     });

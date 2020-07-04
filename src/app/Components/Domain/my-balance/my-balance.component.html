@@ -39,14 +39,24 @@
                                 </button>
                             </div>
                             <div *ngIf="item.amount > 0" class="row-action-buttons" (click)="$event.stopPropagation()">
-                                <button class="row-edit-button" mat-icon-button (click)="openDebtRepaidCard(item)"
-                                    onclick="this.blur()" matTooltip="{{ 'menu.makeTransfer' | translate }}">
-                                    <mat-icon>done</mat-icon>
+                                <button class="row-edit-button" mat-icon-button onclick="this.blur()" [matMenuTriggerFor]="dropdownMenu">
+                                    <mat-icon class="icon-font-large" >
+                                        more_horiz
+                                    </mat-icon>
                                 </button>
                             </div>
+                            <mat-menu #dropdownMenu x-position="before" class="balance-actions-menu">
+                                <a mat-menu-item (click)="openDebtRepaidCard(item)">
+                                    <mat-icon class="green">done</mat-icon>
+                                    <span [translate]="'transfer.commitDebtRepaid'"></span>
+                                </a>
+                                <a mat-menu-item (click)="remind(item)">
+                                    <mat-icon class="orange">notification_important</mat-icon>
+                                    <span [translate]="'balance.remind'"></span>
+                                </a>
+                            </mat-menu>
                         </td>
                     </ng-container>
-
                     <tr mat-header-row *matHeaderRowDef="displayedColumns"
                         [ngClass]="getTotalAmount() > 0 ? 'positive-amount-color' : 'negative-amount-color'"></tr>
                     <tr mat-row *matRowDef="let debt; columns: displayedColumns;" [hidden]="debt.amount == 0"
@@ -60,6 +70,6 @@
 </mat-card>
 
 <div class="zero-balance-wrap" *ngIf="isZeroBalance">
-    <h1 [translate]="'balance.zeroBalance'" [translateParams]="{amount: '0'}"></h1>
+    <h1 [translate]="'balance.yourBalanceIs'" [translateParams]="{amount: '0'}"></h1>
     <img src="assets/images/balance.png">
 </div>

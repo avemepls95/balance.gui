@@ -109,3 +109,8 @@ table {
         width: 100vw;
     }
 }
+
+.balance-actions-menu {
+    width: 180px;
+    /* background-color: #ececec; */
+}

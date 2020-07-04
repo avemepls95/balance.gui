@@ -43,6 +43,14 @@ export class ResponseInterceptor implements HttpInterceptor {
                     }
                 }
 
+                if (err.status == 422) {
+                    if (err.error.error.code == 'reminder_already_send') {
+                        let message: string = this.translateHelper.getValue('error.remindFrequencyLimit') + '!';
+                        this.snackbarService.showErrorMessage(null, message);
+                        return of(err);
+                    }
+                }
+
                 if (err.url.includes('auth') && err.status == 0)
                     throw err;
 
