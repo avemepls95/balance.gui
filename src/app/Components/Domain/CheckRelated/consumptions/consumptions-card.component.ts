@@ -48,8 +48,8 @@ export class ConsumptionsCardComponent implements AfterContentInit {
     private translateHelper: TranslateHelper
   ) {
     this.position = data.position
-    this.consumptions = data.position.consumptions;
-    this.userControlCounter = this.consumptions.length;
+    this.consumptions = data.position.consumptions ? data.position.consumptions : [];
+    this.userControlCounter = this.consumptions ? this.consumptions.length : 0;
     this.action = data.action;
     this.discountInfo = data.discountInfo;
     this.searchResultEmptyMessage = this.translateHelper.getValue('check.searchResultsEmpty');

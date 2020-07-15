@@ -225,7 +225,7 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
   openConsumptionCard(action: string) {
     let data = {
       position: this.copyUtils.deepCopy(this.position),
-      // obj: this.position.consumptions ? this.position.consumptions.map(c => Object.assign({}, c)) : [],
+      obj: this.position.consumptions ? this.position.consumptions.map(c => Object.assign({}, c)) : [],
       action: action,
       discountInfo: {
         apply: this.position.applyDiscount,
@@ -243,15 +243,13 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      let consumptions = this.position.consumptions;
-
-      if (!consumptions || consumptions.length == 0 || consumptions.length == 1 ||
-        this.position.isEqualConsumptions()) {
-        this.equalConsumptions = true;
-      }
-      
+      let consumptions = result.data;
       if (result.event == 'Cancel') {
         return;
+      }
+
+      if (!consumptions || consumptions.length == 0 || consumptions.length == 1) {
+        this.equalConsumptions = true;
       }
 
       this.position.consumptions = result.data;
@@ -262,11 +260,6 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
         this.discountCalculator.recalculatePositionAmountWithDiscount(this.position);
       else
         this.position.amount = this.position.amountWithoutDiscount;
-
-      if (result.data.length == 1) {
-        this.equalConsumptions = true;
-        return;
-      }
     });
   }
 
