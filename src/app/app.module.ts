@@ -41,6 +41,7 @@ import { NotificationsInfoComponent } from './Components/Common/notifications-in
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { DebtRepaidCardComponent } from './Components/Domain/debt-repaid-card/debt-repaid-card.component';
+import { CoreModule } from './core/core.module';
 
 export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
@@ -93,7 +94,8 @@ export function HttpLoaderFactory(http: HttpClient) {
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
       }
-    })
+    }),
+    CoreModule
   ],
   entryComponents: [
     PositionCardComponent,

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {SlimLoadingBarService} from 'ng2-slim-loading-bar';
 import { NavigationCancel,
         Event,
@@ -7,17 +7,22 @@ import { NavigationCancel,
         NavigationStart,
         Router } from '@angular/router';
 import { TranslateHelper } from './Utils/TranslateHelper';
+import { ThemeService } from './core/services/theme.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+  isTasksTheme: Observable<boolean>;
+  
   constructor(
     private loadingBar: SlimLoadingBarService,
     private router: Router,
     translateHelper: TranslateHelper,
+    private themeService: ThemeService
   ) 
   {
     translateHelper.setDefaultLanguage(TranslateHelper.ruKey);
@@ -27,6 +32,11 @@ export class AppComponent {
       this.navigationInterceptor(event);
     });
   }
+
+  ngOnInit(): void {
+    this.isTasksTheme = this.themeService.isTasksTheme;
+  }
+
   private navigationInterceptor(event: Event): void {
     if (event instanceof NavigationStart) {
       this.loadingBar.start();

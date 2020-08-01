@@ -1,0 +1,20 @@
+@import '~@angular/material/theming';
+
+@include mat-core();
+
+$primary: mat-palette($mat-indigo);
+$accent: mat-palette($mat-pink, A200, A100, A400);
+$warn: mat-palette($mat-red);
+$theme: mat-light-theme($primary, $accent, $warn);
+
+@include angular-material-theme($theme);
+
+.tasks-theme {
+    color: $light-primary-text;
+    $tasks-primary: mat-palette($mat-purple);
+    $tasks-accent: mat-palette($mat-pink, A200, A100, A400);
+    $tasks-warn: mat-palette($mat-red);
+    $tasks-theme: mat-light-theme($tasks-primary, $tasks-accent, $tasks-warn);
+  
+    @include angular-material-theme($tasks-theme);
+}

@@ -6,7 +6,13 @@
             <button mat-icon-button (click)="sidenav.toggle()" onclick="this.blur()">
                 <mat-icon>menu</mat-icon>
             </button>
-            <h1 class="app-title">{{title}} |</h1>
+            <mat-form-field appearance="none" class="system-mat-form-field">
+                <mat-select class="system-select" [(ngModel)]="selectedSystem"
+                    (ngModelChange)="onSystemChanged($event)">
+                    <mat-option value="balance">Balance</mat-option>
+                    <mat-option value="tasks">Tasks</mat-option>
+                </mat-select>
+            </mat-form-field>
             <span class="menu-spacer"></span>
         </div>
         <div class="flex-v-center name-avatar">
@@ -31,27 +37,35 @@
 <mat-sidenav-container>
     <mat-sidenav #sidenav class="menu-sidenav">
         <mat-nav-list>
-            <mat-list-item [routerLink]="'/debts'" (click)="sidenav.toggle()">
-                <mat-icon mat-list-icon class="green">sync_alt</mat-icon>
-                <h4 mat-line [translate]="'menu.balance'"></h4>
-            </mat-list-item>
-            <mat-list-item [routerLink]="'/tape'" (click)="sidenav.toggle()">
-                <mat-icon mat-list-icon class="purple">view_headline</mat-icon>
-                <h4 mat-line [translate]="'menu.tape'"></h4>
-            </mat-list-item>
-            <mat-list-item (click)="openTransferCard()">
-                <mat-icon mat-list-icon class="green">arrow_forward</mat-icon>
-                <h4 mat-line [translate]="'menu.makeTransfer'"></h4>
-            </mat-list-item>
-            <mat-divider></mat-divider>
-            <mat-list-item [routerLink]="'/createCheck'" (click)="sidenav.toggle()">
-                <mat-icon mat-list-icon class="green">add</mat-icon>
-                <h4 mat-line [translate]="'menu.createCheck'"></h4>
-            </mat-list-item>
-            <mat-list-item [routerLink]="'/checks'" (click)="sidenav.toggle()">
-                <mat-icon mat-list-icon>list_alt</mat-icon>
-                <h4 mat-line [translate]="'menu.checks'"></h4>
-            </mat-list-item>
+            <div *ngIf="selectedSystem == 'balance'">
+                <mat-list-item [routerLink]="'/debts'" (click)="sidenav.toggle()">
+                    <mat-icon mat-list-icon class="green">sync_alt</mat-icon>
+                    <h4 mat-line [translate]="'menu.balance'"></h4>
+                </mat-list-item>
+                <mat-list-item [routerLink]="'/tape'" (click)="sidenav.toggle()">
+                    <mat-icon mat-list-icon class="purple">view_headline</mat-icon>
+                    <h4 mat-line [translate]="'menu.tape'"></h4>
+                </mat-list-item>
+                <mat-list-item (click)="openTransferCard()">
+                    <mat-icon mat-list-icon class="green">arrow_forward</mat-icon>
+                    <h4 mat-line [translate]="'menu.makeTransfer'"></h4>
+                </mat-list-item>
+                <mat-divider></mat-divider>
+                <mat-list-item [routerLink]="'/createCheck'" (click)="sidenav.toggle()">
+                    <mat-icon mat-list-icon class="green">add</mat-icon>
+                    <h4 mat-line [translate]="'menu.createCheck'"></h4>
+                </mat-list-item>
+                <mat-list-item [routerLink]="'/checks'" (click)="sidenav.toggle()">
+                    <mat-icon mat-list-icon>list_alt</mat-icon>
+                    <h4 mat-line [translate]="'menu.checks'"></h4>
+                </mat-list-item>
+            </div>
+            <div *ngIf="selectedSystem == 'tasks'">
+                <mat-list-item [routerLink]="'/tasks'" (click)="sidenav.toggle()">
+                    <mat-icon mat-list-icon>domain_verification</mat-icon>
+                    <h4 mat-line [translate]="'menu.tasks'"></h4>
+                </mat-list-item>
+            </div>
             <mat-divider></mat-divider>
             <mat-list-item [routerLink]="'/settings'" (click)="sidenav.toggle()">
                 <mat-icon mat-list-icon>settings</mat-icon>
@@ -65,6 +79,7 @@
 
         </mat-nav-list>
     </mat-sidenav>
+
     <mat-sidenav-content>
         <div>
             <router-outlet></router-outlet>

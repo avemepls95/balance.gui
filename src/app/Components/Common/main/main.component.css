@@ -359,3 +359,13 @@ mat-sidenav-content {
         transform: translateX(18px);
     }
 }
+
+.system-mat-form-field {
+    width: 100px;
+    left: 2vw;
+    top: 6px;
+}
+
+.mat-option {
+    font-size: medium !important;
+ }

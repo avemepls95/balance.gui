@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { BalanceApiService } from 'src/app/Services/balance-api.service';
 import { AuthService } from 'src/app/Services/auth.service';
@@ -15,6 +15,7 @@ import { TranslateHelper } from 'src/app/Utils/TranslateHelper';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { NotificationsInfoComponent } from '../notifications-info/notifications-info.component';
+import { ThemeService } from 'src/app/core/services/theme.service';
 
 @Component({
   selector: 'app-main',
@@ -27,6 +28,8 @@ export class MainComponent implements OnInit {
   avatarUrl: string;
   languagesIcons = [];
 
+  selectedSystem: any = 'balance';
+
   constructor(
     private router: Router,
     private authService: AuthService,
@@ -36,8 +39,9 @@ export class MainComponent implements OnInit {
     private snackbarService: SnackbarService,
     snackbar: MatSnackBar,
     public translateHelper: TranslateHelper,
-    private _bottomSheet: MatBottomSheet
-  ) { 
+    private _bottomSheet: MatBottomSheet,
+    private themeService: ThemeService
+  ) {
     snackbarService.setSnackbar(snackbar);
 
     this.languagesIcons[TranslateHelper.ruKey] = 'flag-icon-ru';
@@ -78,7 +82,7 @@ export class MainComponent implements OnInit {
     this._bottomSheet.open(NotificationsInfoComponent);
   }
 
-  getCurrentLanguageIconClass() : string {
+  getCurrentLanguageIconClass(): string {
     let language = this.translateHelper.getCurrentLanguage();
     return this.languagesIcons[language];
   }
@@ -96,5 +100,15 @@ export class MainComponent implements OnInit {
   logout(): void {
     this.authService.removeCurrentToken();
     this.router.navigate(['/auth']);
+  }
+
+  onSystemChanged(newSystemKey: string): void {
+    if (newSystemKey == 'tasks') {
+      this.themeService.setDarkTheme(true);
+      return;
+    }
+
+    this.themeService.setDarkTheme(false);
+    this.router.navigate(['/debts']);
   }
 }
