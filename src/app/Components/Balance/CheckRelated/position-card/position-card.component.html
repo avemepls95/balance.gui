@@ -35,14 +35,14 @@
       <div>
         <mat-form-field>
           <mat-chip-list #chipList [disabled]="!equalConsumptions">
-            <mat-chip *ngFor="let consumption of position.consumptions" [selectable]="selectable"
-              [removable]="removable" (removed)="removeConsumption(consumption)">
+            <mat-chip *ngFor="let consumption of position.consumptions" [selectable]="true"
+              [removable]="true" (removed)="removeConsumption(consumption)">
               {{consumption.user.username}} - {{consumption.amount}}
-              <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+              <mat-icon matChipRemove>cancel</mat-icon>
             </mat-chip>
             <input matInput #usersInput placeholder="{{ 'check.searchUsers' | translate }}" aria-label="State"
               [matAutocomplete]="auto" [formControl]="searchUserCtrl" [matChipInputFor]="chipList"
-              [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur">
+              [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true">
           </mat-chip-list>
           <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedUser($event)">
             <mat-option class="is-loading" *ngIf="isLoading" [disabled]="true">

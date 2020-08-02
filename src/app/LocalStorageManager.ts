@@ -1,5 +1,5 @@
-import { FromTelegramAuthDto } from './Model/Dto/Auth/FromTelegramAuthDto'
-import { FromVkAuthDto } from './Model/Dto/Auth/FromVkAuthDto';
+import { FromTelegramAuthDto } from './Model/Balance/Dto/Auth/FromTelegramAuthDto'
+import { FromVkAuthDto } from './Model/Balance/Dto/Auth/FromVkAuthDto';
 
 export class LocalStorageManager {
     static userFirstNameKey = 'userFirstName';

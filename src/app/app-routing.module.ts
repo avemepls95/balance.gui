@@ -8,6 +8,7 @@ import { TapeComponent } from './Components/Balance/tape/tape.component';
 import { MyBalanceComponent } from './Components/Balance/my-balance/my-balance.component';
 import { MainComponent } from './Components/Common/main/main.component';
 import { SettingsComponent } from './Components/Common/settings/settings.component';
+import { TicketComponent } from './Components/Tickets/ticket/ticket.component';
 
 const menuRoutes: Routes = [
   { path: '', redirectTo: '/debts', pathMatch: 'full' },
@@ -16,6 +17,10 @@ const menuRoutes: Routes = [
   { path: 'editCheck/:id', component: CheckComponent, data: { check: {} } },
   { path: 'debts', component: MyBalanceComponent},
   { path: 'tape', component: TapeComponent},
+  
+  { path: 'createTicket', component: TicketComponent },
+  { path: 'editTicket/:id', component: TicketComponent, data: { ticket: {} } },
+  
   { path: 'settings', component: SettingsComponent},
 ];
 

@@ -6,6 +6,7 @@ export const environment = {
   production: false,
   name: 'dev',
   apiUrl: 'http://localhost:8081/',
+  ticketsApiUrl: 'http://localhost:5000/',
   vkApiId: '7296124'
 };
 

@@ -1,0 +1,5 @@
+export enum POSITION_DISCOUNT_TYPE_DTO {
+    ABSOLUTE = 0,
+    RELATIVE,
+    INHERITED
+}

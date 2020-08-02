@@ -29,7 +29,7 @@
     "makeTransfer": "Make Transfer",
     "refreshPage": "Refresh page",
     "settings": "Settings",
-    "tasks": "Tasks",
+    "tickets": "Tickets",
     "close": "Close"
   },
   "balance": {
@@ -114,5 +114,17 @@
     "commitDebtRepaid": "Debt repaid",
     "commitDebtRepaidConfirmation": "Sure to commit debt repaid from {0} in the amount of {1}?"
   },
-  "openCheck": "Open check"
+  "openCheck": "Open check",
+  "ticket": {
+    "ticket": "Ticket",
+    "tickets": "Tickets",
+    "ticketCreating": "Ticket creating",
+    "ticketEditing": "Ticket editing",
+    "create": "CREATE",
+    "save": "SAVE",
+    "title": "Title",
+    "createdDate": "Creation date",
+    "deadline": "Deadline",
+    "description": "Description"
+  }
 }

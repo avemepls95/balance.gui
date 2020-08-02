@@ -1,7 +1,7 @@
 import { Component, OnInit, Optional, Inject, ViewChild, ElementRef, AfterContentInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { PositionCardComponent } from '../position-card/position-card.component';
-import { Consumption } from 'src/app/Model/Consumption';
+import { Consumption } from 'src/app/Model/Balance/Consumption';
 import { User } from 'src/app/Model/User';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { isNullOrUndefined, isNull } from 'util';
@@ -10,10 +10,9 @@ import { EMPTY } from 'rxjs';
 import { BalanceApiService } from 'src/app/Services/balance-api.service';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { TranslateHelper } from 'src/app/Utils/TranslateHelper';
-import { MathExtensions } from 'src/app/Utils/MathExtensions';
-import { DiscountCalculator } from 'src/app/Model/Discount/discount-calculator';
-import { Position } from 'src/app/Model/Position';
-import { DISCOUNT_TYPE } from 'src/app/Model/Discount/discount-type.enum';
+import { DiscountCalculator } from 'src/app/Model/Balance/Discount/discount-calculator';
+import { Position } from 'src/app/Model/Balance/Position';
+import { DISCOUNT_TYPE } from 'src/app/Model/Balance/Discount/discount-type.enum';
 
 @Component({
   selector: 'app-consumptions',

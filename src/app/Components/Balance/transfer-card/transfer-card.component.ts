@@ -1,7 +1,7 @@
 import { Component, OnInit, Optional, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { PaymentCardComponent } from '../CheckRelated/payment-card/payment-card.component';
-import { Debt } from 'src/app/Model/Debt';
+import { Debt } from 'src/app/Model/Balance/Debt';
 import { ConfirmDialogModel, ConfirmDialogComponent } from '../../Common/confirm-dialog/confirm-dialog.component';
 import { isNullOrUndefined } from 'util';
 import { FormControl } from '@angular/forms';

@@ -3,10 +3,10 @@ import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 export class ThemeService {
-  private _darkTheme = new Subject<boolean>();
-  isTasksTheme = this._darkTheme.asObservable();
+  private _ticketsTheme = new Subject<boolean>();
+  isTicketsTheme = this._ticketsTheme.asObservable();
 
-  setDarkTheme(isTasksTheme: boolean): void {
-    this._darkTheme.next(isTasksTheme);
+  setTicketsTheme(isTicketsTheme: boolean): void {
+    this._ticketsTheme.next(isTicketsTheme);
   }
 }

@@ -3,8 +3,8 @@ import { HttpClient } from '@angular/common/http';
 // import { AppConfig } from '../app.config';
 import { JwtHelper } from 'angular2-jwt';
 import { Observable } from 'rxjs';
-import { TelegramToBalanceAuthDto } from '../Model/Dto/Auth/TelegramToBalanceAuthDto';
-import { VkToBalanceAuthDto } from '../Model/Dto/Auth/VkToBalanceAuthDto';
+import { TelegramToBalanceAuthDto } from '../Model/Balance/Dto/Auth/TelegramToBalanceAuthDto';
+import { VkToBalanceAuthDto } from '../Model/Balance/Dto/Auth/VkToBalanceAuthDto';
 import { LocalStorageManager } from '../LocalStorageManager';
 import { environment } from 'src/environments/environment';
 

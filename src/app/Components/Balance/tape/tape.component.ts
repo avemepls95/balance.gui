@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { BalanceApiService } from 'src/app/Services/balance-api.service';
 import { LoaderService } from 'src/app/Services/loader.service';
 import { finalize } from 'rxjs/operators';
-import { TapeRecord } from 'src/app/Model/TapeRecord';
+import { TapeRecord } from 'src/app/Model/Balance/TapeRecord';
 import { LocalStorageManager } from 'src/app/LocalStorageManager';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackbarService } from 'src/app/Services/snackbar.service';
-import { CheckGetDtoMapper } from 'src/app/Model/Utils/CheckGetDtoMapper';
+import { CheckGetDtoMapper } from 'src/app/Model/Balance/Utils/CheckGetDtoMapper';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 

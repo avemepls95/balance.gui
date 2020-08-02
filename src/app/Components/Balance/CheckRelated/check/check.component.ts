@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation, OnDestroy, HostListener } from '@angular/core';
-import { Payment } from 'src/app/Model/Payment';
-import { Position } from 'src/app/Model/Position';
+import { Payment } from 'src/app/Model/Balance/Payment';
+import { Position } from 'src/app/Model/Balance/Position';
 import { FormControl, Validators } from '@angular/forms';
 import { MyErrorStateMatcher } from 'src/app/Utils/MyErrorStateMatcher';
 import { MatTableDataSource } from '@angular/material/table';
@@ -8,29 +8,29 @@ import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PaymentCardComponent } from '../payment-card/payment-card.component';
-import { Check } from 'src/app/Model/Check';
+import { Check } from 'src/app/Model/Balance/Check';
 import { isNullOrUndefined, isNumber } from 'util';
 import { BalanceApiService } from 'src/app/Services/balance-api.service';
 import { finalize } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CheckGetDtoMapper } from 'src/app/Model/Utils/CheckGetDtoMapper';
+import { CheckGetDtoMapper } from 'src/app/Model/Balance/Utils/CheckGetDtoMapper';
 import { LoaderService } from 'src/app/Services/loader.service';
-import { CheckCreateUpdateDtoMapper } from 'src/app/Model/Utils/CheckCreateUpdateDtoMapper';
+import { CheckCreateUpdateDtoMapper } from 'src/app/Model/Balance/Utils/CheckCreateUpdateDtoMapper';
 import { SnackbarService } from 'src/app/Services/snackbar.service';
-import { BalanceResponse } from 'src/app/BalanceResponse';
+import { BalanceResponse } from 'src/app/Model/Balance/BalanceResponse';
 import { PositionCardComponent } from '../position-card/position-card.component';
 import { TranslateHelper } from 'src/app/Utils/TranslateHelper';
 import { ConfirmDialogModel, ConfirmDialogComponent } from 'src/app/Components/Common/confirm-dialog/confirm-dialog.component';
 import { CopyUtils } from 'src/app/Utils/CopyUtils';
-import { CheckPermissionsResolver } from 'src/app/Model/Utils/CheckPermissionsResolver';
+import { CheckPermissionsResolver } from 'src/app/Model/Balance/Utils/CheckPermissionsResolver';
 import { TableUtils } from 'src/app/ControlLayer/Utils/TableUtils';
-import { CHECK_STATE as CHECK_STATE } from 'src/app/Model/check-state.enum';
+import { CHECK_STATE as CHECK_STATE } from 'src/app/Model/Balance/check-state.enum';
 import { MathExtensions } from 'src/app/Utils/MathExtensions';
 import { MatRadioChange } from '@angular/material/radio';
-import { DISCOUNT_TYPE } from 'src/app/Model/Discount/discount-type.enum';
-import { DiscountCalculator } from 'src/app/Model/Discount/discount-calculator';
-import { DiscountPercentCalculator } from 'src/app/Model/Discount/discount-percent-calculator';
-import { DiscountAbsCalculator } from 'src/app/Model/Discount/discount-abs-calculator';
+import { DISCOUNT_TYPE } from 'src/app/Model/Balance/Discount/discount-type.enum';
+import { DiscountCalculator } from 'src/app/Model/Balance/Discount/discount-calculator';
+import { DiscountPercentCalculator } from 'src/app/Model/Balance/Discount/discount-percent-calculator';
+import { DiscountAbsCalculator } from 'src/app/Model/Balance/Discount/discount-abs-calculator';
 
 @Component({
   selector: 'app-check',

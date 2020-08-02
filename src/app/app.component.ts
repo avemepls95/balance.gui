@@ -16,7 +16,7 @@ import { Observable } from 'rxjs';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  isTasksTheme: Observable<boolean>;
+  isTicketsTheme: Observable<boolean>;
   
   constructor(
     private loadingBar: SlimLoadingBarService,
@@ -34,7 +34,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.isTasksTheme = this.themeService.isTasksTheme;
+    this.isTicketsTheme = this.themeService.isTicketsTheme;
   }
 
   private navigationInterceptor(event: Event): void {

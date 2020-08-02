@@ -6,7 +6,7 @@ import { BalanceApiService } from 'src/app/Services/balance-api.service';
 import { User } from 'src/app/Model/User';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { EMPTY } from 'rxjs';
-import { Payment } from 'src/app/Model/Payment';
+import { Payment } from 'src/app/Model/Balance/Payment';
 import { isNullOrUndefined } from 'util';
 import { ICanBeCreated } from 'src/app/Interfaces/ICanBeCreated';
 import { TranslateHelper } from 'src/app/Utils/TranslateHelper';

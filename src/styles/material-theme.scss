@@ -9,12 +9,12 @@ $theme: mat-light-theme($primary, $accent, $warn);
 
 @include angular-material-theme($theme);
 
-.tasks-theme {
+.tickets-theme {
     color: $light-primary-text;
-    $tasks-primary: mat-palette($mat-purple);
-    $tasks-accent: mat-palette($mat-pink, A200, A100, A400);
-    $tasks-warn: mat-palette($mat-red);
-    $tasks-theme: mat-light-theme($tasks-primary, $tasks-accent, $tasks-warn);
+    $tickets-primary: mat-palette($mat-purple);
+    $tickets-accent: mat-palette($mat-pink, A200, A100, A400);
+    $tickets-warn: mat-palette($mat-red);
+    $tickets-theme: mat-light-theme($tickets-primary, $tickets-accent, $tickets-warn);
   
-    @include angular-material-theme($tasks-theme);
+    @include angular-material-theme($tickets-theme);
 }

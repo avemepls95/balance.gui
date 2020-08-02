@@ -1,0 +1,76 @@
+<mat-card class="content-card">
+  <mat-card-header>
+    <div class='flex-h-space-between header-row' style="height: 42px;">
+      <div class='flex-v-center'>
+        <mat-card-title *ngIf="mode == 'creating'" [translate]="'ticket.ticketCreating'"></mat-card-title>
+        <mat-card-title *ngIf="mode == 'editing'" [translate]="'ticket.ticket'"></mat-card-title>
+      </div>
+    </div>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-form-field class="w-100">
+      <input matInput [(ngModel)]="ticket.title" placeholder="{{ 'ticket.title' | translate }}"
+        [formControl]="titleFormControl" [errorStateMatcher]="matcher" [readonly]="!canEdit()">
+      <mat-error *ngIf="titleFormControl.hasError('required')" [translate]="'common.fieldRequired'">
+      </mat-error>
+    </mat-form-field>
+
+    <div>
+      <mat-form-field class="w-100">
+        <mat-chip-list #chipList>
+          <mat-chip *ngFor="let assignee of ticket.assignees" [selectable]="true"
+            [removable]="true" (removed)="removeAssignee(assignee)">
+            {{assignee.username}}
+            <mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
+          </mat-chip>
+          <input matInput #usersInput placeholder="{{ 'check.searchUsers' | translate }}" aria-label="State"
+            [matAutocomplete]="auto" [formControl]="searchUserCtrl" [matChipInputFor]="chipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true">
+        </mat-chip-list>
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedUser($event)">
+          <mat-option class="is-loading" *ngIf="isLoading" [disabled]="true">
+            <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+          </mat-option>
+          <ng-container *ngIf="!isLoading">
+            <mat-option *ngFor="let user of filteredUsers" [value]="user.id">
+              <span>{{user.username}}</span>
+            </mat-option>
+          </ng-container>
+        </mat-autocomplete>
+      </mat-form-field>
+      <br>
+      <ng-container *ngIf="errorMsg">
+        {{errorMsg}}
+      </ng-container>
+    </div>
+
+    <mat-form-field class="w-100" *ngIf="mode == 'editing'">
+      <input matInput placeholder="{{ 'ticket.createdDate' | translate }}"
+        value="{{ticket.createdDate | date:'dd.MM.yyyy HH:mm'}}" [readonly]="true">
+    </mat-form-field>
+
+    <mat-form-field class="w-100">
+      <input [(ngModel)]="ticket.deadline" matInput [ngxMatDatetimePicker]="picker" placeholder="{{ 'ticket.deadline' | translate }}"
+        [min]="minDate" [max]="maxDate" [disabled]="disabled">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <ngx-mat-datetime-picker #picker [showSeconds]="false" [stepHour]="stepHour"
+        [stepMinute]="stepMinute" [stepSecond]="stepSecond" [touchUi]="touchUi" [color]="color"
+        [enableMeridian]="enableMeridian" [disableMinute]="disableMinute" [hideTime]="hideTime">
+      </ngx-mat-datetime-picker>
+    </mat-form-field>
+
+    <mat-form-field class="w-100">
+      <textarea matInput [(ngModel)]="ticket.description" placeholder="{{ 'ticket.description' | translate }}"></textarea>
+    </mat-form-field>
+
+  </mat-card-content>
+
+  <mat-card-actions class="create-ticket-btn-wrap">
+    <button mat-button *ngIf="mode == 'creating' && !ticket.id" (click)="createTicket()">
+      <span [translate]="'ticket.create'"></span>
+    </button>
+    <button mat-button *ngIf="ticket.id && canEdit()" (click)="handleUpdateTicketClick()">
+      <span [translate]="'ticket.save'"></span>
+    </button>
+  </mat-card-actions>
+</mat-card>

@@ -1,0 +1,4 @@
+export enum CHECK_STATE {
+    EDITING = "EDITING",
+    PROCESSED = "PROCESSED"
+}

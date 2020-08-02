@@ -10,7 +10,7 @@
                 <mat-select class="system-select" [(ngModel)]="selectedSystem"
                     (ngModelChange)="onSystemChanged($event)">
                     <mat-option value="balance">Balance</mat-option>
-                    <mat-option value="tasks">Tasks</mat-option>
+                    <mat-option value="tickets">Tickets</mat-option>
                 </mat-select>
             </mat-form-field>
             <span class="menu-spacer"></span>
@@ -60,10 +60,10 @@
                     <h4 mat-line [translate]="'menu.checks'"></h4>
                 </mat-list-item>
             </div>
-            <div *ngIf="selectedSystem == 'tasks'">
-                <mat-list-item [routerLink]="'/tasks'" (click)="sidenav.toggle()">
+            <div *ngIf="selectedSystem == 'tickets'">
+                <mat-list-item [routerLink]="'/tickets'" (click)="sidenav.toggle()">
                     <mat-icon mat-list-icon>domain_verification</mat-icon>
-                    <h4 mat-line [translate]="'menu.tasks'"></h4>
+                    <h4 mat-line [translate]="'menu.tickets'"></h4>
                 </mat-list-item>
             </div>
             <mat-divider></mat-divider>

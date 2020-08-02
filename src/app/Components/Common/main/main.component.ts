@@ -4,7 +4,7 @@ import { BalanceApiService } from 'src/app/Services/balance-api.service';
 import { AuthService } from 'src/app/Services/auth.service';
 import { LocalStorageManager } from 'src/app/LocalStorageManager';
 import { TransferCardComponent } from '../../Balance/transfer-card/transfer-card.component';
-import { TransferDto } from 'src/app/Model/Dto/TransferDto';
+import { TransferDto } from 'src/app/Model/Balance/Dto/TransferDto';
 import { UUID } from 'angular2-uuid';
 import { finalize } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
@@ -16,6 +16,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { NotificationsInfoComponent } from '../notifications-info/notifications-info.component';
 import { ThemeService } from 'src/app/core/services/theme.service';
+import { RoutePathsManager } from 'src/app/RoutePathsManager';
 
 @Component({
   selector: 'app-main',
@@ -43,6 +44,11 @@ export class MainComponent implements OnInit {
     private themeService: ThemeService
   ) {
     snackbarService.setSnackbar(snackbar);
+
+    if (RoutePathsManager.isTicketsRoute(this.router.url)) {
+      this.selectedSystem = 'tickets';
+      this.themeService.setTicketsTheme(true);
+    }
 
     this.languagesIcons[TranslateHelper.ruKey] = 'flag-icon-ru';
     this.languagesIcons[TranslateHelper.enKey] = 'flag-icon-gb';
@@ -103,12 +109,13 @@ export class MainComponent implements OnInit {
   }
 
   onSystemChanged(newSystemKey: string): void {
-    if (newSystemKey == 'tasks') {
-      this.themeService.setDarkTheme(true);
+    if (newSystemKey == 'tickets') {
+      this.themeService.setTicketsTheme(true);
+      this.router.navigate(['/createTicket']);
       return;
     }
 
-    this.themeService.setDarkTheme(false);
+    this.themeService.setTicketsTheme(false);
     this.router.navigate(['/debts']);
   }
 }

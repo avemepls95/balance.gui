@@ -3,8 +3,8 @@ import { AuthService } from 'src/app/Services/auth.service';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { finalize } from 'rxjs/operators';
-import { CommonDtoMapper } from 'src/app/Model/Utils/CommonDtoMapper';
-import { FromVkAuthDto } from 'src/app/Model/Dto/Auth/FromVkAuthDto';
+import { CommonDtoMapper } from 'src/app/Model/Balance/Utils/CommonDtoMapper';
+import { FromVkAuthDto } from 'src/app/Model/Balance/Dto/Auth/FromVkAuthDto';
 import { LocalStorageManager } from 'src/app/LocalStorageManager';
 import { environment } from 'src/environments/environment';
 

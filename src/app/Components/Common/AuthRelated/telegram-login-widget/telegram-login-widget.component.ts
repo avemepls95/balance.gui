@@ -1,11 +1,10 @@
 import { Component, AfterViewInit, ElementRef, ViewChild, EventEmitter, Output } from '@angular/core';
 import { AuthService } from 'src/app/Services/auth.service';
-import { CheckGetDtoMapper } from 'src/app/Model/Utils/CheckGetDtoMapper'
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
-import { CommonDtoMapper } from 'src/app/Model/Utils/CommonDtoMapper';
-import { FromTelegramAuthDto } from 'src/app/Model/Dto/Auth/FromTelegramAuthDto';
+import { CommonDtoMapper } from 'src/app/Model/Balance/Utils/CommonDtoMapper';
+import { FromTelegramAuthDto } from 'src/app/Model/Balance/Dto/Auth/FromTelegramAuthDto';
 import { LocalStorageManager } from 'src/app/LocalStorageManager';
 
 @Component({

@@ -6,16 +6,16 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { debounceTime, tap, switchMap, finalize } from 'rxjs/operators';
 import { BalanceApiService } from 'src/app/Services/balance-api.service';
 import { User } from 'src/app/Model/User';
-import { Position } from 'src/app/Model/Position';
+import { Position } from 'src/app/Model/Balance/Position';
 import { ICanBeCreated } from 'src/app/Interfaces/ICanBeCreated';
 import { ConsumptionsCardComponent } from '../consumptions/consumptions-card.component';
-import { Consumption } from 'src/app/Model/Consumption';
+import { Consumption } from 'src/app/Model/Balance/Consumption';
 import { TranslateHelper } from 'src/app/Utils/TranslateHelper';
 import { ConfirmDialogModel, ConfirmDialogComponent } from 'src/app/Components/Common/confirm-dialog/confirm-dialog.component';
-import { Discount } from 'src/app/Model/Discount/discount';
+import { Discount } from 'src/app/Model/Balance/Discount/discount';
 import { isUndefined } from 'util';
 import { MathExtensions } from 'src/app/Utils/MathExtensions';
-import { DiscountCalculator } from 'src/app/Model/Discount/discount-calculator';
+import { DiscountCalculator } from 'src/app/Model/Balance/Discount/discount-calculator';
 import { CopyUtils } from 'src/app/Utils/CopyUtils';
 
 @Component({
@@ -31,10 +31,6 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
   checkDiscount: Discount;
   discountCalculator: DiscountCalculator;
 
-  visible = true;
-  selectable = true;
-  removable = true;
-  addOnBlur = true;
   separatorKeysCodes: number[] = [ENTER, COMMA];
 
   equalConsumptions: Boolean = true;

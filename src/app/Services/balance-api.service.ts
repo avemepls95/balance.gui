@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, EMPTY, of } from 'rxjs';
 import { isNullOrUndefined } from 'util';
-import { CreateUpdateCheckDto } from '../Model/Dto/Check/CreateUpdate/CreateUpdateCheckDto';
-import { BalanceResponse } from '../BalanceResponse';
-import { TransferDto } from '../Model/Dto/TransferDto';
+import { CreateUpdateCheckDto } from '../Model/Balance/Dto/Check/CreateUpdate/CreateUpdateCheckDto';
+import { BalanceResponse } from '../Model/Balance/BalanceResponse';
+import { TransferDto } from '../Model/Balance/Dto/TransferDto';
 import { environment } from 'src/environments/environment';
-import { DebtRepaidDto } from '../Model/Dto/DebtRepaidDto';
+import { DebtRepaidDto } from '../Model/Balance/Dto/DebtRepaidDto';
 
 @Injectable({
   providedIn: 'root'
@@ -31,7 +31,7 @@ export class BalanceApiService {
 
   createCheck(check: CreateUpdateCheckDto): Observable<any> {
     if (isNullOrUndefined(check))
-      throw Error("Cannot create a check. Passed parameter is null or indefined.");
+      throw Error("Cannot create a check. Passed parameter is null or undefined.");
 
     return this.http.post(
       this.apiBaseUrl + 'checks',

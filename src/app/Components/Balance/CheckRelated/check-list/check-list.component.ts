@@ -1,21 +1,21 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { Check } from 'src/app/Model/Check';
+import { Check } from 'src/app/Model/Balance/Check';
 import { BalanceApiService } from 'src/app/Services/balance-api.service';
 import { LoaderService } from 'src/app/Services/loader.service';
 import { finalize, tap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { SnackbarService } from 'src/app/Services/snackbar.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { BalanceResponse } from 'src/app/BalanceResponse';
+import { BalanceResponse } from 'src/app/Model/Balance/BalanceResponse';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { ConfirmDialogModel, ConfirmDialogComponent } from 'src/app/Components/Common/confirm-dialog/confirm-dialog.component';
 import { TranslateHelper } from 'src/app/Utils/TranslateHelper';
 import { TableUtils } from 'src/app/ControlLayer/Utils/TableUtils';
 import { isNullOrUndefined } from 'util';
-import { UserCheckRoles } from 'src/app/Model/Utils/CheckPermissionsResolver';
-import { CHECK_STATE } from 'src/app/Model/check-state.enum';
-import { CheckGetDtoMapper } from 'src/app/Model/Utils/CheckGetDtoMapper';
+import { UserCheckRoles } from 'src/app/Model/Balance/Utils/CheckPermissionsResolver';
+import { CHECK_STATE } from 'src/app/Model/Balance/check-state.enum';
+import { CheckGetDtoMapper } from 'src/app/Model/Balance/Utils/CheckGetDtoMapper';
 
 @Component({
   selector: 'app-check-list',

@@ -29,7 +29,7 @@
     "makeTransfer": "Перевод",
     "refreshPage": "Обновить страницу",
     "settings": "Настройки",
-    "tasks": "Задачи",
+    "tickets": "Задачи",
     "close": "Закрыть"
   },
   "balance": {
@@ -114,5 +114,17 @@
     "commitDebtRepaid": "Долг погашен",
     "commitDebtRepaidConfirmation": "Зафиксировать погашение долга пользователя {0} в количестве {1}?"
   },
-  "openCheck": "Перейти к чеку"
+  "openCheck": "Перейти к чеку",
+  "ticket": {
+    "ticket": "Задача",
+    "tickets": "Задачи",
+    "ticketCreating": "Создание задачи",
+    "ticketEditing": "Редактирование задачи",
+    "create": "СОЗДАТЬ",
+    "save": "СОХРАНИТЬ",
+    "title": "Название",
+    "createdDate": "Дата создания",
+    "deadline": "Крайний срок",
+    "description": "Описание"
+  }
 }

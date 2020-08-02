@@ -42,6 +42,8 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { DebtRepaidCardComponent } from './Components/Balance/debt-repaid-card/debt-repaid-card.component';
 import { CoreModule } from './core/core.module';
+import { TicketComponent } from './Components/Tickets/ticket/ticket.component';
+import { NgxMatDatetimePickerModule, NgxMatNativeDateModule } from '@angular-material-components/datetime-picker';
 
 export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
@@ -73,7 +75,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     TapeComponent,
     SettingsComponent,
     NotificationsInfoComponent,
-    DebtRepaidCardComponent
+    DebtRepaidCardComponent,
+    TicketComponent
   ],
   imports: [
     BrowserModule,
@@ -95,7 +98,9 @@ export function HttpLoaderFactory(http: HttpClient) {
         deps: [HttpClient]
       }
     }),
-    CoreModule
+    CoreModule,
+    NgxMatNativeDateModule,
+    NgxMatDatetimePickerModule,
   ],
   entryComponents: [
     PositionCardComponent,
