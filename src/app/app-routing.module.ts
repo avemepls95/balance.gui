@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './Guards/auth.guard';
-import { CheckListComponent } from './Components/Domain/CheckRelated/check-list/check-list.component';
-import { CheckComponent } from './Components/Domain/CheckRelated/check/check.component';
+import { CheckListComponent } from './Components/Balance/CheckRelated/check-list/check-list.component';
+import { CheckComponent } from './Components/Balance/CheckRelated/check/check.component';
 import { AuthComponent } from './Components/Common/AuthRelated/auth/auth.component';
-import { TapeComponent } from './Components/Domain/tape/tape.component';
-import { MyBalanceComponent } from './Components/Domain/my-balance/my-balance.component';
+import { TapeComponent } from './Components/Balance/tape/tape.component';
+import { MyBalanceComponent } from './Components/Balance/my-balance/my-balance.component';
 import { MainComponent } from './Components/Common/main/main.component';
 import { SettingsComponent } from './Components/Common/settings/settings.component';
 

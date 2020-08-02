@@ -1,0 +1,255 @@
+#delete-th {
+    color: red;
+}
+
+#edit-th {
+    padding-right: 0;
+}
+
+.bth-add-row {
+    background-color: #17bd3b;
+    color: white;
+}
+
+.btn-create-check {
+    margin-top: 10px;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.btn-create-check .fa {
+    margin-right: 5px;
+}
+
+.btn-create-check-form {
+    display: flex;
+    justify-content: center;
+}
+
+.card {
+    margin-top: 10px;
+}
+
+mat-card-content {
+    padding: 0 1vw;
+}
+
+.mat-card-title {
+    margin-bottom: 0;
+}
+
+table {
+    width: 100%;
+}
+
+.mat-column-actions {
+    width: 80px;
+}
+
+.mat-cell, .mat-footer-cell { 
+    text-align: center;
+}
+
+.mat-footer-row {
+    background-color: #80808029;
+}
+
+::ng-deep .mat-sort-header-container {
+    display:flex;
+    justify-content:center;
+    transform: translateX(12px); /* 12px - sort arrow */
+}
+  
+.add-row-button {
+    margin-bottom: 17px;
+    height: 100%;
+    margin-top: auto;
+}
+
+div.row-action-buttons {
+    display: flex;
+}
+
+div.row-action-buttons button {
+    height: 36px;
+    width: 36px;
+    min-width: unset!important;
+}
+
+.row-edit-button {
+    margin-right: 10px;
+}
+
+.mat-column-index {
+    width: 40px;
+    opacity: 0.5;
+}
+
+.header-label-wrap {
+    height: 36px;
+    align-items: center;
+    margin-bottom: 17px;
+}
+
+.positions-label {
+    font-size: 18px;
+    margin-top: initial !important;
+    margin-left: 1rem;
+    margin-bottom: 0 !important;
+}
+
+.positions-block {
+    margin-top: 1vh;
+}
+
+.payments-block {
+    margin-top: 3vh;
+}
+
+.create-check-btn-wrap {
+    display: flex;
+    justify-content: center;
+}
+
+@media only screen and (max-width: 600px) {
+    th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type {
+        padding-left: 0;
+    }
+
+    th.mat-header-cell:last-of-type, td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type {
+        padding-right: 10px;
+    }
+}
+
+.mat-card-header > div {
+    transform: translateX(-26px);
+}
+
+.header-row {
+    width: 100%;
+}
+
+.process-check-icon {
+    margin-bottom: 2px;
+}
+
+.process-check-button {
+    background-color: #26b926;
+    color: black;
+    padding-left: 8px;
+    height: 42px;
+}
+
+span.process {
+    margin-left: 5px;
+}
+
+@media only screen and (max-width: 600px) {
+    .process-check-button {
+        transform: translateX(20px);
+    }
+}
+
+.rollback-check-button {
+    background-color: orangered;
+    color: black;
+    padding-left: 8px;
+    height: 42px;
+}
+
+@media only screen and (max-width: 600px) {
+    .rollback-check-button {
+        transform: translateX(20px);
+    }
+}
+
+.rollback-check-button span {
+    margin-left: 2px;
+}
+
+.mat-column-username {
+    word-wrap: break-word !important;
+    white-space: unset !important;
+    flex: 0 0 28% !important;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  
+    word-break: break-word;
+  
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+  }
+
+  .mat-column-title {
+    word-wrap: break-word !important;
+    white-space: unset !important;
+    flex: 0 0 28% !important;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  
+    word-break: break-word;
+  
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+  }
+
+.in-work-status {
+    background-color: #6a737d;
+}
+
+.processed-status {
+    background-color: #2cbe4e;
+}
+
+.status {
+    display: inline-block;
+    padding: 4px 8px;
+    font-weight: 600;
+    line-height: 20px;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    border-radius: 3px;
+    height: 28px;
+}
+
+.discount-card {
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+.discount-wrap {
+    height: 40px;
+    align-items: center;
+    margin-top: 10px;
+    justify-content: space-around;
+}
+    .discount-wrap mat-form-field {
+        margin-top: -3px;
+        margin-left: 10px;
+    }
+    .discount-wrap > .discount-type {
+        width: min-content;
+    }
+        ::ng-deep .discount-wrap > .discount-type .mat-radio-label-content {
+            font-weight: normal;
+        }
+    .discount-wrap > .discount-checkbox {
+        width: 58px;
+    }
+    @media (min-width: 1281px) {
+        .discount-wrap {
+            justify-content: center;
+        }
+            .discount-wrap > * {
+                margin-right: 20px;
+            }
+    }
+
+::ng-deep .mat-form-field-infix {
+    width: auto !important;
+}
