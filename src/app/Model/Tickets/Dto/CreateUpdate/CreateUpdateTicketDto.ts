@@ -10,7 +10,8 @@ export class CreateUpdateTicketDto {
 
     public constructor(
         fields?: {
-            title?: string,
+            id: UUID,
+            title: string,
             description: string,
             deadline: Date,
             assigneeIds: number[]

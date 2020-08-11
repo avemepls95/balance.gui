@@ -16,7 +16,6 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { TicketCreateUpdateDtoMapper } from 'src/app/Model/Tickets/Converters/TicketCreateUpdateDtoMapper';
 import { TicketsResponse } from 'src/app/Model/Tickets/Dto/TicketsResponse';
 import { TicketGetDtoMapper } from 'src/app/Model/Tickets/Converters/TicketGetDtoMapper';
-import { UUID } from 'angular2-uuid';
 import { UUIDValidator } from 'src/app/Utils/UUIDValidator';
 import { GetTicketDto } from 'src/app/Model/Tickets/Dto/Get/GetTicketDto';
 
@@ -35,12 +34,15 @@ export class TicketComponent implements OnInit, OnDestroy {
   separatorKeysCodes: number[] = [ENTER, COMMA];
 
   @ViewChild('usersInput', { static: false }) usersInput: ElementRef<HTMLInputElement>;
+  @ViewChild('chipList', { static: false }) chipList;
 
-  searchUserCtrl = new FormControl();
+  searchUserFromControl = new FormControl();
   filteredUsers: User[];
   isLoading = false;
   errorMsg: string;
   searchResultEmptyMessage: string;
+
+  todayDate: Date = new Date();
 
   constructor(
     private loaderService: LoaderService
@@ -101,7 +103,7 @@ export class TicketComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.searchUserCtrl.valueChanges
+    this.searchUserFromControl.valueChanges
       .pipe(
         debounceTime(1000),
         tap(() => {
@@ -109,7 +111,7 @@ export class TicketComponent implements OnInit, OnDestroy {
           this.filteredUsers = [];
           this.isLoading = true;
         }),
-        switchMap(value => this.ticketsApiService.getUsersSuggestion(value)
+        switchMap(value => this.ticketsApiService.getUsersByTerm(value)
           .pipe(finalize(() => { this.isLoading = false }),
         )
         )
@@ -126,6 +128,7 @@ export class TicketComponent implements OnInit, OnDestroy {
         if (data['data'].length == 0)
           this.errorMsg = this.searchResultEmptyMessage;
         this.filteredUsers = this.removeSelectedUsersFromSuggestion(data['data']);
+        this.chipList.errorState = false;
       });
   }
 
@@ -134,9 +137,6 @@ export class TicketComponent implements OnInit, OnDestroy {
   }
 
   removeSelectedUsersFromSuggestion(suggestion: User[]): User[] {
-    if (this.ticket.assignees == null || this.ticket.assignees.length == 0)
-      return suggestion;
-
     this.ticket.assignees.forEach(selectedUser => {
       const index = suggestion.findIndex(u => u.id == selectedUser.id);
       if (index >= 0) {
@@ -155,7 +155,22 @@ export class TicketComponent implements OnInit, OnDestroy {
     this.ticket.assignees.push(user);
 
     this.usersInput.nativeElement.value = '';
-    this.searchUserCtrl.setValue('');
+    this.searchUserFromControl.setValue('');
+  }
+
+  removeAssignee(user: User): void {
+    // if (this.action == 'View')
+    //   return;
+
+    const index = this.ticket.assignees.findIndex(u => u.id == user.id);
+
+    if (index >= 0) {
+      this.ticket.assignees.splice(index, 1);
+    }
+
+    if (this.ticket.assignees.length < 1) {
+      this.chipList.errorState = true;
+    }
   }
 
   canEdit(): boolean {
@@ -169,6 +184,11 @@ export class TicketComponent implements OnInit, OnDestroy {
   createTicket(): void {
     if (!this.ticket.title || this.ticket.title == '') {
       this.titleFormControl.markAsTouched();
+      return;
+    }
+
+    if (!this.ticket.assignees || this.ticket.assignees.length == 0) {
+      this.chipList.errorState = true;
       return;
     }
 
@@ -190,6 +210,31 @@ export class TicketComponent implements OnInit, OnDestroy {
                 let ticket = TicketGetDtoMapper.convertDtoToTicket(response.data);
 
                 this.router.navigateByUrl('/editTicket/' + response.data.id, { state: { ticket } });
+                this.snackbarService.showSuccessMessage();
+              }
+            );
+        }
+      );
+  }
+
+  updateTicket(): void {
+    let checkDto = TicketCreateUpdateDtoMapper.convertTicketToDto(this.ticket);
+    this.loaderService.show();
+    this.ticketsApiService.updateTicket(checkDto)
+      .pipe(finalize(() => {
+        this.loaderService.hide();
+      }))
+      .subscribe(
+        (response: TicketsResponse) => {
+          this.loaderService.show();
+          this.ticketsApiService.getTicketById(this.ticket.id)
+            .pipe(finalize(() => {
+              this.loaderService.hide();
+            }))
+            .subscribe(
+              (response: TicketsResponse) => {
+                this.ticket = TicketGetDtoMapper.convertDtoToTicket(response.data);
+
                 this.snackbarService.showSuccessMessage();
               }
             );

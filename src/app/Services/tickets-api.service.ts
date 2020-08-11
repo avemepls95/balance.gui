@@ -17,30 +17,37 @@ export class TicketsApiService {
     this.apiBaseUrl = environment.ticketsApiUrl;
   }
 
-  getUsersSuggestion(query: string): Observable<any> {
-    if (query == "" || query == undefined)
-      return EMPTY;
+  getUsersByTerm(term: string): Observable<TicketsResponse> {
+    if (term == "" || !term)
+      throw new Error("Cannot get users. Passed parameter is null, undefined or empty.");
 
-    const params = new HttpParams()
-      .set('query', query);
-
-    return this.http.get('http://localhost:8081/' + 'users/search', { params });
+    return this.http.get(this.apiBaseUrl + 'user/search/' + term) as Observable<TicketsResponse>;
   }
 
   getTicketById(id: UUID): Observable<TicketsResponse> {
     if (!id)
-      throw Error("Cannot get a ticket. Passed parameter is null or undefined.");
+      throw Error("Cannot get ticket. Passed parameter is null or undefined.");
 
     return this.http.get(this.apiBaseUrl + 'ticket/' + id.toString()) as Observable<TicketsResponse>;
   }
 
-  createTicket(ticket: CreateUpdateTicketDto): Observable<any> {
+  createTicket(ticket: CreateUpdateTicketDto): Observable<TicketsResponse> {
     if (!ticket)
-      throw Error("Cannot create a ticket. Passed parameter is null or undefined.");
+      throw Error("Cannot create ticket. Passed parameter is null or undefined.");
 
     return this.http.post(
       this.apiBaseUrl + 'ticket',
       ticket
-    );
+    ) as Observable<TicketsResponse>;
+  }
+
+  updateTicket(ticket: CreateUpdateTicketDto): Observable<TicketsResponse> {
+    if (!ticket)
+      throw Error("Cannot update ticket. Passed parameter is null or undefined.");
+
+    return this.http.put(
+      this.apiBaseUrl + 'ticket/' + ticket.id.toString(),
+      ticket
+    ) as Observable<TicketsResponse>;
   }
 }

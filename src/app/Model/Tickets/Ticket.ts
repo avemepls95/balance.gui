@@ -8,7 +8,7 @@ export class Ticket {
     deadline: Date;
     status: string;
     createdDate: Date;
-    assignees: User[];
+    assignees: User[] = [];
 
     public constructor(
         fields?: {

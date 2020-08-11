@@ -65,6 +65,11 @@
                     <mat-icon mat-list-icon>domain_verification</mat-icon>
                     <h4 mat-line [translate]="'menu.tickets'"></h4>
                 </mat-list-item>
+                <mat-divider></mat-divider>
+                <mat-list-item [routerLink]="'/createTicket'" (click)="sidenav.toggle()">
+                    <mat-icon mat-list-icon class="green">add_task</mat-icon>
+                    <h4 mat-line [translate]="'menu.createTicket'"></h4>
+                </mat-list-item>
             </div>
             <mat-divider></mat-divider>
             <mat-list-item [routerLink]="'/settings'" (click)="sidenav.toggle()">
