@@ -32,7 +32,7 @@ export class DiscountAbsCalculator extends DiscountCalculator {
             sum -= this._check.positions[indexInPositions].amountWithoutDiscount;
 
         let multiplier = position.amountWithoutDiscount / sum;
-        position.amount = MathExtensions.round(position.amountWithoutDiscount - this._check.discount.value * multiplier, 2);
+        position.amount = MathExtensions.round(position.amountWithoutDiscount - +this._check.discount.value * multiplier, 2);
     }
 
     public recalculatePositionAmountWithoutDiscount(position: Position): void {
@@ -41,13 +41,13 @@ export class DiscountAbsCalculator extends DiscountCalculator {
 
         const indexInPositions = this._check.positions.findIndex(p => p.internalId == position.internalId);
         const isNewPosition = indexInPositions == -1;
-        let sum = this._check.positions.filter(p => p.applyDiscount).reduce((sum, current) => sum + current.amount, 0) + position.amount;
+        let sum = this._check.positions.filter(p => p.applyDiscount).reduce((sum, current) => sum + +current.amount, 0) + +position.amount;
 
         if (!isNewPosition && this._check.positions[indexInPositions].applyDiscount == position.applyDiscount)
-            sum -= this._check.positions[indexInPositions].amount;
+            sum -= +this._check.positions[indexInPositions].amount;
 
-        let multiplier = position.amount / sum;
-        position.amountWithoutDiscount = MathExtensions.round(position.amount + this._check.discount.value * multiplier, 2);
+        let multiplier = +position.amount / sum;
+        position.amountWithoutDiscount = MathExtensions.round(+position.amount + +this._check.discount.value * multiplier, 2);
     }
 
     public recalculateConsumptionsWithDiscount(position: Position) {
@@ -66,7 +66,7 @@ export class DiscountAbsCalculator extends DiscountCalculator {
 
         position.consumptions.forEach(consumption => {
             let multiplier = consumption.amountWithoutDiscount / sum;
-            consumption.amount = MathExtensions.round(consumption.amountWithoutDiscount - this._check.discount.value * multiplier, 2);
+            consumption.amount = MathExtensions.round(consumption.amountWithoutDiscount - +this._check.discount.value * multiplier, 2);
         });
     }
 
@@ -77,12 +77,12 @@ export class DiscountAbsCalculator extends DiscountCalculator {
         if (!position.consumptions || position.consumptions.length == 0)
             return;
 
-        const positionDiscount = position.amountWithoutDiscount - position.amount;
-        let sum = position.consumptions.reduce((sum, current) => sum + current.amount, 0);
+        const positionDiscount = position.amountWithoutDiscount - +position.amount;
+        let sum = position.consumptions.reduce((sum, current) => sum + +current.amount, 0);
 
         position.consumptions.forEach(consumption => {
-            let multiplier = consumption.amount / sum;
-            consumption.amountWithoutDiscount = MathExtensions.round(consumption.amount + positionDiscount * multiplier, 2);
+            let multiplier = +consumption.amount / sum;
+            consumption.amountWithoutDiscount = MathExtensions.round(+consumption.amount + positionDiscount * multiplier, 2);
         });
     }
 

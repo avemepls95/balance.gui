@@ -112,6 +112,8 @@ export class CheckComponent implements OnInit, OnDestroy {
 
                 this.setCurrentCheckAndRelatedEntities(tmp);
                 this.discountCalculator.recalculateCheckWithoutDiscount();
+                // Копирование должно быть после расчета сумм без скидок
+                this.unmodifiedCheck = this.copyUtils.deepCopy(this.check);
 
                 this.positionsDataSource = new MatTableDataSource(this.check.positions);
                 this.paymentsDataSource = new MatTableDataSource(this.check.payments);
@@ -377,7 +379,6 @@ export class CheckComponent implements OnInit, OnDestroy {
         new DiscountPercentCalculator() : new DiscountAbsCalculator();
 
     this.discountCalculator.setCheck(check);
-    this.unmodifiedCheck = this.copyUtils.deepCopy(check);
     this.permissionsResolver.setPermissionsObject(check);
     this.hasEditPermissions = this.permissionsResolver.canEdit();
 

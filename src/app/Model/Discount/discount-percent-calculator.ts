@@ -31,7 +31,7 @@ export class DiscountPercentCalculator extends DiscountCalculator {
 
         let multiplier = this.getDiscountMultiplier();
 
-        position.amountWithoutDiscount = MathExtensions.round(position.amount / multiplier, 2);
+        position.amountWithoutDiscount = MathExtensions.round(+position.amount / multiplier, 2);
     }
 
     public recalculateConsumptionsWithDiscount(position: Position) {
@@ -58,7 +58,7 @@ export class DiscountPercentCalculator extends DiscountCalculator {
         let multiplier = this.getDiscountMultiplier();
 
         position.consumptions.forEach(consumption => {
-            consumption.amountWithoutDiscount = MathExtensions.round(consumption.amount / multiplier, 2);
+            consumption.amountWithoutDiscount = MathExtensions.round(+consumption.amount / multiplier, 2);
         });
     }
 
@@ -72,7 +72,7 @@ export class DiscountPercentCalculator extends DiscountCalculator {
         let multiplier = this.getDiscountMultiplier();
 
         position.consumptions.forEach(consumption => {
-            consumption.amount = MathExtensions.round(consumption.amount / multiplier, 2);
+            consumption.amount = MathExtensions.round(+consumption.amount / multiplier, 2);
         });
     }
 

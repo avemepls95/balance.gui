@@ -68,9 +68,8 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
     this.position.applyDiscount = data.position.applyDiscount && data.discount.apply;
     this.discountCalculator = data.discountCalculator;
 
-    if (data.action == 'Add' && !!data.predefinedUsers && data.predefinedUsers.length != 0) {
+    if (data.action == 'Add' && !!data.predefinedUsers && data.predefinedUsers.length != 0)
       this.applyPredefinedUsers(data.predefinedUsers);
-    }
 
     this.position.applyDiscount = data.action == 'Add' ?
       data.discount.apply : data.position.applyDiscount;
@@ -172,6 +171,7 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
   }
 
   onAmountWithoutDiscountChanged(): void {
+    this.position.amountWithoutDiscount = +this.position.amountWithoutDiscount;
     if (this.position.applyDiscount)
       this.discountCalculator.recalculatePositionAmountWithDiscount(this.position);
     else
@@ -244,15 +244,17 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
 
     dialogRef.afterClosed().subscribe(result => {
       let consumptions = result.data;
-      if (result.event == 'Cancel') {
-        return;
-      }
-
-      if (!consumptions || consumptions.length == 0 || consumptions.length == 1) {
+      
+      if (!consumptions || consumptions.length == 0 || consumptions.length == 1)
         this.equalConsumptions = true;
-      }
+
+      if (result.event == 'Cancel')
+        return;
 
       this.position.consumptions = result.data;
+      if (!this.equalConsumptions && this.position.isEqualConsumptions())
+        this.equalConsumptions = true;
+
       this.position.amountWithoutDiscount = MathExtensions.round(
         this.position.consumptions.reduce((sum, current) => sum + +current.amountWithoutDiscount, 0),
         2);

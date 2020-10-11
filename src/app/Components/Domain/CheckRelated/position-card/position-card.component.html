@@ -10,11 +10,11 @@
       </mat-form-field>
       <div class="flex-h-space-between">
         <mat-form-field [ngClass]="position.applyDiscount ? 'w-48' : 'w-100'">
-          <input matInput RemoveZero Mask="^\d*\.?\d{0,2}$" type="number" required
+          <input matInput RemoveZero Mask="^\d*\.?\d{0,2}$" type="text" required
             placeholder="{{ 'check.amount' | translate }}" [(ngModel)]="position.amountWithoutDiscount"
             [disabled]="!equalConsumptions" (change)="onAmountWithoutDiscountChanged()">
         </mat-form-field>
-        <mat-form-field *ngIf="showDiscountControls()" class="w-48">
+        <mat-form-field *ngIf="showDiscountControls() && !!position.applyDiscount" class="w-48">
           <input matInput placeholder="{{ 'check.discount.withDiscount' | translate }}" [(ngModel)]="position.amount"
             [disabled]="true">
         </mat-form-field>

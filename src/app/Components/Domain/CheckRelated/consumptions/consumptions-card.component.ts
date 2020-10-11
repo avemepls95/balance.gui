@@ -194,6 +194,7 @@ export class ConsumptionsCardComponent implements AfterContentInit {
   }
 
   onAmountWithoutDiscountChanged(consumption: Consumption): void {
+    consumption.amountWithoutDiscount = +consumption.amountWithoutDiscount;
     if (!this.discountInfo.apply) {
       consumption.amount = consumption.amountWithoutDiscount;
       return;

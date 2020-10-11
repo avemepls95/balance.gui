@@ -30,7 +30,8 @@ export class CopyUtils {
         if (obj instanceof Object) {
             copy = {};
             for (var attr in obj) {
-                if (obj.hasOwnProperty(attr)) copy[attr] = this.deepCopy(obj[attr]);
+                if (obj.hasOwnProperty(attr))
+                    copy[attr] = this.deepCopy(obj[attr]);
             }
             return copy;
         }
