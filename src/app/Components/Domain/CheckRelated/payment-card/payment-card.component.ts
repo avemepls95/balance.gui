@@ -9,7 +9,6 @@ import { EMPTY } from 'rxjs';
 import { Payment } from 'src/app/Model/Payment';
 import { isNullOrUndefined } from 'util';
 import { ICanBeCreated } from 'src/app/Interfaces/ICanBeCreated';
-import { TranslateHelper } from 'src/app/Utils/TranslateHelper';
 
 @Component({
   selector: 'app-payment-card',
@@ -28,7 +27,7 @@ export class PaymentCardComponent implements OnInit, AfterContentInit, ICanBeCre
 
   userAlreadyIsSelected: boolean = false;
 
-  searchResultEmptyMessage: string;
+  searchResultEmptyMessage: string = "Нет совпадений";
 
   @ViewChild('userInput', { static: false }) userInput: ElementRef<HTMLInputElement>;
 
@@ -36,12 +35,9 @@ export class PaymentCardComponent implements OnInit, AfterContentInit, ICanBeCre
     public dialogRef: MatDialogRef<PaymentCardComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public data,
     private balanceApiService: BalanceApiService,
-    private translateHelper: TranslateHelper
   ) {    
     this.payment = data.obj;
     this.action = data.action;
-
-    this.searchResultEmptyMessage = this.translateHelper.getValue('check.searchResultsEmpty');
   }
 
   ngOnInit() {

@@ -29,11 +29,8 @@ import { ConfirmDialogComponent } from './Components/Common/confirm-dialog/confi
 import { TransferCardComponent } from './Components/Domain/transfer-card/transfer-card.component';
 import { ConsumptionsCardComponent } from './Components/Domain/CheckRelated/consumptions/consumptions-card.component';
 import { TapeComponent } from './Components/Domain/tape/tape.component';
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { CookieService } from 'ngx-cookie-service';
 import { SettingsComponent } from './Components/Common/settings/settings.component';
-import { TranslateHelper } from './Utils/TranslateHelper';
 import { MaskDirective } from './Directives/mask.directive';
 import { RemoveZeroDirective } from './Directives/remove-zero.directive';
 import { ResponseInterceptor } from './Interceptors/response.interceptor';
@@ -44,11 +41,6 @@ import { DebtRepaidCardComponent } from './Components/Domain/debt-repaid-card/de
 
 export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
-}
-
-export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http, '/assets/i18n/', '.json?cacheBuster=' 
-      + new Date().getTime());
 }
 
 @NgModule({
@@ -86,14 +78,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     ToastrModule.forRoot(),
     TextMaskModule,
     InfiniteScrollModule,
-    NgxSpinnerModule,
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
-        deps: [HttpClient]
-      }
-    })
+    NgxSpinnerModule
   ],
   entryComponents: [
     PositionCardComponent,
@@ -109,7 +94,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     LoaderService,
     SnackbarService,
     CookieService,
-    TranslateHelper,
     // AppConfig,
     // {
     //   provide: APP_INITIALIZER,

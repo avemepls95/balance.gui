@@ -11,7 +11,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { LoaderService } from 'src/app/Services/loader.service';
 import { SnackbarService } from 'src/app/Services/snackbar.service';
 import { isNullOrUndefined } from 'util';
-import { TranslateHelper } from 'src/app/Utils/TranslateHelper';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { NotificationsInfoComponent } from '../notifications-info/notifications-info.component';
@@ -35,13 +34,9 @@ export class MainComponent implements OnInit {
     private dialog: MatDialog,
     private snackbarService: SnackbarService,
     snackbar: MatSnackBar,
-    public translateHelper: TranslateHelper,
     private _bottomSheet: MatBottomSheet
   ) { 
     snackbarService.setSnackbar(snackbar);
-
-    this.languagesIcons[TranslateHelper.ruKey] = 'flag-icon-ru';
-    this.languagesIcons[TranslateHelper.enKey] = 'flag-icon-gb';
 
     this.userFirstName = localStorage.getItem(LocalStorageManager.userFirstNameKey);
     let avatarTmp = localStorage.getItem(LocalStorageManager.userPhotoUrlKey);
@@ -78,19 +73,8 @@ export class MainComponent implements OnInit {
     this._bottomSheet.open(NotificationsInfoComponent);
   }
 
-  getCurrentLanguageIconClass() : string {
-    let language = this.translateHelper.getCurrentLanguage();
-    return this.languagesIcons[language];
-  }
-
   refreshPage(): void {
     window.location.reload();
-  }
-
-  switchLanguage(): void {
-    let language = this.translateHelper.getCurrentLanguage() == TranslateHelper.ruKey ?
-      TranslateHelper.enKey : TranslateHelper.ruKey;
-    this.translateHelper.switchToLanguage(language);
   }
 
   logout(): void {

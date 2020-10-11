@@ -1,12 +1,12 @@
 <div [formGroup]="myForm">
-    <h2 [translate]="'check.consumptions'" class="header-title"></h2>
+    <h2 class="header-title">Расходы</h2>
     <mat-card
         *ngFor="let consumption of consumptions; index as i;let errorMessageVisible of errorMessageVisibilityArray">
         <div class="consumption-block">
             <mat-card-content>
                 <div>
                     <mat-form-field>
-                        <input matInput id="user-input-{{i}}" placeholder="{{ 'check.searchUser' | translate }}"
+                        <input matInput id="user-input-{{i}}" placeholder="Поиск человека..."
                             [matAutocomplete]="auto" formControlName="userControl{{i}}" [readonly]="action == 'View'">
                         <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn"
                             (optionSelected)="selectedUser($event, consumption)">
@@ -29,13 +29,13 @@
                     </ng-container>
                 </div>
                 <mat-form-field>
-                    <input matInput required type="text" Mask="^\d*\.?\d{0,2}$" placeholder="{{ 'check.amount' | translate }}"
+                    <input matInput required type="text" Mask="^\d*\.?\d{0,2}$" placeholder="Сумма"
                         [readonly]="action == 'View'" [(ngModel)]="consumption.amountWithoutDiscount"
                         (change)="onAmountWithoutDiscountChanged(consumption)" [ngModelOptions]="{standalone: true}">
                 </mat-form-field>
 
                 <mat-form-field *ngIf="discountInfo.apply">
-                    <input matInput placeholder="{{ 'check.discount.withDiscount' | translate }}" [(ngModel)]="consumption.amount" [disabled]="true"
+                    <input matInput placeholder="Со скидкой" [(ngModel)]="consumption.amount" [disabled]="true"
                         [ngModelOptions]="{standalone: true}">
                 </mat-form-field>
 
@@ -47,14 +47,14 @@
         </div>
     </mat-card>
     <button class="w-100" mat-button (click)="addEmptyConsumption()" mat-flat-button color="primary"
-        matTooltip="{{ 'check.addConsumption' | translate }}" [disabled]="!canAdd()">
-        + <span [translate]="'check.consumption'"></span>
+        matTooltip="Добавить Расход" [disabled]="!canAdd()">
+        + <span>Расход</span>
     </button>
 </div>
 
 <div mat-dialog-actions>
     <button mat-button (click)="closeDialog()" mat-flat-button color="warn">
-        <span [translate]="'common.cancel'"></span>
+        <span>Отмена</span>
     </button>
     <button mat-button (click)="doAction()" [hidden]="action == 'View'" [disabled]="!canBeCreated()">OK</button>
 </div>

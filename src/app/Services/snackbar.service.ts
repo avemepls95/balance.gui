@@ -4,7 +4,6 @@ import { SnackBarColor } from '../ControlLayer/SnackBarColor.enum';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ResponseCode } from '../Utils/ResponseCode.enum';
 import { isNullOrUndefined } from 'util';
-import { TranslateHelper } from 'src/app/Utils/TranslateHelper';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -13,8 +12,7 @@ import { Injectable } from '@angular/core';
 export class SnackbarService {
     snackbar: MatSnackBar;
 
-    constructor(private translateHelper: TranslateHelper) {
-
+    constructor() {
     }
 
     setSnackbar(snackbar: MatSnackBar) {
@@ -24,20 +22,23 @@ export class SnackbarService {
     private openSnackBar(options: SnackbarOptions) {
         var colorClass = 'snackbar-' + options.backgroundColor.toString();
         if (options.action == '')
-            options.action = this.translateHelper.getValue('common.close');
+            options.action = 'Закрыть';
 
-        this.snackbar.open(options.message, options.action,
+        this.snackbar.open(
+            options.message,
+            options.action, 
             {
                 duration: options.duration,
                 verticalPosition: "top",
                 horizontalPosition: "right",
                 panelClass: ['snackbar', colorClass]
-            });
+            }
+        );
     }
 
     showSuccessMessage() {
-        let successText = this.translateHelper.getValue('common.success') + '!';
-        let closeText = this.translateHelper.getValue('common.close');
+        let successText = 'Успех!';
+        let closeText = 'Закрыть';
         this.openSnackBar(new SnackbarOptions({
             backgroundColor: SnackBarColor.Success,
             message: successText,
@@ -48,14 +49,14 @@ export class SnackbarService {
 
     showErrorMessage(
         errorResponse: HttpErrorResponse = null,
-        message: string = this.translateHelper.getValue('error.somethingWentWrong')
+        message: string = 'Упс! Что-то пошло не так'
     ) {
         if (!isNullOrUndefined(errorResponse) &&
             errorResponse.error.error.code == ResponseCode.ValidationFailed) {
-            message = this.translateHelper.getValue('error.incorrectData');
+            message = 'Ошибка валидации';
         }
 
-        let closeText = this.translateHelper.getValue('common.close');
+        let closeText = 'Закрыть';
         this.openSnackBar(new SnackbarOptions({
             backgroundColor: SnackBarColor.Error,
             message: message,
@@ -65,7 +66,7 @@ export class SnackbarService {
     }
 
     showInformationMessage(message: string): void {
-        let closeText = this.translateHelper.getValue('common.close');
+        let closeText = 'Закрыть';
         this.openSnackBar(new SnackbarOptions({
             backgroundColor: SnackBarColor.Information,
             message: message,
@@ -75,7 +76,7 @@ export class SnackbarService {
     }
 
     showMessage(message: string): void {
-        let closeText = this.translateHelper.getValue('common.close');
+        let closeText = 'Закрыть';
         this.openSnackBar(new SnackbarOptions({
             backgroundColor: SnackBarColor.Default,
             message: message,

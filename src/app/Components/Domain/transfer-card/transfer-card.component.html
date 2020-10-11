@@ -1,14 +1,14 @@
-<h1 mat-dialog-title [translate]="'transfer.registerTransfer'"></h1>
+<h1 mat-dialog-title>Перевод</h1>
 <div mat-dialog-content class="position-dialog">
     <div>
         <mat-form-field>
             <input matInput required RemoveZero Mask="^\d*\.?\d{0,2}$" type="text"
-                placeholder="{{ 'check.amount' | translate }}" [(ngModel)]="amount">
+                placeholder="Сумма" [(ngModel)]="amount">
         </mat-form-field>
 
         <div *ngIf="!isDebtMode">
             <mat-form-field>
-                <input matInput #userInput placeholder="{{ 'check.searchUser' | translate }}" [matAutocomplete]="auto"
+                <input matInput #userInput placeholder="Поиск человека..." [matAutocomplete]="auto"
                     [formControl]="searchUserCtrl" (ngModelChange)="onUserInputTextChange($event)">
                 <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn"
                     (optionSelected)="selectedUser($event)">
@@ -28,7 +28,7 @@
             </ng-container>
 
             <mat-form-field>
-                <mat-label [translate]="'transfer.description'"></mat-label>
+                <mat-label>Описание</mat-label>
                 <textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="1" cdkAutosizeMaxRows="5"
                     [(ngModel)]="description"></textarea>
             </mat-form-field>
@@ -37,9 +37,9 @@
 </div>
 <div mat-dialog-actions>
     <button mat-button (click)="closeDialog()" mat-flat-button color="warn">
-        <span [translate]="'common.cancel'"></span>
+        <span>Отмена</span>
     </button>
     <button mat-button (click)="doAction()" mat-flat-button [disabled]="!canRegister()">
-        <span [translate]="'transfer.register'"></span>
+        <span>ОК</span>
     </button>
 </div>

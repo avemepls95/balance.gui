@@ -1,6 +1,5 @@
 import { Component, OnInit, Optional, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
-import { PaymentCardComponent } from '../CheckRelated/payment-card/payment-card.component';
 import { Debt } from 'src/app/Model/Debt';
 import { ConfirmDialogModel, ConfirmDialogComponent } from '../../Common/confirm-dialog/confirm-dialog.component';
 import { isNullOrUndefined } from 'util';
@@ -11,7 +10,7 @@ import { EMPTY } from 'rxjs';
 import { BalanceApiService } from 'src/app/Services/balance-api.service';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { LocalStorageManager } from 'src/app/LocalStorageManager';
-import { TranslateHelper } from 'src/app/Utils/TranslateHelper';
+import { String } from 'typescript-string-operations';
 
 @Component({
   selector: 'app-transfer-card',
@@ -35,18 +34,15 @@ export class TransferCardComponent implements OnInit {
 
   currentUserId: number;
 
-  searchResultEmptyMessage: string;
+  searchResultEmptyMessage: string = 'Нет совпадений';
 
   constructor(
     private balanceApiService: BalanceApiService,
     private dialog: MatDialog,
     public dialogRef: MatDialogRef<TransferCardComponent>,
-    private translateHelper: TranslateHelper,
     @Optional() @Inject(MAT_DIALOG_DATA) public data: Debt,
   ) {
     this.currentUserId = (Number)(localStorage.getItem(LocalStorageManager.userIdKey));
-
-    this.searchResultEmptyMessage = this.translateHelper.getValue('check.searchResultsEmpty');
 
     if (!isNullOrUndefined(data)) {
       this.debt = data;
@@ -90,12 +86,12 @@ export class TransferCardComponent implements OnInit {
   }
 
   doAction() {
-    const message = this.translateHelper.getValue('transfer.sureToRegisterTransferTo') +
-      ' ' + this.user.username + ' ' + this.translateHelper.getValue('transfer.inTheAmountOf') +
-      ' ' + this.amount + '?';
-    const dialogData = new ConfirmDialogModel(
-      this.translateHelper.getValue('common.confirmation'),
-      message);
+    const message = String.Format(
+        'Зафиксировать перевод пользователю {0} в количестве {1}',
+        this.user.username,
+        this.amount
+    );
+    const dialogData = new ConfirmDialogModel('Подтверждение', message);
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       data: dialogData
     });

@@ -14,7 +14,7 @@
                 <mat-icon class="icon-font-large yellow">notification_important</mat-icon>
             </button>
             <button mat-icon-button (click)="refreshPage()" class="refresh-button"
-                matTooltip="{{ 'menu.refreshPage' | translate }}" onclick="this.blur()">
+                matTooltip="Обновить страницу" onclick="this.blur()">
                 <mat-icon class="icon-font-large">refresh</mat-icon>
             </button>
             <div class="flex-h-space-between avatar-firstname-block" [matMenuTriggerFor]="dropdownMenu">
@@ -33,34 +33,34 @@
         <mat-nav-list>
             <mat-list-item [routerLink]="'/debts'" (click)="sidenav.toggle()">
                 <mat-icon mat-list-icon class="green">sync_alt</mat-icon>
-                <h4 mat-line [translate]="'menu.balance'"></h4>
+                <h4 mat-line>Баланс</h4>
             </mat-list-item>
             <mat-list-item [routerLink]="'/tape'" (click)="sidenav.toggle()">
                 <mat-icon mat-list-icon class="purple">view_headline</mat-icon>
-                <h4 mat-line [translate]="'menu.tape'"></h4>
+                <h4 mat-line>Лента</h4>
             </mat-list-item>
             <mat-list-item (click)="openTransferCard()">
                 <mat-icon mat-list-icon class="green">arrow_forward</mat-icon>
-                <h4 mat-line [translate]="'menu.makeTransfer'"></h4>
+                <h4 mat-line>Перевод</h4>
             </mat-list-item>
             <mat-divider></mat-divider>
             <mat-list-item [routerLink]="'/createCheck'" (click)="sidenav.toggle()">
                 <mat-icon mat-list-icon class="green">add</mat-icon>
-                <h4 mat-line [translate]="'menu.createCheck'"></h4>
+                <h4 mat-line>Создать Чек</h4>
             </mat-list-item>
             <mat-list-item [routerLink]="'/checks'" (click)="sidenav.toggle()">
                 <mat-icon mat-list-icon>list_alt</mat-icon>
-                <h4 mat-line [translate]="'menu.checks'"></h4>
+                <h4 mat-line>Чеки</h4>
             </mat-list-item>
             <mat-divider></mat-divider>
-            <mat-list-item [routerLink]="'/settings'" (click)="sidenav.toggle()">
+            <!-- <mat-list-item [routerLink]="'/settings'" (click)="sidenav.toggle()">
                 <mat-icon mat-list-icon>settings</mat-icon>
-                <h4 mat-line [translate]="'menu.settings'"></h4>
-            </mat-list-item>
+                <h4 mat-line>Настройки</h4>
+            </mat-list-item> -->
             <mat-divider></mat-divider>
             <mat-list-item (click)="sidenav.toggle()">
                 <mat-icon mat-list-icon class="red">close</mat-icon>
-                <h4 mat-line [translate]="'menu.close'"></h4>
+                <h4 mat-line>Закрыть</h4>
             </mat-list-item>
 
         </mat-nav-list>
@@ -101,12 +101,12 @@
 </mat-sidenav-container>
 
 <mat-menu #dropdownMenu x-position="before" class="account-actions-menu">
-    <a mat-menu-item (click)="switchLanguage()">
+    <!-- <a mat-menu-item (click)="switchLanguage()">
         <span class="flag-icon" [ngClass]="getCurrentLanguageIconClass()"></span>
-        <span [translate]="'common.language'"></span>
-    </a>
+        <span>Язык</span>
+    </a> -->
     <a mat-menu-item (click)="logout()">
         <mat-icon>exit_to_app</mat-icon>
-        <span [translate]="'common.logout'"></span>
+        <span>Выйти</span>
     </a>
 </mat-menu>

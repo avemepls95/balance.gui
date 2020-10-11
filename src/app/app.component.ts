@@ -6,7 +6,6 @@ import { NavigationCancel,
         NavigationError,
         NavigationStart,
         Router } from '@angular/router';
-import { TranslateHelper } from './Utils/TranslateHelper';
 
 @Component({
   selector: 'app-root',
@@ -17,12 +16,8 @@ export class AppComponent {
   constructor(
     private loadingBar: SlimLoadingBarService,
     private router: Router,
-    translateHelper: TranslateHelper,
   ) 
   {
-    translateHelper.setDefaultLanguage(TranslateHelper.ruKey);
-    translateHelper.restoreCurrentLanguage();
-    
     this.router.events.subscribe((event: Event) => {
       this.navigationInterceptor(event);
     });

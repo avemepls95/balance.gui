@@ -3,13 +3,11 @@ import { Injectable } from "@angular/core"
 import { Observable, of } from "rxjs";
 import { tap, catchError } from "rxjs/operators";
 import { SnackbarService } from '../Services/snackbar.service';
-import { TranslateHelper } from '../Utils/TranslateHelper';
 
 @Injectable()
 export class ResponseInterceptor implements HttpInterceptor {
     constructor(
         public snackbarService: SnackbarService,
-        private translateHelper: TranslateHelper
     ) { }
 
     intercept(
@@ -24,29 +22,25 @@ export class ResponseInterceptor implements HttpInterceptor {
                     return of(err);
 
                 if (err.status === 401) {
-                    let message = this.translateHelper.getValue('error.authorizationError');
-                    this.snackbarService.showErrorMessage(null, message);
+                    this.snackbarService.showErrorMessage(null, 'Ошибка авторизации');
                     return of(err);
                 }
 
                 if (err.status === 403) {
-                    let message = this.translateHelper.getValue('error.accessDenied');
-                    this.snackbarService.showErrorMessage(null, message);
+                    this.snackbarService.showErrorMessage(null, 'Доступ запрещен');
                     return of(err);
                 }
 
                 if (err.status == 404) {
                     if (err.error.error.code == 'check_not_found') {
-                        let message: string = this.translateHelper.getValue('check.notFoundError') + '!';
-                        this.snackbarService.showErrorMessage(null, message);
+                        this.snackbarService.showErrorMessage(null, 'Ошибка. Чек не найден!');
                         return of(err);
                     }
                 }
 
                 if (err.status == 422) {
                     if (err.error.error.code == 'reminder_already_send') {
-                        let message: string = this.translateHelper.getValue('error.remindFrequencyLimit') + '!';
-                        this.snackbarService.showErrorMessage(null, message);
+                        this.snackbarService.showErrorMessage(null, 'Нельзя напоминать о долге чаще, чем раз в каленарный день!');
                         return of(err);
                     }
                 }

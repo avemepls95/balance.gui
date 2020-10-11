@@ -9,8 +9,6 @@ import { debounceTime, tap, switchMap, finalize } from 'rxjs/operators';
 import { EMPTY } from 'rxjs';
 import { BalanceApiService } from 'src/app/Services/balance-api.service';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { TranslateHelper } from 'src/app/Utils/TranslateHelper';
-import { MathExtensions } from 'src/app/Utils/MathExtensions';
 import { DiscountCalculator } from 'src/app/Model/Discount/discount-calculator';
 import { Position } from 'src/app/Model/Position';
 import { DISCOUNT_TYPE } from 'src/app/Model/Discount/discount-type.enum';
@@ -35,7 +33,7 @@ export class ConsumptionsCardComponent implements AfterContentInit {
 
   myForm: FormGroup;
 
-  searchResultEmptyMessage: string;
+  searchResultEmptyMessage: string = 'Нет совпадений';
 
   userControlCounter: number = 0;
 
@@ -45,14 +43,12 @@ export class ConsumptionsCardComponent implements AfterContentInit {
     public dialogRef: MatDialogRef<PositionCardComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public data,
     private balanceApiService: BalanceApiService,
-    private translateHelper: TranslateHelper
   ) {
     this.position = data.position
     this.consumptions = data.position.consumptions ? data.position.consumptions : [];
     this.userControlCounter = this.consumptions ? this.consumptions.length : 0;
     this.action = data.action;
     this.discountInfo = data.discountInfo;
-    this.searchResultEmptyMessage = this.translateHelper.getValue('check.searchResultsEmpty');
     this.discountCalculator = data.discountCalculator;
 
     this.myForm = new FormGroup({});

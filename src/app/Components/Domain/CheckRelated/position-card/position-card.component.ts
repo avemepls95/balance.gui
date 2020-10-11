@@ -10,7 +10,6 @@ import { Position } from 'src/app/Model/Position';
 import { ICanBeCreated } from 'src/app/Interfaces/ICanBeCreated';
 import { ConsumptionsCardComponent } from '../consumptions/consumptions-card.component';
 import { Consumption } from 'src/app/Model/Consumption';
-import { TranslateHelper } from 'src/app/Utils/TranslateHelper';
 import { ConfirmDialogModel, ConfirmDialogComponent } from 'src/app/Components/Common/confirm-dialog/confirm-dialog.component';
 import { Discount } from 'src/app/Model/Discount/discount';
 import { isUndefined } from 'util';
@@ -39,7 +38,7 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
 
   equalConsumptions: Boolean = true;
 
-  searchResultEmptyMessage: string;
+  searchResultEmptyMessage: string = "Нет совпадений";
 
   @ViewChild('usersInput', { static: false }) usersInput: ElementRef<HTMLInputElement>;
 
@@ -53,7 +52,6 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
     @Optional() @Inject(MAT_DIALOG_DATA) public data,
     public dialog: MatDialog,
     private balanceApiService: BalanceApiService,
-    private translateHelper: TranslateHelper,
     private copyUtils: CopyUtils
   ) {
     data.position = new Position(data.position);
@@ -73,8 +71,6 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
 
     this.position.applyDiscount = data.action == 'Add' ?
       data.discount.apply : data.position.applyDiscount;
-
-    this.searchResultEmptyMessage = this.translateHelper.getValue('check.searchResultsEmpty');
   }
 
   ngOnInit(): void {
@@ -203,9 +199,7 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
     if (this.position.consumptions.length == 0 || this.position.consumptions.length == 1)
       return;
 
-    const dialogData = new ConfirmDialogModel(
-      this.translateHelper.getValue('common.confirmation'),
-      this.translateHelper.getValue('check.makeConsumptionsEqual'));
+    const dialogData = new ConfirmDialogModel('Подтверждение', 'Вы уверены, что хотите сделать доли равными?');
     const dialogRef = this.dialog.open(ConfirmDialogComponent, { data: dialogData });
 
     dialogRef.afterClosed().subscribe(dialogResult => {

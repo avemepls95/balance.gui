@@ -1,16 +1,16 @@
-<h1 mat-dialog-title *ngIf="action == 'Add'" [translate]="'check.addPayment'"></h1>
-<h1 mat-dialog-title *ngIf="action == 'Edit'" [translate]="'check.editPayment'"></h1>
-<h1 mat-dialog-title *ngIf="action == 'Delete'" [translate]="'check.deletePayment'"></h1>
+<h1 mat-dialog-title *ngIf="action == 'Add'">Добавить Платеж</h1>
+<h1 mat-dialog-title *ngIf="action == 'Edit'">Редактировать Платеж</h1>
+<h1 mat-dialog-title *ngIf="action == 'Delete'">Удалить Платеж</h1>
 <div mat-dialog-content class="position-dialog">
     <div *ngIf="action != 'Delete'; else elseTemplate">
         <mat-form-field>
-            <input matInput required Mask="^\d*\.?\d{0,2}$" type="text" placeholder="{{ 'check.amount' | translate }}"
+            <input matInput required Mask="^\d*\.?\d{0,2}$" type="text" placeholder="Сумма"
                 [readonly]="action == 'View'" [(ngModel)]="payment.amount">
         </mat-form-field>
 
         <div>
             <mat-form-field>
-                <input matInput #userInput placeholder="{{ 'check.searchUser' | translate }}" [matAutocomplete]="auto" [formControl]="searchUserCtrl"
+                <input matInput #userInput placeholder="Поиск человека..." [matAutocomplete]="auto" [formControl]="searchUserCtrl"
                     (ngModelChange)="onUserInputTextChange($event)" [readonly]="action == 'View'">
                 <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn"
                     (optionSelected)="selectedUser($event)">
@@ -38,7 +38,7 @@
 </div>
 <div mat-dialog-actions>
     <button mat-button (click)="closeDialog()" mat-flat-button color="warn">
-        <span [translate]="'common.cancel'"></span>
+        <span>Отмена</span>
     </button>
     <button mat-button (click)="doAction()" [hidden]="action == 'View'" [disabled]="!canBeCreated()">OK</button>
 </div>

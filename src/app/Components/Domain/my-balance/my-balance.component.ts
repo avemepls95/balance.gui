@@ -18,7 +18,6 @@ import { MathExtensions } from 'src/app/Utils/MathExtensions';
 import { DebtRepaidCardComponent } from '../debt-repaid-card/debt-repaid-card.component';
 import { DebtRepaidDto } from 'src/app/Model/Dto/DebtRepaidDto';
 import { ConfirmDialogModel, ConfirmDialogComponent } from '../../Common/confirm-dialog/confirm-dialog.component';
-import { TranslateHelper } from 'src/app/Utils/TranslateHelper';
 import { String } from 'typescript-string-operations';
 
 @Component({
@@ -44,7 +43,6 @@ export class MyBalanceComponent implements OnInit {
     private loaderService: LoaderService,
     private snackbarService: SnackbarService,
     private dialog: MatDialog,
-    private translateHelper: TranslateHelper
   ) {
     snackbarService.setSnackbar(snackbar);
 
@@ -160,11 +158,8 @@ export class MyBalanceComponent implements OnInit {
   }
 
   remind(debt: Debt): void {
-    const message = String.Format(
-      this.translateHelper.getValue('balance.remindConfirmation'),
-      debt.user.username);
-    const dialogData = new ConfirmDialogModel(
-      this.translateHelper.getValue('common.confirmation'), message);
+    const message = String.Format('Напомнить пользователю {0} о долге?', debt.user.username);
+    const dialogData = new ConfirmDialogModel('Подтверждение', message);
 
     this.dialog.open(ConfirmDialogComponent, {
       maxWidth: "400px",
