@@ -9,7 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PaymentCardComponent } from '../payment-card/payment-card.component';
 import { Check } from 'src/app/Model/Check';
-import { isNullOrUndefined, isNumber } from 'util';
+import { isNullOrUndefined } from 'util';
 import { BalanceApiService } from 'src/app/Services/balance-api.service';
 import { finalize } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -87,6 +87,7 @@ export class CheckComponent implements OnInit, OnDestroy {
     }
     else {
       this.setCurrentCheckAndRelatedEntities(new Check());
+      this.unmodifiedCheck = this.copyUtils.deepCopy(this.check);
     }
 
     this.positionsDataSource = new MatTableDataSource(this.check.positions);
