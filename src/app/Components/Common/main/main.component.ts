@@ -38,7 +38,7 @@ export class MainComponent implements OnInit {
     private dialog: MatDialog,
     private snackbarService: SnackbarService,
     snackbar: MatSnackBar,
-    private _bottomSheet: MatBottomSheet
+    private _bottomSheet: MatBottomSheet,
     private themeService: ThemeService
   ) {
     snackbarService.setSnackbar(snackbar);

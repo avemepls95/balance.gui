@@ -26,12 +26,6 @@ import { PaymentCardComponent } from './Components/Balance/CheckRelated/payment-
 import { LoaderComponent } from './Components/Common/loader/loader.component';
 import { CheckListComponent } from './Components/Balance/CheckRelated/check-list/check-list.component';
 import { ConfirmDialogComponent } from './Components/Common/confirm-dialog/confirm-dialog.component';
-import { TransferCardComponent } from './Components/Balance/transfer-card/transfer-card.component';
-import { ConsumptionsCardComponent } from './Components/Balance/CheckRelated/consumptions/consumptions-card.component';
-import { TapeComponent } from './Components/Balance/tape/tape.component';
-import { TransferCardComponent } from './Components/Domain/transfer-card/transfer-card.component';
-import { ConsumptionsCardComponent } from './Components/Domain/CheckRelated/consumptions/consumptions-card.component';
-import { TapeComponent } from './Components/Domain/tape/tape.component';
 import { CookieService } from 'ngx-cookie-service';
 import { SettingsComponent } from './Components/Common/settings/settings.component';
 import { MaskDirective } from './Directives/mask.directive';
@@ -40,12 +34,14 @@ import { ResponseInterceptor } from './Interceptors/response.interceptor';
 import { NotificationsInfoComponent } from './Components/Common/notifications-info/notifications-info.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { NgxSpinnerModule } from 'ngx-spinner';
-import { DebtRepaidCardComponent } from './Components/Balance/debt-repaid-card/debt-repaid-card.component';
 import { CoreModule } from './core/core.module';
 import { TicketComponent } from './Components/Tickets/ticket/ticket.component';
 import { NgxMatDatetimePickerModule, NgxMatNativeDateModule } from '@angular-material-components/datetime-picker';
-import { DebtRepaidCardComponent } from './Components/Domain/debt-repaid-card/debt-repaid-card.component';
 import { SearchUserControlComponent } from './Components/Controls/search-user-control/search-user-control.component';
+import { ConsumptionsCardComponent } from './Components/Balance/CheckRelated/consumptions/consumptions-card.component';
+import { DebtRepaidCardComponent } from './Components/Balance/debt-repaid-card/debt-repaid-card.component';
+import { TapeComponent } from './Components/Balance/tape/tape.component';
+import { TransferCardComponent } from './Components/Balance/transfer-card/transfer-card.component';
 
 export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
@@ -72,7 +68,7 @@ export function initializeApp(appConfig: AppConfig) {
     TapeComponent,
     SettingsComponent,
     NotificationsInfoComponent,
-    SearchUserControlComponent
+    SearchUserControlComponent,
     DebtRepaidCardComponent,
     TicketComponent
   ],
@@ -91,11 +87,9 @@ export function initializeApp(appConfig: AppConfig) {
     NgxSpinnerModule,
     CoreModule,
     NgxMatNativeDateModule,
-    NgxMatDatetimePickerModule
-    NgxSpinnerModule,
-    CoreModule,
-    NgxMatNativeDateModule,
     NgxMatDatetimePickerModule,
+    NgxSpinnerModule,
+    CoreModule
   ],
   entryComponents: [
     PositionCardComponent,

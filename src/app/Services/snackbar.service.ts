@@ -28,7 +28,7 @@ export class SnackbarService {
             options.message,
             options.action, 
             {
-                duration: options.duration,
+                duration: 0,//options.duration,
                 verticalPosition: "top",
                 horizontalPosition: "right",
                 panelClass: ['snackbar', colorClass]

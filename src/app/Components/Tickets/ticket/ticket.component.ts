@@ -3,7 +3,6 @@ import { FormControl, Validators } from '@angular/forms';
 import { MyErrorStateMatcher } from 'src/app/Utils/MyErrorStateMatcher';
 import { LoaderService } from 'src/app/Services/loader.service';
 import { SnackbarService } from 'src/app/Services/snackbar.service';
-import { TranslateHelper } from 'src/app/Utils/TranslateHelper';
 import { isNullOrUndefined } from 'util';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -40,14 +39,13 @@ export class TicketComponent implements OnInit, OnDestroy {
   filteredUsers: User[];
   isLoading = false;
   errorMsg: string;
-  searchResultEmptyMessage: string;
+  searchResultEmptyMessage: string = "Нет совпадений";
 
   todayDate: Date = new Date();
 
   constructor(
     private loaderService: LoaderService
     , private snackbarService: SnackbarService
-    , private translateHelper: TranslateHelper
     , private snackbar: MatSnackBar
     , private ticketsApiService: TicketsApiService
     , private router: Router
@@ -64,8 +62,6 @@ export class TicketComponent implements OnInit, OnDestroy {
     else {
       this.ticket = new Ticket();
     }
-
-    this.searchResultEmptyMessage = this.translateHelper.getValue('check.searchResultsEmpty');
 
     if (!isNullOrUndefined(state))
       return;

@@ -94,20 +94,20 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     }
 
 .snackbar-default {
-    background: #323232
+    background: #323232 !important;
 }
 .snackbar-error {
-     background: orangered;
+     background: orangered !important;
 }
 .snackbar-success {
-    background: mediumseagreen;
+    background: mediumseagreen !important;
 }
 .snackbar-information {
-    background: #ffff89;
-    color: #000000b8;
+    background: #ffff89 !important;
+    color: #000000b8 !important;
 }
     .snackbar-information .mat-button {
-        color: black;
+        color: black !important;
     }
 
 .position-dialog {
