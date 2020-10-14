@@ -19,7 +19,6 @@ import { CheckCreateUpdateDtoMapper } from 'src/app/Model/Balance/Utils/CheckCre
 import { SnackbarService } from 'src/app/Services/snackbar.service';
 import { BalanceResponse } from 'src/app/Model/Balance/BalanceResponse';
 import { PositionCardComponent } from '../position-card/position-card.component';
-import { TranslateHelper } from 'src/app/Utils/TranslateHelper';
 import { ConfirmDialogModel, ConfirmDialogComponent } from 'src/app/Components/Common/confirm-dialog/confirm-dialog.component';
 import { CopyUtils } from 'src/app/Utils/CopyUtils';
 import { CheckPermissionsResolver } from 'src/app/Model/Balance/Utils/CheckPermissionsResolver';
@@ -75,7 +74,6 @@ export class CheckComponent implements OnInit, OnDestroy {
     private router: Router,
     private loaderService: LoaderService,
     private snackbarService: SnackbarService,
-    private translateHelper: TranslateHelper,
     private copyUtils: CopyUtils
   ) {
     snackbarService.setSnackbar(snackbar);
@@ -83,9 +81,11 @@ export class CheckComponent implements OnInit, OnDestroy {
     let state = this.router.getCurrentNavigation().extras.state;
     if (!isNullOrUndefined(state)) {
       this.mode = 'editing';
-      
+
       this.setCurrentCheckAndRelatedEntities(state.check);
       this.discountCalculator.recalculateCheckWithoutDiscount();
+      // Копирование должно быть после расчета сумм без скидок
+      this.unmodifiedCheck = this.copyUtils.deepCopy(this.check);
     }
     else {
       this.setCurrentCheckAndRelatedEntities(new Check());
@@ -112,6 +112,8 @@ export class CheckComponent implements OnInit, OnDestroy {
 
                 this.setCurrentCheckAndRelatedEntities(tmp);
                 this.discountCalculator.recalculateCheckWithoutDiscount();
+                // Копирование должно быть после расчета сумм без скидок
+                this.unmodifiedCheck = this.copyUtils.deepCopy(this.check);
 
                 this.positionsDataSource = new MatTableDataSource(this.check.positions);
                 this.paymentsDataSource = new MatTableDataSource(this.check.payments);
@@ -177,8 +179,7 @@ export class CheckComponent implements OnInit, OnDestroy {
     }));
 
     this.positionsDataSource.data = this.check.positions;
-    let message: string = this.translateHelper.getValue('check.positionWasAdded') + '!';
-    this.snackbarService.showMessage(message);
+    this.snackbarService.showMessage('Позиция добавлена!');
   }
 
   updatePosition(data: Position) {
@@ -230,8 +231,7 @@ export class CheckComponent implements OnInit, OnDestroy {
     }));
 
     this.paymentsDataSource.data = this.check.payments;
-    let message: string = this.translateHelper.getValue('check.paymentWasAdded') + '!';
-    this.snackbarService.showMessage(message);
+    this.snackbarService.showMessage('Платеж добавлен!');
   }
 
   updatePayment(data: Payment) {
@@ -282,8 +282,7 @@ export class CheckComponent implements OnInit, OnDestroy {
       return;
     }
 
-    let message = this.translateHelper.getValue('check.noChanges');
-    this.snackbarService.showInformationMessage(message);
+    this.snackbarService.showInformationMessage('Нет изменений');
   }
 
   updateCheck() {
@@ -308,8 +307,8 @@ export class CheckComponent implements OnInit, OnDestroy {
     }
 
     const dialogData = new ConfirmDialogModel(
-      this.translateHelper.getValue('common.confirmation'),
-      this.translateHelper.getValue('check.processWithUnsavedChanges'));
+      'Подтверждение',
+      'В чеке есть несохраненные изменения. Уверены, что хотите обработать старую версию?');
 
     this.dialog.open(ConfirmDialogComponent, {
       maxWidth: "400px",
@@ -339,9 +338,7 @@ export class CheckComponent implements OnInit, OnDestroy {
   }
 
   rollbackCheck() {
-    const dialogData = new ConfirmDialogModel(
-      this.translateHelper.getValue('common.confirmation'),
-      this.translateHelper.getValue('check.rollbackConfirmation'));
+    const dialogData = new ConfirmDialogModel('Подтверждение', 'Вы уверены, что хотите откатить чек?');
     const dialogRef = this.dialog.open(ConfirmDialogComponent, { data: dialogData });
 
     dialogRef.afterClosed().subscribe(dialogResult => {
@@ -377,9 +374,9 @@ export class CheckComponent implements OnInit, OnDestroy {
         new DiscountPercentCalculator() : new DiscountAbsCalculator();
 
     this.discountCalculator.setCheck(check);
-    this.unmodifiedCheck = this.copyUtils.deepCopy(check);
     this.permissionsResolver.setPermissionsObject(check);
     this.hasEditPermissions = this.permissionsResolver.canEdit();
+    this.unmodifiedCheck = this.copyUtils.deepCopy(this.check);
 
     this.updateColumns();
   }
@@ -416,10 +413,7 @@ export class CheckComponent implements OnInit, OnDestroy {
   }
 
   getCurrentStatus(): string {
-    var status = this.check.state == CHECK_STATE.EDITING ?
-      this.translateHelper.getValue('check.editingStatus') :
-      this.translateHelper.getValue('check.processedStatus')
-
+    var status = this.check.state == CHECK_STATE.EDITING ? 'В работе' : 'Обработан';
     return status;
   }
 

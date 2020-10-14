@@ -6,7 +6,6 @@ import { NavigationCancel,
         NavigationError,
         NavigationStart,
         Router } from '@angular/router';
-import { TranslateHelper } from './Utils/TranslateHelper';
 import { ThemeService } from './core/services/theme.service';
 import { Observable } from 'rxjs';
 
@@ -17,17 +16,13 @@ import { Observable } from 'rxjs';
 })
 export class AppComponent implements OnInit {
   isTicketsTheme: Observable<boolean>;
-  
+
   constructor(
     private loadingBar: SlimLoadingBarService,
     private router: Router,
-    translateHelper: TranslateHelper,
     private themeService: ThemeService
-  ) 
+  )
   {
-    translateHelper.setDefaultLanguage(TranslateHelper.ruKey);
-    translateHelper.restoreCurrentLanguage();
-    
     this.router.events.subscribe((event: Event) => {
       this.navigationInterceptor(event);
     });

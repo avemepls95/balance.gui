@@ -2,34 +2,33 @@
   <mat-card-header>
     <div class='flex-h-space-between header-row' style="height: 42px;">
       <div class='flex-v-center'>
-        <mat-card-title *ngIf="mode == 'creating'" [translate]="'check.checkCreating'"></mat-card-title>
-        <mat-card-title *ngIf="mode == 'editing'" [translate]="'check.check'"></mat-card-title>
+        <mat-card-title *ngIf="mode == 'creating'">Создание чека</mat-card-title>
+        <mat-card-title *ngIf="mode == 'editing'">Чек</mat-card-title>
         <span class="status ml-3" *ngIf="check.id"
           [ngClass]="check.state == CHECK_STATE.PROCESSED ? 'processed-status' : 'in-work-status'">
           {{getCurrentStatus()}}
         </span>
       </div>
       <button *ngIf="canProcess()" class="process-check-button" mat-button (click)="handleProcessCheckClick()"
-        mat-flat-button matTooltip="{{ 'check.caclulateDebts' | translate }}">
+        mat-flat-button matTooltip="Рассчитать долги">
         <mat-icon mat-list-icon color="primary" class='process-check-icon'>refresh</mat-icon>
-        <span [translate]="'check.process'" class="process"></span>
+        <span class="process">Обработать</span>
       </button>
       <button *ngIf="canRollback()" class="rollback-check-button" mat-button (click)="rollbackCheck()" mat-flat-button>
         <mat-icon mat-list-icon class='process-check-icon'>cancel</mat-icon>
-        <span [translate]="'check.rollback'"></span>
+        <span>Откатить</span>
       </button>
     </div>
   </mat-card-header>
   <mat-card-content>
     <mat-form-field class="w-100">
-      <input matInput [(ngModel)]="check.title" placeholder="{{ 'check.title' | translate }}"
+      <input matInput [(ngModel)]="check.title" placeholder="Название"
         [formControl]="titleFormControl" [errorStateMatcher]="matcher" [readonly]="!canEdit()">
-      <mat-error *ngIf="titleFormControl.hasError('required')" [translate]="'common.fieldRequired'">
-      </mat-error>
+      <mat-error *ngIf="titleFormControl.hasError('required')">Поле заполни э</mat-error>
     </mat-form-field>
 
     <mat-form-field class="w-100" *ngIf="mode == 'editing'">
-      <input matInput placeholder="{{ 'check.createdAt' | translate }}"
+      <input matInput placeholder="Дата создания"
         value="{{check.createdAt | date:'dd.MM.yyyy HH:mm'}}" [readonly]="true">
     </mat-form-field>
 
@@ -38,24 +37,24 @@
       <div class="w-100 flex discount-wrap">
         <mat-checkbox (change)="onDiscountApplyChange($event)" [(ngModel)]="check.discount.apply" class="discount-check"
           [disabled]="!canEdit()">
-          <span [translate]="'check.discount.discount'"></span>
+          <span>Скидка</span>
         </mat-checkbox>
 
         <mat-radio-group (change)="onDiscountTypeChange($event)" class="discount-type"
           [disabled]="!check.discount.apply || !canEdit()">
           <mat-radio-button value="0" [checked]="check.discount.type == 0">
             <span>
-              <span [translate]="'check.discount.percent'"></span>
+              <span>Процент</span>
             </span>
           </mat-radio-button>
           <mat-radio-button value="1" [checked]="check.discount.type == 1">
-            <span [translate]="'check.discount.rubles'"></span>
+            <span>Рубли</span>
           </mat-radio-button>
         </mat-radio-group>
 
         <mat-form-field class="discount-checkbox">
           <input matInput RemoveZero type="number" (change)="onDiscountValueChange($event)"
-            [placeholder]="'check.discount.value' | translate" [disabled]="!check.discount.apply || !canEdit()"
+            [placeholder]="'Размер'" [disabled]="!check.discount.apply || !canEdit()"
             [(ngModel)]="check.discount.value" (blur)="onBlurMethod($event)">
         </mat-form-field>
       </div>
@@ -66,11 +65,11 @@
       <div class="flex-h-space-between">
         <div class="flex header-label-wrap">
           <mat-icon mat-list-icon color="primary">reorder</mat-icon>
-          <mat-card-title class="positions-label" [translate]="'check.positions'"></mat-card-title>
+          <mat-card-title class="positions-label">Позиции</mat-card-title>
         </div>
         <button class="add-row-button" mat-button (click)="openPositionCard('Add',{})" mat-flat-button color="primary"
-          matTooltip="{{ 'check.addPosition' | translate }}" [hidden]="!canEdit()">
-          + <span [translate]="'check.position'"></span>
+          matTooltip="Добавить Позицию" [hidden]="!canEdit()">
+          + <span>Позиция</span>
         </button>
       </div>
       <div class="mat-elevation-z5" *ngIf="this.check.positions.length != 0">
@@ -85,15 +84,15 @@
 
           <ng-container matColumnDef="title">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>
-              <span [translate]="'check.title'"></span>
+              <span>Название</span>
             </th>
             <td mat-cell *matCellDef="let row"> {{row.title}} </td>
-            <td mat-footer-cell *matFooterCellDef [translate]="'check.amount'"></td>
+            <td mat-footer-cell *matFooterCellDef>Сумма</td>
           </ng-container>
 
           <ng-container matColumnDef="amount">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>
-              <span [translate]="'check.amount'"></span>
+              <span>Сумма</span>
             </th>
             <td mat-cell *matCellDef="let position"> {{position.amount}} </td>
             <td mat-footer-cell *matFooterCellDef><b>{{getPositionsTotalAmount()}}</b></td>
@@ -102,23 +101,17 @@
           <ng-container matColumnDef="actions">
             <th mat-header-cell *matHeaderCellDef></th>
             <td mat-cell *matCellDef="let position" class="row-actions-td">
-              <div class="row-action-buttons" (click)="$event.stopPropagation()">
-                <button class="row-edit-button" mat-icon-button (click)="openPositionCard('Edit', position)"
-                  onclick="this.blur()" matTooltip="{{ 'check.editPosition' | translate }}">
-                  <mat-icon>edit</mat-icon>
-                </button>
-                <button class="row-remove-button" mat-icon-button (click)="openPositionCard('Delete', position)"
-                  onclick="this.blur()" matTooltip="{{ 'check.deletePosition' | translate }}">
-                  <mat-icon class="red">delete</mat-icon>
-                </button>
-              </div>
+              <button class="row-remove-button" mat-icon-button (click)="openPositionCard('Delete', position)"
+                onclick="this.blur()" matTooltip="Удалить Позицию" (click)="$event.stopPropagation()">
+                <mat-icon class="red">delete</mat-icon>
+              </button>
             </td>
             <td mat-footer-cell *matFooterCellDef></td>
           </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="positionsDisplayedColumns" style="display: none;"></tr>
           <tr mat-row *matRowDef="let position; columns: positionsDisplayedColumns;"
-            (click)="openPositionCard('View',position)">
+            (click)="openPositionCard(canEdit() ? 'Edit' : 'View', position)">
           </tr>
           <tr mat-footer-row *matFooterRowDef="positionsDisplayedColumns"></tr>
         </table>
@@ -131,11 +124,11 @@
       <div class="flex-h-space-between">
         <div class="flex header-label-wrap">
           <mat-icon mat-list-icon color="primary">reorder</mat-icon>
-          <mat-card-title class="positions-label" [translate]="'check.payments'"></mat-card-title>
+          <mat-card-title class="positions-label">Платежи</mat-card-title>
         </div>
         <button class="add-row-button" mat-button (click)="openPaymentCard('Add',{})" mat-flat-button color="primary"
-          matTooltip="{{ 'check.addPayment' | translate }}" [hidden]="!canEdit()">
-          + <span [translate]="'check.payment'"></span>
+          matTooltip="Добавить Платеж" [hidden]="!canEdit()">
+          + <span>Платеж</span>
         </button>
       </div>
       <div class="mat-elevation-z5" *ngIf="this.check.payments.length != 0">
@@ -149,14 +142,14 @@
 
           <ng-container matColumnDef="username">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>
-              <span [translate]="'check.user'"></span>
+              <span>Пользователь</span>
             </th>
             <td mat-cell *matCellDef="let row"> {{row.user.username}} </td>
           </ng-container>
 
           <ng-container matColumnDef="amount">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>
-              <span [translate]="'check.amount'"></span>
+              <span>Сумма</span>
             </th>
             <td mat-cell *matCellDef="let row"> {{row.amount}} </td>
           </ng-container>
@@ -164,21 +157,15 @@
           <ng-container matColumnDef="actions">
             <th mat-header-cell *matHeaderCellDef></th>
             <td mat-cell *matCellDef="let item" class="row-actions-td">
-              <div class="row-action-buttons" (click)="$event.stopPropagation()">
-                <button class="row-edit-button" mat-icon-button (click)="openPaymentCard('Edit', item)"
-                  onclick="this.blur()" matTooltip="{{ 'check.editPayment' | translate }}">
-                  <mat-icon>edit</mat-icon>
-                </button>
-                <button class="row-remove-button" mat-icon-button (click)="openPaymentCard('Delete', item)"
-                  onclick="this.blur()" matTooltip="{{ 'check.deletePayment' | translate }}">
-                  <mat-icon class="red">delete</mat-icon>
-                </button>
-              </div>
+              <button class="row-remove-button" mat-icon-button (click)="openPaymentCard('Delete', item)"
+                onclick="this.blur()" matTooltip="Удалить Платеж" (click)="$event.stopPropagation()">
+                <mat-icon class="red">delete</mat-icon>
+              </button>
             </td>
           </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="paymentsDisplayedColumns;" style="display: none;"></tr>
-          <tr mat-row *matRowDef="let row; columns: paymentsDisplayedColumns;" (click)="openPaymentCard('View', row)">
+          <tr mat-row *matRowDef="let row; columns: paymentsDisplayedColumns;" (click)="openPaymentCard(canEdit() ? 'Edit' : 'View', row)">
           </tr>
         </table>
 
@@ -189,10 +176,10 @@
 
   <mat-card-actions class="create-check-btn-wrap">
     <button mat-button *ngIf="mode == 'creating' && !check.id" (click)="createCheck()">
-      <span [translate]="'check.create'"></span>
+      <span>СОЗДАТЬ</span>
     </button>
     <button mat-button *ngIf="check.id && canEdit()" (click)="handleUpdateCheckClick()">
-      <span [translate]="'check.save'"></span>
+      <span>СОХРАНИТЬ</span>
     </button>
   </mat-card-actions>
 </mat-card>

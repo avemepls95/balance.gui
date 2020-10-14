@@ -54,10 +54,18 @@ export class VkLoginWidgetComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     window['loginViaVk'] = (loginData: FromVkAuthDto) => {
+      var loginData = this.sanitizeVKAuthDto(loginData);
       LocalStorageManager.setUserData(loginData);
       this.loginViaVk(loginData)
     };
     this.convertToScript();
+  }
+
+  private sanitizeVKAuthDto(loginData: FromVkAuthDto): FromVkAuthDto {
+    var result = { ...loginData }
+    result.photo_rec = result.photo_rec.replace(new RegExp('&amp;', 'g'), "&");
+    
+    return result;
   }
 
   private loginViaVk(loginData: FromVkAuthDto) {
@@ -80,4 +88,5 @@ export class VkLoginWidgetComponent implements AfterViewInit {
         }
       );
   }
+
 }

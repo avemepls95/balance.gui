@@ -1,29 +1,28 @@
 <fieldset [disabled]="action == 'View'">
 
-  <h1 mat-dialog-title *ngIf="action == 'Add'" [translate]="'check.addPosition'"></h1>
-  <h1 mat-dialog-title *ngIf="action == 'Edit'" [translate]="'check.editPosition'"></h1>
-  <h1 mat-dialog-title *ngIf="action == 'Delete'" [translate]="'check.deletePosition'"></h1>
+  <h1 mat-dialog-title *ngIf="action == 'Add'">Добавить Позицию</h1>
+  <h1 mat-dialog-title *ngIf="action == 'Edit'">Редактировать Позицию</h1>
+  <h1 mat-dialog-title *ngIf="action == 'Delete'">Удалить Позицию</h1>
   <div mat-dialog-content class="position-dialog">
     <div *ngIf="action != 'Delete'; else elseTemplate">
       <mat-form-field>
-        <input placeholder="{{ 'check.title' | translate }}" required matInput [(ngModel)]="position.title">
+        <input placeholder="Название" required matInput [(ngModel)]="position.title">
       </mat-form-field>
       <div class="flex-h-space-between">
         <mat-form-field [ngClass]="position.applyDiscount ? 'w-48' : 'w-100'">
-          <input matInput RemoveZero Mask="^\d*\.?\d{0,2}$" type="number" required
-            placeholder="{{ 'check.amount' | translate }}" [(ngModel)]="position.amountWithoutDiscount"
+          <input matInput RemoveZero Mask="^\d*\.?\d{0,2}$" type="text" required
+            placeholder="Сумма" [(ngModel)]="position.amountWithoutDiscount"
             [disabled]="!equalConsumptions" (change)="onAmountWithoutDiscountChanged()">
         </mat-form-field>
-        <mat-form-field *ngIf="showDiscountControls()" class="w-48">
-          <input matInput placeholder="{{ 'check.discount.withDiscount' | translate }}" [(ngModel)]="position.amount"
-            [disabled]="true">
+        <mat-form-field *ngIf="showDiscountControls() && !!position.applyDiscount" class="w-48">
+          <input matInput placeholder="Со скидкой" [(ngModel)]="position.amount" [disabled]="true">
         </mat-form-field>
       </div>
 
       <div class="equal-consumptions-block">
         <mat-checkbox [(ngModel)]="equalConsumptions" (change)="equalConsumptionsValueChanged($event)"
           [disabled]="action == 'View'">
-          <span [translate]="'check.equalConsumptions'"></span>
+          <span>Равные доли</span>
         </mat-checkbox>
 
         <button mat-button (click)="openConsumptions()" [hidden]="equalConsumptions" onclick="this.blur()"
@@ -40,7 +39,7 @@
               {{consumption.user.username}} - {{consumption.amount}}
               <mat-icon matChipRemove>cancel</mat-icon>
             </mat-chip>
-            <input matInput #usersInput placeholder="{{ 'check.searchUsers' | translate }}" aria-label="State"
+            <input matInput #usersInput placeholder="Поиск людей..." aria-label="State"
               [matAutocomplete]="auto" [formControl]="searchUserCtrl" [matChipInputFor]="chipList"
               [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true">
           </mat-chip-list>
@@ -63,13 +62,13 @@
 
       <mat-checkbox *ngIf="showDiscountControls()" [(ngModel)]="position.applyDiscount"
         (change)="applyDiscountValueChanged($event)" [disabled]="action == 'View'">
-        <span [translate]="'check.discount.applyDiscount'"></span>
+        <span>Применить скидку</span>
       </mat-checkbox>
 
     </div>
 
     <ng-template #elseTemplate>
-      <span [translate]="'common.sureToDelete'"></span> <b> {{position.title}}</b>?
+      <span>Вы уверены, что хотите удалить</span> <b> {{position.title}}</b>?
     </ng-template>
   </div>
 
@@ -77,7 +76,7 @@
 
 <div mat-dialog-actions>
   <button mat-button (click)="closeDialog()" mat-flat-button color="warn">
-    <span [translate]="'common.cancel'"></span>
+    <span>Отмена</span>
   </button>
   <button mat-button (click)="doAction()" [hidden]="action == 'View'" [disabled]="!canBeCreated()">OK</button>
 </div>

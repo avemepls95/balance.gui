@@ -4,14 +4,9 @@ import { PaymentCardComponent } from '../CheckRelated/payment-card/payment-card.
 import { Debt } from 'src/app/Model/Balance/Debt';
 import { ConfirmDialogModel, ConfirmDialogComponent } from '../../Common/confirm-dialog/confirm-dialog.component';
 import { isNullOrUndefined } from 'util';
-import { FormControl } from '@angular/forms';
 import { User } from 'src/app/Model/User';
-import { debounceTime, tap, switchMap, finalize } from 'rxjs/operators';
-import { EMPTY } from 'rxjs';
-import { BalanceApiService } from 'src/app/Services/balance-api.service';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { LocalStorageManager } from 'src/app/LocalStorageManager';
-import { TranslateHelper } from 'src/app/Utils/TranslateHelper';
+import { String } from 'typescript-string-operations';
 
 @Component({
   selector: 'app-transfer-card',
@@ -26,27 +21,14 @@ export class TransferCardComponent implements OnInit {
   description: string;
 
   isDebtMode: boolean = false;
-
-  searchUserCtrl = new FormControl();
-  filteredUsers: User[];
-  isLoading = false;
-  errorMsg: string;
-  userAlreadyIsSelected: boolean = false;
-
   currentUserId: number;
 
-  searchResultEmptyMessage: string;
-
   constructor(
-    private balanceApiService: BalanceApiService,
     private dialog: MatDialog,
     public dialogRef: MatDialogRef<TransferCardComponent>,
-    private translateHelper: TranslateHelper,
     @Optional() @Inject(MAT_DIALOG_DATA) public data: Debt,
   ) {
     this.currentUserId = (Number)(localStorage.getItem(LocalStorageManager.userIdKey));
-
-    this.searchResultEmptyMessage = this.translateHelper.getValue('check.searchResultsEmpty');
 
     if (!isNullOrUndefined(data)) {
       this.debt = data;
@@ -57,48 +39,16 @@ export class TransferCardComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.searchUserCtrl.valueChanges
-      .pipe(
-        debounceTime(500),
-        tap(() => {
-          this.errorMsg = "";
-          this.filteredUsers = [];
-          this.isLoading = true;
-        }),
-        switchMap(value => {
-          if (this.userAlreadyIsSelected) {
-            this.userAlreadyIsSelected = false;
-            this.isLoading = false;
-            return EMPTY;
-          }
-
-          return this.balanceApiService.getUsersSuggestion(value)
-            .pipe(finalize(() => { this.isLoading = false }));
-        })
-      )
-      .subscribe(data => {
-        if (isNullOrUndefined(data['data'])) {
-          this.errorMsg = "Internal Error. We're Sorry :(";
-          this.filteredUsers = [];
-          console.log('Internal Error. Users data is null');
-        } else {
-          this.filteredUsers = data['data'].filter(u => u.id != this.currentUserId);
-          if (this.filteredUsers.length == 0)
-            this.errorMsg = this.searchResultEmptyMessage;
-        }
-      });
   }
 
   doAction() {
-    const message = this.translateHelper.getValue('transfer.sureToRegisterTransferTo') +
-      ' ' + this.user.username + ' ' + this.translateHelper.getValue('transfer.inTheAmountOf') +
-      ' ' + this.amount + '?';
-    const dialogData = new ConfirmDialogModel(
-      this.translateHelper.getValue('common.confirmation'),
-      message);
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      data: dialogData
-    });
+    const message = String.Format(
+        'Зафиксировать перевод пользователю {0} в количестве {1}?',
+        this.user.username,
+        this.amount
+    );
+    const dialogData = new ConfirmDialogModel('Подтверждение', message);
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, { data: dialogData });
 
     dialogRef.afterClosed().subscribe(dialogResult => {
       if (!dialogResult)
@@ -116,20 +66,8 @@ export class TransferCardComponent implements OnInit {
     this.dialogRef.close(null);
   }
 
-  selectedUser(event: MatAutocompleteSelectedEvent): void {
-    this.user = this.filteredUsers.filter(u => u.id == +event.option.value.id)[0];
-    this.userAlreadyIsSelected = true;
-  }
-
-  onUserInputTextChange(value) {
-    if (value != '')
-      return;
-
-    this.user.id = NaN;
-  }
-
-  displayFn(user: User) {
-    return user ? user.username : user;
+  selectedUser(user: User): void {
+    this.user = user;
   }
 
   canRegister() {

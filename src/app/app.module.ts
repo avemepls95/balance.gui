@@ -29,11 +29,11 @@ import { ConfirmDialogComponent } from './Components/Common/confirm-dialog/confi
 import { TransferCardComponent } from './Components/Balance/transfer-card/transfer-card.component';
 import { ConsumptionsCardComponent } from './Components/Balance/CheckRelated/consumptions/consumptions-card.component';
 import { TapeComponent } from './Components/Balance/tape/tape.component';
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TransferCardComponent } from './Components/Domain/transfer-card/transfer-card.component';
+import { ConsumptionsCardComponent } from './Components/Domain/CheckRelated/consumptions/consumptions-card.component';
+import { TapeComponent } from './Components/Domain/tape/tape.component';
 import { CookieService } from 'ngx-cookie-service';
 import { SettingsComponent } from './Components/Common/settings/settings.component';
-import { TranslateHelper } from './Utils/TranslateHelper';
 import { MaskDirective } from './Directives/mask.directive';
 import { RemoveZeroDirective } from './Directives/remove-zero.directive';
 import { ResponseInterceptor } from './Interceptors/response.interceptor';
@@ -44,14 +44,11 @@ import { DebtRepaidCardComponent } from './Components/Balance/debt-repaid-card/d
 import { CoreModule } from './core/core.module';
 import { TicketComponent } from './Components/Tickets/ticket/ticket.component';
 import { NgxMatDatetimePickerModule, NgxMatNativeDateModule } from '@angular-material-components/datetime-picker';
+import { DebtRepaidCardComponent } from './Components/Domain/debt-repaid-card/debt-repaid-card.component';
+import { SearchUserControlComponent } from './Components/Controls/search-user-control/search-user-control.component';
 
 export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
-}
-
-export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http, '/assets/i18n/', '.json?cacheBuster=' 
-      + new Date().getTime());
 }
 
 @NgModule({
@@ -75,6 +72,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     TapeComponent,
     SettingsComponent,
     NotificationsInfoComponent,
+    SearchUserControlComponent
     DebtRepaidCardComponent,
     TicketComponent
   ],
@@ -91,13 +89,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     TextMaskModule,
     InfiniteScrollModule,
     NgxSpinnerModule,
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
-        deps: [HttpClient]
-      }
-    }),
+    CoreModule,
+    NgxMatNativeDateModule,
+    NgxMatDatetimePickerModule
+    NgxSpinnerModule,
     CoreModule,
     NgxMatNativeDateModule,
     NgxMatDatetimePickerModule,
@@ -116,7 +111,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     LoaderService,
     SnackbarService,
     CookieService,
-    TranslateHelper,
     // AppConfig,
     // {
     //   provide: APP_INITIALIZER,

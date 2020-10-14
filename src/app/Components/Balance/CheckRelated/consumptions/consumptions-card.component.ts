@@ -34,7 +34,7 @@ export class ConsumptionsCardComponent implements AfterContentInit {
 
   myForm: FormGroup;
 
-  searchResultEmptyMessage: string;
+  searchResultEmptyMessage: string = 'Нет совпадений';
 
   userControlCounter: number = 0;
 
@@ -44,14 +44,12 @@ export class ConsumptionsCardComponent implements AfterContentInit {
     public dialogRef: MatDialogRef<PositionCardComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public data,
     private balanceApiService: BalanceApiService,
-    private translateHelper: TranslateHelper
   ) {
     this.position = data.position
     this.consumptions = data.position.consumptions ? data.position.consumptions : [];
     this.userControlCounter = this.consumptions ? this.consumptions.length : 0;
     this.action = data.action;
     this.discountInfo = data.discountInfo;
-    this.searchResultEmptyMessage = this.translateHelper.getValue('check.searchResultsEmpty');
     this.discountCalculator = data.discountCalculator;
 
     this.myForm = new FormGroup({});
@@ -193,6 +191,7 @@ export class ConsumptionsCardComponent implements AfterContentInit {
   }
 
   onAmountWithoutDiscountChanged(consumption: Consumption): void {
+    consumption.amountWithoutDiscount = +consumption.amountWithoutDiscount;
     if (!this.discountInfo.apply) {
       consumption.amount = consumption.amountWithoutDiscount;
       return;

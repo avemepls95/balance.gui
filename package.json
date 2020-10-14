@@ -24,8 +24,6 @@
     "@angular/platform-browser-dynamic": "^8.2.14",
     "@angular/router": "^8.2.14",
     "@babel/compat-data": "^7.8.0",
-    "@ngx-translate/core": "^11.0.1",
-    "@ngx-translate/http-loader": "^4.0.0",
     "angular2-jwt": "^0.2.3",
     "angular2-text-mask": "^9.0.0",
     "angular2-uuid": "^1.1.1",

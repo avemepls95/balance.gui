@@ -1,13 +1,13 @@
-<h1 mat-dialog-title [translate]="'transfer.commitDebtRepaid'"></h1>
+<h1 mat-dialog-title>Долг погашен</h1>
 <div mat-dialog-content class="position-dialog">
     <div>
         <mat-form-field>
-            <input matInput required RemoveZero Mask="^\d*\.?\d{0,2}$" type="number"
-                placeholder="{{ 'check.amount' | translate }}" [(ngModel)]="amount">
+            <input matInput required RemoveZero Mask="^\d*\.?\d{0,2}$" type="text"
+                placeholder="Сумма" [(ngModel)]="amount">
         </mat-form-field>
 
         <mat-form-field>
-            <mat-label [translate]="'transfer.description'"></mat-label>
+            <mat-label>Описание</mat-label>
             <textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="1" cdkAutosizeMaxRows="5"
                 [(ngModel)]="description"></textarea>
         </mat-form-field>
@@ -15,9 +15,9 @@
 </div>
 <div mat-dialog-actions>
     <button mat-button (click)="closeDialog()" mat-flat-button color="warn">
-        <span [translate]="'common.cancel'"></span>
+        <span>Отмена</span>
     </button>
     <button mat-button (click)="doAction()" mat-flat-button [disabled]="!canRegister()">
-        <span [translate]="'transfer.register'"></span>
+        <span>ОК</span>
     </button>
 </div>

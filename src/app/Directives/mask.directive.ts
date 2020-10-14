@@ -9,7 +9,7 @@ export class MaskDirective {
 
   @Input() Mask: string;
 
-  private specialKeys: Array<string> = ['Backspace', 'Tab', 'End', 'Home', '-', 'ArrowLeft', 'ArrowRight', 'Del', 'Delete'];
+  private specialKeys: Array<string> = ['Backspace', 'Tab', 'End', 'Home', 'ArrowLeft', 'ArrowRight', 'Del', 'Delete'];
 
   @HostListener('keydown', ['$event'])
   onKeyDown(event: KeyboardEvent) {

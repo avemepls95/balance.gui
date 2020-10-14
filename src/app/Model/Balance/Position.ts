@@ -55,7 +55,7 @@ export class Position {
     }
 
     isEqualConsumptions(): boolean {
-        var tolerance = 0.011;
+        var tolerance = 0.2;
         var amounts = this.consumptions.map(c => c.amount);
 
         return amounts.every(a => Math.abs(a - amounts[0]) <= tolerance);

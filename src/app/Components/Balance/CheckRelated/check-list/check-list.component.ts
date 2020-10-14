@@ -10,7 +10,6 @@ import { BalanceResponse } from 'src/app/Model/Balance/BalanceResponse';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { ConfirmDialogModel, ConfirmDialogComponent } from 'src/app/Components/Common/confirm-dialog/confirm-dialog.component';
-import { TranslateHelper } from 'src/app/Utils/TranslateHelper';
 import { TableUtils } from 'src/app/ControlLayer/Utils/TableUtils';
 import { isNullOrUndefined } from 'util';
 import { UserCheckRoles } from 'src/app/Model/Balance/Utils/CheckPermissionsResolver';
@@ -40,7 +39,6 @@ export class CheckListComponent implements OnInit {
     private balanceApiService: BalanceApiService,
     private loaderService: LoaderService,
     private snackbarService: SnackbarService,
-    private translateHelper: TranslateHelper,
     private dialog: MatDialog,
     snackbar: MatSnackBar) {
 
@@ -89,10 +87,7 @@ export class CheckListComponent implements OnInit {
       console.log("Invalid check id:" + id);
     }
 
-    const dialogData = new ConfirmDialogModel(
-      this.translateHelper.getValue('common.confirmation'),
-      this.translateHelper.getValue('check.deleteConfirmation'));
-
+    const dialogData = new ConfirmDialogModel('Подтверждение', 'Вы уверены, что хотите удалить чек?');
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       maxWidth: "400px",
       data: dialogData
