@@ -1,7 +1,7 @@
 <div>
     <mat-form-field>
         <input matInput #userInput placeholder="Поиск человека..." [matAutocomplete]="auto"
-            [formControl]="searchUserCtrl" [readonly]="action == 'View'">
+            [formControl]="searchUserCtrl" [readonly]="readonly">
         <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="selectedUser($event)">
             <mat-option class="is-loading" *ngIf="isLoading" [disabled]="true">
                 <mat-progress-bar mode="indeterminate"></mat-progress-bar>

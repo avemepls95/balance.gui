@@ -8,12 +8,12 @@
                 [readonly]="action == 'View'" [(ngModel)]="payment.amount">
         </mat-form-field>
 
-        <search-user-control #searchUserControl (userSelected)="selectedUser($event)">
+        <search-user-control #searchUserControl [readonly]="action == 'View'" (userSelected)="selectedUser($event)">
         </search-user-control>
 
     </div>
     <ng-template #elseTemplate>
-        Sure to delete payment with user «<b>{{payment.user.username}}</b>» and amount «<b>{{payment.amount}}</b>»?
+        Вы уверены, что хотите удалить платеж пользователя «<b>{{payment.user.username}}</b>» на сумму «<b>{{payment.amount}}</b>»?
     </ng-template>
 </div>
 <div mat-dialog-actions>

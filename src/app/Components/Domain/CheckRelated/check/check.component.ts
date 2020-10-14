@@ -84,6 +84,8 @@ export class CheckComponent implements OnInit, OnDestroy {
       
       this.setCurrentCheckAndRelatedEntities(state.check);
       this.discountCalculator.recalculateCheckWithoutDiscount();
+      // Копирование должно быть после расчета сумм без скидок
+      this.unmodifiedCheck = this.copyUtils.deepCopy(this.check);
     }
     else {
       this.setCurrentCheckAndRelatedEntities(new Check());

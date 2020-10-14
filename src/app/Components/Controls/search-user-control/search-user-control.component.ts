@@ -25,6 +25,7 @@ export class SearchUserControlComponent implements OnInit {
 
   @Output() userSelected = new EventEmitter<any>();
   @Input() value: string;
+  @Input() readonly: boolean = false;
 
   constructor(
     private balanceApiService: BalanceApiService,
