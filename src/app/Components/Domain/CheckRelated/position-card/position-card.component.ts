@@ -164,6 +164,7 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
 
     this.usersInput.nativeElement.value = '';
     this.searchUserCtrl.setValue('');
+    this.filteredUsers = [];
   }
 
   onAmountWithoutDiscountChanged(): void {

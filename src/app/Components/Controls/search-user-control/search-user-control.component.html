@@ -1,0 +1,21 @@
+<div>
+    <mat-form-field>
+        <input matInput #userInput placeholder="Поиск человека..." [matAutocomplete]="auto"
+            [formControl]="searchUserCtrl" [readonly]="action == 'View'">
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="selectedUser($event)">
+            <mat-option class="is-loading" *ngIf="isLoading" [disabled]="true">
+                <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+            </mat-option>
+            <ng-container *ngIf="!isLoading">
+                <mat-option *ngFor="let user of filteredUsers" [value]="user">
+                    <span>{{user.username}}</span>
+                </mat-option>
+            </ng-container>
+        </mat-autocomplete>
+    </mat-form-field>
+
+    <br>
+    <ng-container *ngIf="errorMsg">
+        {{errorMsg}}
+    </ng-container>
+</div>

@@ -87,7 +87,6 @@ export class CheckComponent implements OnInit, OnDestroy {
     }
     else {
       this.setCurrentCheckAndRelatedEntities(new Check());
-      this.unmodifiedCheck = this.copyUtils.deepCopy(this.check);
     }
 
     this.positionsDataSource = new MatTableDataSource(this.check.positions);
@@ -375,6 +374,7 @@ export class CheckComponent implements OnInit, OnDestroy {
     this.discountCalculator.setCheck(check);
     this.permissionsResolver.setPermissionsObject(check);
     this.hasEditPermissions = this.permissionsResolver.canEdit();
+    this.unmodifiedCheck = this.copyUtils.deepCopy(this.check);
 
     this.updateColumns();
   }

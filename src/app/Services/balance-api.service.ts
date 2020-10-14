@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, EMPTY, of } from 'rxjs';
+import { Observable, EMPTY } from 'rxjs';
 import { isNullOrUndefined } from 'util';
 import { CreateUpdateCheckDto } from '../Model/Dto/Check/CreateUpdate/CreateUpdateCheckDto';
 import { BalanceResponse } from '../BalanceResponse';
@@ -20,7 +20,7 @@ export class BalanceApiService {
   }
 
   getUsersSuggestion(query: string): Observable<any> {
-    if (query == "" || query == undefined)
+    if (!query)
       return EMPTY;
 
     const params = new HttpParams()

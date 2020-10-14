@@ -1,14 +1,10 @@
-import { Component, OnInit, Optional, Inject, ViewChild, ElementRef, AfterViewInit, AfterContentInit } from '@angular/core';
+import { Component, OnInit, Optional, Inject, AfterContentInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FormControl } from '@angular/forms';
-import { debounceTime, tap, switchMap, finalize, isEmpty } from 'rxjs/operators';
-import { BalanceApiService } from 'src/app/Services/balance-api.service';
 import { User } from 'src/app/Model/User';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { EMPTY } from 'rxjs';
 import { Payment } from 'src/app/Model/Payment';
 import { isNullOrUndefined } from 'util';
 import { ICanBeCreated } from 'src/app/Interfaces/ICanBeCreated';
+import { SearchUserControlComponent } from 'src/app/Components/Controls/search-user-control/search-user-control.component';
 
 @Component({
   selector: 'app-payment-card',
@@ -20,57 +16,17 @@ export class PaymentCardComponent implements OnInit, AfterContentInit, ICanBeCre
   action: string;
   payment: Payment;
 
-  searchUserCtrl = new FormControl();
-  filteredUsers: User[];
-  isLoading = false;
-  errorMsg: string;
-
-  userAlreadyIsSelected: boolean = false;
-
-  searchResultEmptyMessage: string = "Нет совпадений";
-
-  @ViewChild('userInput', { static: false }) userInput: ElementRef<HTMLInputElement>;
+  @ViewChild('searchUserControl', { static: false }) searchUserControl: SearchUserControlComponent; 
 
   constructor(
     public dialogRef: MatDialogRef<PaymentCardComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public data,
-    private balanceApiService: BalanceApiService,
   ) {    
     this.payment = data.obj;
     this.action = data.action;
   }
 
   ngOnInit() {
-    this.searchUserCtrl.valueChanges
-      .pipe(
-        debounceTime(500),
-        tap(() => {
-          this.errorMsg = "";
-          this.filteredUsers = [];
-          this.isLoading = true;
-        }),
-        switchMap(value => {
-          if (this.userAlreadyIsSelected) {
-            this.userAlreadyIsSelected = false;
-            this.isLoading = false;
-            return EMPTY;
-          }
-
-          return this.balanceApiService.getUsersSuggestion(value)
-            .pipe(finalize(() => { this.isLoading = false }));
-        })
-      )
-      .subscribe(data => {
-        if (isNullOrUndefined(data['data'])) {
-          this.errorMsg = "Internal Error. We're Sorry :(";
-          this.filteredUsers = [];
-          console.log('Internal Error. Users data is null');
-        } else {
-          this.filteredUsers = data['data'];
-          if (this.filteredUsers.length == 0)
-            this.errorMsg = this.searchResultEmptyMessage;
-        }
-      });
   }
 
   ngAfterContentInit(): void {
@@ -78,7 +34,7 @@ export class PaymentCardComponent implements OnInit, AfterContentInit, ICanBeCre
       this.payment.user = {} as User;
     } else if (this.action != 'Delete') {
       setTimeout(() => {
-        this.userInput.nativeElement.value = this.payment.user.username;
+        this.searchUserControl.setValue(this.payment.user.username);
       }, 0);
     }
   }
@@ -91,32 +47,8 @@ export class PaymentCardComponent implements OnInit, AfterContentInit, ICanBeCre
     this.dialogRef.close({ event: 'Cancel' });
   }
 
-  selectedUser(event: MatAutocompleteSelectedEvent): void {
-    this.payment.user = this.filteredUsers.filter(u => u.id == +event.option.value.id)[0];
-    this.userAlreadyIsSelected = true;
-  }
-
-  removeSelectedUserFromSuggestion(suggestion: User[]): User[] {
-    if (this.payment.user == null)
-      return suggestion;
-
-    const index = suggestion.findIndex(u => u.id == this.payment.user.id);
-    if (index >= 0) {
-      suggestion.splice(index, 1);
-    }
-
-    return suggestion;
-  }
-
-  onUserInputTextChange(value) {
-    if (value != '')
-      return;
-
-    this.payment.user.id = NaN;
-  }
-
-  displayFn(user: User) {
-    return user ? user.username : user;
+  selectedUser(user: User): void {
+    this.payment.user = user;
   }
 
   canBeCreated() : boolean {

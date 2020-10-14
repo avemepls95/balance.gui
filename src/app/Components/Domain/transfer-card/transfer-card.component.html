@@ -2,30 +2,13 @@
 <div mat-dialog-content class="position-dialog">
     <div>
         <mat-form-field>
-            <input matInput required RemoveZero Mask="^\d*\.?\d{0,2}$" type="text"
-                placeholder="Сумма" [(ngModel)]="amount">
+            <input matInput required RemoveZero Mask="^\d*\.?\d{0,2}$" type="text" placeholder="Сумма"
+                [(ngModel)]="amount">
         </mat-form-field>
 
         <div *ngIf="!isDebtMode">
-            <mat-form-field>
-                <input matInput #userInput placeholder="Поиск человека..." [matAutocomplete]="auto"
-                    [formControl]="searchUserCtrl" (ngModelChange)="onUserInputTextChange($event)">
-                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn"
-                    (optionSelected)="selectedUser($event)">
-                    <mat-option class="is-loading" *ngIf="isLoading" [disabled]="true">
-                        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-                    </mat-option>
-                    <ng-container *ngIf="!isLoading">
-                        <mat-option *ngFor="let user of filteredUsers" [value]="user">
-                            <span>{{user.username}}</span>
-                        </mat-option>
-                    </ng-container>
-                </mat-autocomplete>
-            </mat-form-field>
-            <br>
-            <ng-container *ngIf="errorMsg">
-                {{errorMsg}}
-            </ng-container>
+            <search-user-control (userSelected)="selectedUser($event)">
+            </search-user-control>
 
             <mat-form-field>
                 <mat-label>Описание</mat-label>

@@ -38,6 +38,7 @@ import { NotificationsInfoComponent } from './Components/Common/notifications-in
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { DebtRepaidCardComponent } from './Components/Domain/debt-repaid-card/debt-repaid-card.component';
+import { SearchUserControlComponent } from './Components/Controls/search-user-control/search-user-control.component';
 
 export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
@@ -64,7 +65,8 @@ export function initializeApp(appConfig: AppConfig) {
     TapeComponent,
     SettingsComponent,
     NotificationsInfoComponent,
-    DebtRepaidCardComponent
+    DebtRepaidCardComponent,
+    SearchUserControlComponent
   ],
   imports: [
     BrowserModule,
