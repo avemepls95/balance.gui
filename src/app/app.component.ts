@@ -6,8 +6,8 @@ import { NavigationCancel,
         NavigationError,
         NavigationStart,
         Router } from '@angular/router';
-import { ThemeService } from './core/services/theme.service';
 import { Observable } from 'rxjs';
+import { ThemeService } from './Common/Services/theme.service';
 
 @Component({
   selector: 'app-root',

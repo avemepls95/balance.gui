@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AuthGuard } from './Guards/auth.guard';
-import { CheckListComponent } from './Components/Balance/CheckRelated/check-list/check-list.component';
-import { CheckComponent } from './Components/Balance/CheckRelated/check/check.component';
-import { AuthComponent } from './Components/Common/AuthRelated/auth/auth.component';
-import { TapeComponent } from './Components/Balance/tape/tape.component';
-import { MyBalanceComponent } from './Components/Balance/my-balance/my-balance.component';
-import { MainComponent } from './Components/Common/main/main.component';
-import { SettingsComponent } from './Components/Common/settings/settings.component';
-import { TicketComponent } from './Components/Tickets/ticket/ticket.component';
+import { CheckListComponent } from './Balance/Components/CheckRelated/check-list/check-list.component';
+import { CheckComponent } from './Balance/Components/CheckRelated/check/check.component';
+import { MyBalanceComponent } from './Balance/Components/my-balance/my-balance.component';
+import { TapeComponent } from './Balance/Components/tape/tape.component';
+import { AuthComponent } from './Common/Components/AuthRelated/auth/auth.component';
+import { MainComponent } from './Common/Components/main/main.component';
+import { SettingsComponent } from './Common/Components/settings/settings.component';
+import { AuthGuard } from './Common/Guards/auth.guard';
+import { TicketComponent } from './Tickets/Components/ticket/ticket.component';
 
 const menuRoutes: Routes = [
   { path: '', redirectTo: '/debts', pathMatch: 'full' },
