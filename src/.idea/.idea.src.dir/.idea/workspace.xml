@@ -26,141 +26,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="143623c0-d8ad-4e75-8293-06633b9c0295" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/app/Components/Balance/CheckRelated/check-list/check-list.component.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Components/Balance/CheckRelated/check-list/check-list.component.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Components/Balance/CheckRelated/check-list/check-list.component.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Components/Balance/CheckRelated/check/check.component.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Components/Balance/CheckRelated/check/check.component.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Components/Balance/CheckRelated/check/check.component.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Components/Balance/CheckRelated/consumptions/consumptions-card.component.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Components/Balance/CheckRelated/consumptions/consumptions-card.component.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Components/Balance/CheckRelated/consumptions/consumptions-card.component.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Components/Balance/CheckRelated/payment-card/payment-card.component.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Components/Balance/CheckRelated/payment-card/payment-card.component.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Components/Balance/CheckRelated/payment-card/payment-card.component.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Components/Balance/CheckRelated/position-card/position-card.component.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Components/Balance/CheckRelated/position-card/position-card.component.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Components/Balance/CheckRelated/position-card/position-card.component.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Components/Balance/debt-repaid-card/debt-repaid-card.component.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Components/Balance/debt-repaid-card/debt-repaid-card.component.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Components/Balance/debt-repaid-card/debt-repaid-card.component.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Components/Balance/my-balance/my-balance.component.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Components/Balance/my-balance/my-balance.component.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Components/Balance/my-balance/my-balance.component.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Components/Balance/tape/tape.component.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Components/Balance/tape/tape.component.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Components/Balance/tape/tape.component.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Components/Balance/transfer-card/transfer-card.component.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Components/Balance/transfer-card/transfer-card.component.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Components/Balance/transfer-card/transfer-card.component.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Components/Common/AuthRelated/auth/auth.component.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Components/Common/AuthRelated/auth/auth.component.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Components/Common/AuthRelated/auth/auth.component.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Components/Common/AuthRelated/telegram-login-widget/telegram-login-widget.component.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Components/Common/AuthRelated/telegram-login-widget/telegram-login-widget.component.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Components/Common/AuthRelated/telegram-login-widget/telegram-login-widget.component.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Components/Common/AuthRelated/vk-login-widget/vk-login-widget.component.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Components/Common/AuthRelated/vk-login-widget/vk-login-widget.component.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Components/Common/AuthRelated/vk-login-widget/vk-login-widget.component.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Components/Common/confirm-dialog/confirm-dialog.component.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Components/Common/confirm-dialog/confirm-dialog.component.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Components/Common/confirm-dialog/confirm-dialog.component.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Components/Common/loader/loader.component.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Components/Common/loader/loader.component.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Components/Common/loader/loader.component.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Components/Common/main/main.component.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Components/Common/main/main.component.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Components/Common/main/main.component.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Components/Common/notifications-info/notifications-info.component.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Components/Common/notifications-info/notifications-info.component.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Components/Common/notifications-info/notifications-info.component.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Components/Common/settings/settings.component.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Components/Common/settings/settings.component.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Components/Common/settings/settings.component.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Components/Controls/search-user-control/search-user-control.component.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Components/Controls/search-user-control/search-user-control.component.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Components/Tickets/ticket/ticket.component.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Components/Tickets/ticket/ticket.component.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Components/Tickets/ticket/ticket.component.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/ControlLayer/ConfirmDialogModel.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/ControlLayer/SnackBarColor.enum.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/ControlLayer/SnackbarOptions.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/ControlLayer/Utils/TableUtils.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Directives/mask.directive.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Directives/remove-zero.directive.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Guards/auth.guard.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Interceptors/response.interceptor.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Interceptors/token.interceptor.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Interfaces/ICanBeCreated.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/LocalStorageManager.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/LocalStorageManager.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Model/Balance/BalanceError.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Model/Balance/BalanceResponse.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Model/Balance/Check.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Model/Balance/Consumption.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Model/Balance/Debt.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Model/Balance/Discount/discount-abs-calculator.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Model/Balance/Discount/discount-calculator.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Model/Balance/Discount/discount-percent-calculator.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Model/Balance/Discount/discount-type.enum.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Model/Balance/Discount/discount.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Model/Balance/Dto/Auth/FromTelegramAuthDto.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Model/Balance/Dto/Auth/FromVkAuthDto.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Model/Balance/Dto/Auth/TelegramToBalanceAuthDto.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Model/Balance/Dto/Auth/VkToBalanceAuthDto.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Model/Balance/Dto/Check/CreateUpdate/CreateUpdateCheckDto.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Model/Balance/Dto/Check/CreateUpdate/CreateUpdateConsumptionDto.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Model/Balance/Dto/Check/CreateUpdate/CreateUpdatePaymentDto.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Model/Balance/Dto/Check/CreateUpdate/CreateUpdatePositionDto.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Model/Balance/Dto/Check/Get/GetCheckDto.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Model/Balance/Dto/Check/Get/GetConsumptionDto.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Model/Balance/Dto/Check/Get/GetPaymentDto.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Model/Balance/Dto/Check/Get/GetPositionDto.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Model/Balance/Dto/Check/check-discount-dto.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Model/Balance/Dto/Check/discount-type-dto.enum.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Model/Balance/Dto/Check/position-discount-dto.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Model/Balance/Dto/Check/position-discount-type-dto.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Model/Balance/Dto/DebtDto.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Model/Balance/Dto/DebtRepaidDto.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Model/Balance/Dto/TapeCheckProcessedDataDto.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Model/Balance/Dto/TapeRecordDto.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Model/Balance/Dto/TapeTransferDataDto.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Model/Balance/Dto/TransferDto.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Model/Balance/Dto/UserDto.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Model/Balance/Payment.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Model/Balance/Position.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Model/Balance/TapeCheckProcessedData.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Model/Balance/TapeRecord.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Model/Balance/TapeRecordType.enum.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Model/Balance/TapeTransferData.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Model/Balance/Utils/CheckCreateUpdateDtoMapper.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Model/Balance/Utils/CheckGetDtoMapper.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Model/Balance/Utils/CheckPermissionsResolver.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Model/Balance/Utils/CommonDtoMapper.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Model/Balance/Utils/DebtsDtoMapper.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Model/Balance/check-state.enum.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Model/Tickets/Converters/TicketCreateUpdateDtoMapper.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Model/Tickets/Converters/TicketGetDtoMapper.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Model/Tickets/Dto/CreateUpdate/CreateUpdateTicketDto.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Model/Tickets/Dto/Get/GetTicketDto.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Model/Tickets/Dto/TicketsResponse.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Model/Tickets/Ticket.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Model/User.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Services/auth.service.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Services/balance-api.service.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Services/loader.service.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Services/snackbar.service.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Services/tickets-api.service.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Utils/CopyUtils.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Utils/MathExtensions.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Utils/MyErrorStateMatcher.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Utils/ResponseCode.enum.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Utils/TranslateHelper.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Utils/UUIDValidator.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/app-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/app-routing.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/app.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/core/core.module.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/core/services/theme.service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -174,7 +41,9 @@
     <setting file="file://$PROJECT_DIR$/../package-lock.json" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="ProjectId" id="1ikMlKLVoJe36wgyk8UiybrzNjn" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="autoscrollFromSource" value="true" />
     <option name="hideEmptyMiddlePackages" value="true" />

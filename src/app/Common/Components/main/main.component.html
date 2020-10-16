@@ -7,10 +7,10 @@
                 <mat-icon>menu</mat-icon>
             </button>
             <mat-form-field appearance="none" class="system-mat-form-field">
-                <mat-select class="system-select" [(ngModel)]="selectedSystem"
+                <mat-select class="system-select" [(ngModel)]="selectedSystem" [disabled]='true'
                     (ngModelChange)="onSystemChanged($event)">
                     <mat-option value="balance">Balance |</mat-option>
-                    <!-- <mat-option value="tickets">Tickets</mat-option> -->
+                    <mat-option value="tickets">Tickets</mat-option>
                 </mat-select>
             </mat-form-field>
             <span class="menu-spacer"></span>
