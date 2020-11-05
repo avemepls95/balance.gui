@@ -95,7 +95,7 @@ export class MainComponent implements OnInit {
   onSystemChanged(newSystemKey: string): void {
     if (newSystemKey == 'tickets') {
       this.themeService.setTicketsTheme(true);
-      this.router.navigate(['/createTicket']);
+      this.router.navigate(['/tickets']);
       return;
     }
 

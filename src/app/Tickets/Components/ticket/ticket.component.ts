@@ -108,8 +108,7 @@ export class TicketComponent implements OnInit, OnDestroy {
           this.isLoading = true;
         }),
         switchMap(value => this.ticketsApiService.getUsersByTerm(value)
-          .pipe(finalize(() => { this.isLoading = false }),
-        )
+          .pipe(finalize(() => { this.isLoading = false }))
         )
       )
       .subscribe(data => {
@@ -125,6 +124,15 @@ export class TicketComponent implements OnInit, OnDestroy {
           this.errorMsg = this.searchResultEmptyMessage;
         this.filteredUsers = this.removeSelectedUsersFromSuggestion(data['data']);
         this.chipList.errorState = false;
+        // if (data['data'] == undefined) {
+        //   this.errorMsg = "Internal Error. We're Sorry :(";
+        //   this.filteredUsers = [];
+        //   console.log('Internal Error. Users data is null');
+        // } else {
+        //   if (data['data'].length == 0)
+        //     this.errorMsg = this.searchResultEmptyMessage;
+        //   this.filteredUsers = this.removeSelectedUsersFromSuggestion(data['data']);
+        // }
       });
   }
 
@@ -143,7 +151,7 @@ export class TicketComponent implements OnInit, OnDestroy {
     return suggestion;
   }
 
-  selectedUser(event: MatAutocompleteSelectedEvent): void {
+  onUserSelected(event: MatAutocompleteSelectedEvent): void {
     let user = this.filteredUsers.filter(u => u.id == +event.option.value)[0];
     if (!this.ticket.assignees)
       this.ticket.assignees = new Array<User>();
@@ -152,6 +160,7 @@ export class TicketComponent implements OnInit, OnDestroy {
 
     this.usersInput.nativeElement.value = '';
     this.searchUserFromControl.setValue('');
+    this.filteredUsers = [];
   }
 
   removeAssignee(user: User): void {

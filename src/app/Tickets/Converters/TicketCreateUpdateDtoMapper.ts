@@ -9,7 +9,8 @@ export class TicketCreateUpdateDtoMapper {
             title: ticket.title,
             description: ticket.description,
             deadline: ticket.deadline,
-            assigneeIds: ticket.assignees.map(a => a.id)
+            assigneeIds: ticket.assignees.map(a => a.id),
+            modifiedDate: ticket.modifiedDate
         })
     }
 }

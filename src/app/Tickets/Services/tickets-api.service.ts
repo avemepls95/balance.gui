@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { EMPTY, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { UUID } from 'angular2-uuid';
 import { CreateUpdateTicketDto } from '../Contracts/CreateUpdate/CreateUpdateTicketDto';
@@ -18,8 +18,8 @@ export class TicketsApiService {
   }
 
   getUsersByTerm(term: string): Observable<TicketsResponse> {
-    if (term == "" || !term)
-      throw new Error("Cannot get users. Passed parameter is null, undefined or empty.");
+    if (!term)
+      return EMPTY;
 
     return this.http.get(this.apiBaseUrl + 'user/search/' + term) as Observable<TicketsResponse>;
   }
@@ -49,5 +49,18 @@ export class TicketsApiService {
       this.apiBaseUrl + 'ticket/' + ticket.id.toString(),
       ticket
     ) as Observable<TicketsResponse>;
+  }
+
+  deleteTicket(id: number): Observable<TicketsResponse> {
+    return this.http.delete(this.apiBaseUrl + 'ticket/' + id.toString()) as Observable<TicketsResponse>;
+  }
+
+  getTickets(listViewVariant: string, skip: number, take: number): Observable<TicketsResponse> {
+    const params = new HttpParams()
+      .set('viewVariant', listViewVariant)
+      .set('skip', skip.toString())
+      .set('take', take.toString());
+    
+    return this.http.get(this.apiBaseUrl + 'ticket/list', { params }) as Observable<TicketsResponse>;
   }
 }

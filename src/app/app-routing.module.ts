@@ -8,6 +8,7 @@ import { AuthComponent } from './Common/Components/AuthRelated/auth/auth.compone
 import { MainComponent } from './Common/Components/main/main.component';
 import { SettingsComponent } from './Common/Components/settings/settings.component';
 import { AuthGuard } from './Common/Guards/auth.guard';
+import { TicketListComponent } from './Tickets/Components/ticket-list/ticket-list.component';
 import { TicketComponent } from './Tickets/Components/ticket/ticket.component';
 
 const menuRoutes: Routes = [
@@ -20,6 +21,7 @@ const menuRoutes: Routes = [
   
   { path: 'createTicket', component: TicketComponent },
   { path: 'editTicket/:id', component: TicketComponent, data: { ticket: {} } },
+  { path: 'tickets', component: TicketListComponent },
   
   { path: 'settings', component: SettingsComponent},
 ];

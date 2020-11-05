@@ -16,7 +16,7 @@ export class AuthService {
   private apiBaseUrl: string;
 
   constructor(private http: HttpClient, public jwtHelper: JwtHelper) {
-    this.apiBaseUrl = environment.apiUrl;
+    this.apiBaseUrl = environment.balanceApiUrl;
   }
 
   loginViaTelegram(loginData: TelegramToBalanceAuthDto): Observable<any> {

@@ -5,6 +5,7 @@ export class CreateUpdateTicketDto {
     title: string;
     description: string;
     createdDate: Date;
+    modifiedDate: Date;
     deadline: Date;
     assigneeIds: number[]
 
@@ -14,7 +15,8 @@ export class CreateUpdateTicketDto {
             title: string,
             description: string,
             deadline: Date,
-            assigneeIds: number[]
+            assigneeIds: number[],
+            modifiedDate: Date
         }) {
         if (fields) Object.assign(this, fields);
     }

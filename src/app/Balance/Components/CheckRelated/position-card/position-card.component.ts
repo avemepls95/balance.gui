@@ -150,7 +150,7 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
     }
   }
 
-  selectedUser(event: MatAutocompleteSelectedEvent): void {
+  onUserSelected(event: MatAutocompleteSelectedEvent): void {
     let user = this.filteredUsers.filter(u => u.id == +event.option.value)[0];
     if (this.position.consumptions == null)
       this.position.consumptions = new Array<Consumption>();

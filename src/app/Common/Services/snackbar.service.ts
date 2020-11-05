@@ -1,9 +1,6 @@
 import { SnackbarOptions } from '../ControlLayer/SnackbarOptions';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackBarColor } from '../ControlLayer/SnackBarColor.enum';
-import { HttpErrorResponse } from '@angular/common/http';
-import { ResponseCode } from '../Utils/ResponseCode.enum';
-import { isNullOrUndefined } from 'util';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -28,7 +25,7 @@ export class SnackbarService {
             options.message,
             options.action, 
             {
-                duration: 0,//options.duration,
+                duration: options.duration,
                 verticalPosition: "top",
                 horizontalPosition: "right",
                 panelClass: ['snackbar', colorClass]
@@ -47,15 +44,7 @@ export class SnackbarService {
         }));
     }
 
-    showErrorMessage(
-        errorResponse: HttpErrorResponse = null,
-        message: string = 'Упс! Что-то пошло не так'
-    ) {
-        if (!isNullOrUndefined(errorResponse) &&
-            errorResponse.error.error.code == ResponseCode.ValidationFailed) {
-            message = 'Ошибка валидации';
-        }
-
+    showErrorMessage(message) {
         let closeText = 'Закрыть';
         this.openSnackBar(new SnackbarOptions({
             backgroundColor: SnackBarColor.Error,

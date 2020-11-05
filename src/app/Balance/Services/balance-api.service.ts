@@ -16,7 +16,7 @@ export class BalanceApiService {
   private apiBaseUrl: string;
 
   constructor(private http: HttpClient) {
-    this.apiBaseUrl = environment.apiUrl;
+    this.apiBaseUrl = environment.balanceApiUrl;
   }
 
   getUsersSuggestion(query: string): Observable<any> {

@@ -10,7 +10,8 @@ export class RoutePathsManager {
 
     private static ticketsRoutes:string[] = [
         '/createTicket',
-        '/editTicket'
+        '/editTicket',
+        '/tickets'
     ];
 
     static isBalanceRoute(route: string) {

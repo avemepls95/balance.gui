@@ -43,7 +43,7 @@
               [matAutocomplete]="auto" [formControl]="searchUserCtrl" [matChipInputFor]="chipList"
               [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true">
           </mat-chip-list>
-          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedUser($event)">
+          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onUserSelected($event)">
             <mat-option class="is-loading" *ngIf="isLoading" [disabled]="true">
               <mat-progress-bar mode="indeterminate"></mat-progress-bar>
             </mat-option>

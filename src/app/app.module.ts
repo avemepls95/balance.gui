@@ -38,11 +38,15 @@ import { NotificationsInfoComponent } from './Common/Components/notifications-in
 import { SettingsComponent } from './Common/Components/settings/settings.component';
 import { MaskDirective } from './Common/Directives/mask.directive';
 import { RemoveZeroDirective } from './Common/Directives/remove-zero.directive';
-import { ResponseInterceptor } from './Common/Interceptors/response.interceptor';
+import { ResponseInterceptor } from './Common/Interceptors/Response/response.interceptor';
 import { TokenInterceptor } from './Common/Interceptors/token.interceptor';
 import { LoaderService } from './Common/Services/loader.service';
 import { SnackbarService } from './Common/Services/snackbar.service';
 import { TicketComponent } from './Tickets/Components/ticket/ticket.component';
+import { TicketListComponent } from './Tickets/Components/ticket-list/ticket-list.component';
+import { EnumSelectPipe } from './Common/Pipes/EnumSelectPipe';
+import { ErrorReponseHandler } from './Common/Interceptors/Response/ErrorReponseHandler';
+import { SystemHeaderInterceptor } from './Common/Interceptors/system-header.interceptor';
 
 export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
@@ -71,7 +75,9 @@ export function initializeApp(appConfig: AppConfig) {
     NotificationsInfoComponent,
     SearchUserControlComponent,
     DebtRepaidCardComponent,
-    TicketComponent
+    TicketComponent,
+    TicketListComponent,
+    EnumSelectPipe
   ],
   imports: [
     BrowserModule,
@@ -106,6 +112,7 @@ export function initializeApp(appConfig: AppConfig) {
     LoaderService,
     SnackbarService,
     CookieService,
+    ErrorReponseHandler,
     // AppConfig,
     // {
     //   provide: APP_INITIALIZER,
@@ -113,6 +120,7 @@ export function initializeApp(appConfig: AppConfig) {
     //   deps: [AppConfig], multi: true
     // },
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true, },
+    { provide: HTTP_INTERCEPTORS, useClass: SystemHeaderInterceptor, multi: true, },
     { provide: HTTP_INTERCEPTORS, useClass: ResponseInterceptor, multi: true, },
   ],
   bootstrap: [AppComponent]
