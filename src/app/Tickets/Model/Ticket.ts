@@ -7,6 +7,7 @@ export class Ticket {
     authorUserName: string;
     description: string;
     deadline: Date;
+    deadlineViolation: boolean;
     status: string;
     createdDate: Date;
     modifiedDate: Date;
@@ -19,6 +20,7 @@ export class Ticket {
             authorUserName: string,
             description?: string,
             deadline: Date,
+            deadlineViolation: boolean,
             status: string,
             createdDate?: Date,
             modifiedDate?: Date,

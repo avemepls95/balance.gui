@@ -8,6 +8,7 @@ export class GetTicketDto {
     description: string;
     status: string;
     deadline: Date;
+    deadlineViolation: boolean;
     createdDate: Date;
     modifiedDate: Date;
     assignees: UserDto[];
@@ -19,6 +20,7 @@ export class GetTicketDto {
             authorUserName: string,
             status: string,
             deadline: Date,
+            deadlineViolation: boolean,
             createdAt?: Date,
             modifiedDate?: Date,
             roles?: string[],

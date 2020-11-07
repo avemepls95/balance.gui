@@ -202,11 +202,15 @@ export class CheckComponent implements OnInit, OnDestroy {
     this.positionsDataSource.data = this.check.positions;
   }
 
-  openPaymentCard(action, obj) {
+  openPaymentCard(action, payment) {
     let data = {
-      obj: Object.assign({}, obj),
+      obj: Object.assign({}, payment),
       action: action
     }
+    if (action == 'Add') {
+      data['positionsSum'] = this.getPositionsTotalAmount();
+    }
+
     const dialogRef = this.dialog.open(PaymentCardComponent, {
       width: '370px',
       data: data

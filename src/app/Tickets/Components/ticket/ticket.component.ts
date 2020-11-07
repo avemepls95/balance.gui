@@ -18,6 +18,7 @@ import { GetTicketDto } from '../../Contracts/Get/GetTicketDto';
 import { TicketsResponse } from '../../Contracts/TicketsResponse';
 import { TicketGetDtoMapper } from '../../Converters/TicketGetDtoMapper';
 
+
 @Component({
   selector: 'app-ticket',
   templateUrl: './ticket.component.html',
@@ -245,5 +246,9 @@ export class TicketComponent implements OnInit, OnDestroy {
             );
         }
       );
+  }
+
+  onDeadlineChanged(newValue) {
+    debugger
   }
 }

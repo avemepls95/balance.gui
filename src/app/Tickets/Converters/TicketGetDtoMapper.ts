@@ -11,6 +11,7 @@ export class TicketGetDtoMapper {
             title: ticketDto.title,
             authorUserName: ticketDto.authorUserName,
             deadline: ticketDto.deadline,
+            deadlineViolation: ticketDto.deadlineViolation,
             description: ticketDto.description,
             status: ticketDto.status,
             createdDate: new Date(ticketDto.createdDate),
@@ -28,6 +29,7 @@ export class TicketGetDtoMapper {
             title: ticketDto.title,
             authorUserName: ticketDto.authorUserName,
             deadline: ticketDto.deadline,
+            deadlineViolation: ticketDto.deadlineViolation,
             description: ticketDto.description,
             status: ticketDto.status,
             createdDate: new Date(ticketDto.createdDate)

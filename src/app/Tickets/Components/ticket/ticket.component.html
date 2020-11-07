@@ -3,42 +3,32 @@
     <div class='flex-h-space-between header-row' style="height: 42px;">
       <div class='flex-v-center'>
         <mat-card-title *ngIf="mode == 'creating'">Создание задачи</mat-card-title>
-        <mat-card-title *ngIf="mode == 'editing'">Задача</mat-card-title>
+        <div *ngIf="mode == 'editing'" class='flex-v-center'>
+          <mat-card-title >Задача</mat-card-title>
+          <mat-icon *ngIf="ticket.deadlineViolation" mat-list-icon class="red">error_outline</mat-icon>
+        </div>
       </div>
     </div>
   </mat-card-header>
   <mat-card-content>
     <mat-form-field class="w-100">
-      <input matInput required
-        [(ngModel)]="ticket.title" 
-        placeholder="Название"
-        [formControl]="titleFormControl" 
-        [errorStateMatcher]="matcher" 
-        [readonly]="!canEdit()">
+      <input matInput required [(ngModel)]="ticket.title" placeholder="Название" [formControl]="titleFormControl"
+        [errorStateMatcher]="matcher" [readonly]="!canEdit()">
       <mat-error *ngIf="titleFormControl.hasError('required')">Поле заполни э</mat-error>
     </mat-form-field>
 
     <div>
       <mat-form-field class="w-100">
         <mat-chip-list #chipList required>
-          <mat-chip 
-            *ngFor="let assignee of ticket.assignees" 
-            [selectable]="true" 
-            [removable]="true"
+          <mat-chip *ngFor="let assignee of ticket.assignees" [selectable]="true" [removable]="true"
             (removed)="removeAssignee(assignee)">
             {{assignee.username}}
             <mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
           </mat-chip>
-          <input matInput 
-            #usersInput 
-            placeholder="Исполнители" 
-            aria-label="State"
-            [matAutocomplete]="auto" 
-            [formControl]="searchUserFromControl" 
-            [matChipInputFor]="chipList"
-            [matChipInputSeparatorKeyCodes]="separatorKeysCodes" 
-            [matChipInputAddOnBlur]="true">
-          </mat-chip-list>
+          <input matInput #usersInput placeholder="Исполнители" aria-label="State" [matAutocomplete]="auto"
+            [formControl]="searchUserFromControl" [matChipInputFor]="chipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true">
+        </mat-chip-list>
         <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onUserSelected($event)">
           <mat-option class="is-loading" *ngIf="isLoading" [disabled]="true">
             <mat-progress-bar mode="indeterminate"></mat-progress-bar>
@@ -57,12 +47,14 @@
     </div>
 
     <mat-form-field class="w-100" *ngIf="mode == 'editing'">
-      <input matInput placeholder="Дата создания"
-        value="{{ticket.createdDate | date:'dd.MM.yyyy HH:mm'}}" [readonly]="true">
+      <input matInput placeholder="Дата создания" value="{{ticket.createdDate | date:'dd.MM.yyyy HH:mm'}}"
+        [readonly]="true">
     </mat-form-field>
 
     <mat-form-field class="w-100">
-      <input [(ngModel)]="ticket.deadline" matInput [ngxMatDatetimePicker]="picker"
+      <input matInput placeholder="Крайний срок" value="{{ticket.deadline | date:'dd.MM.yyyy HH:mm'}}"
+        [readonly]="true">
+      <input [(ngModel)]="ticket.deadline" matInput [ngxMatDatetimePicker]="picker" [hidden]="true"
         placeholder="Крайний срок" [min]="todayDate">
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <ngx-mat-datetime-picker #picker [showSeconds]="false">
@@ -70,8 +62,7 @@
     </mat-form-field>
 
     <mat-form-field class="w-100">
-      <textarea matInput [(ngModel)]="ticket.description"
-        placeholder="Описание"></textarea>
+      <textarea matInput [(ngModel)]="ticket.description" placeholder="Описание"></textarea>
     </mat-form-field>
 
   </mat-card-content>

@@ -1,4 +1,4 @@
-import { Component, OnInit, Optional, Inject, ViewChild, ElementRef, AfterViewInit, AfterContentInit } from '@angular/core';
+import { Component, Optional, Inject, ViewChild, ElementRef, AfterContentInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Payment } from 'src/app/Balance/Model/Payment';
 import { SearchUserControlComponent } from 'src/app/Common/Components/Controls/search-user-control/search-user-control.component';
@@ -11,22 +11,24 @@ import { isNullOrUndefined } from 'util';
   templateUrl: './payment-card.component.html',
   styleUrls: ['./payment-card.component.css']
 })
-export class PaymentCardComponent implements OnInit, AfterContentInit, ICanBeCreated {
+export class PaymentCardComponent implements AfterContentInit, ICanBeCreated {
 
   action: string;
   payment: Payment;
 
   @ViewChild('searchUserControl', { static: false }) searchUserControl: SearchUserControlComponent;
+  @ViewChild('searchUserInput', { static: false }) searchUserInput: ElementRef;
 
   constructor(
     public dialogRef: MatDialogRef<PaymentCardComponent>,
-    @Optional() @Inject(MAT_DIALOG_DATA) public data,
+    @Optional() @Inject(MAT_DIALOG_DATA) public data
   ) {
     this.payment = data.obj;
     this.action = data.action;
-  }
 
-  ngOnInit() {
+    var positionsSum = data.positionsSum;
+    if (!!positionsSum)
+      this.payment.amount = positionsSum;
   }
 
   ngAfterContentInit(): void {

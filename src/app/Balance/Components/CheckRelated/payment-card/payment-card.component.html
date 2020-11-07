@@ -3,13 +3,14 @@
 <h1 mat-dialog-title *ngIf="action == 'Delete'">Удалить Платеж</h1>
 <div mat-dialog-content class="position-dialog">
     <div *ngIf="action != 'Delete'; else elseTemplate">
-        <mat-form-field>
-            <input matInput required Mask="^\d*\.?\d{0,2}$" type="text" placeholder="Сумма"
-                [readonly]="action == 'View'" [(ngModel)]="payment.amount">
-        </mat-form-field>
-
+        
         <search-user-control #searchUserControl [readonly]="action == 'View'" (userSelected)="selectedUser($event)">
         </search-user-control>
+
+        <mat-form-field>
+            <input #searchUserInput matInput required Mask="^\d*\.?\d{0,2}$" type="text" placeholder="Сумма" 
+                [readonly]="action == 'View'" [(ngModel)]="payment.amount">
+        </mat-form-field>
 
     </div>
     <ng-template #elseTemplate>
