@@ -17,7 +17,7 @@ table {
     width: 110px;
 }
 
-.mat-cell { 
+.mat-cell {
     text-align: center;
 }
 
@@ -31,9 +31,9 @@ table {
     flex: 0 0 28% !important;
     overflow-wrap: break-word;
     word-wrap: break-word;
-  
+
     word-break: break-word;
-  
+
     -ms-hyphens: auto;
     -moz-hyphens: auto;
     -webkit-hyphens: auto;

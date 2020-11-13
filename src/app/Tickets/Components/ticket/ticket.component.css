@@ -35,7 +35,7 @@ mat-card-content {
 }
 
 .mat-card-title {
-    margin-bottom: 0;
+    margin: 0 0 0 2px;
 }
 
 table {
@@ -46,7 +46,7 @@ table {
     width: 80px;
 }
 
-.mat-cell, .mat-footer-cell { 
+.mat-cell, .mat-footer-cell {
     text-align: center;
 }
 
@@ -59,7 +59,7 @@ table {
     justify-content:center;
     transform: translateX(12px); /* 12px - sort arrow */
 }
-  
+
 .add-row-button {
     margin-bottom: 17px;
     height: 100%;
@@ -122,6 +122,10 @@ div.row-action-buttons button {
 }
 
 .mat-card-header > div {
+    margin-bottom: 10px;
+}
+
+.mat-card-header > div {
     transform: translateX(-26px);
 }
 
@@ -173,9 +177,9 @@ span.process {
     flex: 0 0 28% !important;
     overflow-wrap: break-word;
     word-wrap: break-word;
-  
+
     word-break: break-word;
-  
+
     -ms-hyphens: auto;
     -moz-hyphens: auto;
     -webkit-hyphens: auto;
@@ -188,20 +192,20 @@ span.process {
     flex: 0 0 28% !important;
     overflow-wrap: break-word;
     word-wrap: break-word;
-  
+
     word-break: break-word;
-  
+
     -ms-hyphens: auto;
     -moz-hyphens: auto;
     -webkit-hyphens: auto;
     hyphens: auto;
   }
 
-.in-work-status {
+.new-status {
     background-color: #6a737d;
 }
 
-.processed-status {
+.assigned-status {
     background-color: #2cbe4e;
 }
 
@@ -219,4 +223,24 @@ span.process {
 
 ::ng-deep .mat-form-field-infix {
     width: auto !important;
+}
+
+.assign-ticket-button {
+    background-color: #26b926;
+    color: black;
+    padding-left: 8px;
+    height: 42px;
+}
+@media only screen and (max-width: 600px) {
+    .assign-ticket-button {
+        transform: translateX(20px);
+    }
+}
+
+input:disabled {
+  color: rgba(0, 0, 0, 0.58)!important;
+}
+
+.deadline-input {
+  font-weight: bold;
 }

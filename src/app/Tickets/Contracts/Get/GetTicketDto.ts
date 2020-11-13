@@ -6,24 +6,26 @@ export class GetTicketDto {
     title: string;
     authorUserName: string;
     description: string;
-    status: string;
+    statusKey: string;
     deadline: Date;
     deadlineViolation: boolean;
     createdDate: Date;
     modifiedDate: Date;
     assignees: UserDto[];
+    canEdit: boolean;
 
     public constructor(
         fields?: {
             id?: number,
             title?: string,
             authorUserName: string,
-            status: string,
+            statusKey: string,
             deadline: Date,
             deadlineViolation: boolean,
             createdAt?: Date,
             modifiedDate?: Date,
             roles?: string[],
+            canEdit?: boolean
         }) {
         if (fields) Object.assign(this, fields);
     }

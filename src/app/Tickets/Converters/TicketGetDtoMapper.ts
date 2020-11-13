@@ -13,14 +13,15 @@ export class TicketGetDtoMapper {
             deadline: ticketDto.deadline,
             deadlineViolation: ticketDto.deadlineViolation,
             description: ticketDto.description,
-            status: ticketDto.status,
+            statusKey: ticketDto.statusKey,
             createdDate: new Date(ticketDto.createdDate),
             modifiedDate: new Date(ticketDto.modifiedDate),
             assignees: ticketDto.assignees.map(a => new User({
                 id: a.id,
                 username: a.username
-            }))
-        })
+            })),
+            canEdit: ticketDto.canEdit
+        });
     }
 
     static convertDtoToTicketListModel(ticketDto: GetTicketDto): Ticket {
@@ -31,8 +32,9 @@ export class TicketGetDtoMapper {
             deadline: ticketDto.deadline,
             deadlineViolation: ticketDto.deadlineViolation,
             description: ticketDto.description,
-            status: ticketDto.status,
-            createdDate: new Date(ticketDto.createdDate)
-        })
+            statusKey: ticketDto.statusKey,
+            createdDate: new Date(ticketDto.createdDate),
+            canEdit: ticketDto.canEdit
+        });
     }
 }

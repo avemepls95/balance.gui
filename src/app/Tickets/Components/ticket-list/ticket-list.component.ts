@@ -10,7 +10,7 @@ import { SnackbarService } from 'src/app/Common/Services/snackbar.service';
 import { Ticket } from '../../Model/Ticket';
 import { TicketsApiService } from '../../Services/tickets-api.service';
 import { TicketGetDtoMapper } from '../../Converters/TicketGetDtoMapper';
-import { ListViewVariant } from '../../ViewModel/ListViewVariant';
+import { TICKETS_VIEW_VARIANT } from '../../ViewModel/TicketsViewVariant';
 
 
 @Component({
@@ -29,7 +29,7 @@ export class TicketListComponent implements OnInit {
 
   // CHECK_STATE = CHECK_STATE;
 
-  listViewVariants = ListViewVariant;
+  listViewVariants = TICKETS_VIEW_VARIANT;
   selectedViewVariant = 'All';
 
   constructor(
@@ -42,13 +42,13 @@ export class TicketListComponent implements OnInit {
     snackbarService.setSnackbar(snackbar);
 
     loaderService.show();
-    
+
     ticketsApiService.getTickets(this.selectedViewVariant, 0, this.itemsPerPage).pipe(
       finalize(() => loaderService.hide())
     ).subscribe(
       (response) => {
         this.tickets = response.data.map(c => TicketGetDtoMapper.convertDtoToTicketListModel(c));
-        if (response.data.length == 0 || response.data.length % this.itemsPerPage != 0) {
+        if (response.data.length === 0 || response.data.length % this.itemsPerPage !== 0) {
           this.noMoreItems = true;
           return;
         }
@@ -68,7 +68,7 @@ export class TicketListComponent implements OnInit {
     ).subscribe(
       (response) => {
         this.tickets = response.data.map(c => TicketGetDtoMapper.convertDtoToTicketListModel(c));
-        if (response.data.length == 0 || response.data.length % this.itemsPerPage != 0) {
+        if (response.data.length === 0 || response.data.length % this.itemsPerPage !== 0) {
           this.noMoreItems = true;
           return;
         }
@@ -86,12 +86,12 @@ export class TicketListComponent implements OnInit {
       finalize(() => this.loaderService.hide())
     ).subscribe(
       (response: BalanceResponse) => {
-        if (response.data.length == 0 || response.data.length % this.itemsPerPage != 0) {
+        if (response.data.length === 0 || response.data.length % this.itemsPerPage !== 0) {
           this.noMoreItems = true;
           return;
         }
 
-        let checks = response.data.map(c => TicketGetDtoMapper.convertDtoToTicketListModel(c));
+        const checks = response.data.map(c => TicketGetDtoMapper.convertDtoToTicketListModel(c));
 
         this.tickets = this.tickets.concat(checks);
         this.updateColumns();
@@ -102,13 +102,13 @@ export class TicketListComponent implements OnInit {
 
   deleteTicket(id: number) {
     const index = this.tickets.findIndex(c => c.id === id);
-    if (index == -1) {
+    if (index === -1) {
       console.log("Invalid ticket id:" + id);
     }
 
     const dialogData = new ConfirmDialogModel('Подтверждение', 'Вы уверены, что хотите удалить Задачу?');
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      maxWidth: "400px",
+      maxWidth: '400px',
       data: dialogData
     });
 
@@ -124,7 +124,7 @@ export class TicketListComponent implements OnInit {
         .subscribe(
           (response: BalanceResponse) => {
             this.snackbarService.showSuccessMessage();
-            var deleted = this.tickets.splice(index, 1)[0];
+            const deleted = this.tickets.splice(index, 1)[0];
             // reinitialize for grid updating
             this.tickets = this.tickets.filter(c => !this.tickets.includes(deleted));
 
@@ -144,7 +144,7 @@ export class TicketListComponent implements OnInit {
     //   check.state != CHECK_STATE.PROCESSED &&
     //   !!check.roles &&
     //   check.roles.includes(UserCheckRoles.Owner)
-    let result = true;
+    const result = true;
 
     return result;
   }
@@ -163,7 +163,7 @@ export class TicketListComponent implements OnInit {
     // );
 
     // let hasAccessForAnyUnprocessedCheckActions = unprocessedChecksWhereOwner.length != 0;
-    let hasAccessForAnyUnprocessedCheckActions = true;
+    const hasAccessForAnyUnprocessedCheckActions = true;
     TableUtils.setColumnVisible(this.displayedColumns, 'actions', hasAccessForAnyUnprocessedCheckActions);
   }
 }

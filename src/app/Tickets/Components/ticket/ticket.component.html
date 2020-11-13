@@ -1,74 +1,152 @@
 <mat-card class="content-card">
   <mat-card-header>
-    <div class='flex-h-space-between header-row' style="height: 42px;">
-      <div class='flex-v-center'>
-        <mat-card-title *ngIf="mode == 'creating'">Создание задачи</mat-card-title>
-        <div *ngIf="mode == 'editing'" class='flex-v-center'>
-          <mat-card-title >Задача</mat-card-title>
-          <mat-icon *ngIf="ticket.deadlineViolation" mat-list-icon class="red">error_outline</mat-icon>
+    <div class="flex-h-space-between header-row" style="height: 42px">
+      <div class="flex-v-center">
+        <mat-card-title *ngIf="mode == 'creating'"
+          >Создание задачи</mat-card-title
+        >
+        <div *ngIf="mode == 'editing'" class="flex-v-center">
+          <mat-icon
+            *ngIf="ticket.deadlineViolation"
+            mat-list-icon
+            class="red"
+            matTooltip="Задача просрочена"
+            (click)="tooltip.toggle()"
+            #tooltip="matTooltip"
+            >error_outline</mat-icon
+          >
+          <mat-card-title>Задача</mat-card-title>
+          <span
+            class="status ml-3"
+            *ngIf="ticket.id"
+            [ngClass]="
+              ticket.statusKey == TICKET_STATUS.Assigned
+                ? 'assigned-status'
+                : 'new-status'
+            "
+          >
+            {{ TICKET_STATUS[ticket.statusKey] }}
+          </span>
         </div>
       </div>
+      <button
+        class="assign-ticket-button"
+        mat-button
+        (click)="handleProcessCheckClick()"
+        mat-flat-button
+        matTooltip="Назначить задачу на исполнителей"
+        *ngIf="canEdit()"
+      >
+        <span class="process">Назначить</span>
+      </button>
     </div>
   </mat-card-header>
   <mat-card-content>
-    <mat-form-field class="w-100">
-      <input matInput required [(ngModel)]="ticket.title" placeholder="Название" [formControl]="titleFormControl"
-        [errorStateMatcher]="matcher" [readonly]="!canEdit()">
-      <mat-error *ngIf="titleFormControl.hasError('required')">Поле заполни э</mat-error>
-    </mat-form-field>
-
-    <div>
+    <fieldset [disabled]="!canEdit()">
       <mat-form-field class="w-100">
-        <mat-chip-list #chipList required>
-          <mat-chip *ngFor="let assignee of ticket.assignees" [selectable]="true" [removable]="true"
-            (removed)="removeAssignee(assignee)">
-            {{assignee.username}}
-            <mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
-          </mat-chip>
-          <input matInput #usersInput placeholder="Исполнители" aria-label="State" [matAutocomplete]="auto"
-            [formControl]="searchUserFromControl" [matChipInputFor]="chipList"
-            [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true">
-        </mat-chip-list>
-        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onUserSelected($event)">
-          <mat-option class="is-loading" *ngIf="isLoading" [disabled]="true">
-            <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-          </mat-option>
-          <ng-container *ngIf="!isLoading">
-            <mat-option *ngFor="let user of filteredUsers" [value]="user.id">
-              <span>{{user.username}}</span>
-            </mat-option>
-          </ng-container>
-        </mat-autocomplete>
+        <input
+          matInput
+          required
+          [(ngModel)]="ticket.title"
+          placeholder="Название"
+          [formControl]="titleFormControl"
+          [errorStateMatcher]="matcher"
+        />
+        <mat-error *ngIf="titleFormControl.hasError('required')"
+          >Поле заполни э</mat-error
+        >
       </mat-form-field>
-      <br>
-      <ng-container *ngIf="errorMsg">
-        {{errorMsg}}
-      </ng-container>
-    </div>
 
-    <mat-form-field class="w-100" *ngIf="mode == 'editing'">
-      <input matInput placeholder="Дата создания" value="{{ticket.createdDate | date:'dd.MM.yyyy HH:mm'}}"
-        [readonly]="true">
-    </mat-form-field>
+      <div>
+        <mat-form-field class="w-100">
+          <mat-chip-list #chipList required [disabled]="!canEdit()">
+            <mat-chip
+              *ngFor="let assignee of ticket.assignees"
+              [selectable]="true"
+              [removable]="true"
+              (removed)="removeAssignee(assignee)"
+            >
+              {{ assignee.username }}
+              <mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
+            </mat-chip>
+            <input
+              matInput
+              #usersInput
+              placeholder="Исполнители"
+              aria-label="State"
+              [matAutocomplete]="auto"
+              [formControl]="searchUserFromControl"
+              [matChipInputFor]="chipList"
+              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+              [matChipInputAddOnBlur]="true"
+            />
+          </mat-chip-list>
+          <mat-autocomplete
+            #auto="matAutocomplete"
+            (optionSelected)="onUserSelected($event)"
+          >
+            <mat-option class="is-loading" *ngIf="isLoading" [disabled]="true">
+              <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+            </mat-option>
+            <ng-container *ngIf="!isLoading">
+              <mat-option *ngFor="let user of filteredUsers" [value]="user.id">
+                <span>{{ user.username }}</span>
+              </mat-option>
+            </ng-container>
+          </mat-autocomplete>
+        </mat-form-field>
+        <br />
+        <ng-container *ngIf="errorMsg">
+          {{ errorMsg }}
+        </ng-container>
+      </div>
 
-    <mat-form-field class="w-100">
-      <input matInput placeholder="Крайний срок" value="{{ticket.deadline | date:'dd.MM.yyyy HH:mm'}}"
-        [readonly]="true">
-      <input [(ngModel)]="ticket.deadline" matInput [ngxMatDatetimePicker]="picker" [hidden]="true"
-        placeholder="Крайний срок" [min]="todayDate">
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <ngx-mat-datetime-picker #picker [showSeconds]="false">
-      </ngx-mat-datetime-picker>
-    </mat-form-field>
+      <mat-form-field class="w-100" *ngIf="mode == 'editing'">
+        <input
+          matInput
+          placeholder="Дата создания"
+          value="{{ ticket.createdDate | date: 'dd.MM.yyyy HH:mm' }}"
+          [readonly]="true"
+        />
+      </mat-form-field>
 
-    <mat-form-field class="w-100">
-      <textarea matInput [(ngModel)]="ticket.description" placeholder="Описание"></textarea>
-    </mat-form-field>
+      <mat-form-field class="w-100">
+        <input
+          class="deadline-input"
+          matInput
+          placeholder="Крайний срок"
+          value="{{ ticket.deadline | date: 'dd.MM.yyyy HH:mm' }}"
+          [readonly]="true"
+        />
+        <input
+          [(ngModel)]="ticket.deadline"
+          matInput
+          [ngxMatDatetimePicker]="picker"
+          [hidden]="true"
+          placeholder="Крайний срок"
+          [min]="todayDate"
+        />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <ngx-mat-datetime-picker #picker [showSeconds]="false">
+        </ngx-mat-datetime-picker>
+      </mat-form-field>
 
+      <mat-form-field class="w-100">
+        <textarea
+          matInput
+          [(ngModel)]="ticket.description"
+          placeholder="Описание"
+        ></textarea>
+      </mat-form-field>
+    </fieldset>
   </mat-card-content>
 
   <mat-card-actions class="create-ticket-btn-wrap">
-    <button mat-button *ngIf="mode == 'creating' && !ticket.id" (click)="createTicket()">
+    <button
+      mat-button
+      *ngIf="mode == 'creating' && !ticket.id"
+      (click)="createTicket()"
+    >
       <span>СОЗДАТЬ</span>
     </button>
     <button mat-button *ngIf="ticket.id && canEdit()" (click)="updateTicket()">

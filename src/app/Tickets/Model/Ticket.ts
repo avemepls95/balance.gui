@@ -8,10 +8,11 @@ export class Ticket {
     description: string;
     deadline: Date;
     deadlineViolation: boolean;
-    status: string;
+    statusKey: string;
     createdDate: Date;
     modifiedDate: Date;
     assignees: User[] = [];
+    canEdit: boolean;
 
     public constructor(
         fields?: {
@@ -21,10 +22,11 @@ export class Ticket {
             description?: string,
             deadline: Date,
             deadlineViolation: boolean,
-            status: string,
+            statusKey: string,
             createdDate?: Date,
             modifiedDate?: Date,
             assignees?: User[],
+            canEdit?: boolean
         }) {
         if (fields) Object.assign(this, fields);
     }

@@ -1,72 +1,95 @@
 <mat-card class="content-card">
-    <mat-card-header>
-        <mat-card-title>Задачи</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-
-        <div class="container positions-block">
-            <div class="flex-h-space-between">
-                <mat-form-field class="view-variants">
-                    <mat-select [(ngModel)]="selectedViewVariant" (ngModelChange)="selectedViewVariantChange()">
-                        <mat-option *ngFor="let viewVariant of listViewVariants | enumSelect" [value]="viewVariant.key">
-                            {{viewVariant.value}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-                <div>
-                    <button mat-button mat-flat-button color="primary" [routerLink]="'../createTicket'">
-                        + Задача
-                    </button>
-                </div>
-            </div>
-            <div class="mat-elevation-z5">
-
-                <table mat-table [dataSource]="tickets" matSort>
-
-                    <ng-container matColumnDef="createdAt">
-                        <th mat-header-cell *matHeaderCellDef>
-                            <div><span>Дата создания</span></div>
-                        </th>
-                        <td mat-cell *matCellDef="let ticket"> {{ticket.createdDate | date:'dd.MM.yy'}} </td>
-                    </ng-container>
-
-
-                    <ng-container matColumnDef="title">
-                        <th mat-header-cell *matHeaderCellDef>
-                            <div><span>Название</span></div>
-                        </th>
-                        <td mat-cell *matCellDef="let ticket">
-                            <div>
-                                <span> {{ticket.title}} </span>
-                            </div>
-                        </td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="actions">
-                        <th mat-header-cell *matHeaderCellDef></th>
-                        <td mat-cell *matCellDef="let ticket" class="row-actions-td">
-                            <div class="row-action-buttons" (click)="$event.stopPropagation()">
-                                <button mat-icon-button (click)="deleteTicket(ticket.id)" onclick="this.blur()"
-                                    matTooltip="Удалить задачу">
-                                    <mat-icon class="red">delete</mat-icon>
-                                </button>
-                            </div>
-                        </td>
-                    </ng-container>
-
-                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                    <tr mat-row *matRowDef="let ticket; columns: displayedColumns;"
-                        [routerLink]="['../editTicket', ticket.id]"></tr>
-                </table>
-
-                <div class="more-items" *ngIf="!noMoreItems">
-                    <button mat-icon-button (click)="loadNextSet()" onclick="this.blur()" matTooltip="Загрузить еще">
-                        <mat-icon class="icon-font-large dark-gray">expand_more</mat-icon>
-                    </button>
-                </div>
-            </div>
+  <mat-card-header>
+    <mat-card-title>Задачи</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="container positions-block">
+      <div class="flex-h-space-between">
+        <mat-form-field class="view-variants">
+          <mat-select
+            [(ngModel)]="selectedViewVariant"
+            (ngModelChange)="selectedViewVariantChange()"
+          >
+            <mat-option
+              *ngFor="let viewVariant of listViewVariants | enumSelect"
+              [value]="viewVariant.key"
+            >
+              {{ viewVariant.value }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <div>
+          <button
+            mat-button
+            mat-flat-button
+            color="primary"
+            [routerLink]="'../createTicket'"
+          >
+            + Задача
+          </button>
         </div>
+      </div>
+      <div class="mat-elevation-z5">
+        <table mat-table [dataSource]="tickets" matSort>
+          <ng-container matColumnDef="createdAt">
+            <th mat-header-cell *matHeaderCellDef>
+              <div><span>Дата создания</span></div>
+            </th>
+            <td mat-cell *matCellDef="let ticket">
+              {{ ticket.createdDate | date: "dd.MM.yy" }}
+            </td>
+          </ng-container>
 
-    </mat-card-content>
+          <ng-container matColumnDef="title">
+            <th mat-header-cell *matHeaderCellDef>
+              <div><span>Название</span></div>
+            </th>
+            <td mat-cell *matCellDef="let ticket">
+              <div>
+                <span> {{ ticket.title }} </span>
+              </div>
+            </td>
+          </ng-container>
 
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let ticket" class="row-actions-td">
+              <div
+                class="row-action-buttons"
+                (click)="$event.stopPropagation()"
+              >
+                <button
+                  mat-icon-button
+                  [hidden]="!ticket.canEdit"
+                  (click)="deleteTicket(ticket.id)"
+                  onclick="this.blur()"
+                  matTooltip="Удалить задачу"
+                >
+                  <mat-icon class="red">delete</mat-icon>
+                </button>
+              </div>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr
+            mat-row
+            *matRowDef="let ticket; columns: displayedColumns"
+            [routerLink]="['../editTicket', ticket.id]"
+          ></tr>
+        </table>
+
+        <div class="more-items" *ngIf="!noMoreItems">
+          <button
+            mat-icon-button
+            (click)="loadNextSet()"
+            onclick="this.blur()"
+            matTooltip="Загрузить еще"
+          >
+            <mat-icon class="icon-font-large dark-gray">expand_more</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
 </mat-card>
