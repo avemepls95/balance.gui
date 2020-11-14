@@ -20,7 +20,10 @@ export class TicketGetDtoMapper {
                 id: a.id,
                 username: a.username
             })),
-            canEdit: ticketDto.canEdit
+            canEdit: ticketDto.canEdit,
+            canAssign: ticketDto.canAssign,
+            canClose: ticketDto.canClose,
+            canReopen: ticketDto.canReopen,
         });
     }
 

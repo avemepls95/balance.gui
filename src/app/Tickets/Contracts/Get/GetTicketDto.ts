@@ -13,6 +13,9 @@ export class GetTicketDto {
     modifiedDate: Date;
     assignees: UserDto[];
     canEdit: boolean;
+    canAssign: boolean;
+    canClose: boolean;
+    canReopen: boolean;
 
     public constructor(
         fields?: {
@@ -26,7 +29,11 @@ export class GetTicketDto {
             modifiedDate?: Date,
             roles?: string[],
             canEdit?: boolean
+            canAssign?: boolean,
+            canClose?: boolean,
+            canReopen?: boolean,
         }) {
-        if (fields) Object.assign(this, fields);
+        if (fields)
+          Object.assign(this, fields);
     }
 }

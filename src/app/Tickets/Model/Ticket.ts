@@ -13,6 +13,9 @@ export class Ticket {
     modifiedDate: Date;
     assignees: User[] = [];
     canEdit: boolean;
+    canAssign: boolean;
+    canClose: boolean;
+    canReopen: boolean;
 
     public constructor(
         fields?: {
@@ -26,8 +29,12 @@ export class Ticket {
             createdDate?: Date,
             modifiedDate?: Date,
             assignees?: User[],
-            canEdit?: boolean
+            canEdit?: boolean,
+            canAssign?: boolean,
+            canClose?: boolean,
+            canReopen?: boolean,
         }) {
-        if (fields) Object.assign(this, fields);
+        if (fields)
+          Object.assign(this, fields);
     }
 }

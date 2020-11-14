@@ -1,3 +1,7 @@
+::ng-deep .mat-card-header-text {
+  margin: 0px;
+}
+
 #delete-th {
     color: red;
 }
@@ -125,10 +129,6 @@ div.row-action-buttons button {
     margin-bottom: 10px;
 }
 
-.mat-card-header > div {
-    transform: translateX(-26px);
-}
-
 .header-row {
     width: 100%;
 }
@@ -201,13 +201,9 @@ span.process {
     hyphens: auto;
   }
 
-.new-status {
-    background-color: #6a737d;
-}
-
-.assigned-status {
-    background-color: #2cbe4e;
-}
+.new-status { background-color: #6a737d; }
+.assigned-status { background-color: #2cbe4e; }
+.closed-status { background-color: black; }
 
 .status {
     display: inline-block;
@@ -225,16 +221,29 @@ span.process {
     width: auto !important;
 }
 
+.move-to-status-button {
+  padding-left: 8px;
+  height: 42px;
+}
+@media only screen and (max-width: 600px) {
+  .move-to-status-button {
+      transform: translateX(20px);
+    }
+}
+
 .assign-ticket-button {
     background-color: #26b926;
     color: black;
-    padding-left: 8px;
-    height: 42px;
 }
-@media only screen and (max-width: 600px) {
-    .assign-ticket-button {
-        transform: translateX(20px);
-    }
+
+.close-ticket-button {
+  background-color: #101f10;
+  color: white;
+}
+
+.reopen-ticket-button {
+  background-color: #ffc400;
+  color: white;
 }
 
 input:disabled {

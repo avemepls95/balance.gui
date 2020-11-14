@@ -1,3 +1,4 @@
+import { TICKET_STATUS } from './../Model/TicketStatus';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { EMPTY, Observable } from 'rxjs';
@@ -60,7 +61,15 @@ export class TicketsApiService {
       .set('viewVariant', listViewVariant)
       .set('skip', skip.toString())
       .set('take', take.toString());
-    
+
     return this.http.get(this.apiBaseUrl + 'ticket/list', { params }) as Observable<TicketsResponse>;
+  }
+
+  moveToStatus(ticketId: UUID, targetStatus: TICKET_STATUS): Observable<TicketsResponse> {
+    if (!targetStatus)
+      throw Error("Target status is null or undefined");
+
+    const path = `ticket/${ticketId.toString()}/move-to-status/${targetStatus}`;
+    return this.http.patch(this.apiBaseUrl + path, {}) as Observable<TicketsResponse>;
   }
 }

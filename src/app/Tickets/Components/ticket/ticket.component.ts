@@ -17,7 +17,7 @@ import { UUIDValidator } from 'src/app/Common/Utils/UUIDValidator';
 import { GetTicketDto } from '../../Contracts/Get/GetTicketDto';
 import { TicketsResponse } from '../../Contracts/TicketsResponse';
 import { TicketGetDtoMapper } from '../../Converters/TicketGetDtoMapper';
-import { TICKET_STATUS } from '../../Model/TicketStatus';
+import { TicketStatusLabel, TICKET_STATUS } from '../../Model/TicketStatus';
 
 
 @Component({
@@ -46,6 +46,8 @@ export class TicketComponent implements OnInit, OnDestroy {
   todayDate: Date = new Date();
 
   TICKET_STATUS = TICKET_STATUS;
+  ticketStatusLabel = TicketStatusLabel;
+  statusBadgeClassName: string;
 
   constructor(
     private loaderService: LoaderService
@@ -57,7 +59,7 @@ export class TicketComponent implements OnInit, OnDestroy {
   ) {
     snackbarService.setSnackbar(snackbar);
 
-    let state = this.router.getCurrentNavigation().extras.state;
+    const state = this.router.getCurrentNavigation().extras.state;
     if (!isNullOrUndefined(state)) {
       this.mode = 'editing';
       this.ticket = state.ticket;
@@ -231,8 +233,7 @@ export class TicketComponent implements OnInit, OnDestroy {
       .pipe(finalize(() => {
         this.loaderService.hide();
       }))
-      .subscribe(
-        (response: TicketsResponse) => {
+      .subscribe(() => {
           this.loaderService.show();
           this.ticketsApiService.getTicketById(this.ticket.id)
             .pipe(finalize(() => {
@@ -247,5 +248,30 @@ export class TicketComponent implements OnInit, OnDestroy {
             );
         }
       );
+  }
+
+  moveToStatus(targetStatus: TICKET_STATUS): void {
+    this.loaderService.show();
+    this.ticketsApiService.moveToStatus(this.ticket.id, targetStatus)
+      .pipe(finalize(() => {
+        this.loaderService.hide();
+      }))
+      .subscribe(() => {
+          this.loaderService.show();
+          this.ticketsApiService.getTicketById(this.ticket.id)
+            .pipe(finalize(() => { this.loaderService.hide(); }))
+            .subscribe(
+              (response: TicketsResponse) => {
+                this.ticket = TicketGetDtoMapper.convertDtoToTicket(response.data);
+
+                this.snackbarService.showSuccessMessage();
+              }
+            );
+        }
+      );
+  }
+
+  getStatusBadgeClassName() {
+    return `${this.ticket.statusKey.toLowerCase()}-status`;
   }
 }

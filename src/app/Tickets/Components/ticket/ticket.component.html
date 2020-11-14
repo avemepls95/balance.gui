@@ -19,25 +19,41 @@
           <span
             class="status ml-3"
             *ngIf="ticket.id"
-            [ngClass]="
-              ticket.statusKey == TICKET_STATUS.Assigned
-                ? 'assigned-status'
-                : 'new-status'
-            "
+            [ngClass]="getStatusBadgeClassName()"
           >
-            {{ TICKET_STATUS[ticket.statusKey] }}
+            {{ ticketStatusLabel.get(ticket.statusKey) }}
           </span>
         </div>
       </div>
       <button
         class="assign-ticket-button"
         mat-button
-        (click)="handleProcessCheckClick()"
+        (click)="moveToStatus(TICKET_STATUS.Assigned)"
         mat-flat-button
         matTooltip="Назначить задачу на исполнителей"
-        *ngIf="canEdit()"
+        *ngIf="ticket.canAssign"
       >
         <span class="process">Назначить</span>
+      </button>
+      <button
+        class="close-ticket-button"
+        mat-button
+        (click)="moveToStatus(TICKET_STATUS.Closed)"
+        mat-flat-button
+        matTooltip="Закрыть задачу"
+        *ngIf="ticket.canClose"
+      >
+        <span class="process">Закрыть</span>
+      </button>
+      <button
+        class="reopen-ticket-button"
+        mat-button
+        (click)="moveToStatus(TICKET_STATUS.New)"
+        mat-flat-button
+        matTooltip="Переоткрыть задачу"
+        *ngIf="ticket.canReopen"
+      >
+        <span class="process">Переоткрыть</span>
       </button>
     </div>
   </mat-card-header>
