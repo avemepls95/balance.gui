@@ -27,14 +27,14 @@ export class TicketsApiService {
 
   getTicketById(id: UUID): Observable<TicketsResponse> {
     if (!id)
-      throw Error("Cannot get ticket. Passed parameter is null or undefined.");
+      throw Error('Cannot get ticket. Passed parameter is null or undefined.');
 
     return this.http.get(this.apiBaseUrl + 'ticket/' + id.toString()) as Observable<TicketsResponse>;
   }
 
   createTicket(ticket: CreateUpdateTicketDto): Observable<TicketsResponse> {
     if (!ticket)
-      throw Error("Cannot create ticket. Passed parameter is null or undefined.");
+      throw Error('Cannot create ticket. Passed parameter is null or undefined.');
 
     return this.http.post(
       this.apiBaseUrl + 'ticket',
@@ -44,11 +44,13 @@ export class TicketsApiService {
 
   updateTicket(ticket: CreateUpdateTicketDto): Observable<TicketsResponse> {
     if (!ticket)
-      throw Error("Cannot update ticket. Passed parameter is null or undefined.");
+      throw Error('Cannot update ticket. Passed parameter is null or undefined.');
 
+    const params = new HttpParams().set('ModifiedDate', ticket.modifiedDate.toString());
     return this.http.put(
       this.apiBaseUrl + 'ticket/' + ticket.id.toString(),
-      ticket
+      ticket,
+      { params }
     ) as Observable<TicketsResponse>;
   }
 
@@ -65,11 +67,12 @@ export class TicketsApiService {
     return this.http.get(this.apiBaseUrl + 'ticket/list', { params }) as Observable<TicketsResponse>;
   }
 
-  moveToStatus(ticketId: UUID, targetStatus: TICKET_STATUS): Observable<TicketsResponse> {
+  moveToStatus(ticketId: UUID, modifiedDate: Date, targetStatus: TICKET_STATUS): Observable<TicketsResponse> {
     if (!targetStatus)
-      throw Error("Target status is null or undefined");
+      throw Error('Target status is null or undefined');
 
+    const params = new HttpParams().set('modifiedDate', modifiedDate.toUTCString());
     const path = `ticket/${ticketId.toString()}/move-to-status/${targetStatus}`;
-    return this.http.patch(this.apiBaseUrl + path, {}) as Observable<TicketsResponse>;
+    return this.http.patch(this.apiBaseUrl + path, {}, { params }) as Observable<TicketsResponse>;
   }
 }

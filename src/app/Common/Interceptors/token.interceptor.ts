@@ -15,8 +15,8 @@ export class TokenInterceptor implements HttpInterceptor {
             return next.handle(request);
         }
 
-        let token = this.auth.getToken();
-        if (token == null) {
+        const token = this.auth.getToken();
+        if (!token) {
             this.router.navigate(['/auth']);
             return EMPTY;
         }

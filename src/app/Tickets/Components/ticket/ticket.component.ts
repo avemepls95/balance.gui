@@ -252,7 +252,7 @@ export class TicketComponent implements OnInit, OnDestroy {
 
   moveToStatus(targetStatus: TICKET_STATUS): void {
     this.loaderService.show();
-    this.ticketsApiService.moveToStatus(this.ticket.id, targetStatus)
+    this.ticketsApiService.moveToStatus(this.ticket.id, this.ticket.modifiedDate, targetStatus)
       .pipe(finalize(() => {
         this.loaderService.hide();
       }))

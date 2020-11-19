@@ -11,8 +11,8 @@ export class SystemHeaderInterceptor implements HttpInterceptor {
     constructor(public auth: AuthService, private router: Router) { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        var systemKey = request.url.indexOf(environment.balanceApiUrl) != -1 
-            ? 'balance' 
+        const systemKey = request.url.indexOf(environment.balanceApiUrl) !== -1
+            ? 'balance'
             : 'tickets';
 
         const authRequest = request.clone({

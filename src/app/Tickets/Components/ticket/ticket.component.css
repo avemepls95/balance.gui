@@ -242,7 +242,7 @@ span.process {
 }
 
 .reopen-ticket-button {
-  background-color: #ffc400;
+  background-color: #6a737d;
   color: white;
 }
 
@@ -252,4 +252,12 @@ input:disabled {
 
 .deadline-input {
   font-weight: bold;
+}
+
+textarea:disabled {
+  color: rgba(0, 0, 0, 0.58)!important;
+}
+
+.created-block {
+  display: flex;
 }
