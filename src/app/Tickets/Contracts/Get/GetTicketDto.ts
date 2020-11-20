@@ -1,5 +1,5 @@
 import { UUID } from 'angular2-uuid';
-import { UserDto } from 'src/app/Common/Contracts/UserDto';
+import { ExecutionUnitDto } from './ExecutionUnitDto';
 
 export class GetTicketDto {
     id: UUID;
@@ -11,11 +11,12 @@ export class GetTicketDto {
     deadlineViolation: boolean;
     createdDate: Date;
     modifiedDate: Date;
-    assignees: UserDto[];
+    executionUnits: ExecutionUnitDto[] = [];
     canEdit: boolean;
     canAssign: boolean;
     canClose: boolean;
     canReopen: boolean;
+    canApplyExecutionUnitResult: boolean;
 
     public constructor(
         fields?: {
@@ -27,11 +28,12 @@ export class GetTicketDto {
             deadlineViolation: boolean,
             createdAt?: Date,
             modifiedDate?: Date,
-            roles?: string[],
+            executionUnits?: ExecutionUnitDto[],
             canEdit?: boolean
             canAssign?: boolean,
             canClose?: boolean,
             canReopen?: boolean,
+            canApplyExecutionUnitResult?: boolean,
         }) {
         if (fields)
           Object.assign(this, fields);

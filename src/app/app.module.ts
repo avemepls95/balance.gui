@@ -1,3 +1,4 @@
+import { ExecutionResultDeclinedDialogComponent } from './Tickets/Components/execution-result-declined-dialog/execution-result-declined-dialog.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -77,7 +78,8 @@ export function initializeApp(appConfig: AppConfig) {
     DebtRepaidCardComponent,
     TicketComponent,
     TicketListComponent,
-    EnumSelectPipe
+    EnumSelectPipe,
+    ExecutionResultDeclinedDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -105,7 +107,8 @@ export function initializeApp(appConfig: AppConfig) {
     TransferCardComponent,
     ConsumptionsCardComponent,
     NotificationsInfoComponent,
-    DebtRepaidCardComponent
+    DebtRepaidCardComponent,
+    ExecutionResultDeclinedDialogComponent
   ],
   providers: [
     JwtHelper,

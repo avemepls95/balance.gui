@@ -6,6 +6,8 @@ import { environment } from 'src/environments/environment';
 import { UUID } from 'angular2-uuid';
 import { CreateUpdateTicketDto } from '../Contracts/CreateUpdate/CreateUpdateTicketDto';
 import { TicketsResponse } from '../Contracts/TicketsResponse';
+import { DateAdapter } from '@angular/material';
+import { EXECUTION_UNIT_RESULT } from '../Model/ExecutionUnitResult';
 
 @Injectable({
   providedIn: 'root'
@@ -73,6 +75,16 @@ export class TicketsApiService {
 
     const params = new HttpParams().set('modifiedDate', modifiedDate.toUTCString());
     const path = `ticket/${ticketId.toString()}/move-to-status/${targetStatus}`;
+    return this.http.patch(this.apiBaseUrl + path, {}, { params }) as Observable<TicketsResponse>;
+  }
+
+  applyExecutionUnitResult(
+    ticketId: UUID,
+    executionUnitResult: EXECUTION_UNIT_RESULT,
+    modifiedDate: Date): Observable<TicketsResponse>
+  {
+    const params = new HttpParams().set('modifiedDate', modifiedDate.toUTCString());
+    const path = `ticket/${ticketId.toString()}/execution-unit-result/${executionUnitResult.toString()}`;
     return this.http.patch(this.apiBaseUrl + path, {}, { params }) as Observable<TicketsResponse>;
   }
 }

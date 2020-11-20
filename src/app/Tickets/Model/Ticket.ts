@@ -1,5 +1,5 @@
-import { User } from '../../Common/Model/User';
 import { UUID } from 'angular2-uuid';
+import { ExecutionUnit } from './ExecutionUnit';
 
 export class Ticket {
     id: UUID;
@@ -11,11 +11,12 @@ export class Ticket {
     statusKey: string;
     createdDate: Date;
     modifiedDate: Date;
-    assignees: User[] = [];
+    executionUnits: ExecutionUnit[] = [];
     canEdit: boolean;
     canAssign: boolean;
     canClose: boolean;
     canReopen: boolean;
+    canApplyExecutionUnitResult: boolean;
 
     public constructor(
         fields?: {
@@ -28,11 +29,12 @@ export class Ticket {
             statusKey: string,
             createdDate?: Date,
             modifiedDate?: Date,
-            assignees?: User[],
+            executionUnits?: ExecutionUnit[],
             canEdit?: boolean,
             canAssign?: boolean,
             canClose?: boolean,
             canReopen?: boolean,
+            canApplyExecutionUnitResult?: boolean,
         }) {
         if (fields)
           Object.assign(this, fields);

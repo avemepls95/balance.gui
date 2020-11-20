@@ -24,10 +24,8 @@ export class TicketListComponent implements OnInit {
 
   displayedColumns: string[] = ['createdAt', 'title', 'actions'];
 
-  itemsPerPage: number = 5;
+  itemsPerPage = 5;
   noMoreItems = false;
-
-  // CHECK_STATE = CHECK_STATE;
 
   listViewVariants = TICKETS_VIEW_VARIANT;
   selectedViewVariant = 'All';

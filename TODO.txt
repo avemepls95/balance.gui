@@ -1,0 +1,8 @@
+----- Common
+- Extract check and ticket components declarations to different modules
+
+----- Tickets
+- "Delete" button in ticket view
+- Deadline violation in ticket grid
+- Changes tracking
+- Show comment if execution unit is declined

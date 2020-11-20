@@ -133,73 +133,9 @@ div.row-action-buttons button {
     width: 100%;
 }
 
-.process-ticket-icon {
-    margin-bottom: 2px;
-}
-
-.process-ticket-button {
-    background-color: #26b926;
-    color: black;
-    padding-left: 8px;
-    height: 42px;
-}
-
-span.process {
+.action-button > span {
     margin-left: 5px;
 }
-
-@media only screen and (max-width: 600px) {
-    .process-ticket-button {
-        transform: translateX(20px);
-    }
-}
-
-.rollback-ticket-button {
-    background-color: orangered;
-    color: black;
-    padding-left: 8px;
-    height: 42px;
-}
-
-@media only screen and (max-width: 600px) {
-    .rollback-ticket-button {
-        transform: translateX(20px);
-    }
-}
-
-.rollback-ticket-button span {
-    margin-left: 2px;
-}
-
-.mat-column-username {
-    word-wrap: break-word !important;
-    white-space: unset !important;
-    flex: 0 0 28% !important;
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-
-    word-break: break-word;
-
-    -ms-hyphens: auto;
-    -moz-hyphens: auto;
-    -webkit-hyphens: auto;
-    hyphens: auto;
-  }
-
-  .mat-column-title {
-    word-wrap: break-word !important;
-    white-space: unset !important;
-    flex: 0 0 28% !important;
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-
-    word-break: break-word;
-
-    -ms-hyphens: auto;
-    -moz-hyphens: auto;
-    -webkit-hyphens: auto;
-    hyphens: auto;
-  }
 
 .new-status { background-color: #6a737d; }
 .assigned-status { background-color: #2cbe4e; }
@@ -231,8 +167,12 @@ span.process {
     }
 }
 
-.assign-ticket-button {
+.assign-ticket-button, .execution-unit-complete-button {
     background-color: #26b926;
+    color: black;
+}
+.execution-unit-decline-button {
+    background-color: red;
     color: black;
 }
 
@@ -243,6 +183,11 @@ span.process {
 
 .reopen-ticket-button {
   background-color: #6a737d;
+  color: white;
+}
+
+.drop-down-button {
+  background-color: red;
   color: white;
 }
 
@@ -260,4 +205,13 @@ textarea:disabled {
 
 .created-block {
   display: flex;
+}
+
+::ng-deep .mat-chip-disabled {
+  opacity: 0.7!important;
+}
+
+.mat-menu-item {
+  padding: 0;
+  width: 130px;
 }

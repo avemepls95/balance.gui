@@ -26,34 +26,49 @@
         </div>
       </div>
       <button
-        class="assign-ticket-button"
+        class="action-button assign-ticket-button"
         mat-button
         (click)="moveToStatus(TICKET_STATUS.Assigned)"
         mat-flat-button
         matTooltip="Назначить задачу на исполнителей"
         *ngIf="ticket.canAssign"
       >
-        <span class="process">Назначить</span>
+        <span>Назначить</span>
       </button>
+
       <button
-        class="close-ticket-button"
+        [matMenuTriggerFor]="dropdownMenu"
+        class="action-button drop-down-button"
+        mat-button
+        mat-flat-button
+        matTooltip="Доступные действия со статусом задачи"
+        *ngIf="ticket.canApplyExecutionUnitResult"
+      >
+        <span>Действия</span>
+        <mat-icon class=" white">expand_more</mat-icon>
+      </button>
+
+      <button
+        #closeButton
+        class="action-button close-ticket-button"
         mat-button
         (click)="moveToStatus(TICKET_STATUS.Closed)"
         mat-flat-button
         matTooltip="Закрыть задачу"
-        *ngIf="ticket.canClose"
+        *ngIf="ticket.canClose && !ticket.canApplyExecutionUnitResult"
       >
-        <span class="process">Закрыть</span>
+        <span>Закрыть</span>
       </button>
+
       <button
-        class="reopen-ticket-button"
+        class="action-button reopen-ticket-button"
         mat-button
         (click)="moveToStatus(TICKET_STATUS.New)"
         mat-flat-button
         matTooltip="Переоткрыть задачу"
         *ngIf="ticket.canReopen"
       >
-        <span class="process">Переоткрыть</span>
+        <span>Переоткрыть</span>
       </button>
     </div>
   </mat-card-header>
@@ -73,7 +88,7 @@
         >
       </mat-form-field>
 
-      <div class="created-block">
+      <div class="created-block" *ngIf="mode == 'editing'">
         <mat-form-field class="w-100">
           <input
             matInput
@@ -83,7 +98,7 @@
           />
         </mat-form-field>
 
-        <mat-form-field class="w-100" *ngIf="mode == 'editing'">
+        <mat-form-field class="w-100">
           <input
             matInput
             placeholder="Дата создания"
@@ -97,13 +112,15 @@
         <mat-form-field class="w-100">
           <mat-chip-list #chipList required [disabled]="!canEdit()">
             <mat-chip
-              *ngFor="let assignee of ticket.assignees"
+              *ngFor="let unit of ticket.executionUnits"
               [selectable]="true"
               [removable]="true"
-              (removed)="removeAssignee(assignee)"
+              (removed)="removeExecutionUnit(unit)"
             >
-              {{ assignee.username }}
-              <mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
+              {{ unit.assignee.username }}
+              <mat-icon *ngIf="unit.result == EXECUTION_UNIT_RESULT.Completed" class="green">done</mat-icon>
+              <mat-icon *ngIf="unit.result == EXECUTION_UNIT_RESULT.Declined" class="red">clear</mat-icon>
+              <mat-icon matChipRemove>cancel</mat-icon>
             </mat-chip>
             <input
               matInput
@@ -181,3 +198,41 @@
     </button>
   </mat-card-actions>
 </mat-card>
+
+<mat-menu #dropdownMenu x-position="before">
+  <a mat-menu-item *ngIf="ticket.canClose">
+    <button
+      class="action-button close-ticket-button w-100"
+      mat-button
+      (click)="moveToStatus(TICKET_STATUS.Closed)"
+      mat-flat-button
+      matTooltip="Закрыть задачу"
+    >
+      <span>Закрыть</span>
+    </button>
+  </a>
+  <a mat-menu-item *ngIf="ticket.canApplyExecutionUnitResult">
+    <button
+      class="action-button execution-unit-complete-button w-100"
+      mat-button
+      (click)="complete()"
+      mat-flat-button
+      matTooltip="Пометить как выполненную"
+    >
+      <span>Выполнена</span>
+    </button>
+  </a>
+
+  <a mat-menu-item *ngIf="ticket.canApplyExecutionUnitResult">
+    <button
+      class="action-button execution-unit-decline-button w-100"
+      mat-button
+      (click)="decline()"
+      mat-flat-button
+      matTooltip="Пометить как выполненную"
+    >
+      <span>Отклонить</span>
+    </button>
+  </a>
+
+</mat-menu>
