@@ -34,11 +34,15 @@ export class ExecutionResultDeclinedDialogComponent implements OnInit {
       if (!dialogResult)
         return;
 
-      this.dialogRef.close(this.commentFormControl.value);
+      const result = {
+        isOk: true,
+        comment: this.commentFormControl.value
+      }
+      this.dialogRef.close(result);
     });
   }
 
   closeDialog() {
-    this.dialogRef.close(null);
+    this.dialogRef.close({ isOk: false });
   }
 }

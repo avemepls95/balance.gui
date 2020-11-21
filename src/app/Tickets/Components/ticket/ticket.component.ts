@@ -310,8 +310,10 @@ export class TicketComponent implements OnInit, OnDestroy {
   decline(): void {
     const dialogRef = this.dialog.open(ExecutionResultDeclinedDialogComponent, { });
 
-    dialogRef.afterClosed().subscribe(comment => {
-      if (!comment)
+    dialogRef.afterClosed().subscribe(dialogResult => {
+      if (!dialogResult.isOk)
+        return;
+      if (dialogResult.isOk && !dialogResult.comment)
         throw new Error("Comment must not be empty.");
 
       this.loaderService.show();
@@ -319,7 +321,7 @@ export class TicketComponent implements OnInit, OnDestroy {
         .applyExecutionUnitResult(
           this.ticket.id,
           EXECUTION_UNIT_RESULT.Declined,
-          comment,
+          dialogResult.comment,
           this.ticket.modifiedDate)
         .pipe(finalize(() => { this.loaderService.hide(); }))
         .subscribe(() => { this.loadTicketAfterAction(); });
@@ -356,8 +358,6 @@ export class TicketComponent implements OnInit, OnDestroy {
       .pipe(finalize(() => { this.loaderService.hide(); }))
       .subscribe((response: TicketsResponse) => {
         this.ticket = TicketGetDtoMapper.convertDtoToTicket(response.data);
-
-        this.snackbarService.showSuccessMessage();
       });
   }
 

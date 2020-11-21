@@ -151,6 +151,9 @@
               [selectable]="true"
               [removable]="true"
               (removed)="removeExecutionUnit(unit)"
+              matTooltip="{{unit.comment}}"
+              (click)="tooltip.toggle()"
+              #tooltip="matTooltip"
             >
               {{ unit.assignee.username }}
               <mat-icon
@@ -163,7 +166,7 @@
                 class="red"
                 >clear</mat-icon
               >
-              <mat-icon matChipRemove>cancel</mat-icon>
+              <mat-icon matChipRemove *ngIf="canEdit()">cancel</mat-icon>
             </mat-chip>
             <input
               matInput
