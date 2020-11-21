@@ -13,6 +13,7 @@ export class Ticket {
     modifiedDate: Date;
     executionUnits: ExecutionUnit[] = [];
     canEdit: boolean;
+    canDelete: boolean;
     statusPermissions: string[] = [];
 
     public constructor(
@@ -27,6 +28,7 @@ export class Ticket {
             createdDate?: Date,
             modifiedDate?: Date,
             canEdit?: boolean,
+            canDelete?: boolean,
             executionUnits?: ExecutionUnit[],
             statusPermissions?: string[]
         }) {

@@ -172,7 +172,7 @@ div.row-action-buttons button {
   background-color: #ffa000;
   color: black;
 }
-.decline-execution-unit-button {
+.decline-execution-unit-button, .delete-ticket-button {
   background-color: red;
   color: black;
 }

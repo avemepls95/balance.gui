@@ -105,7 +105,6 @@
           <span>Отклонить</span>
         </button>
       </div>
-
     </div>
   </mat-card-header>
   <mat-card-content>
@@ -237,6 +236,16 @@
     >
       <span>СОЗДАТЬ</span>
     </button>
+
+    <button
+      mat-button
+      *ngIf="ticket.canDelete"
+      class="delete-ticket-button"
+      (click)="deleteTicket()"
+    >
+      <span>Удалить</span>
+    </button>
+
     <button mat-button *ngIf="ticket.id && canEdit()" (click)="updateTicket()">
       <span>СОХРАНИТЬ</span>
     </button>
@@ -315,5 +324,4 @@
       <span>А ОЙ</span>
     </button>
   </a>
-
 </mat-menu>

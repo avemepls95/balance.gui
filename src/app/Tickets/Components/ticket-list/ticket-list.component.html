@@ -60,7 +60,7 @@
               >
                 <button
                   mat-icon-button
-                  [hidden]="!ticket.canEdit"
+                  [hidden]="!ticket.canDelete"
                   (click)="deleteTicket(ticket.id)"
                   onclick="this.blur()"
                   matTooltip="Удалить задачу"

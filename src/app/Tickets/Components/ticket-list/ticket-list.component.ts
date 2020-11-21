@@ -11,6 +11,7 @@ import { Ticket } from '../../Model/Ticket';
 import { TicketsApiService } from '../../Services/tickets-api.service';
 import { TicketGetDtoMapper } from '../../Converters/TicketGetDtoMapper';
 import { TICKETS_VIEW_VARIANT } from '../../ViewModel/TicketsViewVariant';
+import { UUID } from 'angular2-uuid';
 
 
 @Component({
@@ -101,10 +102,10 @@ export class TicketListComponent implements OnInit {
     );
   }
 
-  deleteTicket(id: number) {
+  deleteTicket(id: UUID) {
     const index = this.tickets.findIndex(c => c.id === id);
     if (index === -1) {
-      console.log("Invalid ticket id:" + id);
+      console.log("Invalid ticket id: " + id);
     }
 
     const dialogData = new ConfirmDialogModel('Подтверждение', 'Вы уверены, что хотите удалить Задачу?');

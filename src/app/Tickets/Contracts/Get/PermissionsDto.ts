@@ -1,5 +1,6 @@
 export class PermissionsDto {
   canEdit: boolean;
+  canDelete: boolean;
   canAssign: boolean;
   canClose: boolean;
   canReopen: boolean;
@@ -10,6 +11,7 @@ export class PermissionsDto {
 
   public constructor(fields?: {
     canEdit: boolean;
+    canDelete: boolean;
     canAssign: boolean;
     canClose: boolean;
     canReopen: boolean;

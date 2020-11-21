@@ -236,6 +236,26 @@ export class TicketComponent implements OnInit, OnDestroy {
       .subscribe(() => { this.loadTicketAfterAction(); });
   }
 
+  deleteTicket(): void {
+    const dialogData = new ConfirmDialogModel('Подтверждение', 'Удалить Задачу?');
+
+    this.dialog
+      .open(ConfirmDialogComponent, {
+        maxWidth: '400px',
+        data: dialogData,
+      })
+      .afterClosed()
+      .subscribe((dialogResult) => {
+        if (!dialogResult) return;
+
+        this.loaderService.show();
+        this.ticketsApiService
+          .deleteTicket(this.ticket.id)
+          .pipe(finalize(() => { this.loaderService.hide(); }))
+          .subscribe(() => { this.router.navigateByUrl('/tickets'); });
+      });
+  }
+
   moveToStatus(targetStatus: TICKET_STATUS): void {
     const dialogData = new ConfirmDialogModel(
       'Подтверждение',

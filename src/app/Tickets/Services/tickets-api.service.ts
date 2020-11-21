@@ -56,7 +56,7 @@ export class TicketsApiService {
     ) as Observable<TicketsResponse>;
   }
 
-  deleteTicket(id: number): Observable<TicketsResponse> {
+  deleteTicket(id: UUID): Observable<TicketsResponse> {
     return this.http.delete(this.apiBaseUrl + 'ticket/' + id.toString()) as Observable<TicketsResponse>;
   }
 

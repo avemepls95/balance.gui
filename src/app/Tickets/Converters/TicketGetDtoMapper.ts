@@ -23,6 +23,7 @@ export class TicketGetDtoMapper {
             modifiedDate: new Date(ticketDto.modifiedDate),
             executionUnits: TicketGetDtoMapper.convertDtoToExecutionUnits(ticketDto.executionUnits),
             canEdit: ticketDto.permissions.canEdit,
+            canDelete: ticketDto.permissions.canDelete,
             statusPermissions: TicketGetDtoMapper.convertToStatusPermissions(ticketDto.permissions)
         });
     }
@@ -61,7 +62,7 @@ export class TicketGetDtoMapper {
             description: ticketDto.description,
             statusKey: ticketDto.statusKey,
             createdDate: new Date(ticketDto.createdDate),
-            canEdit: ticketDto.canEdit
+            canDelete: ticketDto.canDelete
         });
     }
 }
