@@ -13,10 +13,7 @@ export class Ticket {
     modifiedDate: Date;
     executionUnits: ExecutionUnit[] = [];
     canEdit: boolean;
-    canAssign: boolean;
-    canClose: boolean;
-    canReopen: boolean;
-    canApplyExecutionUnitResult: boolean;
+    statusPermissions: string[] = [];
 
     public constructor(
         fields?: {
@@ -29,12 +26,9 @@ export class Ticket {
             statusKey: string,
             createdDate?: Date,
             modifiedDate?: Date,
-            executionUnits?: ExecutionUnit[],
             canEdit?: boolean,
-            canAssign?: boolean,
-            canClose?: boolean,
-            canReopen?: boolean,
-            canApplyExecutionUnitResult?: boolean,
+            executionUnits?: ExecutionUnit[],
+            statusPermissions?: string[]
         }) {
         if (fields)
           Object.assign(this, fields);

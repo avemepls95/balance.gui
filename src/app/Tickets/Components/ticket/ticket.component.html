@@ -25,16 +25,6 @@
           </span>
         </div>
       </div>
-      <button
-        class="action-button assign-ticket-button"
-        mat-button
-        (click)="moveToStatus(TICKET_STATUS.Assigned)"
-        mat-flat-button
-        matTooltip="Назначить задачу на исполнителей"
-        *ngIf="ticket.canAssign"
-      >
-        <span>Назначить</span>
-      </button>
 
       <button
         [matMenuTriggerFor]="dropdownMenu"
@@ -42,34 +32,80 @@
         mat-button
         mat-flat-button
         matTooltip="Доступные действия со статусом задачи"
-        *ngIf="ticket.canApplyExecutionUnitResult"
+        *ngIf="ticket.statusPermissions.length > 1"
       >
         <span>Действия</span>
-        <mat-icon class=" white">expand_more</mat-icon>
+        <mat-icon class="black">expand_more</mat-icon>
       </button>
 
-      <button
-        #closeButton
-        class="action-button close-ticket-button"
-        mat-button
-        (click)="moveToStatus(TICKET_STATUS.Closed)"
-        mat-flat-button
-        matTooltip="Закрыть задачу"
-        *ngIf="ticket.canClose && !ticket.canApplyExecutionUnitResult"
-      >
-        <span>Закрыть</span>
-      </button>
+      <div *ngIf="ticket.statusPermissions.length == 1">
+        <button
+          class="action-button assign-ticket-button"
+          mat-button
+          (click)="moveToStatus(TICKET_STATUS.Assigned)"
+          mat-flat-button
+          matTooltip="Назначить задачу на исполнителей"
+          *ngIf="can('canAssign')"
+        >
+          <span>Назначить</span>
+        </button>
 
-      <button
-        class="action-button reopen-ticket-button"
-        mat-button
-        (click)="moveToStatus(TICKET_STATUS.New)"
-        mat-flat-button
-        matTooltip="Переоткрыть задачу"
-        *ngIf="ticket.canReopen"
-      >
-        <span>Переоткрыть</span>
-      </button>
+        <button
+          class="action-button close-ticket-button"
+          mat-button
+          (click)="moveToStatus(TICKET_STATUS.Closed)"
+          mat-flat-button
+          matTooltip="Закрыть задачу"
+          *ngIf="can('canClose')"
+        >
+          <span>Закрыть</span>
+        </button>
+
+        <button
+          class="action-button cancel-ticket-button"
+          mat-button
+          (click)="moveToStatus(TICKET_STATUS.Cancelled)"
+          mat-flat-button
+          matTooltip="Отменить задачу"
+          *ngIf="can('canCancel')"
+        >
+          <span>Отменить</span>
+        </button>
+
+        <button
+          class="action-button reopen-ticket-button"
+          mat-button
+          (click)="moveToStatus(TICKET_STATUS.New)"
+          mat-flat-button
+          matTooltip="Переоткрыть задачу"
+          *ngIf="can('canReopen')"
+        >
+          <span>Переоткрыть</span>
+        </button>
+
+        <button
+          class="action-button complete-execution-unit-button"
+          mat-button
+          (click)="complete()"
+          mat-flat-button
+          matTooltip="Пометить как выполненную"
+          *ngIf="can('canComplete')"
+        >
+          <span>Выполнена</span>
+        </button>
+
+        <button
+          class="action-button decline-execution-unit-button"
+          mat-button
+          (click)="decline()"
+          mat-flat-button
+          matTooltip="Пометить как отклоненную"
+          *ngIf="can('canDecline')"
+        >
+          <span>Отклонить</span>
+        </button>
+      </div>
+
     </div>
   </mat-card-header>
   <mat-card-content>
@@ -118,8 +154,16 @@
               (removed)="removeExecutionUnit(unit)"
             >
               {{ unit.assignee.username }}
-              <mat-icon *ngIf="unit.result == EXECUTION_UNIT_RESULT.Completed" class="green">done</mat-icon>
-              <mat-icon *ngIf="unit.result == EXECUTION_UNIT_RESULT.Declined" class="red">clear</mat-icon>
+              <mat-icon
+                *ngIf="unit.result == EXECUTION_UNIT_RESULT.Completed"
+                class="green"
+                >done</mat-icon
+              >
+              <mat-icon
+                *ngIf="unit.result == EXECUTION_UNIT_RESULT.Declined"
+                class="red"
+                >clear</mat-icon
+              >
               <mat-icon matChipRemove>cancel</mat-icon>
             </mat-chip>
             <input
@@ -200,7 +244,7 @@
 </mat-card>
 
 <mat-menu #dropdownMenu x-position="before">
-  <a mat-menu-item *ngIf="ticket.canClose">
+  <a mat-menu-item *ngIf="can('canClose')">
     <button
       class="action-button close-ticket-button w-100"
       mat-button
@@ -211,9 +255,10 @@
       <span>Закрыть</span>
     </button>
   </a>
-  <a mat-menu-item *ngIf="ticket.canApplyExecutionUnitResult">
+
+  <a mat-menu-item *ngIf="can('canComplete')">
     <button
-      class="action-button execution-unit-complete-button w-100"
+      class="action-button complete-execution-unit-button w-100"
       mat-button
       (click)="complete()"
       mat-flat-button
@@ -223,15 +268,51 @@
     </button>
   </a>
 
-  <a mat-menu-item *ngIf="ticket.canApplyExecutionUnitResult">
+  <a mat-menu-item *ngIf="can('canCancel')">
     <button
-      class="action-button execution-unit-decline-button w-100"
+      class="action-button cancel-ticket-button w-100"
+      mat-button
+      (click)="moveToStatus(TICKET_STATUS.Cancelled)"
+      mat-flat-button
+      matTooltip="Отменить задачу"
+    >
+      <span>Отменить</span>
+    </button>
+  </a>
+
+  <a mat-menu-item *ngIf="can('canReopen')">
+    <button
+      class="action-button reopen-ticket-button w-100"
+      mat-button
+      (click)="moveToStatus(TICKET_STATUS.New)"
+      mat-flat-button
+      matTooltip="Переоткрыть задачу"
+    >
+      <span>Переоткрыть</span>
+    </button>
+  </a>
+
+  <a mat-menu-item *ngIf="can('canDecline')">
+    <button
+      class="action-button decline-execution-unit-button w-100"
       mat-button
       (click)="decline()"
       mat-flat-button
-      matTooltip="Пометить как выполненную"
+      matTooltip="Пометить как отклоненную"
     >
       <span>Отклонить</span>
+    </button>
+  </a>
+
+  <a mat-menu-item *ngIf="can('canCancelUnitResult')">
+    <button
+      class="action-button decline-execution-unit-result-button w-100"
+      mat-button
+      (click)="cancelUnitResult()"
+      mat-flat-button
+      matTooltip="Отменить свой результат"
+    >
+      <span>А ОЙ</span>
     </button>
   </a>
 

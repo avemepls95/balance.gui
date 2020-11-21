@@ -81,10 +81,15 @@ export class TicketsApiService {
   applyExecutionUnitResult(
     ticketId: UUID,
     executionUnitResult: EXECUTION_UNIT_RESULT,
+    comment: string,
     modifiedDate: Date): Observable<TicketsResponse>
   {
+    const payload = {
+      executionUnitResult: executionUnitResult.toString(),
+      comment
+    };
     const params = new HttpParams().set('modifiedDate', modifiedDate.toUTCString());
-    const path = `ticket/${ticketId.toString()}/execution-unit-result/${executionUnitResult.toString()}`;
-    return this.http.patch(this.apiBaseUrl + path, {}, { params }) as Observable<TicketsResponse>;
+    const path = `ticket/${ticketId.toString()}/execution-unit-result`;
+    return this.http.patch(this.apiBaseUrl + path, payload, { params }) as Observable<TicketsResponse>;
   }
 }

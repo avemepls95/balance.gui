@@ -22,7 +22,6 @@ import { SnackbarService } from 'src/app/Common/Services/snackbar.service';
 import { TicketsApiService } from 'src/app/Tickets/Services/tickets-api.service';
 import { MyErrorStateMatcher } from 'src/app/Common/Utils/MyErrorStateMatcher';
 import { UUIDValidator } from 'src/app/Common/Utils/UUIDValidator';
-import { GetTicketDto } from '../../Contracts/Get/GetTicketDto';
 import { TicketsResponse } from '../../Contracts/TicketsResponse';
 import { TicketGetDtoMapper } from '../../Converters/TicketGetDtoMapper';
 import { TicketStatusLabel, TICKET_STATUS } from '../../Model/TicketStatus';
@@ -97,7 +96,6 @@ export class TicketComponent implements OnInit, OnDestroy {
             .pipe(finalize(() => { this.loaderService.hide(); }))
             .subscribe((result) => {
               this.ticket = TicketGetDtoMapper.convertDtoToTicket(result.data);
-              loaderService.hide();
             });
         } else {
           // TODO: handle incorrect id
@@ -210,20 +208,12 @@ export class TicketComponent implements OnInit, OnDestroy {
     this.loaderService.show();
     this.ticketsApiService
       .createTicket(ticketDto)
-      .pipe(
-        finalize(() => {
-          this.loaderService.hide();
-        })
-      )
+      .pipe(finalize(() => { this.loaderService.hide(); }))
       .subscribe((response: TicketsResponse) => {
         this.loaderService.show();
         this.ticketsApiService
           .getTicketById(response.data)
-          .pipe(
-            finalize(() => {
-              this.loaderService.hide();
-            })
-          )
+          .pipe(finalize(() => { this.loaderService.hide(); }))
           .subscribe((response: TicketsResponse) => {
             const ticket = TicketGetDtoMapper.convertDtoToTicket(response.data);
 
@@ -247,11 +237,26 @@ export class TicketComponent implements OnInit, OnDestroy {
   }
 
   moveToStatus(targetStatus: TICKET_STATUS): void {
-    this.loaderService.show();
-    this.ticketsApiService
-      .moveToStatus(this.ticket.id, this.ticket.modifiedDate, targetStatus)
-      .pipe(finalize(() => { this.loaderService.hide(); }))
-      .subscribe(() => { this.loadTicketAfterAction(); });
+    const dialogData = new ConfirmDialogModel(
+      'Подтверждение',
+      `Уверены, что хотите перевести Задачу в статус '${this.ticketStatusLabel.get(targetStatus)}'?`);
+
+    this.dialog
+      .open(ConfirmDialogComponent, {
+        maxWidth: '400px',
+        data: dialogData,
+      })
+      .afterClosed()
+      .subscribe((dialogResult) => {
+        if (!dialogResult) return;
+
+        this.loaderService.show();
+        this.ticketsApiService
+          .moveToStatus(this.ticket.id, this.ticket.modifiedDate, targetStatus)
+          .pipe(finalize(() => { this.loaderService.hide(); }))
+          .subscribe(() => { this.loadTicketAfterAction(); });
+      });
+
   }
 
   getStatusBadgeClassName(): string {
@@ -276,7 +281,7 @@ export class TicketComponent implements OnInit, OnDestroy {
 
         this.loaderService.show();
         this.ticketsApiService
-          .applyExecutionUnitResult(this.ticket.id, EXECUTION_UNIT_RESULT.Completed, this.ticket.modifiedDate)
+          .applyExecutionUnitResult(this.ticket.id, EXECUTION_UNIT_RESULT.Completed, '', this.ticket.modifiedDate)
           .pipe(finalize(() => { this.loaderService.hide(); }))
           .subscribe(() => { this.loadTicketAfterAction(); });
       });
@@ -291,10 +296,37 @@ export class TicketComponent implements OnInit, OnDestroy {
 
       this.loaderService.show();
       this.ticketsApiService
-        .applyExecutionUnitResult(this.ticket.id, EXECUTION_UNIT_RESULT.Declined, this.ticket.modifiedDate)
+        .applyExecutionUnitResult(
+          this.ticket.id,
+          EXECUTION_UNIT_RESULT.Declined,
+          comment,
+          this.ticket.modifiedDate)
         .pipe(finalize(() => { this.loaderService.hide(); }))
-        .subscribe(() => { this.snackbarService.showSuccessMessage(); });
+        .subscribe(() => { this.loadTicketAfterAction(); });
     });
+  }
+
+  cancelUnitResult(): void {
+    const dialogData = new ConfirmDialogModel(
+      'Подтверждение',
+      'Отменить свой результат по Задаче?'
+    );
+
+    this.dialog
+      .open(ConfirmDialogComponent, {
+        maxWidth: '400px',
+        data: dialogData,
+      })
+      .afterClosed()
+      .subscribe((dialogResult) => {
+        if (!dialogResult) return;
+
+        this.loaderService.show();
+        this.ticketsApiService
+          .applyExecutionUnitResult(this.ticket.id, EXECUTION_UNIT_RESULT.Empty, '', this.ticket.modifiedDate)
+          .pipe(finalize(() => { this.loaderService.hide(); }))
+          .subscribe(() => { this.loadTicketAfterAction(); });
+      });
   }
 
   loadTicketAfterAction() {
@@ -307,5 +339,9 @@ export class TicketComponent implements OnInit, OnDestroy {
 
         this.snackbarService.showSuccessMessage();
       });
+  }
+
+  can(actionName: string): boolean {
+    return this.ticket.statusPermissions.includes(actionName);
   }
 }

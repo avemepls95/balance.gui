@@ -52,6 +52,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .material-icons.dark-gray { color: darkgray; }
 .material-icons.orange { color: orange; }
 .material-icons.white { color: white; }
+.material-icons.black { color: black; }
 .material-icons.transparent { color: transparent; }
 
 .mat-dialog-content {

@@ -84,7 +84,7 @@ export class TicketListComponent implements OnInit {
       finalize(() => this.loaderService.hide())
     ).subscribe(
       (response: BalanceResponse) => {
-        if (response.data.length === 0 || response.data.length % this.itemsPerPage !== 0) {
+        if (response.data.length === 0) {
           this.noMoreItems = true;
           return;
         }
@@ -93,6 +93,9 @@ export class TicketListComponent implements OnInit {
 
         this.tickets = this.tickets.concat(checks);
         this.updateColumns();
+
+        if (response.data.length % this.itemsPerPage !== 0)
+          this.noMoreItems = true;
       },
       (error) => console.error(error)
     );

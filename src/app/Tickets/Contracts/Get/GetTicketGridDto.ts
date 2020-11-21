@@ -1,8 +1,6 @@
 import { UUID } from "angular2-uuid";
-import { ExecutionUnitDto } from "./ExecutionUnitDto";
-import { PermissionsDto } from "./PermissionsDto";
 
-export class GetTicketDto {
+export class GetTicketGridDto {
   id: UUID;
   title: string;
   authorUserName: string;
@@ -11,9 +9,7 @@ export class GetTicketDto {
   deadline: Date;
   deadlineViolation: boolean;
   createdDate: Date;
-  modifiedDate: Date;
-  executionUnits: ExecutionUnitDto[] = [];
-  permissions: PermissionsDto;
+  canEdit: boolean;
 
   public constructor(fields?: {
     id?: number;
@@ -24,8 +20,7 @@ export class GetTicketDto {
     deadlineViolation: boolean;
     createdAt?: Date;
     modifiedDate?: Date;
-    executionUnits?: ExecutionUnitDto[];
-    statusPermissions?: PermissionsDto;
+    canEdit?: boolean;
   }) {
     if (fields) Object.assign(this, fields);
   }

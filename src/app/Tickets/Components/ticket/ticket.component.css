@@ -3,158 +3,159 @@
 }
 
 #delete-th {
-    color: red;
+  color: red;
 }
 
 #edit-th {
-    padding-right: 0;
+  padding-right: 0;
 }
 
 .bth-add-row {
-    background-color: #17bd3b;
-    color: white;
+  background-color: #17bd3b;
+  color: white;
 }
 
 .btn-create-ticket {
-    margin-top: 10px;
-    padding-right: 10px;
-    padding-left: 10px;
+  margin-top: 10px;
+  padding-right: 10px;
+  padding-left: 10px;
 }
 
 .btn-create-ticket .fa {
-    margin-right: 5px;
+  margin-right: 5px;
 }
 
 .btn-create-ticket-form {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 .card {
-    margin-top: 10px;
+  margin-top: 10px;
 }
 
 mat-card-content {
-    padding: 0 1vw;
+  padding: 0 1vw;
 }
 
 .mat-card-title {
-    margin: 0 0 0 2px;
+  margin: 0 0 0 2px;
 }
 
 table {
-    width: 100%;
+  width: 100%;
 }
 
 .mat-column-actions {
-    width: 80px;
+  width: 80px;
 }
 
-.mat-cell, .mat-footer-cell {
-    text-align: center;
+.mat-cell,
+.mat-footer-cell {
+  text-align: center;
 }
 
 .mat-footer-row {
-    background-color: #80808029;
+  background-color: #80808029;
 }
 
 ::ng-deep .mat-sort-header-container {
-    display:flex;
-    justify-content:center;
-    transform: translateX(12px); /* 12px - sort arrow */
+  display: flex;
+  justify-content: center;
+  transform: translateX(12px); /* 12px - sort arrow */
 }
 
 .add-row-button {
-    margin-bottom: 17px;
-    height: 100%;
-    margin-top: auto;
+  margin-bottom: 17px;
+  height: 100%;
+  margin-top: auto;
 }
 
 div.row-action-buttons {
-    display: flex;
+  display: flex;
 }
 
 div.row-action-buttons button {
-    height: 36px;
-    width: 36px;
-    min-width: unset!important;
+  height: 36px;
+  width: 36px;
+  min-width: unset !important;
 }
 
 .row-edit-button {
-    margin-right: 10px;
+  margin-right: 10px;
 }
 
 .mat-column-index {
-    width: 40px;
-    opacity: 0.5;
+  width: 40px;
+  opacity: 0.5;
 }
 
 .header-label-wrap {
-    height: 36px;
-    align-items: center;
-    margin-bottom: 17px;
+  height: 36px;
+  align-items: center;
+  margin-bottom: 17px;
 }
 
 .positions-label {
-    font-size: 18px;
-    margin-top: initial !important;
-    margin-left: 1rem;
-    margin-bottom: 0 !important;
+  font-size: 18px;
+  margin-top: initial !important;
+  margin-left: 1rem;
+  margin-bottom: 0 !important;
 }
 
 .positions-block {
-    margin-top: 1vh;
+  margin-top: 1vh;
 }
 
 .payments-block {
-    margin-top: 3vh;
+  margin-top: 3vh;
 }
 
 .create-ticket-btn-wrap {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 @media only screen and (max-width: 600px) {
-    th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type {
-        padding-left: 0;
-    }
+  th.mat-header-cell:first-of-type,
+  td.mat-cell:first-of-type,
+  td.mat-footer-cell:first-of-type {
+    padding-left: 0;
+  }
 
-    th.mat-header-cell:last-of-type, td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type {
-        padding-right: 10px;
-    }
+  th.mat-header-cell:last-of-type,
+  td.mat-cell:last-of-type,
+  td.mat-footer-cell:last-of-type {
+    padding-right: 10px;
+  }
 }
 
 .mat-card-header > div {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 .header-row {
-    width: 100%;
+  width: 100%;
 }
 
 .action-button > span {
-    margin-left: 5px;
+  margin-left: 5px;
 }
 
-.new-status { background-color: #6a737d; }
-.assigned-status { background-color: #2cbe4e; }
-.closed-status { background-color: black; }
-
 .status {
-    display: inline-block;
-    padding: 4px 8px;
-    font-weight: 600;
-    line-height: 20px;
-    color: #fff;
-    text-align: center;
-    white-space: nowrap;
-    border-radius: 3px;
-    height: 28px;
+  display: inline-block;
+  padding: 4px 8px;
+  font-weight: 600;
+  line-height: 20px;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  border-radius: 3px;
+  height: 28px;
 }
 
 ::ng-deep .mat-form-field-infix {
-    width: auto !important;
+  width: auto !important;
 }
 
 .move-to-status-button {
@@ -163,36 +164,47 @@ div.row-action-buttons button {
 }
 @media only screen and (max-width: 600px) {
   .move-to-status-button {
-      transform: translateX(20px);
-    }
+    transform: translateX(20px);
+  }
 }
 
-.assign-ticket-button, .execution-unit-complete-button {
-    background-color: #26b926;
-    color: black;
+.assign-ticket-button {
+  background-color: #ffa000;
+  color: black;
 }
-.execution-unit-decline-button {
-    background-color: red;
-    color: black;
+.decline-execution-unit-button {
+  background-color: red;
+  color: black;
 }
-
-.close-ticket-button {
-  background-color: #101f10;
+.decline-execution-unit-result-button {
+  background-color: transparent;
+  color: black;
+}
+.complete-execution-unit-button {
+  background-color: #0b00ff;
   color: white;
 }
-
+.close-ticket-button {
+  background-color: #2cbe4e;
+  color: white;
+}
 .reopen-ticket-button {
   background-color: #6a737d;
   color: white;
 }
-
-.drop-down-button {
-  background-color: red;
+.cancel-ticket-button {
+  background-color: #101f10;
   color: white;
 }
 
+.drop-down-button {
+  background-color: white;
+  color: black;
+  border: black solid !important;
+}
+
 input:disabled {
-  color: rgba(0, 0, 0, 0.58)!important;
+  color: rgba(0, 0, 0, 0.58) !important;
 }
 
 .deadline-input {
@@ -200,7 +212,7 @@ input:disabled {
 }
 
 textarea:disabled {
-  color: rgba(0, 0, 0, 0.58)!important;
+  color: rgba(0, 0, 0, 0.58) !important;
 }
 
 .created-block {
@@ -208,10 +220,24 @@ textarea:disabled {
 }
 
 ::ng-deep .mat-chip-disabled {
-  opacity: 0.7!important;
+  opacity: 0.7 !important;
 }
 
 .mat-menu-item {
   padding: 0;
-  width: 130px;
+  min-width: 134px;
+}
+
+.new-status {
+  background-color: #6a737d;
+}
+.assigned-status {
+  background-color: #ffa000;
+  color: black;
+}
+.closed-status {
+  background-color: #2cbe4e;
+}
+.cancelled-status {
+  background-color: black;
 }

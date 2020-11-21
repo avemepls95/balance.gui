@@ -1,9 +1,11 @@
+import { PermissionsDto as TicketPermissionsDto } from './../Contracts/Get/PermissionsDto';
 import { ExecutionUnitDto } from './../Contracts/Get/ExecutionUnitDto';
 import { EXECUTION_UNIT_RESULT } from './../Model/ExecutionUnitResult';
 import { ExecutionUnit } from './../Model/ExecutionUnit';
 import { User } from 'src/app/Common/Model/User';
 import { GetTicketDto } from '../Contracts/Get/GetTicketDto';
 import { Ticket } from '../Model/Ticket';
+import { GetTicketGridDto } from '../Contracts/Get/GetTicketGridDto';
 
 
 export class TicketGetDtoMapper {
@@ -20,12 +22,22 @@ export class TicketGetDtoMapper {
             createdDate: new Date(ticketDto.createdDate),
             modifiedDate: new Date(ticketDto.modifiedDate),
             executionUnits: TicketGetDtoMapper.convertDtoToExecutionUnits(ticketDto.executionUnits),
-            canEdit: ticketDto.canEdit,
-            canAssign: ticketDto.canAssign,
-            canClose: ticketDto.canClose,
-            canReopen: ticketDto.canReopen,
-            canApplyExecutionUnitResult: ticketDto.canApplyExecutionUnitResult
+            canEdit: ticketDto.permissions.canEdit,
+            statusPermissions: TicketGetDtoMapper.convertToStatusPermissions(ticketDto.permissions)
         });
+    }
+
+    private static convertToStatusPermissions(permissionsDto: TicketPermissionsDto): string[] {
+      const result = [];
+      if (permissionsDto.canAssign) result.push('canAssign');
+      if (permissionsDto.canReopen) result.push('canReopen');
+      if (permissionsDto.canClose) result.push('canClose');
+      if (permissionsDto.canComplete) result.push('canComplete');
+      if (permissionsDto.canCancel) result.push('canCancel');
+      if (permissionsDto.canDecline) result.push('canDecline');
+      if (permissionsDto.canCancelUnitResult) result.push('canCancelUnitResult');
+
+      return result;
     }
 
     static convertDtoToExecutionUnits(executionUnitDto: ExecutionUnitDto[]) {
@@ -36,10 +48,10 @@ export class TicketGetDtoMapper {
           }),
           result: EXECUTION_UNIT_RESULT[u.resultKey] as EXECUTION_UNIT_RESULT,
           comment: u.comment
-        }))
+        }));
     }
 
-    static convertDtoToTicketListModel(ticketDto: GetTicketDto): Ticket {
+    static convertDtoToTicketListModel(ticketDto: GetTicketGridDto): Ticket {
         return new Ticket({
             id: ticketDto.id,
             title: ticketDto.title,
