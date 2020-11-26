@@ -38,6 +38,10 @@ mat-card-content {
     margin-bottom: 0;
 }
 
+::ng-deep .mat-card-header-text {
+  margin: 0px;
+}
+
 table {
     width: 100%;
 }
@@ -46,7 +50,7 @@ table {
     width: 80px;
 }
 
-.mat-cell, .mat-footer-cell { 
+.mat-cell, .mat-footer-cell {
     text-align: center;
 }
 
@@ -59,7 +63,7 @@ table {
     justify-content:center;
     transform: translateX(12px); /* 12px - sort arrow */
 }
-  
+
 .add-row-button {
     margin-bottom: 17px;
     height: 100%;
@@ -121,10 +125,6 @@ div.row-action-buttons button {
     }
 }
 
-.mat-card-header > div {
-    transform: translateX(-26px);
-}
-
 .header-row {
     width: 100%;
 }
@@ -144,23 +144,12 @@ span.process {
     margin-left: 5px;
 }
 
-@media only screen and (max-width: 600px) {
-    .process-check-button {
-        transform: translateX(20px);
-    }
-}
 
 .rollback-check-button {
     background-color: orangered;
     color: black;
     padding-left: 8px;
     height: 42px;
-}
-
-@media only screen and (max-width: 600px) {
-    .rollback-check-button {
-        transform: translateX(20px);
-    }
 }
 
 .rollback-check-button span {
@@ -173,9 +162,9 @@ span.process {
     flex: 0 0 28% !important;
     overflow-wrap: break-word;
     word-wrap: break-word;
-  
+
     word-break: break-word;
-  
+
     -ms-hyphens: auto;
     -moz-hyphens: auto;
     -webkit-hyphens: auto;
@@ -188,9 +177,9 @@ span.process {
     flex: 0 0 28% !important;
     overflow-wrap: break-word;
     word-wrap: break-word;
-  
+
     word-break: break-word;
-  
+
     -ms-hyphens: auto;
     -moz-hyphens: auto;
     -webkit-hyphens: auto;
