@@ -1,7 +1,7 @@
 .search-results {
     overflow-y: scroll;
     overflow-x: hidden;
-    height: 92vh;
+    height: 86vh;
 }
 
 .mat-card-content {
