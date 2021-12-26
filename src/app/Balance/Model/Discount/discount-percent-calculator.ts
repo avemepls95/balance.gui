@@ -20,7 +20,7 @@ export class DiscountPercentCalculator extends DiscountCalculator {
         if (isNullOrUndefined(position))
             throw Error('Position is null or undefined.')
 
-        let multiplier = this.getDiscountMultiplier();
+        const multiplier = this.getDiscountMultiplier();
 
         position.amount = MathExtensions.round(position.amountWithoutDiscount * multiplier, 2);
     }
@@ -29,7 +29,7 @@ export class DiscountPercentCalculator extends DiscountCalculator {
         if (isNullOrUndefined(position))
             throw Error('Position is null or undefined.')
 
-        let multiplier = this.getDiscountMultiplier();
+        const multiplier = this.getDiscountMultiplier();
 
         position.amountWithoutDiscount = MathExtensions.round(+position.amount / multiplier, 2);
     }
@@ -41,7 +41,7 @@ export class DiscountPercentCalculator extends DiscountCalculator {
         if (!position.consumptions || position.consumptions.length == 0)
             return;
 
-        let multiplier = this.getDiscountMultiplier();
+        const multiplier = this.getDiscountMultiplier();
 
         position.consumptions.forEach(consumption => {
             consumption.amount = MathExtensions.round(consumption.amountWithoutDiscount * multiplier, 2);
@@ -55,7 +55,7 @@ export class DiscountPercentCalculator extends DiscountCalculator {
         if (!position.consumptions || position.consumptions.length == 0)
             return;
 
-        let multiplier = this.getDiscountMultiplier();
+        const multiplier = this.getDiscountMultiplier();
 
         position.consumptions.forEach(consumption => {
             consumption.amountWithoutDiscount = MathExtensions.round(+consumption.amount / multiplier, 2);
@@ -69,7 +69,7 @@ export class DiscountPercentCalculator extends DiscountCalculator {
         if (!position.consumptions || position.consumptions.length == 0)
             return;
 
-        let multiplier = this.getDiscountMultiplier();
+        const multiplier = this.getDiscountMultiplier();
 
         position.consumptions.forEach(consumption => {
             consumption.amount = MathExtensions.round(+consumption.amount / multiplier, 2);

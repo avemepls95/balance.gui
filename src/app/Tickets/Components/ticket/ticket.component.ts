@@ -341,7 +341,8 @@ export class TicketComponent implements OnInit, OnDestroy {
       })
       .afterClosed()
       .subscribe((dialogResult) => {
-        if (!dialogResult) return;
+        if (!dialogResult)
+          return;
 
         this.loaderService.show();
         this.ticketsApiService

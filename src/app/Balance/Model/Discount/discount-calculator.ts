@@ -34,7 +34,7 @@ export abstract class DiscountCalculator {
         this._check.positions.forEach(position => {
             if (!position.applyDiscount)
                 return;
-                
+
             this.recalculatePositionAmountWithoutDiscount(position);
             this.recalculateConsumptionsWithoutDiscount(position);
         });
@@ -49,7 +49,7 @@ export abstract class DiscountCalculator {
     public abstract recalculateConsumptionsWithDiscount(position: Position): void;
 
     public abstract recalculateConsumptionsWithoutDiscount(position: Position): void;
-    
+
     public abstract rollbackConsumptionsWithDiscount(position: Position): void;
 
 }

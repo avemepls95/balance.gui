@@ -223,9 +223,9 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
         value: this.checkDiscount.value
       },
       discountCalculator: this.discountCalculator
-    }
+    };
 
-    let autofocus = this.position.consumptions && this.position.consumptions.length == 0;
+    const autofocus = this.position.consumptions && this.position.consumptions.length == 0;
     const dialogRef = this.dialog.open(ConsumptionsCardComponent, {
       maxHeight: '100vh',
       width: '370px',
@@ -234,7 +234,7 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      let consumptions = result.data;
+      const consumptions = result.data;
 
       if (!consumptions || consumptions.length == 0 || consumptions.length == 1)
         this.equalConsumptions = true;

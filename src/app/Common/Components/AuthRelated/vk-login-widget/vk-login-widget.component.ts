@@ -10,7 +10,7 @@ import { CommonDtoMapper } from 'src/app/Balance/Converters/CommonDtoMapper';
 
 @Component({
   selector: 'app-vk-login-widget',
-  template: `    
+  template: `
 <div #script style.display="none">
   <ng-content></ng-content>
 </div>`,
@@ -54,17 +54,18 @@ export class VkLoginWidgetComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     window['loginViaVk'] = (loginData: FromVkAuthDto) => {
-      var loginData = this.sanitizeVKAuthDto(loginData);
+      loginData = this.sanitizeVKAuthDto(loginData);
       LocalStorageManager.setUserData(loginData);
-      this.loginViaVk(loginData)
+      this.loginViaVk(loginData);
     };
+
     this.convertToScript();
   }
 
   private sanitizeVKAuthDto(loginData: FromVkAuthDto): FromVkAuthDto {
-    var result = { ...loginData }
-    result.photo_rec = result.photo_rec.replace(new RegExp('&amp;', 'g'), "&");
-    
+    const result = { ...loginData };
+    result.photo_rec = result.photo_rec.replace(new RegExp('&amp;', 'g'), '&');
+
     return result;
   }
 
@@ -74,7 +75,7 @@ export class VkLoginWidgetComponent implements AfterViewInit {
     this.loginService.loginViaVk(CommonDtoMapper.getVkAuthDto(loginData))
       .pipe(
         finalize(() => {
-          this.loginEnded.emit()
+          this.loginEnded.emit();
         })
       )
       .subscribe(

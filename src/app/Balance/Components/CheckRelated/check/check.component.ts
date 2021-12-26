@@ -241,7 +241,7 @@ export class CheckComponent implements OnInit, OnDestroy {
   updatePayment(data: Payment) {
     const index = this.check.payments.findIndex(p => p.internalId === data.internalId);
     if (index == -1) {
-      console.log("Invalid payment id:" + data);
+      console.log('Invalid payment id:' + data);
     }
 
     this.check.payments[index] = data;
@@ -251,7 +251,7 @@ export class CheckComponent implements OnInit, OnDestroy {
   deletePayment(data: Payment) {
     const index = this.check.payments.findIndex(p => p.internalId === data.internalId);
     if (index == -1) {
-      console.log("Invalid payment id:" + data);
+      console.log('Invalid payment id:' + data);
     }
 
     this.check.payments.splice(index, 1);
@@ -264,7 +264,7 @@ export class CheckComponent implements OnInit, OnDestroy {
       return;
     }
 
-    let checkDto = CheckCreateUpdateDtoMapper.convertCheckToDto(this.check);
+    const checkDto = CheckCreateUpdateDtoMapper.convertCheckToDto(this.check);
     this.loaderService.show();
     this.balanceApiService.createCheck(checkDto)
       .pipe(finalize(() => {
@@ -272,7 +272,7 @@ export class CheckComponent implements OnInit, OnDestroy {
       }))
       .subscribe(
         (response: BalanceResponse) => {
-          let check = CheckGetDtoMapper.convertDtoToCheck(response.data);
+          const check = CheckGetDtoMapper.convertDtoToCheck(response.data);
           this.setCurrentCheckAndRelatedEntities(check);
           this.router.navigateByUrl('/editCheck/' + response.data.id, { state: { check } });
           this.snackbarService.showSuccessMessage();

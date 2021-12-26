@@ -1,6 +1,6 @@
 <ng2-slim-loading-bar color="blue"></ng2-slim-loading-bar>
 
-<mat-toolbar color="primary">
+<mat-toolbar color="primary" class="falling-snow-background">
     <mat-toolbar-row>
         <div class="flex-v-center">
             <button mat-icon-button (click)="sidenav.toggle()" onclick="this.blur()">
@@ -24,7 +24,14 @@
                 <mat-icon class="icon-font-large">refresh</mat-icon>
             </button>
             <div class="flex-h-space-between avatar-firstname-block" [matMenuTriggerFor]="dropdownMenu">
-                <label>{{userFirstName}}</label>
+              <div style="align-self: center; position: relative;">
+                <label style="color: #FFDF00;">{{userFirstName}}</label>
+                <img src="assets/images/novogodnjaja-shapka.jpg" style="height: 20px;
+                position: absolute;
+                width: 20px;
+                top: 9px;
+                right: -7px;">
+              </div>
                 <mat-card class="avatar-card">
                     <div mat-card-avatar class="avatar-header-image"
                         [ngStyle]="{'background-image':'url('+avatarUrl+')'}"></div>

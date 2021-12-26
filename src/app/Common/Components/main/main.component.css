@@ -305,7 +305,13 @@ mat-sidenav-content {
 }
 
 .mat-toolbar-multiple-rows {
-    height: 6.5vh;
+    /* height: 6.5vh; */
+}
+
+.falling-snow-background {
+    background-image: url(https://thumbs.gfycat.com/EsteemedPalatableLiger-size_restricted.gif);
+    background-size: cover;
+    background-position-y: -6px;
 }
 
 .app-title {

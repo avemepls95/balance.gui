@@ -10,7 +10,7 @@ export class Position {
     applyDiscount: boolean;
 
     amountWithoutDiscount: number;
-    
+
     public constructor(
         fields?: {
             internalId?: number;
@@ -32,10 +32,14 @@ export class Position {
         if (!this.amount)
             this.amount = 0;
 
-        let part = MathExtensions.floor(this.amount / this.consumptions.length, 2);
-        this.consumptions.forEach(consumption => consumption.amount = part);
+        const eachConsumptionRealPart = MathExtensions.floor(this.amount / this.consumptions.length, 2);
+        const eachConsumptionPartWithoutDiscount = MathExtensions.floor(this.amountWithoutDiscount / this.consumptions.length, 2);
+        this.consumptions.forEach(consumption => {
+          consumption.amount = eachConsumptionRealPart;
+          consumption.amountWithoutDiscount = eachConsumptionPartWithoutDiscount;
+        });
 
-        if (part * this.consumptions.length == this.amount) {
+        if (eachConsumptionRealPart * this.consumptions.length == this.amount) {
             return;
         }
 
@@ -44,7 +48,7 @@ export class Position {
         while (currentSum != this.amount) {
             this.consumptions[index].amount = MathExtensions.round(
                 this.consumptions[index].amount + 0.01, 2
-            )
+            );
 
             if (index == this.consumptions.length - 1)
                 index = 0;
@@ -55,8 +59,8 @@ export class Position {
     }
 
     isEqualConsumptions(): boolean {
-        var tolerance = 0.2;
-        var amounts = this.consumptions.map(c => c.amount);
+        const tolerance = 0.2;
+        const amounts = this.consumptions.map(c => c.amount);
 
         return amounts.every(a => Math.abs(a - amounts[0]) <= tolerance);
     }

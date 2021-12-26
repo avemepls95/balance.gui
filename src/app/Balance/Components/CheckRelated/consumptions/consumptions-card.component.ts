@@ -44,7 +44,7 @@ export class ConsumptionsCardComponent implements AfterContentInit {
     @Optional() @Inject(MAT_DIALOG_DATA) public data,
     private balanceApiService: BalanceApiService,
   ) {
-    this.position = data.position
+    this.position = data.position;
     this.consumptions = data.position.consumptions ? data.position.consumptions : [];
     this.userControlCounter = this.consumptions ? this.consumptions.length : 0;
     this.action = data.action;
@@ -56,7 +56,7 @@ export class ConsumptionsCardComponent implements AfterContentInit {
       this.addUserControl(i);
     }
 
-    this.fillAmountsWithoutDiscount()
+    this.fillAmountsWithoutDiscount();
   }
 
   ngAfterContentInit(): void {
@@ -86,7 +86,7 @@ export class ConsumptionsCardComponent implements AfterContentInit {
   }
 
   addUserControl(number: number): void {
-    let userControl = new FormControl();
+    const userControl = new FormControl();
     this.registerUserControlValueChanged(userControl, number);
     this.myForm.addControl('userControl' + number.toString(), userControl);
   }
@@ -111,7 +111,7 @@ export class ConsumptionsCardComponent implements AfterContentInit {
             this.consumptions[index].user = undefined;
 
           return this.balanceApiService.getUsersSuggestion(value)
-            .pipe(finalize(() => { this.isLoading = false }));
+            .pipe(finalize(() => { this.isLoading = false; }));
         })
       )
       .subscribe(data => {
@@ -150,10 +150,10 @@ export class ConsumptionsCardComponent implements AfterContentInit {
   }
 
   setUserSearchMessage(index: number, message: string): void {
-    let invisible = message == '' || isNullOrUndefined(message);
+    const invisible = message == '' || isNullOrUndefined(message);
     this.errorMessageVisibilityArray[index] = !invisible;
 
-    let elem = <HTMLInputElement>document.getElementById("error-message-" + index.toString());
+    const elem = <HTMLInputElement>document.getElementById("error-message-" + index.toString());
     elem.textContent = message;
   }
 
@@ -169,7 +169,7 @@ export class ConsumptionsCardComponent implements AfterContentInit {
     if (this.consumptions.length == 0)
       return false;
 
-    for (var consumption of this.consumptions) {
+    for (let consumption of this.consumptions) {
       if (!consumption.amount || consumption.amount == 0 || !consumption.user)
         return false;
     }

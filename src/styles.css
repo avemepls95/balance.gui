@@ -45,15 +45,15 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     padding: 0.6375em 0;
 }
 
-.material-icons.red { color: red; }
-.material-icons.green { color: seagreen; }
-.material-icons.purple { color: #b712c1; }
-.material-icons.yellow { color: yellow; }
-.material-icons.dark-gray { color: darkgray; }
-.material-icons.orange { color: orange; }
-.material-icons.white { color: white; }
-.material-icons.black { color: black; }
-.material-icons.transparent { color: transparent; }
+.material-icons.red { color: red !important; }
+.material-icons.green { color: seagreen !important; }
+.material-icons.purple { color: #b712c1 !important; }
+.material-icons.yellow { color: yellow !important; }
+.material-icons.dark-gray { color: darkgray !important; }
+.material-icons.orange { color: orange !important; }
+.material-icons.white { color: white !important; }
+.material-icons.black { color: black !important; }
+.material-icons.transparent { color: transparent !important; }
 
 .mat-dialog-content {
     font-size: 14px;
