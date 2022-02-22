@@ -26,7 +26,7 @@ export class Position {
     }
 
     public recalculateEqualConsumptions(): void {
-        if (!this.consumptions || this.consumptions.length == 0)
+        if (!this.consumptions || this.consumptions.length == 0 || !this.isEqualConsumptions)
             return;
 
         if (!this.amount)

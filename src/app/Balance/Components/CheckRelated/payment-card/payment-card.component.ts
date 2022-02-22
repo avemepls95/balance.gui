@@ -5,6 +5,8 @@ import { SearchUserControlComponent } from 'src/app/Common/Components/Controls/s
 import { ICanBeCreated } from 'src/app/Common/Components/Interfaces/ICanBeCreated';
 import { User } from 'src/app/Common/Model/User';
 import { isNullOrUndefined } from 'util';
+import { LocalStorageManager } from 'src/app/LocalStorageManager';
+import { BalanceApiService } from 'src/app/Balance/Services/balance-api.service';
 
 @Component({
   selector: 'app-payment-card',
@@ -21,7 +23,8 @@ export class PaymentCardComponent implements AfterContentInit, ICanBeCreated {
 
   constructor(
     public dialogRef: MatDialogRef<PaymentCardComponent>,
-    @Optional() @Inject(MAT_DIALOG_DATA) public data
+    @Optional() @Inject(MAT_DIALOG_DATA) public data,
+    private balanceApiService: BalanceApiService,
   ) {
     this.payment = data.obj;
     this.action = data.action;
@@ -29,6 +32,10 @@ export class PaymentCardComponent implements AfterContentInit, ICanBeCreated {
     var positionsSum = data.positionsSum;
     if (!!positionsSum)
       this.payment.amount = positionsSum;
+
+    let userFirstName = localStorage.getItem(LocalStorageManager.userFirstNameKey);
+    let a = this.balanceApiService.getUsersSuggestion(userFirstName)['data'];
+    debugger
   }
 
   ngAfterContentInit(): void {

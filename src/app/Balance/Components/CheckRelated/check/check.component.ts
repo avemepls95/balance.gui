@@ -185,7 +185,7 @@ export class CheckComponent implements OnInit, OnDestroy {
   updatePosition(data: Position) {
     const index = this.check.positions.findIndex(p => p.internalId === data.internalId);
     if (index == -1) {
-      console.log("Invalid position id:" + data);
+      console.log('Invalid position id:' + data);
     }
 
     this.check.positions[index] = data;
@@ -195,7 +195,7 @@ export class CheckComponent implements OnInit, OnDestroy {
   deletePosition(data: Position) {
     const index = this.check.positions.findIndex(p => p.internalId === data.internalId);
     if (index == -1) {
-      console.log("Invalid position id:" + data);
+      console.log('Invalid position id:' + data);
     }
 
     this.check.positions.splice(index, 1);
@@ -364,8 +364,8 @@ export class CheckComponent implements OnInit, OnDestroy {
   }
 
   getPositionsTotalAmount(): number {
-    let amounts = this.check.positions.map(t => +t.amount);
-    let totalAmount = amounts.reduce((acc, value) => acc + value, 0);
+    const amounts = this.check.positions.map(t => +t.amount);
+    const totalAmount = amounts.reduce((acc, value) => acc + value, 0);
 
     return MathExtensions.round(totalAmount, 2);
   }
@@ -386,20 +386,20 @@ export class CheckComponent implements OnInit, OnDestroy {
   }
 
   stateHasChanges(): boolean {
-    let unmodifiedCheckJson = JSON.stringify(this.unmodifiedCheck);
-    let currentCheckJson = JSON.stringify(this.check);
+    const unmodifiedCheckJson = JSON.stringify(this.unmodifiedCheck);
+    const currentCheckJson = JSON.stringify(this.check);
 
-    var result = unmodifiedCheckJson != currentCheckJson;
+    const result = unmodifiedCheckJson != currentCheckJson;
     return result;
   }
 
   canProcess(): boolean {
-    let result = this.check.isReadyForProcess && this.hasEditPermissions;
+    const result = this.check.isReadyForProcess && this.hasEditPermissions;
     return result;
   }
 
   canRollback(): boolean {
-    let result = this.check.state == CHECK_STATE.PROCESSED && this.hasEditPermissions;
+    const result = this.check.state == CHECK_STATE.PROCESSED && this.hasEditPermissions;
     return result;
   }
 
@@ -417,7 +417,7 @@ export class CheckComponent implements OnInit, OnDestroy {
   }
 
   getCurrentStatus(): string {
-    var status = this.check.state == CHECK_STATE.EDITING ? 'В работе' : 'Обработан';
+    const status = this.check.state == CHECK_STATE.EDITING ? 'В работе' : 'Обработан';
     return status;
   }
 
@@ -431,7 +431,7 @@ export class CheckComponent implements OnInit, OnDestroy {
   }
 
   onDiscountValueChange(event): void {
-    var result = +event.target.value;
+    const result = +event.target.value;
 
     this.discountCalculator.setDiscountValue(result);
     this.discountCalculator.recalculateCheckWithDiscount();

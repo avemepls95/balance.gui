@@ -1,3 +1,4 @@
+import { MathExtensions } from 'src/app/Common/Utils/MathExtensions';
 import { Check } from '../Check';
 import { Position } from '../Position';
 import { DISCOUNT_TYPE } from './discount-type.enum';
@@ -28,6 +29,8 @@ export abstract class DiscountCalculator {
 
             this.recalculatePosition(position);
         });
+
+        this.alignConsumptions();
     }
 
     public recalculateCheckWithoutDiscount(): void {
@@ -38,6 +41,43 @@ export abstract class DiscountCalculator {
             this.recalculatePositionAmountWithoutDiscount(position);
             this.recalculateConsumptionsWithoutDiscount(position);
         });
+
+        this.alignConsumptions();
+    }
+
+    private alignConsumptions() {
+      for (const position of this._check.positions) {
+        if (!position.consumptions || position.consumptions.length == 0 || !position.isEqualConsumptions)
+          return;
+
+        if (!position.amount)
+          position.amount = 0;
+
+        const eachConsumptionRealPart = MathExtensions.floor(position.amount / position.consumptions.length, 2);
+        const eachConsumptionPartWithoutDiscount = MathExtensions.floor(position.amountWithoutDiscount / position.consumptions.length, 2);
+        position.consumptions.forEach(consumption => {
+          consumption.amount = eachConsumptionRealPart;
+          consumption.amountWithoutDiscount = eachConsumptionPartWithoutDiscount;
+        });
+
+        if (eachConsumptionRealPart * position.consumptions.length == position.amount) {
+            return;
+        }
+
+        let index = 0;
+        let currentSum = MathExtensions.round(position.consumptions.reduce((sum, current) => sum + current.amount, 0), 2);
+        while (currentSum != position.amount) {
+          position.consumptions[index].amount = MathExtensions.round(
+            position.consumptions[index].amount + 0.01, 2
+          );
+
+          if (index == position.consumptions.length - 1)
+              index = 0;
+
+          currentSum = MathExtensions.round(position.consumptions.reduce((sum, current) => sum + current.amount, 0), 2);
+          ++index;
+        }
+      }
     }
 
     public abstract recalculatePosition(position: Position): void;

@@ -86,7 +86,6 @@ export class DiscountAbsCalculator extends DiscountCalculator {
         });
     }
 
-
     public rollbackConsumptionsWithDiscount(position: Position): void {
         if (isNullOrUndefined(position))
             throw Error('Position is null or undefined.')
