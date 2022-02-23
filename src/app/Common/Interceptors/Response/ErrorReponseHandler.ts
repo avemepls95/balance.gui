@@ -1,6 +1,8 @@
 import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
+import { AuthService } from '../../Services/auth.service';
 import { SnackbarService } from '../../Services/snackbar.service';
 import { ResponseCode } from '../../Utils/ResponseCode.enum';
 
@@ -10,6 +12,8 @@ import { ResponseCode } from '../../Utils/ResponseCode.enum';
 export class ErrorReponseHandler {
     constructor(
         public snackbarService: SnackbarService,
+        private router: Router,
+        private authService: AuthService
     ) { }
 
     handle(request: HttpRequest<any>, errorResponse: HttpErrorResponse): Observable<any> {
@@ -19,10 +23,10 @@ export class ErrorReponseHandler {
 
         if (systemKey == 'balance')
            return this.handleBalanceError(errorResponse);
-        
+
         return this.handleTicketsError(errorResponse);
     }
-    
+
     private handleBalanceError(errorResponse: HttpErrorResponse): Observable<any> {
         if (!(errorResponse instanceof HttpErrorResponse))
             return of(errorResponse);
@@ -33,6 +37,8 @@ export class ErrorReponseHandler {
         }
 
         if (errorResponse.status === 403) {
+            this.authService.removeCurrentToken();
+            this.router.navigate(['/auth']);
             this.snackbarService.showErrorMessage('Доступ запрещен');
             return of(errorResponse);
         }
