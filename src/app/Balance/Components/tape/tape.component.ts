@@ -37,10 +37,10 @@ export class TapeComponent implements OnInit {
     private spinner: NgxSpinnerService
   ) {
     snackbarService.setSnackbar(snackbar);
-    this.currentUserId = (Number)(localStorage.getItem(LocalStorageManager.userIdKey));
+    this.currentUserId = +localStorage.getItem(LocalStorageManager.userLocalIdKey);
 
     loaderService.show();
-    
+
     balanceApiService.getTape(0, this.recordsCountToShowInitially).pipe(
       finalize(() => loaderService.hide())
     ).subscribe(

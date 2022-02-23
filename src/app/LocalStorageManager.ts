@@ -6,7 +6,8 @@ export class LocalStorageManager {
     static userLastNameKey = 'userLastName';
     static userAuthDateKey = 'userAuthDate';
     static userHashKey = 'userHash';
-    static userIdKey = 'userId';
+    static userLocalIdKey = 'userLocalId';
+    static userLocalNameKey = 'userLocalName';
     static userPhotoUrlKey = 'userPhotoUrl';
     static tokenKey = 'token';
 
@@ -15,15 +16,15 @@ export class LocalStorageManager {
         LocalStorageManager.userLastNameKey,
         LocalStorageManager.userAuthDateKey,
         LocalStorageManager.userHashKey,
-        LocalStorageManager.userIdKey,
+        LocalStorageManager.userLocalIdKey,
         LocalStorageManager.userPhotoUrlKey,
-    ]
+    ];
 
     static setUserData(data: FromTelegramAuthDto | FromVkAuthDto) {
         LocalStorageManager.authFieldsKeys.forEach(key => {
             localStorage.removeItem(key);
         });
-        
+
         if (this.isTelegramData(data)){
             this.setUserDataFromTelegram(data as FromTelegramAuthDto);
             return;
@@ -54,7 +55,8 @@ export class LocalStorageManager {
         return data.hasOwnProperty('photo_url');
     }
 
-    static setUserId(id: number) {
-        localStorage.setItem(LocalStorageManager.userIdKey, id.toString())
+    static setUserLocalInformation(id: number, userName: string) {
+        localStorage.setItem(LocalStorageManager.userLocalIdKey, id.toString());
+        localStorage.setItem(LocalStorageManager.userLocalNameKey, userName);
     }
 }

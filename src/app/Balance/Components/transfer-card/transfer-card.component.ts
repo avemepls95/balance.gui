@@ -27,7 +27,7 @@ export class TransferCardComponent implements OnInit {
     public dialogRef: MatDialogRef<TransferCardComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public data: Debt,
   ) {
-    this.currentUserId = (Number)(localStorage.getItem(LocalStorageManager.userIdKey));
+    this.currentUserId = (Number)(localStorage.getItem(LocalStorageManager.userLocalIdKey));
 
     if (!isNullOrUndefined(data)) {
       this.debt = data;

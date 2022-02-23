@@ -42,8 +42,8 @@ export class AuthComponent implements OnInit {
 
   loginSuccessful(response) {
     this.authService.setToken(response.data.token);
-    LocalStorageManager.setUserId(response.data.user.id);
-    
+    LocalStorageManager.setUserLocalInformation(response.data.user.id, response.data.user.username);
+
     this.ngZone.run(() => this.router.navigate(['/main']));
   }
 }
