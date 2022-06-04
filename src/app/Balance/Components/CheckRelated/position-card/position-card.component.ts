@@ -101,8 +101,10 @@ export class PositionCardComponent implements OnInit, ICanBeCreated {
   }
 
   fillAmounts() {
-    if (isUndefined(this.position.amount))
+    if (isUndefined(this.position.amount)){
       this.position.amount = 0;
+      this.position.amountWithoutDiscount = 0;
+    }
 
     if (!this.position.applyDiscount) {
       this.position.amountWithoutDiscount = this.position.amount;

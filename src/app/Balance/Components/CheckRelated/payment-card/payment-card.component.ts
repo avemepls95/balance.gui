@@ -33,7 +33,7 @@ export class PaymentCardComponent implements AfterContentInit, ICanBeCreated {
 
     const userLocalId = localStorage.getItem(LocalStorageManager.userLocalIdKey);
     const userLocalName = localStorage.getItem(LocalStorageManager.userLocalNameKey);
-    if (!!userLocalId && !!userLocalName && userLocalName != '') {
+    if (!!userLocalId && !!userLocalName && userLocalName != '' && !!this.payment.amount) {
       setTimeout(() => {
         this.searchUserControl.filteredUsers = [{
           id: +userLocalId,

@@ -451,6 +451,9 @@ export class CheckComponent implements OnInit, OnDestroy {
       new DiscountPercentCalculator() : new DiscountAbsCalculator();
     this.discountCalculator.setCheck(this.check);
 
+    if (this.check.discount.type == DISCOUNT_TYPE.PERCENT && this.check.discount.value > 99)
+      this.discountCalculator.setDiscountValue(99);
+
     if (this.check.discount.value == 0)
       return;
 

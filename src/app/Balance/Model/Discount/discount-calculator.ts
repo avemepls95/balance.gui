@@ -61,7 +61,7 @@ export abstract class DiscountCalculator {
         });
 
         if (eachConsumptionRealPart * position.consumptions.length == position.amount) {
-            return;
+            continue;
         }
 
         let index = 0;
